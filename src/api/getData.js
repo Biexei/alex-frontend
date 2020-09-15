@@ -7,6 +7,6 @@ import fetch from '@/config/fetch'
 export const login = data => fetch('/user/login', data, 'POST', 'POST');
 
 /**
- * 用户列表
+ * 用户列表1
  */
 export const userList = data => fetch('/user/list', data, 'GET');
