@@ -59,8 +59,8 @@
                   label="操作"
                   min-width="20%">
                   <template slot-scope="scope">
-                    <el-button @click="handleClick(scope.row)" type="primary" icon="el-icon-edit" circle></el-button>
-                    <el-button @click="handleClick(scope.row)" type="primary" icon="el-icon-delete" circle></el-button>
+                    <el-button @click="handleClick(scope.row.userId)" type="primary" icon="el-icon-edit" circle></el-button>
+                    <el-button @click="handleDelete(scope.row.userId, scope.$index)" type="primary" icon="el-icon-delete" circle></el-button>
                   </template>
                   </el-table-column>
             </el-table>
@@ -81,7 +81,7 @@
 
 <script>
     import headTop from '../components/headTop'
-    import {userList} from '@/api/getData'
+    import {userList, deleteUser} from '@/api/getData'
     export default {
         data(){
             return {
@@ -109,6 +109,21 @@
                 this.tableData = [];
                 this.getUserList(this.query);
             },
+            async handleDelete(userId, index) {
+                    const res = await deleteUser(userId);
+                    if (res.code == 200) {
+                        this.$message({
+                            type: 'success',
+                            message: res.msg
+                        });
+                        this.tableData.splice(index, 1);
+                    }else{
+                        this.$message({
+                            type: 'error',
+                            message: res.msg
+                        });
+                    }
+            },
             async getUserList(query){
                 query["pageNum"] = this.pageNum;
                 query["pageSize"] = this.pageSize;
@@ -129,7 +144,7 @@
                 } else {
                     console.log(res.msg)
                 }
-            }
+            },
         },
     }
 </script>
@@ -137,9 +152,9 @@
 <style lang="less">
 	@import '../style/mixin';
     .table_container{
-        //padding: 20px;
+        padding: 5px;
     }
     .query{
-        padding: 20px;
+        padding: 5px;
     }
 </style>
