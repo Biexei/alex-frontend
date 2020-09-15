@@ -1,15 +1,30 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
 
 Vue.use(Router)
+
+const login = r => require.ensure([], () => r(require('@/page/login')), 'login');
+const manage = r => require.ensure([], () => r(require('@/page/manage')), 'manage');
+const userList = r => require.ensure([], () => r(require('@/page/userList')), 'userList');
 
 export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
-    }
-  ]
+      component: login
+    },
+    {
+      path: '/manage',
+      component: manage,
+      name: '',
+      children: [
+        {
+          path: '/userList',
+          component: userList,
+          meta: ['用户管理', '用户列表'],
+        }
+      ],
+    }  
+  ],
+  strict: process.env.NODE_ENV !== 'production',
 })

@@ -3,8 +3,15 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import ElementUI from 'element-ui'
+// 后续版本改名了
+// import 'element-ui/lib/theme-default/index.css'
+import 'element-ui/lib/theme-chalk/index.css'
+
 
 Vue.config.productionTip = false
+
+Vue.use(ElementUI);
 
 /* eslint-disable no-new */
 new Vue({
