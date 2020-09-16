@@ -3,10 +3,10 @@
 		<el-row style="height: 100%; ">
 	  		<el-col :span="4" class="left-color" style="min-height: 100%">
 				<el-menu :default-active="defaultActive" style="min-height: 100%"  class="left-color" router>
-					<el-submenu index="1" class="title-color">
-						<template slot="title"><i class="el-icon-document"></i><span class="title-color">用户管理</span></template>
-						<el-menu-item index="userList"  class="left-color" >用户列表</el-menu-item>
-					</el-submenu>
+					<el-menu-item index="userList" class="left-color"><i class="el-icon-s-custom"></i><span slot="title">用户管理</span></el-menu-item>
+				</el-menu>
+				<el-menu :default-active="defaultActive" style="min-height: 100%"  class="left-color" router>
+					<el-menu-item index="projectList" class="left-color"><i class="el-icon-s-flag"></i><span slot="title">项目管理</span></el-menu-item>
 				</el-menu>
 			</el-col>
 			<el-col :span="20" style="height: 100%;overflow: auto;">

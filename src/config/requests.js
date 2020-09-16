@@ -4,7 +4,6 @@
  */
 import axios from 'axios'
 import qs from 'qs'
-import {Toast} from 'vant'
 import { baseUrl } from './env'
 
 export default class HttpRequest {
@@ -69,10 +68,7 @@ export default class HttpRequest {
           return null
         }
       } else {
-        if (data && data.msg) {
-          Toast(data.msg)
-        }
-        return Promise.reject(res)
+        return data
       }
     }, error => {
       return Promise.reject(error)

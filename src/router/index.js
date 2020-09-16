@@ -6,6 +6,7 @@ Vue.use(Router)
 const login = r => require.ensure([], () => r(require('@/page/login')), 'login');
 const manage = r => require.ensure([], () => r(require('@/page/manage')), 'manage');
 const userList = r => require.ensure([], () => r(require('@/page/userList')), 'userList');
+const projectList = r => require.ensure([], () => r(require('@/page/projectList')), 'projectList');
 
 export default new Router({
   routes: [
@@ -21,7 +22,12 @@ export default new Router({
         {
           path: '/userList',
           component: userList,
-          meta: ['用户管理', '用户列表'],
+          meta: ['用户管理'],
+        },
+        {
+          path: '/projectList',
+          component: projectList,
+          meta: ['项目管理'],
         }
       ],
     }  
