@@ -42,7 +42,7 @@ export const getProjectList = data => HttpRequest.get('/project/list', data);
 /**
  * 查看项目下所有模块
  */
-export const findModulesByPeojectId = projectId => HttpRequest.get('/project/modules/' + projectId)
+export const findModulesByProjectId = projectId => HttpRequest.get('/project/modules/' + projectId)
 
 /**
  * 查看项目信息
@@ -80,7 +80,7 @@ export const modifyModule = data => HttpRequest.post('/module/modify', data)
 /**
  * 删除模块
  */
-export const removeModule = projectId => HttpRequest.get('/project/remove/' + projectId)
+export const removeModule = projectId => HttpRequest.get('/module/remove/' + projectId)
 
 /**
  * 查询模块

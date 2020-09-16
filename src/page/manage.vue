@@ -8,6 +8,9 @@
 				<el-menu :default-active="defaultActive" style="min-height: 100%"  class="left-color" router>
 					<el-menu-item index="projectList" class="left-color"><i class="el-icon-s-flag"></i><span slot="title">项目管理</span></el-menu-item>
 				</el-menu>
+				<el-menu :default-active="defaultActive" style="min-height: 100%"  class="left-color" router>
+					<el-menu-item index="moduleList" class="left-color"><i class="el-icon-potato-strips"></i><span slot="title">模块管理</span></el-menu-item>
+				</el-menu>
 			</el-col>
 			<el-col :span="20" style="height: 100%;overflow: auto;">
 				<keep-alive>

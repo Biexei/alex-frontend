@@ -7,6 +7,7 @@ const login = r => require.ensure([], () => r(require('@/page/login')), 'login')
 const manage = r => require.ensure([], () => r(require('@/page/manage')), 'manage');
 const userList = r => require.ensure([], () => r(require('@/page/userList')), 'userList');
 const projectList = r => require.ensure([], () => r(require('@/page/projectList')), 'projectList');
+const moduleList = r => require.ensure([], () => r(require('@/page/moduleList')), 'moduleList');
 
 export default new Router({
   routes: [
@@ -28,7 +29,12 @@ export default new Router({
           path: '/projectList',
           component: projectList,
           meta: ['项目管理'],
-        }
+        },
+        {
+          path: '/moduleList',
+          component: moduleList,
+          meta: ['模块管理'],
+        }        
       ],
     }  
   ],
