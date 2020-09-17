@@ -166,6 +166,7 @@ export default {
         if (res.code == 200) {
             this.$message({
             type: "success",
+            center: true,
             message: res.msg
             });
             this.addDialogFormVisible = false;
@@ -173,6 +174,7 @@ export default {
         } else {
             this.$message({
             type: "error",
+            center: true,
             message: res.msg
             });
         }
@@ -185,6 +187,7 @@ export default {
       } else {
         this.$message({
           type: "error",
+          center: true,
           message: res.msg
         });
       }
@@ -194,6 +197,7 @@ export default {
       if (res.code == 200) {
         this.$message({
           type: "success",
+          center: true,
           message: res.msg
         });
         this.total --;
@@ -201,6 +205,7 @@ export default {
       } else {
         this.$message({
           type: "error",
+          center: true,
           message: res.msg
         });
       }
@@ -210,12 +215,14 @@ export default {
       if (res.code == 200) {
         this.$message({
           type: "success",
+          center: true,
           message: res.msg
         });
         this.editDialogFormVisible = false;
       } else {
         this.$message({
           type: "error",
+          center: true,
           message: res.msg
         });
         this.editDialogFormVisible = true;

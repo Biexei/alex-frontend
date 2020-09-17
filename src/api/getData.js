@@ -86,3 +86,72 @@ export const removeModule = projectId => HttpRequest.get('/module/remove/' + pro
  * 查询模块
  */
 export const findProjectModuleList = data => HttpRequest.get('/module/list', data)
+
+
+
+
+/**
+ * 添加数据源
+ */
+export const saveDb = data => HttpRequest.post('/db/save', data)
+
+/**
+ * 修改数据源
+ */
+export const modifyDb = data => HttpRequest.post('/db/modify', data)
+
+/**
+ * 查看数据源详情
+ */
+export const findDbById = dbId => HttpRequest.get('/db/' + dbId)
+
+/**
+ * 查询数据源
+ */
+export const findDbList = data => HttpRequest.get('/db', data)
+
+/**
+ * 删除数据源
+ */
+export const removeDb = dbId => HttpRequest.get('/db/remove/' + dbId)
+
+/**
+ * 预检数据源
+ */
+export const checkDb = dbId => HttpRequest.get('/db/check/' + dbId)
+
+
+
+
+/**
+ * 新增接口数据依赖
+ */
+export const saveIfRelyData = data => HttpRequest.post('/interface/rely/save', data)
+
+/**
+ * 修改接口数据依赖
+ */
+export const modifyIfRelyData = data => HttpRequest.post('/interface/rely/modify', data)
+
+/**
+ * 获取接口数据依赖详情
+ */
+export const findIfRelyData = relyId => HttpRequest.get('/interface/rely/' + relyId)
+
+/**
+ * 获取接口数据依赖列表
+ */
+export const findIfRelyDataList = data => HttpRequest.get('/interface/rely', data)
+
+/**
+ * 删除接口数据依赖
+ */
+export const removeIfRelyData = relyId => HttpRequest.get('/interface/rely/remove/' + relyId)
+
+
+
+
+/**
+ * 查询用例列表
+ */
+export const listInterfaceCase = data => HttpRequest.get('/interface/case/list', data)

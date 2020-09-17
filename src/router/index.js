@@ -8,6 +8,8 @@ const manage = r => require.ensure([], () => r(require('@/page/manage')), 'manag
 const userList = r => require.ensure([], () => r(require('@/page/userList')), 'userList');
 const projectList = r => require.ensure([], () => r(require('@/page/projectList')), 'projectList');
 const moduleList = r => require.ensure([], () => r(require('@/page/moduleList')), 'moduleList');
+const dbList = r => require.ensure([], () => r(require('@/page/dbList')), 'dbList');
+const ifRelyData = r => require.ensure([], () => r(require('@/page/ifRelyData')), 'ifRelyData');
 
 export default new Router({
   routes: [
@@ -34,7 +36,17 @@ export default new Router({
           path: '/moduleList',
           component: moduleList,
           meta: ['模块管理'],
-        }        
+        }, 
+        {
+          path: '/dbList',
+          component: dbList,
+          meta: ['数据源中心'],
+        }, 
+        {
+          path: '/ifRelyData',
+          component: ifRelyData,
+          meta: ['数据中心','接口依赖'],
+        }, 
       ],
     }  
   ],

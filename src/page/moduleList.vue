@@ -19,8 +19,8 @@
     <div class="table_container">
       <el-table :data="dataList" stripe highlight-current-row style="width: 100%">
         <el-table-column property="moduleId" label="模块编号" min-width="20%"></el-table-column>
-        <el-table-column property="projectName" label="项目名称" min-width="20%"></el-table-column>
         <el-table-column property="moduleName" label="模块名称" min-width="20%"></el-table-column>
+        <el-table-column property="projectName" label="项目名称" min-width="20%"></el-table-column>
         <el-table-column property="desc" label="模块描述" min-width="20%"></el-table-column>
         <el-table-column property="createdTime" label="创建时间" min-width="20%"></el-table-column>
         <el-table-column fixed="right" label="操作" min-width="20%">
@@ -130,6 +130,7 @@ export default {
       } else {
         this.$message({
           type:"error",
+          center: true,
           message:res.msg
         });
       }
@@ -149,6 +150,7 @@ export default {
       } else {
         this.$message({
           type:"error",
+          center: true,
           message:res.msg
         });
       }
@@ -161,6 +163,7 @@ export default {
         if (res.code == 200) {
             this.$message({
             type: "success",
+            center: true,
             message: res.msg
             });
             this.addDialogFormVisible = false;
@@ -168,6 +171,7 @@ export default {
         } else {
             this.$message({
             type: "error",
+            center: true,
             message: res.msg
             });
         }
@@ -181,6 +185,7 @@ export default {
       } else {
         this.$message({
           type: "error",
+          center: true,
           message: res.msg
         });
       }
@@ -190,6 +195,7 @@ export default {
       if (res.code == 200) {
         this.$message({
           type: "success",
+          center: true,
           message: res.msg
         });
         this.total --;
@@ -197,6 +203,7 @@ export default {
       } else {
         this.$message({
           type: "error",
+          center: true,
           message: res.msg
         });
       }
@@ -210,12 +217,14 @@ export default {
       if (res.code == 200) {
         this.$message({
           type: "success",
+          center: true,
           message: res.msg
         });
         this.editDialogFormVisible = false;
       } else {
         this.$message({
           type: "error",
+          center: true,
           message: res.msg
         });
         this.editDialogFormVisible = true;
