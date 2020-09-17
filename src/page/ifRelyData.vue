@@ -61,6 +61,12 @@
         <el-table-column property="createdTime" label="创建时间" min-width="15%"></el-table-column>
         <el-table-column fixed="right" label="操作" min-width="15%">
           <template slot-scope="scope">
+            <el-button 
+              @click="handleCheck(scope.row.relyId)"
+              type="success" 
+              icon="el-icon-check" 
+              circle>
+            </el-button>
             <el-button
               @click="handleEdit(scope.row.relyId)"
               type="primary"
@@ -113,7 +119,7 @@
             <el-input readonly v-model="dataInfo.relyCaseId" @focus='handleCaseList'></el-input>
           </el-form-item>
           <el-form-item label="*用例名称" label-width="100px">
-            <el-input readonly v-model="dataInfo.caseDesc" @focus='handleCaseList'></el-input>
+            <el-input disabled v-model="dataInfo.caseDesc"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -142,7 +148,7 @@
         :data="caseList" 
         stripe 
         highlight-current-row 
-        @current-change="handleSelectCase"
+        @row-click="handleSelectCase"
         style="width: 100%">
           <el-table-column property="caseId" label="用例编号" min-width="20%"></el-table-column>
           <el-table-column property="projectName" label="项目名称" min-width="25%"></el-table-column>
@@ -154,7 +160,7 @@
             @size-change="handleCaseSizeChange"
             @current-change="handleCaseCurrentChange"
             :current-page="casePageNum"
-            :page-sizes="[10, 20, 30]"
+            :page-sizes="[5, 10, 20]"
             :page-size="casePageSize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="caseTotal"
@@ -162,29 +168,45 @@
         </div>
       </el-dialog>
 
-      <!-- <el-dialog title="添加" :visible.sync="addDialogFormVisible">
-        <el-form :model="dataAdd" ref="dataAdd">
-          <el-form-item label="*项目名称" label-width="100px" prop="name">
-            <el-input v-model="dataAdd.name" auto-complete="off"></el-input>
+      <el-dialog title="添加" :visible.sync="addDialogFormVisible">
+        <el-form :model="dataAdd">
+          <el-form-item label="*依赖名称" label-width="100px">
+            <el-input v-model="dataAdd.relyName"></el-input>
           </el-form-item>
-          <el-form-item label="*项目域名" label-width="100px" prop="domain">
-            <el-input v-model="dataAdd.domain"></el-input>
+          <el-form-item label="*提取类型" label-width="100px">
+            <el-select v-model="dataAdd.contentType" placeholder="请选择">
+              <el-option
+                v-for="item in typeOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
-          <el-form-item label="项目描述" label-width="100px" prop="desc">
-            <el-input v-model="dataAdd.desc"></el-input>
+          <el-form-item label="*提取表达式" label-width="100px">
+            <el-input v-model="dataAdd.extractExpression"></el-input>
+          </el-form-item>
+          <el-form-item label="依赖描述" label-width="100px">
+            <el-input v-model="dataAdd.relyDesc"></el-input>
+          </el-form-item>  
+          <el-form-item label="*用例编号" label-width="100px">
+            <el-input readonly v-model="dataAdd.relyCaseId" @focus='handleCaseList'></el-input>
+          </el-form-item>
+          <el-form-item label="*用例名称" label-width="100px">
+            <el-input disabled v-model="dataAdd.caseDesc"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="addDialogFormVisible = false">取 消</el-button>
           <el-button type="primary" @click="handleAdd()">确 定</el-button>
         </div>
-      </el-dialog> -->
+      </el-dialog>
     </div>
   </div>
 </template>
 <script>
 import headTop from "../components/headTop";
-import { saveIfRelyData, modifyIfRelyData, findIfRelyData, findIfRelyDataList, removeIfRelyData, listInterfaceCase} from "@/api/getData";
+import { saveIfRelyData, modifyIfRelyData, findIfRelyData, findIfRelyDataList, removeIfRelyData, listInterfaceCase, checkIfRelyData} from "@/api/getData";
 export default {
   data() {
     return {
@@ -202,7 +224,7 @@ export default {
       caseList: [],
       caseQueryForm: {},
       caseTotal: 0,
-      casePageSize: 10,
+      casePageSize: 5,
       casePageNum: 1,
       typeOptions:[
         {
@@ -262,8 +284,24 @@ export default {
         });
       }
     },
+    async handleCheck(relyId) {
+      const res = await checkIfRelyData(relyId);
+      if (res.code == 200) {
+          this.$message({
+          type: "success",
+          center: true,
+          message: res.data.result
+          });
+      } else {
+          this.$message({
+          type: "error",
+          center: true,
+          message: res.msg
+          });
+      }            
+    },
     async handleAdd() {
-        const res = await saveProject(this.dataAdd);
+        const res = await saveIfRelyData(this.dataAdd);
         if (res.code == 200) {
             this.$message({
             type: "success",
@@ -281,6 +319,8 @@ export default {
         }
     },
     async getCaseList(){
+      this.caseQueryForm['pageSize'] = this.casePageSize 
+      this.caseQueryForm['pageNum'] = this.casePageNum 
       const res = await listInterfaceCase(this.caseQueryForm)
       if (res.code == 200) {
         this.caseList = []
@@ -304,6 +344,8 @@ export default {
       this.selectCaseDialogFormVisible = false
       this.dataInfo.relyCaseId = row.caseId;
       this.dataInfo.caseDesc = row.desc;
+      this.dataAdd.relyCaseId = row.caseId;
+      this.dataAdd.caseDesc = row.desc;
     },
     async handleEdit(relyId) {
       const res = await findIfRelyData(relyId);
@@ -318,8 +360,8 @@ export default {
         });
       }
     },
-    async handleDelete(project_id, index) {
-      const res = await deleteProject(project_id);
+    async handleDelete(relyId, index) {
+      const res = await removeIfRelyData(relyId);
       if (res.code == 200) {
         this.$message({
           type: "success",
@@ -352,16 +394,16 @@ export default {
           center: true,
           message: res.msg
         });
-        this.editDialogFormVisible = false;
+      this.editDialogFormVisible = false;
+      this.selectIfRelyDataList({});
       } else {
         this.$message({
           type: "error",
           center: true,
           message: res.msg
         });
-        this.editDialogFormVisible = true;
+      this.editDialogFormVisible = true;  
       }
-      this.selectIfRelyDataList(this.queryForm);
     },
     handleSizeChange(pageSize) {
       this.pageSize = pageSize;
@@ -373,11 +415,11 @@ export default {
     },
 
     handleCaseSizeChange(pageSize) {
-      this.pageCaseSize = pageSize;
+      this.casePageSize = pageSize;
       this.getCaseList(this.caseQueryForm);
     },
     handleCaseCurrentChange(pageNum) {
-      this.pageCaseNum = pageNum;
+      this.casePageNum = pageNum;
       this.getCaseList(this.caseQueryForm);
     },
 
@@ -403,6 +445,6 @@ export default {
   margin-top: 8px;
 }
 .input{
-  padding-left:80px;
+  padding-left:50px;
 }
 </style>

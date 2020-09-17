@@ -10,6 +10,7 @@ const projectList = r => require.ensure([], () => r(require('@/page/projectList'
 const moduleList = r => require.ensure([], () => r(require('@/page/moduleList')), 'moduleList');
 const dbList = r => require.ensure([], () => r(require('@/page/dbList')), 'dbList');
 const ifRelyData = r => require.ensure([], () => r(require('@/page/ifRelyData')), 'ifRelyData');
+const relyData = r => require.ensure([], () => r(require('@/page/relyData')), 'relyData');
 
 export default new Router({
   routes: [
@@ -47,6 +48,11 @@ export default new Router({
           component: ifRelyData,
           meta: ['数据中心','接口依赖'],
         }, 
+        {
+          path: '/relyData',
+          component: relyData,
+          meta: ['数据中心','自定义依赖'],
+        },         
       ],
     }  
   ],

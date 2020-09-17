@@ -3,24 +3,24 @@
     <head-top></head-top>
     <div class="query">
       <el-form :inline="true" :model="queryForm" class="demo-form-inline" ref="queryForm">
-        <el-form-item label="数据源名称">
-          <el-input v-model="queryForm.name" placeholder="名称"></el-input>
+        <el-form-item label="依赖名称">
+          <el-input v-model="queryForm.name" placeholder="依赖名称"></el-input>
         </el-form-item>
+        <el-form-item label="固定值/方法声明/SQL">
+          <el-input v-model="queryForm.value" placeholder="固定值/方法声明/SQL"></el-input>
+        </el-form-item>                
         <el-form-item label="类型">
           <el-select v-model="queryForm.type" clearable placeholder="请选择">
             <el-option
-              v-for="item in dbTypeOptions"
+              v-for="item in typeOptions"
               :key="item.value"
               :label="item.label"
               :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="描述">
-          <el-input v-model="queryForm.desc" placeholder="描述"></el-input>
-        </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="selectDbList(queryForm)">查询</el-button>
+          <el-button type="primary" @click="selectRelyDataList(queryForm)">查询</el-button>
           <el-button type="primary" @click="queryForm = {}">重置</el-button>
           <el-button type="primary" @click="openAdd" plain>新增</el-button>
         </el-form-item>
@@ -28,13 +28,12 @@
     </div>
     <div class="table_container">
       <el-table :data="dataList" stripe highlight-current-row style="width: 100%">
-        <el-table-column property="id" label="编号" min-width="13%"></el-table-column>
-        <el-table-column property="name" label="名称" min-width="13%"></el-table-column>
-        <el-table-column property="type" label="类型" min-width="13%"></el-table-column>
-        <el-table-column property="desc" label="描述" min-width="13%"></el-table-column>
-        <el-table-column property="createdTime" label="创建时间" min-width="13%"></el-table-column>
-        <el-table-column property="status" label="状态" min-width="13%"></el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="22%">
+        <el-table-column property="id" label="编号" min-width="5%"></el-table-column>
+        <el-table-column property="name" label="名称" min-width="10%"></el-table-column>
+        <el-table-column property="type" label="类型" min-width="10%"></el-table-column>
+        <el-table-column property="value" label="固定值/方法声明/SQL" min-width="25%"></el-table-column>
+        <el-table-column property="desc" label="描述" min-width="30%"></el-table-column>
+        <el-table-column fixed="right" label="操作" min-width="20%">
           <template slot-scope="scope">
             <el-button 
               @click="handleCheck(scope.row.id)"
@@ -68,7 +67,7 @@
           :total="total"
         ></el-pagination>
       </div>
-
+<!-- 
       <el-dialog title="编辑" :visible.sync="editDialogFormVisible">
         <el-form :model="dataInfo">
           <el-form-item label="*名称" label-width="100px">
@@ -77,7 +76,7 @@
           <el-form-item label="*类型" label-width="100px">
             <el-select v-model="dataInfo.type">
               <el-option
-                v-for="item in dbTypeOptions"
+                v-for="item in typeOptions"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
@@ -117,7 +116,7 @@
           <el-form-item label="*类型" label-width="100px">
             <el-select v-model="dataAdd.type">
               <el-option
-                v-for="item in dbTypeOptions"
+                v-for="item in typeOptions"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
@@ -147,13 +146,13 @@
           <el-button @click="addDialogFormVisible = false">取 消</el-button>
           <el-button type="primary" @click="handleAdd()">确 定</el-button>
         </div>
-      </el-dialog>
+      </el-dialog> -->
     </div>
   </div>
 </template>
 <script>
 import headTop from "../components/headTop";
-import { saveDb, modifyDb, findDbById, findDbList, removeDb, checkDb } from "@/api/getData";
+import { saveRelyData, modifyRelyData, findRelyDataById, findRelyDataList, removeRelyData } from "@/api/getData";
 export default {
   data() {
     return {
@@ -166,18 +165,18 @@ export default {
       dataAdd:{},
       editDialogFormVisible: false,
       addDialogFormVisible: false,
-      dbTypeOptions:[
+      typeOptions:[
         {
           value: 0,
-          label: 'MySQL'
+          label: '固定值'
         },
         {
           value: 1,
-          label: 'Oracle'
+          label: '预置方法'
         },
         {
           value: 2,
-          label: 'SQL Server'
+          label: 'SQL'
         },
       ],
     };
@@ -186,33 +185,32 @@ export default {
     headTop
   },
   mounted() {
-    this.selectDbList(this.queryForm);
+    this.selectRelyDataList(this.queryForm);
   },
   methods: {
-    async selectDbList(queryForm){
+    async selectRelyDataList(queryForm){
       queryForm['pageNum'] = this.pageNum
       queryForm['pageSize'] = this.pageSize
       this.dataList = []
-      const res = await findDbList(this.queryForm)
+      const res = await findRelyDataList(this.queryForm)
       if (res.code == 200) {
           this.total = res.data.total
           res.data.list.forEach(element => {
             if (element.type == 0) {
-              element.type = 'MySQL'
+              element.type = '固定值'
             } else if (element.type == 1) {
-              element.type = 'Oracle'
+              element.type = '预置方法'
             } else if (element.type == 2) {
-              element.type = 'SQL Server'
+              element.type = 'SQL'
             } else {
-              tyoe = 'Others'
+              tyoe = '其它'
             }
             this.dataList.push({
                 id: element.id,
                 name: element.name,
+                value: element.value,
                 type: element.type,
                 desc: element.desc,
-                createdTime: element.createdTime,
-                status: element.status == 0?'启用':'禁用'
             })
           });
           //this.dataList = res.data.list
@@ -257,7 +255,7 @@ export default {
             message: res.msg
             });
             this.addDialogFormVisible = false;
-            this.selectDbList({});
+            this.selectRelyDataList({});
         } else {
             this.$message({
             type: "error",
@@ -315,15 +313,15 @@ export default {
         });
         this.editDialogFormVisible = true;
       }
-      this.selectDbList(this.queryForm);
+      this.selectRelyDataList(this.queryForm);
     },
     handleSizeChange(pageSize) {
       this.pageSize = pageSize;
-      this.selectDbList(this.queryForm);
+      this.selectRelyDataList(this.queryForm);
     },
     handleCurrentChange(pageNum) {
       this.pageNum = pageNum;
-      this.selectDbList(this.queryForm);
+      this.selectRelyDataList(this.queryForm);
     },
     async openAdd() {
       this.addDialogFormVisible = true;

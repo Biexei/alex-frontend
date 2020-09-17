@@ -148,6 +148,40 @@ export const findIfRelyDataList = data => HttpRequest.get('/interface/rely', dat
  */
 export const removeIfRelyData = relyId => HttpRequest.get('/interface/rely/remove/' + relyId)
 
+/**
+ * 预检接口数据依赖
+ */
+export const checkIfRelyData = relyId => HttpRequest.get('/interface/rely/check/' + relyId)
+
+
+
+
+
+/**
+ * 新增其它依赖
+ */
+export const saveRelyData = data => HttpRequest.post('/rely/save', data)
+
+/**
+ * 修改其它依赖
+ */
+export const modifyRelyData = data => HttpRequest.post('/rely/modify', data)
+
+/**
+ * 获取其它依赖详情
+ */
+export const findRelyDataById = relyId => HttpRequest.get('/rely/' + relyId)
+
+/**
+ * 获取其它依赖列表
+ */
+export const findRelyDataList = data => HttpRequest.get('/rely', data)
+
+/**
+ * 删除其它依赖
+ */
+export const removeRelyData = relyId => HttpRequest.get('/remove/' + relyId)
+
 
 
 
