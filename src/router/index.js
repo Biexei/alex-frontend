@@ -12,6 +12,7 @@ const dbList = r => require.ensure([], () => r(require('@/page/dbList')), 'dbLis
 const ifRelyData = r => require.ensure([], () => r(require('@/page/ifRelyData')), 'ifRelyData');
 const relyData = r => require.ensure([], () => r(require('@/page/relyData')), 'relyData');
 const executeLog = r => require.ensure([], () => r(require('@/page/executeLog')), 'executeLog');
+const ifAssertLog = r => require.ensure([], () => r(require('@/page/ifAssertLog')), 'ifAssertLog');
 
 
 export default new Router({
@@ -59,7 +60,12 @@ export default new Router({
           path: '/executeLog',
           component: executeLog,
           meta: ['接口测试','执行日志'],
-        },       
+        }, 
+        {
+          path: '/ifAssertLog',
+          component: ifAssertLog,
+          meta: ['接口测试','断言日志'],
+        },        
       ],
     }  
   ],

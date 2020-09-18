@@ -4,25 +4,26 @@
     <div class="query">
       <el-form :inline="true" :model="queryForm" class="demo-form-inline" ref="queryForm">
         <el-form-item label="依赖名称">
-          <el-input v-model="queryForm.name" placeholder="依赖名称"></el-input>
+          <el-input v-model="queryForm.name" placeholder="依赖名称" size='small'></el-input>
         </el-form-item>
         <el-form-item label="固定值/方法声明/SQL">
-          <el-input v-model="queryForm.value" placeholder="固定值/方法声明/SQL"></el-input>
+          <el-input v-model="queryForm.value" placeholder="固定值/方法声明/SQL" size='small'></el-input>
         </el-form-item>                
         <el-form-item label="类型">
-          <el-select v-model="queryForm.type" clearable placeholder="请选择">
+          <el-select v-model="queryForm.type" clearable placeholder="请选择"  size='small'>
             <el-option
               v-for="item in typeOptions"
               :key="item.value"
+              size='small'
               :label="item.label"
               :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="selectRelyDataList(queryForm)">查询</el-button>
-          <el-button type="primary" @click="queryForm = {}">重置</el-button>
-          <el-button type="primary" @click="openAdd" plain>新增</el-button>
+          <el-button type="primary" size="small" @click="selectRelyDataList(queryForm)">查询</el-button>
+          <el-button type="primary" size="small" @click="resetForm">重置</el-button>
+          <el-button type="primary" size="small" @click="openAdd" plain>新增</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -46,18 +47,21 @@
             <el-button 
               @click="handleCheck(scope.row.id)"
               type="success" 
+              size="small"
               icon="el-icon-check" 
               circle>
             </el-button>
             <el-button
               @click="handleEdit(scope.row.id)"
               type="primary"
+              size="small"
               icon="el-icon-edit"
               circle
             ></el-button>
             <el-button
               @click="handleDelete(scope.row.id, scope.$index)"
               type="danger"
+              size="small"
               icon="el-icon-delete"
               circle
               :disabled="!scope.row.deleteable"
@@ -80,7 +84,7 @@
       <el-dialog title="选择数据源" :visible.sync="selectDbDialogFormVisible" append-to-body>
         <el-form :inline="true" :model="dbQueryForm" class="demo-form-inline" ref="queryForm">
           <el-form-item label="数据源名称">
-            <el-input v-model="dbQueryForm.name" placeholder="项目名称" size="mini"></el-input>
+            <el-input v-model="dbQueryForm.name" placeholder="数据源名称" size="mini"></el-input>
           </el-form-item>
           <el-form-item label="类型">
             <el-select v-model="dbQueryForm.type" clearable placeholder="请选择" size="mini">
@@ -97,7 +101,7 @@
           </el-form-item>
           <el-form-item>
             <el-button type="primary" icon="el-icon-search" circle @click="selectDbList(dbQueryForm)" size="mini"></el-button>
-            <el-button type="primary" icon="el-icon-refresh" circle @click="dbQueryForm = {}" size="mini"></el-button>
+            <el-button type="primary" icon="el-icon-refresh" circle @click="resetDbForm" size="mini"></el-button>
           </el-form-item>
         </el-form>
         <el-table 
@@ -127,70 +131,72 @@
       <el-dialog title="编辑" :visible.sync="editDialogFormVisible">
         <el-form :model="dataInfo">
           <el-form-item label="*名称" label-width="100px">
-            <el-input v-model="dataInfo.name" :disabled="disableModifyName"></el-input>
+            <el-input v-model="dataInfo.name" :disabled="disableModifyName" size='small'></el-input>
           </el-form-item>
           <el-form-item label="*类型" label-width="100px">
-            <el-select v-model="dataInfo.type" @change="handleChangeType" :disabled="disableModifyType">
+            <el-select v-model="dataInfo.type" @change="handleChangeType" :disabled="disableModifyType" size='small'>
               <el-option
                 v-for="item in writeTypeOptions"
                 :key="item.value"
                 :label="item.label"
                 :disabled="item.isDisable"
+                size='small'
                 :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="*值" label-width="100px" v-if="showValue"> 
-            <el-input v-model="dataInfo.value"></el-input>
+            <el-input v-model="dataInfo.value" size='small'></el-input>
           </el-form-item>
           <el-form-item label="*数据源编号" label-width="100px" v-if="showDbId">
-            <el-input v-model="dataInfo.datasourceId"  @focus='handleDbList'></el-input>
+            <el-input v-model="dataInfo.datasourceId"  @focus='handleDbList' size='small'></el-input>
           </el-form-item>
           <el-form-item label="*数据源名称" label-width="100px" v-if="showDbName">
-            <el-input v-model="dataInfo.dbName"  disabled></el-input>
+            <el-input v-model="dataInfo.dbName"  disabled size='small'></el-input>
           </el-form-item>
           <el-form-item label="*描述" label-width="100px">
-            <el-input v-model="dataInfo.desc"></el-input>
+            <el-input v-model="dataInfo.desc" size='small'></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="editDialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="updateRelyData">确 定</el-button>
+          <el-button @click="editDialogFormVisible = false" size="small">取 消</el-button>
+          <el-button type="primary" @click="updateRelyData" size="small">确 定</el-button>
         </div>
       </el-dialog>
 
       <el-dialog title="添加" :visible.sync="addDialogFormVisible">
         <el-form :model="dataAdd">
           <el-form-item label="*名称" label-width="100px">
-            <el-input v-model="dataAdd.name" :disabled="disableModifyName"></el-input>
+            <el-input v-model="dataAdd.name" :disabled="disableModifyName" size='small'></el-input>
           </el-form-item>
           <el-form-item label="*类型" label-width="100px">
-            <el-select v-model="dataAdd.type" @change="handleChangeType" :disabled="disableModifyType">
+            <el-select v-model="dataAdd.type" @change="handleChangeType" :disabled="disableModifyType" size='small'>
               <el-option
                 v-for="item in writeTypeOptions"
                 :key="item.value"
                 :label="item.label"
+                size='small'
                 :disabled="item.isDisable"
                 :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="*值" label-width="100px" v-if="showValue"> 
-            <el-input v-model="dataAdd.value"></el-input>
+            <el-input v-model="dataAdd.value" size='small'></el-input>
           </el-form-item>
           <el-form-item label="*数据源编号" label-width="100px" v-if="showDbId">
-            <el-input v-model="dataAdd.datasourceId"  @focus='handleDbList'></el-input>
+            <el-input v-model="dataAdd.datasourceId"  @focus='handleDbList' size='small'></el-input>
           </el-form-item>
           <el-form-item label="*数据源名称" label-width="100px" v-if="showDbName">
-            <el-input v-model="dataAdd.dbName"  disabled></el-input>
+            <el-input v-model="dataAdd.dbName"  disabled size='small'></el-input>
           </el-form-item>
           <el-form-item label="*描述" label-width="100px">
-            <el-input v-model="dataAdd.desc"></el-input>
+            <el-input v-model="dataAdd.desc" size='small'></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="addDialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="handleAdd()">确 定</el-button>
+          <el-button @click="addDialogFormVisible = false" size="small">取 消</el-button>
+          <el-button type="primary" @click="handleAdd()" size="small">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -517,6 +523,20 @@ export default {
       this.showValue = false
       this.showDbId = false
       this.showDbName = false
+      this.disableModifyName = false //能否修改名称
+      this.disableModifyType = false //能否修改类型
+    },
+    async resetForm() {
+      this.queryForm = {}
+      this.pageSize = 10
+      this.pageNum = 1
+      this.selectRelyDataList(this.queryForm)
+    },
+    async resetDbForm() {
+      this.dbQueryForm = {}
+      this.dbPageSize = 10
+      this.dbPageNum = 1
+      this.selectDbList(this.dbQueryForm)
     },
   }
 }

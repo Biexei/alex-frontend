@@ -7,11 +7,14 @@ import ElementUI from 'element-ui'
 // 后续版本改名了
 // import 'element-ui/lib/theme-default/index.css'
 import 'element-ui/lib/theme-chalk/index.css'
+import JsonViewer from 'vue-json-viewer'
 
 
 Vue.config.productionTip = false
 
 Vue.use(ElementUI);
+
+Vue.use(JsonViewer);
 
 /* eslint-disable no-new */
 new Vue({

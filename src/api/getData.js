@@ -40,6 +40,11 @@ export const addUser = data => HttpRequest.post('/user/register', data);
 export const getProjectList = data => HttpRequest.get('/project/list', data);
 
 /**
+ * 查询全部项目列表
+ */
+export const getAllProject = data => HttpRequest.get('/project/all', data);
+
+/**
  * 查看项目下所有模块
  */
 export const findModulesByProjectId = projectId => HttpRequest.get('/project/modules/' + projectId)
@@ -197,6 +202,12 @@ export const findInterfaceCaseExecuteLog = executeId => HttpRequest.get('/interf
 
 
 
+
+/**
+ * 
+ * 获取接口断言日志
+ */
+export const listInterfaceAssertLog = data => HttpRequest.get('/interface/assert/log', data)
 
 
 /**

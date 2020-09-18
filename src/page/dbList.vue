@@ -4,25 +4,26 @@
     <div class="query">
       <el-form :inline="true" :model="queryForm" class="demo-form-inline" ref="queryForm">
         <el-form-item label="数据源名称">
-          <el-input v-model="queryForm.name" placeholder="名称"></el-input>
+          <el-input v-model="queryForm.name" placeholder="名称" size='small'></el-input>
         </el-form-item>
         <el-form-item label="类型">
-          <el-select v-model="queryForm.type" clearable placeholder="请选择">
+          <el-select v-model="queryForm.type" clearable placeholder="请选择"  size='small'>
             <el-option
               v-for="item in dbTypeOptions"
               :key="item.value"
+              size='small'
               :label="item.label"
               :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="描述">
-          <el-input v-model="queryForm.desc" placeholder="描述"></el-input>
+          <el-input v-model="queryForm.desc" placeholder="描述"  size='small'></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="selectDbList(queryForm)">查询</el-button>
-          <el-button type="primary" @click="queryForm = {}">重置</el-button>
-          <el-button type="primary" @click="openAdd" plain>新增</el-button>
+          <el-button type="primary" size="small" @click="selectDbList(queryForm)">查询</el-button>
+          <el-button type="primary" size="small" @click="resetForm">重置</el-button>
+          <el-button type="primary" size="small" @click="openAdd" plain>新增</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -46,19 +47,22 @@
           <template slot-scope="scope">
             <el-button 
               @click="handleCheck(scope.row.id)"
-              type="success" 
+              type="success"
+              size="small" 
               icon="el-icon-check" 
               circle>
             </el-button>
             <el-button
               @click="handleEdit(scope.row.id)"
               type="primary"
+              size="small"
               icon="el-icon-edit"
               circle
             ></el-button>
             <el-button
               @click="handleDelete(scope.row.id, scope.$index)"
               type="danger"
+              size="small"
               icon="el-icon-delete"
               circle
             ></el-button>
@@ -80,10 +84,10 @@
       <el-dialog title="编辑" :visible.sync="editDialogFormVisible">
         <el-form :model="dataInfo">
           <el-form-item label="*名称" label-width="100px">
-            <el-input v-model="dataInfo.name"></el-input>
+            <el-input v-model="dataInfo.name" size='small'></el-input>
           </el-form-item>
           <el-form-item label="*类型" label-width="100px">
-            <el-select v-model="dataInfo.type">
+            <el-select v-model="dataInfo.type" size='small'>
               <el-option
                 v-for="item in dbTypeOptions"
                 :key="item.value"
@@ -93,37 +97,37 @@
             </el-select>
           </el-form-item>
           <el-form-item label="*URL" label-width="100px">
-            <el-input v-model="dataInfo.url"></el-input>
+            <el-input v-model="dataInfo.url" size='small'></el-input>
           </el-form-item>
           <el-form-item label="*帐号" label-width="100px">
-            <el-input v-model="dataInfo.username"></el-input>
+            <el-input v-model="dataInfo.username" size='small'></el-input>
           </el-form-item>
           <el-form-item label="*密码" label-width="100px">
-            <el-input v-model="dataInfo.password"></el-input>
+            <el-input v-model="dataInfo.password" size='small'></el-input>
           </el-form-item>
           <el-form-item label="*状态" label-width="100px">
-            <el-radio-group v-model="dataInfo.status">
+            <el-radio-group v-model="dataInfo.status" size='small'>
               <el-radio :label="0">启用</el-radio>
               <el-radio :label="1">禁用</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="描述" label-width="100px">
-            <el-input v-model="dataInfo.desc"></el-input>
+            <el-input v-model="dataInfo.desc" size='small'></el-input>
           </el-form-item>  
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="editDialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="updateDb">确 定</el-button>
+          <el-button @click="editDialogFormVisible = false" size="small">取 消</el-button>
+          <el-button type="primary" @click="updateDb" size="small">确 定</el-button>
         </div>
       </el-dialog>
 
       <el-dialog title="添加" :visible.sync="addDialogFormVisible">
         <el-form :model="dataAdd" ref="dataAdd">
           <el-form-item label="*名称" label-width="100px">
-            <el-input v-model="dataAdd.name"></el-input>
+            <el-input v-model="dataAdd.name" size='small'></el-input>
           </el-form-item>
           <el-form-item label="*类型" label-width="100px">
-            <el-select v-model="dataAdd.type">
+            <el-select v-model="dataAdd.type" size='small'>
               <el-option
                 v-for="item in dbTypeOptions"
                 :key="item.value"
@@ -133,27 +137,27 @@
             </el-select>
           </el-form-item>
           <el-form-item label="*URL" label-width="100px">
-            <el-input v-model="dataAdd.url"></el-input>
+            <el-input v-model="dataAdd.url" size='small'></el-input>
           </el-form-item>
           <el-form-item label="*帐号" label-width="100px">
-            <el-input v-model="dataAdd.username"></el-input>
+            <el-input v-model="dataAdd.username" size='small'></el-input>
           </el-form-item>
           <el-form-item label="*密码" label-width="100px">
-            <el-input v-model="dataAdd.password"></el-input>
+            <el-input v-model="dataAdd.password" size='small'></el-input>
           </el-form-item>
           <el-form-item label="*状态" label-width="100px">
-            <el-radio-group v-model="dataAdd.status">
+            <el-radio-group v-model="dataAdd.status" size='small'>
               <el-radio :label="0">启用</el-radio>
               <el-radio :label="1">禁用</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="描述" label-width="100px">
-            <el-input v-model="dataAdd.desc"></el-input>
+            <el-input v-model="dataAdd.desc" size='small'></el-input>
           </el-form-item>  
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="addDialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="handleAdd()">确 定</el-button>
+          <el-button @click="addDialogFormVisible = false" size="small">取 消</el-button>
+          <el-button type="primary" @click="handleAdd()" size="small">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -201,7 +205,7 @@ export default {
       queryForm['pageNum'] = this.pageNum
       queryForm['pageSize'] = this.pageSize
       this.dataList = []
-      const res = await findDbList(this.queryForm)
+      const res = await findDbList(queryForm)
       if (res.code == 200) {
           this.total = res.data.total
           res.data.list.forEach(element => {
@@ -338,6 +342,12 @@ export default {
       this.addDialogFormVisible = true;
       this.dataAdd = {};
     },
+    async resetForm() {
+      this.queryForm = {}
+      this.pageSize = 10
+      this.pageNum = 1
+      this.selectDbList(this.queryForm)
+    }
   }
 }
 </script>

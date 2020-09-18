@@ -4,37 +4,60 @@
     <div class="query">
       <el-form :inline="true" :model="queryForm" class="demo-form-inline" ref="queryForm">
         <el-form-item label="项目名称">
-          <el-input v-model="queryForm.projectName" placeholder="项目名称"></el-input>
+          <el-input v-model="queryForm.projectName" placeholder="项目名称" size='small'></el-input>
         </el-form-item>
         <el-form-item label="模块名称">
-          <el-input v-model="queryForm.moduleName" placeholder="模块名称"></el-input>
+          <el-input v-model="queryForm.moduleName" placeholder="模块名称" size='small'></el-input>
         </el-form-item>
         <el-form-item label="用例描述">
-          <el-input v-model="queryForm.caseDesc" placeholder="模块名称"></el-input>
+          <el-input v-model="queryForm.caseDesc" placeholder="用例描述" size='small'></el-input>
         </el-form-item>
         <el-form-item label="执行状态">
-          <el-select v-model="queryForm.status" placeholder="请选择">
+          <el-select v-model="queryForm.status" placeholder="请选择" size='small'>
               <el-option v-for="item in logStatusOptions"
                   :key="item.label"
+                  size='small'
                   :label="item.label"
                   :value="item.value">
               </el-option>
           </el-select>
-        </el-form-item>        
+        </el-form-item>  
+        <el-form-item label="起始时间">
+          <el-date-picker
+            v-model="queryForm.createdStartTime"
+            format="yyyy-MM-dd HH:mm:ss"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            type="datetime"
+            size='small'
+            placeholder="选择起始时间"
+            align="right">
+          </el-date-picker>
+        </el-form-item>  
+        <el-form-item label="截止时间">
+          <el-date-picker
+            v-model="queryForm.createdEndTime"
+            format="yyyy-MM-dd HH:mm:ss"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            type="datetime"
+            size='small'
+            placeholder="选择截止时间"
+            align="right">
+          </el-date-picker>
+        </el-form-item>                
         <el-form-item>
-          <el-button type="primary" @click="selectInterfaceCaseExecuteLogList(queryForm)">查询</el-button>
-          <el-button type="primary" @click="queryForm = {}">重置</el-button>
+          <el-button type="primary" size="small" @click="selectInterfaceCaseExecuteLogList(queryForm)">查询</el-button>
+          <el-button type="primary" size="small" @click="resetForm">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
     <div class="table_container">
       <el-table :data="dataList" stripe highlight-current-row style="width: 100%">
-        <el-table-column property="id" label="执行编号" min-width="5%"></el-table-column>
+        <el-table-column property="id" label="编号" min-width="5%"></el-table-column>
         <el-table-column property="projectName" label="项目名称" min-width="10%"></el-table-column>
         <el-table-column property="moduleName" label="模块名称" min-width="10%"></el-table-column>
-        <el-table-column property="caseDesc" label="用例描述" min-width="25%"></el-table-column>
+        <el-table-column property="caseDesc" label="用例描述" min-width="23%"></el-table-column>
         <el-table-column property="executer" label="执行人" min-width="10%"></el-table-column>
-        <el-table-column property="runTime" label="执行用时(ms)" min-width="8%"></el-table-column>
+        <el-table-column property="runTime" label="执行用时" min-width="13%"></el-table-column>
         <el-table-column property="status" label="执行状态" min-width="7%">
           <template slot-scope="scope">
             <el-tag
@@ -44,12 +67,13 @@
           </template>
         </el-table-column>
         <el-table-column property="createdTime" label="创建时间" min-width="15%"></el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="10%">
+        <el-table-column fixed="right" label="操作" min-width="7%">
           <template slot-scope="scope">
             <el-button
               @click="handleDetail(scope.row.id)"
               type="primary"
               icon="el-icon-more"
+              size="small"
               circle
             ></el-button>
           </template>
@@ -67,14 +91,34 @@
         ></el-pagination>
       </div>
       <el-dialog title="详情" :visible.sync="detailDialogFormVisible">
+        <el-collapse>
         <el-form :model="dataInfo">
+          <el-collapse-item title="基本信息">
           <el-form-item label="用例编号" label-width="100px">
-            <el-input v-model="dataInfo.caseId" readonly></el-input>
+            <el-input v-model="dataInfo.caseId" readonly size='small'></el-input>
           </el-form-item>
           <el-form-item label="用例描述" label-width="100px">
-            <el-input v-model="dataInfo.caseDesc" readonly></el-input>
+            <el-input v-model="dataInfo.caseDesc" readonly size='small'></el-input>
           </el-form-item>
-          <el-divider>请求信息</el-divider>
+          <el-form-item label="执行用时(ms)" label-width="100px">
+            <el-input v-model="dataInfo.runTime" readonly size='small'></el-input>
+          </el-form-item> 
+          <el-form-item label="执行人" label-width="100px">
+            <el-input v-model="dataInfo.executer" readonly size='small'></el-input>
+          </el-form-item> 
+          <el-form-item label="异常信息" label-width="100px" v-if="dataInfo.status=='错误'">
+            <el-input v-model="dataInfo.errorMessage" readonly  type="textarea" :autosize="{ minRows: 0, maxRows: 6 }"></el-input>
+          </el-form-item> 
+          <el-form-item label="执行状态" label-width="100px">
+            <template>
+              <el-tag
+                effect="dark"
+                :type="dataInfo.statusStyle"
+                disable-transitions>{{dataInfo.status}}</el-tag>
+            </template>
+          </el-form-item> 
+          </el-collapse-item>
+          <el-collapse-item title="请求信息">
           <el-form-item label="headers" label-width="100px">
             <el-input v-model="dataInfo.requestHeaders" readonly type="textarea" :autosize="{ minRows: 0, maxRows: 6 }"></el-input>
           </el-form-item> 
@@ -87,9 +131,10 @@
           <el-form-item label="json" label-width="100px">
             <el-input v-model="dataInfo.requestJson" readonly  type="textarea" :autosize="{ minRows: 0, maxRows: 6 }"></el-input>
           </el-form-item>
-          <el-divider>响应信息</el-divider> 
+          </el-collapse-item>
+          <el-collapse-item title="响应信息">
           <el-form-item label="code" label-width="100px">
-            <el-input v-model="dataInfo.responseCode" readonly></el-input>
+            <el-input v-model="dataInfo.responseCode" readonly  size='small'></el-input>
           </el-form-item> 
           <el-form-item label="headers" label-width="100px">
             <el-input v-model="dataInfo.responseHeaders" readonly  type="textarea" :autosize="{ minRows: 0, maxRows: 6 }"></el-input>
@@ -97,40 +142,30 @@
           <el-form-item label="body" label-width="100px">
             <el-input v-model="dataInfo.responseBody" readonly  type="textarea" :autosize="{ minRows: 0, maxRows: 6 }"></el-input>
           </el-form-item>
-          <el-divider>其它</el-divider> 
-          <el-form-item label="执行用时(ms)" label-width="100px">
-            <el-input v-model="dataInfo.runTime" readonly></el-input>
-          </el-form-item> 
-          <el-form-item label="执行人" label-width="100px">
-            <el-input v-model="dataInfo.executer" readonly></el-input>
-          </el-form-item> 
-          <el-form-item label="执行状态" label-width="100px">
-            <template>
-              <el-tag
-                effect="dark"
-                :type="dataInfo.statusStyle"
-                disable-transitions>{{dataInfo.status}}</el-tag>
-            </template>
-          </el-form-item> 
-          <el-form-item label="备注" label-width="100px">
-            <el-input v-model="dataInfo.errorMessage" readonly  type="textarea" :autosize="{ minRows: 0, maxRows: 6 }"></el-input>
-          </el-form-item> 
-          <el-divider>断言</el-divider> 
+          </el-collapse-item>
+          <el-collapse-item title="断言">
             <el-table :data="assertInfo" stripe highlight-current-row style="width: 100%">
               <el-table-column type="expand">
                 <template slot-scope="props">
                   <el-form label-position="left" inline class="demo-table-expand">
-                    <el-form-item label="提取表达式:">
-                      <span>{{ props.row.operator }}</span>
-                    </el-form-item><br/>
-                    <el-form-item label="提取类型:">
+                    <el-form-item label="提取方式:">
                       <span>{{ props.row.type }}</span>
                     </el-form-item><br/>
                     <el-form-item label="提取表达式:">
                       <span>{{ props.row.expression }}</span>
                     </el-form-item><br/>
+                    <el-form-item label="预期结果:">
+                      <el-input :value="props.row.exceptedResult" readonly  type="textarea" :autosize="{ minRows: 0, maxRows: 6 }"></el-input>
+                    </el-form-item><br/>
+                    <el-form-item label="比较类型:">
+                      <span>{{ props.row.operator }}</span>
+                    </el-form-item><br/>
                     <el-form-item label="实际结果:">
                       <el-input :value="props.row.actualResult" readonly  type="textarea" :autosize="{ minRows: 0, maxRows: 6 }"></el-input>
+                    </el-form-item>
+                    <br />
+                    <el-form-item label="错误信息:" v-if="props.row.status=='错误'">
+                        <span>{{ props.row.errorMessage }}</span>
                     </el-form-item>
                   </el-form>
                 </template>
@@ -146,8 +181,10 @@
                 </template>
               </el-table-column>
               <el-table-column property="errorMessage" label="备注" min-width="10%"></el-table-column>
-            </el-table>         
+            </el-table>
+          </el-collapse-item>           
         </el-form>
+      </el-collapse>  
       </el-dialog>
     </div>
   </div>
@@ -204,12 +241,13 @@ export default {
                 element.style = "success"
                 element.status = '成功'
             } else if (element.status == 1) {
-                element.style = "danger"
+                element.style = "warning"
                 element.status = '失败'
             } else {
-                element.style = "warning"
+                element.style = "danger"
                 element.status = '错误'
             }
+            element.runTime = element.runTime + 'ms'
             this.dataList.push(element)
         });
       } else {
@@ -230,13 +268,13 @@ export default {
                 assert.assertStatusStyle = "success"
                 assert.status = '成功'
             } else if (assert.status == 1) {
-                assert.assertStatusStyle = "danger"
+                assert.assertStatusStyle = "warning"
                 assert.status = '失败'
             } else {
-                assert.assertStatusStyle = "warning"
+                assert.assertStatusStyle = "danger"
                 assert.status = '错误'
             }
-            // 断言提取类型
+            // 断言提取方式
             if (assert.type == 0) {
                 assert.type = 'jsonpath'
             } else if (assert.type == 1) {
@@ -277,10 +315,10 @@ export default {
                 data.statusStyle = "success"
             } else if (data.status == 1) {
                 data.status = '失败'
-                data.statusStyle = "danger"
+                data.statusStyle = "warning"
             } else {
                 data.status = '错误'
-                data.statusStyle = "warning"
+                data.statusStyle = "danger"
             }
           this.dataInfo = data
       } else {
@@ -299,6 +337,12 @@ export default {
       this.pageNum = pageNum;
       this.selectInterfaceCaseExecuteLogList(this.queryForm);
     },
+    async resetForm() {
+      this.queryForm = {}
+      this.pageSize = 10
+      this.pageNum = 1
+      this.selectInterfaceCaseExecuteLogList(this.queryForm)
+    }
   }
 };
 </script>
