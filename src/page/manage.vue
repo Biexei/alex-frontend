@@ -3,14 +3,18 @@
 		<el-row style="height: 100%; ">
 	  		<el-col :span="4" class="left-color" style="min-height: 100%">
 				<el-menu :default-active="defaultActive" style="min-height: 100%"  class="left-color" router>
-					<el-menu-item index="userList" class="left-color"><i class="el-icon-s-custom"></i><span slot="title">用户管理</span></el-menu-item>
-					<el-menu-item index="projectList" class="left-color"><i class="el-icon-s-flag"></i><span slot="title">项目管理</span></el-menu-item>
-					<el-menu-item index="moduleList" class="left-color"><i class="el-icon-potato-strips"></i><span slot="title">模块管理</span></el-menu-item>
-					<el-menu-item index="dbList" class="left-color"><i class="el-icon-coin"></i><span slot="title">数据源中心</span></el-menu-item>
+					<el-menu-item index="userList" class="left-color"><i class="el-icon-s-custom"></i><span slot="title" class="title-color">用户管理</span></el-menu-item>
+					<el-menu-item index="projectList" class="left-color"><i class="el-icon-s-flag"></i><span slot="title" class="title-color">项目管理</span></el-menu-item>
+					<el-menu-item index="moduleList" class="left-color"><i class="el-icon-potato-strips"></i><span slot="title" class="title-color">模块管理</span></el-menu-item>
+					<el-menu-item index="dbList" class="left-color"><i class="el-icon-coin"></i><span slot="title" class="title-color">数据源中心</span></el-menu-item>
 					<el-submenu index="1"  class="left-color">
-						<template slot="title"  class="left-color"><i class="el-icon-plus"></i><span slot="title">数据中心</span></template>
-						<el-menu-item index="ifRelyData"  class="left-color"><span slot="title">接口依赖</span></el-menu-item>
-						<el-menu-item index="relyData"  class="left-color"><span slot="title">自定义依赖</span></el-menu-item>
+						<template slot="title"  class="left-color"><i class="el-icon-more"></i><span slot="title" class="title-color">数据中心</span></template>
+						<el-menu-item index="ifRelyData"  class="left-color"><span slot="title" class="title-color">接口依赖</span></el-menu-item>
+						<el-menu-item index="relyData"  class="left-color"><span slot="title" class="title-color">自定义依赖</span></el-menu-item>
+					</el-submenu>
+					<el-submenu index="2"  class="left-color">
+						<template slot="title"  class="left-color"><i class="el-icon-suitcase-1"></i><span slot="title" class="title-color">接口测试</span></template>
+						<el-menu-item index="executeLog"  class="left-color"><span slot="title" class="title-color">执行日志</span></el-menu-item>
 					</el-submenu>
 				</el-menu>
 			</el-col>

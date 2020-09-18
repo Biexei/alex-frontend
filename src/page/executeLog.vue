@@ -1,0 +1,331 @@
+<template>
+  <div class="fillcontain">
+    <head-top></head-top>
+    <div class="query">
+      <el-form :inline="true" :model="queryForm" class="demo-form-inline" ref="queryForm">
+        <el-form-item label="项目名称">
+          <el-input v-model="queryForm.projectName" placeholder="项目名称"></el-input>
+        </el-form-item>
+        <el-form-item label="模块名称">
+          <el-input v-model="queryForm.moduleName" placeholder="模块名称"></el-input>
+        </el-form-item>
+        <el-form-item label="用例描述">
+          <el-input v-model="queryForm.caseDesc" placeholder="模块名称"></el-input>
+        </el-form-item>
+        <el-form-item label="执行状态">
+          <el-select v-model="queryForm.status" placeholder="请选择">
+              <el-option v-for="item in logStatusOptions"
+                  :key="item.label"
+                  :label="item.label"
+                  :value="item.value">
+              </el-option>
+          </el-select>
+        </el-form-item>        
+        <el-form-item>
+          <el-button type="primary" @click="selectInterfaceCaseExecuteLogList(queryForm)">查询</el-button>
+          <el-button type="primary" @click="queryForm = {}">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+    <div class="table_container">
+      <el-table :data="dataList" stripe highlight-current-row style="width: 100%">
+        <el-table-column property="id" label="执行编号" min-width="5%"></el-table-column>
+        <el-table-column property="projectName" label="项目名称" min-width="10%"></el-table-column>
+        <el-table-column property="moduleName" label="模块名称" min-width="10%"></el-table-column>
+        <el-table-column property="caseDesc" label="用例描述" min-width="25%"></el-table-column>
+        <el-table-column property="executer" label="执行人" min-width="10%"></el-table-column>
+        <el-table-column property="runTime" label="执行用时(ms)" min-width="8%"></el-table-column>
+        <el-table-column property="status" label="执行状态" min-width="7%">
+          <template slot-scope="scope">
+            <el-tag
+              effect="dark"
+              :type="scope.row.style"
+              disable-transitions>{{scope.row.status}}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column property="createdTime" label="创建时间" min-width="15%"></el-table-column>
+        <el-table-column fixed="right" label="操作" min-width="10%">
+          <template slot-scope="scope">
+            <el-button
+              @click="handleDetail(scope.row.id)"
+              type="primary"
+              icon="el-icon-more"
+              circle
+            ></el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="pagination" style="text-align: left;margin-top: 10px;">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="pageNum"
+          :page-sizes="[10, 20, 30]"
+          :page-size="pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total"
+        ></el-pagination>
+      </div>
+      <el-dialog title="详情" :visible.sync="detailDialogFormVisible">
+        <el-form :model="dataInfo">
+          <el-form-item label="用例编号" label-width="100px">
+            <el-input v-model="dataInfo.caseId" readonly></el-input>
+          </el-form-item>
+          <el-form-item label="用例描述" label-width="100px">
+            <el-input v-model="dataInfo.caseDesc" readonly></el-input>
+          </el-form-item>
+          <el-divider>请求信息</el-divider>
+          <el-form-item label="headers" label-width="100px">
+            <el-input v-model="dataInfo.requestHeaders" readonly type="textarea" :autosize="{ minRows: 0, maxRows: 6 }"></el-input>
+          </el-form-item> 
+          <el-form-item label="params" label-width="100px">
+            <el-input v-model="dataInfo.requestParams" readonly  type="textarea" :autosize="{ minRows: 0, maxRows: 6 }"></el-input>
+          </el-form-item> 
+          <el-form-item label="data" label-width="100px">
+            <el-input v-model="dataInfo.requestData" readonly  type="textarea" :autosize="{ minRows: 0, maxRows: 6 }"></el-input>
+          </el-form-item> 
+          <el-form-item label="json" label-width="100px">
+            <el-input v-model="dataInfo.requestJson" readonly  type="textarea" :autosize="{ minRows: 0, maxRows: 6 }"></el-input>
+          </el-form-item>
+          <el-divider>响应信息</el-divider> 
+          <el-form-item label="code" label-width="100px">
+            <el-input v-model="dataInfo.responseCode" readonly></el-input>
+          </el-form-item> 
+          <el-form-item label="headers" label-width="100px">
+            <el-input v-model="dataInfo.responseHeaders" readonly  type="textarea" :autosize="{ minRows: 0, maxRows: 6 }"></el-input>
+          </el-form-item>
+          <el-form-item label="body" label-width="100px">
+            <el-input v-model="dataInfo.responseBody" readonly  type="textarea" :autosize="{ minRows: 0, maxRows: 6 }"></el-input>
+          </el-form-item>
+          <el-divider>其它</el-divider> 
+          <el-form-item label="执行用时(ms)" label-width="100px">
+            <el-input v-model="dataInfo.runTime" readonly></el-input>
+          </el-form-item> 
+          <el-form-item label="执行人" label-width="100px">
+            <el-input v-model="dataInfo.executer" readonly></el-input>
+          </el-form-item> 
+          <el-form-item label="执行状态" label-width="100px">
+            <template>
+              <el-tag
+                effect="dark"
+                :type="dataInfo.statusStyle"
+                disable-transitions>{{dataInfo.status}}</el-tag>
+            </template>
+          </el-form-item> 
+          <el-form-item label="备注" label-width="100px">
+            <el-input v-model="dataInfo.errorMessage" readonly  type="textarea" :autosize="{ minRows: 0, maxRows: 6 }"></el-input>
+          </el-form-item> 
+          <el-divider>断言</el-divider> 
+            <el-table :data="assertInfo" stripe highlight-current-row style="width: 100%">
+              <el-table-column type="expand">
+                <template slot-scope="props">
+                  <el-form label-position="left" inline class="demo-table-expand">
+                    <el-form-item label="提取表达式:">
+                      <span>{{ props.row.operator }}</span>
+                    </el-form-item><br/>
+                    <el-form-item label="提取类型:">
+                      <span>{{ props.row.type }}</span>
+                    </el-form-item><br/>
+                    <el-form-item label="提取表达式:">
+                      <span>{{ props.row.expression }}</span>
+                    </el-form-item><br/>
+                    <el-form-item label="实际结果:">
+                      <el-input :value="props.row.actualResult" readonly  type="textarea" :autosize="{ minRows: 0, maxRows: 6 }"></el-input>
+                    </el-form-item>
+                  </el-form>
+                </template>
+              </el-table-column>
+              <el-table-column property="order" label="排序" min-width="5%"></el-table-column>
+              <el-table-column property="assertName" label="断言名称" min-width="10%"></el-table-column>
+              <el-table-column property="status" label="状态" min-width="10%">
+                <template slot-scope="scope">
+                  <el-tag
+                    effect="dark"
+                    :type="scope.row.assertStatusStyle"
+                    disable-transitions>{{scope.row.status}}</el-tag>
+                </template>
+              </el-table-column>
+              <el-table-column property="errorMessage" label="备注" min-width="10%"></el-table-column>
+            </el-table>         
+        </el-form>
+      </el-dialog>
+    </div>
+  </div>
+</template>
+<script>
+import headTop from "../components/headTop";
+import {
+  findInterfaceCaseExecuteLogList,
+  findInterfaceCaseExecuteLog,
+} from "@/api/getData";
+export default {
+  data() {
+    return {
+      detailDialogFormVisible: false,
+      queryForm: {},
+      total: 0,
+      pageSize: 10,
+      pageNum: 1,
+      dataList: [],
+      dataInfo: {},
+      assertInfo: [],
+      logStatusOptions: [
+          {
+              value: 0,
+              label: '成功'
+          },
+          {
+              value: 1,
+              label: '失败'
+          },
+          {
+              value: 2,
+              label: '错误'
+          },
+      ],
+    };
+  },
+  components: {
+    headTop
+  },
+  mounted() {
+    this.selectInterfaceCaseExecuteLogList(this.queryForm);
+  },
+  methods: {
+    async selectInterfaceCaseExecuteLogList(queryForm) {
+      queryForm["pageNum"] = this.pageNum;
+      queryForm["pageSize"] = this.pageSize;
+      this.dataList = []
+      const res = await findInterfaceCaseExecuteLogList(queryForm);
+      if (res.code == 200) {
+        this.total = res.data.total;
+        res.data.list.forEach(element => {
+            if (element.status == 0) {
+                element.style = "success"
+                element.status = '成功'
+            } else if (element.status == 1) {
+                element.style = "danger"
+                element.status = '失败'
+            } else {
+                element.style = "warning"
+                element.status = '错误'
+            }
+            this.dataList.push(element)
+        });
+      } else {
+        this.$message({
+          type: "error",
+          center: true,
+          message: res.msg
+        });
+      }
+    },
+    async handleDetail(relyId) {
+      const res = await findInterfaceCaseExecuteLog(relyId)
+      if (res.code == 200) {
+          let data = res.data
+          res.data.assertList.forEach(assert => {
+            // 断言执行状态
+            if (assert.status == 0) {
+                assert.assertStatusStyle = "success"
+                assert.status = '成功'
+            } else if (assert.status == 1) {
+                assert.assertStatusStyle = "danger"
+                assert.status = '失败'
+            } else {
+                assert.assertStatusStyle = "warning"
+                assert.status = '错误'
+            }
+            // 断言提取类型
+            if (assert.type == 0) {
+                assert.type = 'jsonpath'
+            } else if (assert.type == 1) {
+                assert.type = 'xpath'
+            } else if (assert.type == 2) {
+                assert.type = 'header'
+            } else if (assert.type == 3) {
+                assert.type = 'httpCode'
+            } else {
+                assert.type = 'unknow'
+            }
+            // 操作符
+            // 操作符0/=、1/< 、2/>、3/<=、4/>=、5/in、6/!=、7/re
+            if (assert.operator == 0) {
+                assert.operator = '='
+            } else if (assert.operator == 1) {
+                assert.operator = '<'
+            } else if (assert.operator == 2) {
+                assert.operator = '>'
+            } else if (assert.operator == 3) {
+                assert.operator = '<='
+            } else if (assert.operator == 4) {
+                assert.operator = '>='
+            } else if (assert.operator == 5) {
+                assert.operator = '<'
+            } else if (assert.operator == 6) {
+                assert.operator = 'in'
+            } else if (assert.operator == 7) {
+                assert.operator = 're'
+            } else {
+                assert.operator = 'unknow'
+            }            
+          });
+          this.assertInfo = res.data.assertList
+          this.detailDialogFormVisible = true
+            if (data.status == 0) {
+                data.status = '成功'
+                data.statusStyle = "success"
+            } else if (data.status == 1) {
+                data.status = '失败'
+                data.statusStyle = "danger"
+            } else {
+                data.status = '错误'
+                data.statusStyle = "warning"
+            }
+          this.dataInfo = data
+      } else {
+        this.$message({
+          type: "error",
+          center: true,
+          message: res.msg
+        })
+      }
+    },
+    handleSizeChange(pageSize) {
+      this.pageSize = pageSize;
+      this.selectInterfaceCaseExecuteLogList(this.queryForm);
+    },
+    handleCurrentChange(pageNum) {
+      this.pageNum = pageNum;
+      this.selectInterfaceCaseExecuteLogList(this.queryForm);
+    },
+  }
+};
+</script>
+
+<style lang="less">
+@import "../style/mixin";
+.table_container {
+  padding: 5px;
+}
+.query {
+  padding: 5px;
+}
+.pagination {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 8px;
+.demo-table-expand {
+  font-size: 0;
+}
+.demo-table-expand label {
+  width: 90px;
+  color: #99a9bf;
+}
+.demo-table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 50%;
+}
+}
+</style>

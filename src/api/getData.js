@@ -180,7 +180,21 @@ export const findRelyDataList = data => HttpRequest.get('/rely', data)
 /**
  * 删除其它依赖
  */
-export const removeRelyData = relyId => HttpRequest.get('/remove/' + relyId)
+export const removeRelyData = relyId => HttpRequest.get('/rely/remove/' + relyId)
+
+
+
+
+/**
+ *  获取接口执行日志
+ */
+export const findInterfaceCaseExecuteLogList = data => HttpRequest.get('/interface/log/list', data)
+
+/**
+ * 获取接口执行日志详情
+ */
+export const findInterfaceCaseExecuteLog = executeId => HttpRequest.get('/interface/log/' + executeId)
+
 
 
 

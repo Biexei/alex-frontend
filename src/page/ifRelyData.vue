@@ -54,7 +54,15 @@
       <el-table :data="dataList" stripe style="width: 100%">
         <el-table-column property="relyId" label="编号" min-width="10%"></el-table-column>
         <el-table-column property="relyName" label="名称" min-width="10%"></el-table-column>
-        <el-table-column property="contentType" label="类型" min-width="10%"></el-table-column>
+        <el-table-column property="contentType" label="提取类型" min-width="10%">
+          <template slot-scope="scope">
+            <el-tag
+              effect="dark"
+              :type="scope.row.style"
+              disable-transitions>{{scope.row.contentType}}
+            </el-tag>
+          </template>
+        </el-table-column>
         <el-table-column property="extractExpression" label="提取表达式" min-width="10%"></el-table-column>
         <el-table-column property="relyDesc" label="依赖描述" min-width="15%"></el-table-column>
         <el-table-column property="caseDesc" label="用例描述" min-width="15%"></el-table-column>
@@ -258,10 +266,13 @@ export default {
           this.total = res.data.total
           res.data.list.forEach(element => {
             if (element.contentType == 0) {
+              element.style = ""
               element.contentType = 'json'
             } else if (element.contentType == 1) {
+              element.style = "success"
               element.contentType = 'html'
             } else if (element.contentType == 2) {
+              element.style = "danger"
               element.contentType = 'header'
             } else {
               element.contentType = 'other'
@@ -274,6 +285,7 @@ export default {
               relyDesc:element.relyDesc,
               caseDesc:element.caseDesc,
               createdTime:element.createdTime,
+              style: element.style
             });
           });
       } else {

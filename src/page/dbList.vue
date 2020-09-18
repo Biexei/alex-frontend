@@ -33,7 +33,15 @@
         <el-table-column property="type" label="类型" min-width="13%"></el-table-column>
         <el-table-column property="desc" label="描述" min-width="13%"></el-table-column>
         <el-table-column property="createdTime" label="创建时间" min-width="13%"></el-table-column>
-        <el-table-column property="status" label="状态" min-width="13%"></el-table-column>
+        <el-table-column property="status" label="状态" min-width="13%">
+          <template slot-scope="scope">
+            <el-tag
+              effect="dark"
+              :type="scope.row.statusStyle"
+              disable-transitions>{{scope.row.status}}
+            </el-tag>
+          </template>
+        </el-table-column>
         <el-table-column fixed="right" label="操作" min-width="22%">
           <template slot-scope="scope">
             <el-button 
@@ -204,7 +212,7 @@ export default {
             } else if (element.type == 2) {
               element.type = 'SQL Server'
             } else {
-              tyoe = 'Others'
+              type = 'Others'
             }
             this.dataList.push({
                 id: element.id,
@@ -212,6 +220,7 @@ export default {
                 type: element.type,
                 desc: element.desc,
                 createdTime: element.createdTime,
+                statusStyle: element.status == 0?'success':'danger',
                 status: element.status == 0?'启用':'禁用'
             })
           });

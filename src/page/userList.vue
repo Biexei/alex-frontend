@@ -26,7 +26,15 @@
         <el-table-column property="sex" label="性别" min-width="15%"></el-table-column>
         <el-table-column property="realName" label="真实姓名" min-width="15%"></el-table-column>
         <el-table-column property="createdTime" label="注册时间" min-width="15%"></el-table-column>
-        <el-table-column property="isEnable" label="状态" min-width="15%"></el-table-column>
+        <el-table-column property="isEnable" label="状态" min-width="15%">
+          <template slot-scope="scope">
+            <el-tag
+              effect="dark"
+              :type="scope.row.isEnableStyle"
+              disable-transitions>{{scope.row.isEnable}}
+            </el-tag>
+          </template>
+        </el-table-column>
         <el-table-column fixed="right" label="操作" min-width="20%">
           <template slot-scope="scope">
             <el-button
@@ -242,6 +250,7 @@ export default {
           user.userId = element.userId;
           user.username = element.username;
           user.sex = element.sex == 0 ? "女" : "男";
+          user.isEnableStyle = element.isEnable == 1 ? "success" : "danger";  
           user.isEnable = element.isEnable == 1 ? "启用" : "禁用";
           user.createdTime = element.createdTime;
           user.realName = element.realName;
