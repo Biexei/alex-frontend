@@ -55,8 +55,20 @@
     </div>
     <div class="table_container">
       <el-table :data="dataList" stripe style="width: 100%">
-        <el-table-column property="relyId" label="编号" min-width="10%"></el-table-column>
-        <el-table-column property="relyName" label="名称" min-width="10%"></el-table-column>
+        <el-table-column type="expand">
+        <template slot-scope="props">
+            <el-form label-position="left" inline class="demo-table-expand">
+              <el-form-item label="请求地址:">
+                  <el-label>{{props.row.caseUrl}}</el-label>
+              </el-form-item>
+              <br/>
+              <el-form-item label="用例描述:">
+                  <el-label>{{props.row.caseDesc}}</el-label>
+              </el-form-item>
+            </el-form>
+        </template>
+        </el-table-column>
+        <el-table-column property="relyId" label="编号" min-width="5%"></el-table-column>
         <el-table-column property="contentType" label="提取方式" min-width="10%">
           <template slot-scope="scope">
             <el-tag
@@ -66,10 +78,10 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column property="extractExpression" label="提取表达式" min-width="10%"></el-table-column>
-        <el-table-column property="relyDesc" label="依赖描述" min-width="15%"></el-table-column>
-        <el-table-column property="caseDesc" label="用例描述" min-width="15%"></el-table-column>
-        <el-table-column property="createdTime" label="创建时间" min-width="15%"></el-table-column>
+        <el-table-column property="relyName" label="名称" min-width="10%"></el-table-column>
+        <el-table-column property="extractExpression" label="提取表达式" min-width="20%"></el-table-column>
+        <el-table-column property="relyDesc" label="依赖描述" min-width="20%"></el-table-column>
+        <el-table-column property="createdTime" label="创建时间" min-width="20%"></el-table-column>
         <el-table-column fixed="right" label="操作" min-width="15%">
           <template slot-scope="scope">
             <el-button 
@@ -113,7 +125,7 @@
           <el-form-item label="*依赖名称" label-width="100px">
             <el-input v-model="dataInfo.relyName" size='small'></el-input>
           </el-form-item>
-          <el-form-item label="*提取方式" label-width="100px">
+          <el-form-item label="*提取类型" label-width="100px">
             <el-select v-model="dataInfo.contentType" size='small'>
               <el-option
                 v-for="item in typeOptions"
@@ -155,7 +167,7 @@
           </el-form-item>
           <el-form-item>
             <el-button type="primary" icon="el-icon-search" circle @click="getCaseList(caseQueryForm)" size="mini"></el-button>
-            <el-button type="primary" icon="el-icon-refresh" circle @click="caseQueryForm = {}" size="mini"></el-button>
+            <el-button type="primary" icon="el-icon-refresh" circle @click="resetCaseForm" size="mini"></el-button>
           </el-form-item>
         </el-form>
         <el-table 
@@ -187,7 +199,7 @@
           <el-form-item label="*依赖名称" label-width="100px">
             <el-input v-model="dataAdd.relyName"></el-input>
           </el-form-item>
-          <el-form-item label="*提取方式" label-width="100px">
+          <el-form-item label="*提取类型" label-width="100px">
             <el-select v-model="dataAdd.contentType" placeholder="请选择">
               <el-option
                 v-for="item in typeOptions"
@@ -291,7 +303,8 @@ export default {
               relyDesc:element.relyDesc,
               caseDesc:element.caseDesc,
               createdTime:element.createdTime,
-              style: element.style
+              style: element.style,
+              caseUrl: element.caseUrl
             });
           });
       } else {
@@ -450,7 +463,13 @@ export default {
       this.pageSize = 10
       this.pageNum = 1
       this.selectIfRelyDataList(this.queryForm)
-    }
+    },
+    async resetCaseForm() {
+      this.caseQueryForm = {}
+      this.casePageSize = 5
+      this.casePageNum = 1
+      this.getCaseList(this.queryForm)
+    }    
   }
 }
 </script>

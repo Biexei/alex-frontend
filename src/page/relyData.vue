@@ -44,13 +44,6 @@
         </el-table-column>
         <el-table-column fixed="right" label="操作" min-width="20%">
           <template slot-scope="scope">
-            <el-button 
-              @click="handleCheck(scope.row.id)"
-              type="success" 
-              size="small"
-              icon="el-icon-check" 
-              circle>
-            </el-button>
             <el-button
               @click="handleEdit(scope.row.id)"
               type="primary"
@@ -400,30 +393,6 @@ export default {
     },
     async handleChangeType(value){
       this.setTypeOption(value)
-    },
-    async handleCheck(dbId) {
-        const res = await checkDb(dbId)
-        if (res.code == 200) {
-          if(res.msg === '连接成功'){
-            this.$message({
-              type: "success",
-              center: true,
-              message: res.msg
-            })
-          } else {
-            this.$message({
-              type: "info",
-              center: true,
-              message: res.msg
-            })
-          }
-        } else {
-          this.$message({
-            type: "error",
-            center: true,
-            message: res.msg
-          })
-        }
     },
     async handleAdd() {
         const res = await saveRelyData(this.dataAdd);

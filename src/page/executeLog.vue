@@ -119,6 +119,9 @@
           </el-form-item> 
           </el-collapse-item>
           <el-collapse-item title="请求信息">
+          <el-form-item label="url" label-width="100px">
+            <el-input v-model="dataInfo.caseUrl" readonly type="textarea" :autosize="{ minRows: 0, maxRows: 6 }"></el-input>
+          </el-form-item>          
           <el-form-item label="headers" label-width="100px">
             <el-input v-model="dataInfo.requestHeaders" readonly type="textarea" :autosize="{ minRows: 0, maxRows: 6 }"></el-input>
           </el-form-item> 
@@ -143,7 +146,7 @@
             <el-input v-model="dataInfo.responseBody" readonly  type="textarea" :autosize="{ minRows: 0, maxRows: 6 }"></el-input>
           </el-form-item>
           </el-collapse-item>
-          <el-collapse-item title="断言">
+          <el-collapse-item title="断言信息">
             <el-table :data="assertInfo" stripe highlight-current-row style="width: 100%">
               <el-table-column type="expand">
                 <template slot-scope="props">

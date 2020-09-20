@@ -74,7 +74,7 @@
             </el-form-item>
             <br />
             <el-form-item label="比较类型:">
-                <span>{{ props.row.operator }}</span>
+                <el-input  :value="props.row.operator" readonly></el-input>
             </el-form-item>
             <br />
             <el-form-item label="实际结果:">
