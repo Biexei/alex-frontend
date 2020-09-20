@@ -15,7 +15,7 @@ export default class HttpRequest {
   }n
 
   /* 配置请求头部 */
-  static _getInsideConfig(method = "get") {
+  static _getInsideConfig(method = "get", json) {
     let config = {
       headers: {
         'Accept': 'application/json',
@@ -29,6 +29,14 @@ export default class HttpRequest {
         }
       }
     }
+    if (json == true) {
+      console.log("json")
+      config = {
+        headers: {
+          'content-type': 'application/json;charset=utf-8'
+        }
+      }
+    }
     return config
   }
 
@@ -37,13 +45,13 @@ export default class HttpRequest {
    * @param {*} url
    * @param {*} retParent 是否原样返回
    */
-  static _interceptors(instance, url, retOrigin) {
+  static _interceptors(instance, url, retOrigin, json) {
     // 请求拦截
     instance.interceptors.request.use(config => {
       //获取必须参数
       if(this.requireParams != ""){
         let extraPram = this.requireParams;
-        if(config.method == 'post'){
+        if(config.method == 'post' && !json){
           config.data = config.data ? config.data+"&"+qs.stringify(extraPram) : qs.stringify(extraPram);
         }else{
           Object.assign(config.params, extraPram)
@@ -76,10 +84,10 @@ export default class HttpRequest {
   }
 
   //项目内部接口请求
-  static _request(options, retOrigin) {
+  static _request(options, retOrigin, json) {
     const instance = axios.create()
-    options = Object.assign(this._getInsideConfig(options.method), options)
-    this._interceptors(instance, options.url, retOrigin)
+    options = Object.assign(this._getInsideConfig(options.method, json), options)
+    this._interceptors(instance, options.url, retOrigin, json)
     return instance(options)
   }
 
@@ -122,15 +130,23 @@ export default class HttpRequest {
       params: data
     },retOrigin)
   }
-  static post(url, data = {}, retOrigin = true) {
-    return this._request({
-      url: baseUrl + url,
-      method: 'post',
-      params: {},
-      data: qs.stringify(data)
-    }, retOrigin)
+  static post(url, data = {}, retOrigin = true, json=false) {
+    if (!json) {
+      return this._request({
+        url: baseUrl + url,
+        method: 'post',
+        params: {},
+        data: qs.stringify(data)
+      }, retOrigin, json)
+    } else {
+      return this._request({
+        url: baseUrl + url,
+        method: 'post',
+        params: {},
+        data: data
+      }, retOrigin, json)  
+    }
   }
-
   /* 上传文件接口 */
   static postFile(url, data= {}, formData, retOrigin = true) {
     

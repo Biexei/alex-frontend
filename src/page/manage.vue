@@ -14,6 +14,7 @@
 					</el-submenu>
 					<el-submenu index="2"  class="left-color">
 						<template slot="title"  class="left-color"><i class="el-icon-suitcase-1"></i><span slot="title" class="title-color">接口测试</span></template>
+						<el-menu-item index="ifCase"  class="left-color"><span slot="title" class="title-color">测试用例</span></el-menu-item>
 						<el-menu-item index="executeLog"  class="left-color"><span slot="title" class="title-color">执行日志</span></el-menu-item>
 						<el-menu-item index="ifAssertLog"  class="left-color"><span slot="title" class="title-color">断言日志</span></el-menu-item>
 					</el-submenu>

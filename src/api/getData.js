@@ -210,7 +210,34 @@ export const findInterfaceCaseExecuteLog = executeId => HttpRequest.get('/interf
 export const listInterfaceAssertLog = data => HttpRequest.get('/interface/assert/log', data)
 
 
+
+
 /**
  * 查询用例列表
  */
 export const listInterfaceCase = data => HttpRequest.get('/interface/case/list', data)
+
+/**
+ * 插入接口测试用例
+ */
+export const saveInterfaceCase = data => HttpRequest.post('/interface/case/save', data, true, true)
+
+ /**
+  * 修改接口测试用例
+  */
+ export const modifyInterfaceCase = data => HttpRequest.post('/interface/case/modify', data) 
+
+/**
+ * 删除接口测试用例
+ */
+export const removeInterfaceCase = interfaceCaseId => HttpRequest.get('/interface/case/remove/' + interfaceCaseId)
+
+/**
+ * 查看接口测试用例详情
+ */
+export const findInterfaceCaseByCaseId = interfaceCaseId => HttpRequest.get('/interface/case/info/' + interfaceCaseId)
+
+/**
+ * 执行接口测试用例
+*/ 
+export const executeInterfaceCase = interfaceCaseId => HttpRequest.get('/interface/case/execute/' + interfaceCaseId)
