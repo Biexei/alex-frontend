@@ -78,6 +78,14 @@
         <el-table-column type="expand">
         <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand">
+            <el-form-item label="项目编号:">
+                <el-label>{{props.row.projectId}}</el-label>
+            </el-form-item>
+            <br />
+            <el-form-item label="模块编号:">
+                <el-label>{{props.row.moduleId}}</el-label>
+            </el-form-item>
+            <br />
             <el-form-item label="项目名称:">
                 <el-label>{{props.row.projectName}}</el-label>
             </el-form-item>
@@ -152,13 +160,13 @@
             <el-input readonly v-model="dataAdd.projectId" @focus='handleProjectModuleList' size="small" placeholder="请点击选择"></el-input>
           </el-form-item>
           <el-form-item label="*项目名称" label-width="100px">
-            <el-input readonly v-model="dataAdd.projectName" @focus='handleProjectModuleList' size="small" placeholder="请点击选择"></el-input>
+            <el-input readonly v-model="dataAdd.projectName" @focus='handleProjectModuleList' size="small" disabled></el-input>
           </el-form-item>
           <el-form-item label="*模块编号" label-width="100px">
-            <el-input readonly v-model="dataAdd.moduleId" @focus='handleProjectModuleList' size="small" placeholder="请点击选择"></el-input>
+            <el-input readonly v-model="dataAdd.moduleId" @focus='handleProjectModuleList' size="small" disabled></el-input>
           </el-form-item>
           <el-form-item label="*模块名称" label-width="100px">
-            <el-input readonly v-model="dataAdd.moduleName" @focus='handleProjectModuleList' size="small" placeholder="请点击选择"></el-input>
+            <el-input readonly v-model="dataAdd.moduleName" @focus='handleProjectModuleList' size="small" disabled></el-input>
           </el-form-item>
           <el-form-item label="*用例名称" label-width="100px">
             <el-input v-model="dataAdd.desc" size="small"></el-input>
@@ -339,6 +347,51 @@
           </el-form-item> -->
 
           </el-collapse-item>
+          <el-collapse-item title="断言信息">
+                <el-button @click.prevent="addAssert" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
+                <el-form-item
+                    v-for="(assertItem, index) in assertList"
+                    :index="index"
+                    :key="index">
+                <el-row :gutter="20">
+                    <el-col :span="2">
+                        <el-input v-model="assertItem.order" order="排序" size="small"></el-input>
+                    </el-col>
+                    <el-col :span="4">
+                        <el-input v-model="assertItem.assertName" placeholder="描述"  size="small"></el-input>
+                    </el-col> 
+                    <el-col :span="3">
+                        <el-select v-model="assertItem.type" size='small'>
+                          <el-option
+                            v-for="item in assertTypeOptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
+                    </el-col> 
+                    <el-col :span="5">
+                        <el-input v-model="assertItem.expression" placeholder="提取表达式"  size="small"></el-input>
+                    </el-col> 
+                    <el-col :span="3">
+                        <el-select v-model="assertItem.operator" size='small'>
+                          <el-option
+                            v-for="item in assertOperatorOptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
+                    </el-col> 
+                    <el-col :span="5">
+                        <el-input v-model="assertItem.exceptedResult" placeholder="预期结果"  size="small"></el-input>
+                    </el-col> 
+                    <el-col :span="2">
+                        <el-button @click.prevent="removeAssert(assertItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                    </el-col>
+                </el-row> 
+                </el-form-item>
+          </el-collapse-item>
       </el-collapse>
       </el-form>
         <div slot="footer" class="dialog-footer">
@@ -477,6 +530,61 @@ export default {
       headerTypeFlag:0, // 0:key-value 1:object
       paramsTypeFlag:0, // 0:key-value 1:object
       bodyTypeFlag:0, // 0:form-data  1:form-raw 2:json 3：key=value&key=value格式
+
+      assertList:[],
+      assertIndex:0,
+      assertOperatorOptions: [
+        {
+          value: 0,
+          label: "=",
+        },
+        {
+          value: 1,
+          label: "<",
+        },
+        {
+          value: 2,
+          label: ">",
+        },
+        {
+          value: 3,
+          label: "<=",
+        },
+        {
+          value: 4,
+          label: ">=",
+        },
+        {
+          value: 5,
+          label: "in",
+        },
+        {
+          value: 6,
+          label: "!=",
+        },
+        {
+          value: 7,
+          label: "re",
+        },        
+      ],
+    assertTypeOptions: [
+        {
+          value: 0,
+          label: "json",
+        },
+        {
+          value: 1,
+          label: "html",
+        },
+        {
+          value: 2,
+          label: "header",
+        },
+        {
+          value: 3,
+          label: "responsecode",
+        },
+    ],
     };
   },
   components: {
@@ -525,6 +633,34 @@ export default {
         key: Date.now()
     });
     },
+    addAssert() {
+    this.assertList.push({
+        assertName: '',
+        type: 0,
+        expression: '',
+        operator: 0,
+        exceptedResult: '',
+        order:this.assertIndex++
+    });
+    },
+    removeAssert(item) {
+    var index = this.assertList.indexOf(item)
+    let maxIndex = 0
+    let assertInfo = []
+    if (index !== -1) {
+        this.assertList.splice(index, 1)
+        this.assertIndex -- 
+    }
+    this.assertList.forEach(element => {
+      if (this.assertIndex < element.order) {
+        element.order --
+      }
+      maxIndex = element.order
+      assertInfo.push(element)
+      this.assertIndex = maxIndex + 1
+      this.assertList = assertInfo
+    });
+    },
     async selectInterfaceCase(queryForm) {
       queryForm["pageNum"] = this.pageNum;
       queryForm["pageSize"] = this.pageSize;
@@ -547,16 +683,16 @@ export default {
           if (element.method == 0) {
             element.methodStyle = "";
             element.method = "GET";
-          } else if (element.type == 1) {
+          } else if (element.method == 1) {
             element.methodStyle = "";
             element.method = "POST";
-          } else if (element.type == 2) {
+          } else if (element.method == 2) {
             element.methodStyle = "";
             element.method = "UPDATE";
-          } else if (element.type == 3) {
+          } else if (element.method == 3) {
             element.methodStyle = "";
             element.method = "PUT";
-          } else if (element.type == 4) {
+          } else if (element.method == 4) {
             element.methodStyle = "";
             element.method = "DELETE";
           } else {
@@ -574,7 +710,6 @@ export default {
       }
     },
     handleChangeMethod(method) {
-        console.log(this.dataAdd.method)
         if(method == 0) { // get
             this.showParams = true
             this.showData = false
@@ -582,7 +717,6 @@ export default {
             this.dataAdd.data = null
             this.dataSwitch = false
             this.jsonSwitch = false
-            this.dataInfo.data = null
         } else if (method == 1) { //post
             this.showParams = true
             this.showData = true
@@ -654,15 +788,12 @@ export default {
         let params = {}
         let data = {}
         let json = {}
-
-        console.log(this.dataAddHeaders)
-        console.log(this.dataAddHeadersStr)
         // 对请求头进行处理  headerTypeFlag 0:key-value 1:object
         if (this.headerTypeFlag == 0) {
             this.dataAddHeaders.forEach(element => {
                 header[element.name] = element.value
             });
-            this.dataAdd.header = header
+            this.dataAdd.header = JSON.stringify(header)
         } else {
             header = this.dataAddHeadersStr
             this.dataAdd.header = header
@@ -672,7 +803,7 @@ export default {
             this.dataAddParams.forEach(element => {
                 params[element.name] = element.value
             });
-            this.dataAdd.params = params
+            this.dataAdd.params = JSON.stringify(params)
         } else {
             params = this.dataAddParamsStr
             this.dataAdd.params = params
@@ -682,23 +813,41 @@ export default {
                 this.dataAddFormData.forEach(element => {
                     data[element.name] = element.value
                 });
-                this.dataAdd.data = data
+                this.dataAdd.json = null
+                this.dataAdd.data = JSON.stringify(data)
             } else if (this.bodyTypeFlag == 1) {
+                this.dataAdd.json = null
                 this.dataAdd.data = this.dataAddFormStr
             } else if (this.bodyTypeFlag == 2) {
+                this.dataAdd.data = null
                 this.dataAdd.json = this.dataAddJsonStr
             } else {
+                this.dataAdd.json = null
                 let kv = this.dataAddFormRaw.split("&")
                 kv.forEach(item => {
                     let keyValue = item.split("=")
                     data[keyValue[0]] = keyValue[1]
                 });
-                this.dataAdd.data = data
+                this.dataAdd.data = JSON.stringify(data)
             }
         } 
-        const res = saveInterfaceCase(this.dataAdd)
-    },
-    
+        console.log("bodyTypeFlag:" + this.bodyTypeFlag)
+        this.dataAdd.asserts = this.assertList
+        const res = await saveInterfaceCase(this.dataAdd)
+        if (res.code == 200 ) {
+            this.$message({
+              type: "success",
+              center: true,
+              message: res.msg
+            })
+        } else {
+            this.$message({
+              type: "error",
+              center: true,
+              message: res.msg
+            })
+        }
+    },    
     async selectProjetModule() {
       this.projectModuleQuery['pageSize'] = this.projectModulePageSize 
       this.projectModuleQuery['pageNum'] = this.projectModulePageNum 
@@ -732,7 +881,6 @@ export default {
       this.selectProjetModule(this.projectModuleQuery);
     },
     async handleSelectProjetModule(row){
-      console.log(row)
       this.selectProjectModuleDialogFormVisible = false
       this.dataInfo.moduleId = row.moduleId;
       this.dataInfo.moduleName = row.moduleName;
@@ -777,6 +925,10 @@ export default {
       this.paramsSwitch = false
       this.dataSwitch = false
       this.jsonSwitch = false
+
+      // 初始化断言
+      this.assertList = []
+      this.assertIndex = 0
     },
     async handleProjectModuleList() {
       this.selectProjetModule()
