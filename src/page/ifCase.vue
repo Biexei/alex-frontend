@@ -152,7 +152,7 @@
         ></el-pagination>
       </div>
       
-      <el-dialog title="添加" :visible.sync="addDialogFormVisible">
+      <el-dialog title="添加" :visible.sync="addDialogFormVisible" :close-on-click-modal="false">
         <el-form :model="dataAdd" ref="dataAdd">
         <el-collapse>
         <el-collapse-item title="基本信息">
@@ -356,7 +356,7 @@
         </div>
       </el-dialog>
 
-      <el-dialog title="选择项目、模块" :visible.sync="selectProjectModuleDialogFormVisible" append-to-body>
+      <el-dialog title="选择" :visible.sync="selectProjectModuleDialogFormVisible" append-to-body>
         <el-form :inline="true" :model="projectModuleQuery" class="demo-form-inline" ref="queryForm">
           <el-form-item label="项目编号">
             <el-input v-model="projectModuleQuery.projectId" placeholder="项目名称" size="mini"></el-input>
@@ -400,7 +400,7 @@
       </el-dialog>
 
 <!-- 1111111111 -->
-      <el-dialog title="编辑" :visible.sync="editDialogFormVisible">
+      <el-dialog title="编辑" :visible.sync="editDialogFormVisible" :close-on-click-modal="false">
         <el-form :model="dataInfo" ref="dataInfo">
         <el-collapse>
         <el-collapse-item title="基本信息">
@@ -945,28 +945,28 @@ export default {
     
     async handleAdd(){
         let method = this.dataAdd.method
-        let header = {}
+        let headers = {}
         let params = {}
         let data = {}
         let json = {}
         // 对请求头进行处理  headerTypeFlag 0:key-value 1:object
         if (this.headerTypeFlag == 0) {
             this.dataAddHeaders.forEach(element => {
-                header[element.name] = element.value
+                headers[element.name] = element.value
             });
-            let headerStr = JSON.stringify(header)
+            let headerStr = JSON.stringify(headers)
             if (headerStr == '{}' || headerStr == '') {
-              this.dataAdd.header = null
+              this.dataAdd.headers = ''
             } else {
-              this.dataAdd.header = headerStr
+              this.dataAdd.headers = headerStr
             }
 
         } else {
-            header = this.dataAddHeadersStr
-            if (header == '{}' || header == '') {
-              this.dataAdd.header = null
+            headers = this.dataAddHeadersStr
+            if (headers == '{}' || headers == '') {
+              this.dataAdd.headers = headers
             } else {
-              this.dataAdd.header = header
+              this.dataAdd.headers = headers
             }
         }
         // 对params 统一处理 所有请求都可能存在params
@@ -976,14 +976,14 @@ export default {
             });
             let paramsStr = JSON.stringify(params)
             if (paramsStr == '{}' || paramsStr == '') {
-              this.dataAdd.params = null
+              this.dataAdd.params = ''
             } else {
               this.dataAdd.params = paramsStr
             }
         } else {
             params = this.dataAddParamsStr
-            if (params == '{}' || header == '') {
-              this.dataAdd.params = null
+            if (params == '{}' || params == '') {
+              this.dataAdd.params = params
             } else {
               this.dataAdd.params = params
             }
@@ -994,7 +994,12 @@ export default {
                     data[element.name] = element.value
                 });
                 this.dataAdd.json = null
-                this.dataAdd.data = JSON.stringify(data)
+                let dataStr = JSON.stringify(data)
+                if (dataStr == '{}' || dataStr == '') {
+                  this.dataAdd.data = ''
+                } else {
+                  this.dataAdd.data = dataStr
+                }
             } else if (this.bodyTypeFlag == 1) {
                 this.dataAdd.json = null
                 this.dataAdd.data = this.dataAddFormStr
@@ -1008,7 +1013,12 @@ export default {
                     let keyValue = item.split("=")
                     data[keyValue[0]] = keyValue[1]
                 });
-                this.dataAdd.data = JSON.stringify(data)
+                let dataStr = JSON.stringify(data)
+                if (dataStr == '{}' || dataStr == '') {
+                  this.dataAdd.data = ''
+                } else {
+                  this.dataAdd.data = dataStr
+                }
             }
         } 
         this.dataAdd.asserts = this.assertList
@@ -1031,27 +1041,27 @@ export default {
     },  
     async handleEdit() {
         let method = this.dataInfo.method
-        let header = {}
+        let headers = {}
         let params = {}
         let data = {}
         let json = {}
         // 对请求头进行处理  headerTypeFlag 0:key-value 1:object
         if (this.headerTypeFlag == 0) {
             this.dataAddHeaders.forEach(element => {
-                header[element.name] = element.value
+                headers[element.name] = element.value
             });
-            let headerStr = JSON.stringify(header)
+            let headerStr = JSON.stringify(headers)
             if (headerStr == '{}' || headerStr == '') {
-              this.dataInfo.header = null
+              this.dataInfo.headers = ''
             } else {
-              this.dataInfo.header = headerStr
+              this.dataInfo.headers = headerStr
             }
         } else {
-            header = this.dataAddHeadersStr
-            if (header == '{}' || header == '') {
-              this.dataInfo.header = null
+            headers = this.dataAddHeadersStr
+            if (headers == '{}' || headers == '') {
+              this.dataInfo.headers = headers
             } else {
-              this.dataInfo.header = header
+              this.dataInfo.headers = headers
             }
         }
         // 对params 统一处理 所有请求都可能存在params
@@ -1061,14 +1071,14 @@ export default {
             });
             let paramsStr = JSON.stringify(params)
             if (paramsStr == '{}' || paramsStr == '') {
-              this.dataInfo.params = null
+              this.dataInfo.params = ''
             } else {
               this.dataInfo.params = paramsStr
             }
         } else {
             params = this.dataAddParamsStr
-            if (params == '{}' || header == '') {
-              this.dataInfo.params = null
+            if (params == '{}' || params == '') {
+              this.dataInfo.params = params
             } else {
               this.dataInfo.params = params
             }
@@ -1079,7 +1089,12 @@ export default {
                     data[element.name] = element.value
                 });
                 this.dataInfo.json = null
-                this.dataInfo.data = JSON.stringify(data)
+                let dataStr = JSON.stringify(data)
+                if (dataStr == '{}' || dataStr == '') {
+                  this.dataInfo.data = ''
+                } else {
+                  this.dataInfo.data = dataStr
+                }
             } else if (this.bodyTypeFlag == 1) {
                 this.dataInfo.json = null
                 this.dataInfo.data = this.dataAddFormStr
@@ -1093,7 +1108,12 @@ export default {
                     let keyValue = item.split("=")
                     data[keyValue[0]] = keyValue[1]
                 });
-                this.dataInfo.data = JSON.stringify(data)
+                let dataStr = JSON.stringify(data)
+                if (dataStr == '{}' || dataStr == '') {
+                  this.dataInfo.data = ''
+                } else {
+                  this.dataInfo.data = dataStr
+                }
             }
         } 
         this.dataInfo.asserts = this.assertList
@@ -1202,14 +1222,26 @@ export default {
       let moduleName = row.moduleName
       const res = await findInterfaceCaseByCaseId(caseId)
       if (res.code == 200) {
+        // 头置空
+        this.headerTypeFlag = 0
+        this.dataAddHeaders = []
+        this.dataAddHeadersStr = ""
+        // 初始化params 方式
+        this.paramsTypeFlag = 0
+        this.dataAddParams = []
+        this.dataAddParamsStr = ""
+        // 初始化body
+        this.bodyTypeFlag = 0
+        this.dataAddFormData = []
+        this.dataAddFormStr = ""
+        this.dataAddJsonStr = ""     
+
         this.editDialogFormVisible = true;
         this.dataInfo = res.data
         this.dataInfo.projectName = projectName
         this.dataInfo.moduleName = moduleName
         // 获取请求头
         this.headerTypeFlag = 1
-        console.log("res.data.header")
-        console.log(res.data.headers)
         this.dataAddHeadersStr = res.data.headers
         // 获取params
         this.paramsTypeFlag = 1
@@ -1223,7 +1255,7 @@ export default {
             this.bodyTypeFlag = 2
             this.dataAddJsonStr = res.data.json
           } else {
-            this.bodyTypeFlag = 0
+            this.bodyTypeFlag = 1
             this.dataAddFormData = res.data.data
           }
         }
@@ -1267,13 +1299,16 @@ export default {
     // 切换body radio时将之前的情况
     async handleChangeBodyType() {
         if (this.bodyTypeFlag == 0) {
+           if (this.dataAddFormData == null) {
+             this.dataAddFormData = []
+           }
            this.dataAddFormStr = ""
            this.dataAddJsonStr = ""
            this.dataAddFormRaw = ""
         } else if (this.bodyTypeFlag == 1) {
            this.dataAddFormData = []
            this.dataAddJsonStr = ""
-           this.dataAddFormRaw = ""
+           this.dataAddFormStr = ""
         } else if (this.bodyTypeFlag == 2) {
            this.dataAddFormStr = ""
            this.dataAddFormData = []
