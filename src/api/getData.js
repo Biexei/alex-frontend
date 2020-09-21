@@ -225,7 +225,7 @@ export const saveInterfaceCase = data => HttpRequest.post('/interface/case/save'
  /**
   * 修改接口测试用例
   */
- export const modifyInterfaceCase = data => HttpRequest.post('/interface/case/modify', data) 
+ export const modifyInterfaceCase = data => HttpRequest.post('/interface/case/modify', data, true, true) 
 
 /**
  * 删除接口测试用例
