@@ -240,9 +240,9 @@ export default {
         } else if (element.operator == 4) {
             element.operator = '>='
         } else if (element.operator == 5) {
-            element.operator = '<'
-        } else if (element.operator == 6) {
             element.operator = 'in'
+        } else if (element.operator == 6) {
+            element.operator = '!='
         } else if (element.operator == 7) {
             element.operator = 're'
         } else {

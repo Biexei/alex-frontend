@@ -302,9 +302,9 @@ export default {
             } else if (assert.operator == 4) {
                 assert.operator = '>='
             } else if (assert.operator == 5) {
-                assert.operator = '<'
-            } else if (assert.operator == 6) {
                 assert.operator = 'in'
+            } else if (assert.operator == 6) {
+                assert.operator = '!='
             } else if (assert.operator == 7) {
                 assert.operator = 're'
             } else {
