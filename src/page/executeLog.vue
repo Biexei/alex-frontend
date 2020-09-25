@@ -107,7 +107,7 @@
             <el-input v-model="dataInfo.executer" readonly size='small'></el-input>
           </el-form-item> 
           <el-form-item label="异常信息" label-width="100px" v-if="dataInfo.status=='错误'">
-            <el-input v-model="dataInfo.errorMessage" readonly  type="textarea" :autosize="{ minRows: 0, maxRows: 6 }"></el-input>
+            <el-input v-model="dataInfo.errorMessage" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }"></el-input>
           </el-form-item> 
           <el-form-item label="执行状态" label-width="100px">
             <template>
@@ -120,31 +120,79 @@
           </el-collapse-item>
           <el-collapse-item title="请求信息">
           <el-form-item label="url" label-width="100px">
-            <el-input v-model="dataInfo.caseUrl" readonly type="textarea" :autosize="{ minRows: 0, maxRows: 6 }"></el-input>
+            <el-input v-model="dataInfo.caseUrl" readonly></el-input>
           </el-form-item>          
-          <el-form-item label="headers" label-width="100px">
-            <el-input v-model="dataInfo.requestHeaders" readonly type="textarea" :autosize="{ minRows: 0, maxRows: 6 }"></el-input>
-          </el-form-item> 
-          <el-form-item label="params" label-width="100px">
-            <el-input v-model="dataInfo.requestParams" readonly  type="textarea" :autosize="{ minRows: 0, maxRows: 6 }"></el-input>
-          </el-form-item> 
-          <el-form-item label="data" label-width="100px">
-            <el-input v-model="dataInfo.requestData" readonly  type="textarea" :autosize="{ minRows: 0, maxRows: 6 }"></el-input>
-          </el-form-item> 
-          <el-form-item label="json" label-width="100px">
-            <el-input v-model="dataInfo.requestJson" readonly  type="textarea" :autosize="{ minRows: 0, maxRows: 6 }"></el-input>
-          </el-form-item>
+          <el-row :gutter="25">
+            <el-col :span="22">
+            <el-form-item label="headers" label-width="100px">
+              <el-input v-model="dataInfo.requestHeaders" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }" v-show="!isReqHeadersBeauty"></el-input>
+              <json-viewer :value="dataInfo.requestHeaders" :expand-depth=5 copyable v-show="isReqHeadersBeauty"></json-viewer>
+            </el-form-item>
+            </el-col>
+            <el-col :span="1">
+              <el-button @click="clickReqHeaders" type="danger" icon="el-icon-magic-stick" size="mini" circle></el-button>
+            </el-col>
+          </el-row>  
+          <el-row :gutter="25">
+            <el-col :span="22">
+            <el-form-item label="params" label-width="100px">
+              <el-input v-model="dataInfo.requestParams" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }" v-show="!isReqParamsBeauty"></el-input>
+              <json-viewer :value="dataInfo.requestParams" :expand-depth=5 copyable v-show="isReqParamsBeauty"></json-viewer>
+            </el-form-item>
+            </el-col>
+            <el-col :span="1">
+              <el-button @click="clickReqParams" type="danger" icon="el-icon-magic-stick" size="mini" circle></el-button>
+            </el-col>
+          </el-row>  
+          <el-row :gutter="25">
+            <el-col :span="22">
+            <el-form-item label="data" label-width="100px">
+              <el-input v-model="dataInfo.requestData" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }" v-show="!isReqDataBeauty"></el-input>
+              <json-viewer :value="dataInfo.requestData" :expand-depth=5 copyable v-show="isReqDataBeauty"></json-viewer>
+            </el-form-item>
+            </el-col>
+            <el-col :span="1">
+              <el-button @click="clickReqData" type="danger" icon="el-icon-magic-stick" size="mini" circle></el-button>
+            </el-col>
+          </el-row>  
+          <el-row :gutter="25">
+            <el-col :span="22">
+            <el-form-item label="json" label-width="100px">
+              <el-input v-model="dataInfo.requestJson" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }" v-show="!isReqJsonBeauty"></el-input>
+              <json-viewer :value="dataInfo.requestJson" :expand-depth=5 copyable v-show="isReqJsonBeauty"></json-viewer>
+            </el-form-item>
+            </el-col>
+            <el-col :span="1">
+              <el-button @click="clickReqJson" type="danger" icon="el-icon-magic-stick" size="mini" circle></el-button>
+            </el-col>
+          </el-row>  
           </el-collapse-item>
           <el-collapse-item title="响应信息">
           <el-form-item label="code" label-width="100px">
             <el-input v-model="dataInfo.responseCode" readonly  size='small'></el-input>
           </el-form-item> 
-          <el-form-item label="headers" label-width="100px">
-            <el-input v-model="dataInfo.responseHeaders" readonly  type="textarea" :autosize="{ minRows: 0, maxRows: 6 }"></el-input>
-          </el-form-item>
-          <el-form-item label="body" label-width="100px">
-            <el-input v-model="dataInfo.responseBody" readonly  type="textarea" :autosize="{ minRows: 0, maxRows: 6 }"></el-input>
-          </el-form-item>
+          <el-row :gutter="25">
+            <el-col :span="22">
+            <el-form-item label="headers" label-width="100px">
+              <el-input v-model="dataInfo.responseHeaders" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }" v-show="!isResHeadersBeauty"></el-input>
+              <json-viewer :value="dataInfo.responseHeaders" :expand-depth=5 copyable v-show="isResHeadersBeauty"></json-viewer>
+            </el-form-item>
+            </el-col>
+            <el-col :span="1">
+              <el-button @click="clickResHeaders" type="danger" icon="el-icon-magic-stick" size="mini" circle></el-button>
+            </el-col>
+          </el-row>
+          <el-row :gutter="25">
+            <el-col :span="22">
+            <el-form-item label="body" label-width="100px">
+              <el-input v-model="dataInfo.responseBody" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }" v-show="!isResBodyBeauty"></el-input>
+              <json-viewer :value="dataInfo.responseBody" :expand-depth=5 copyable v-show="isResBodyBeauty"></json-viewer>
+            </el-form-item>
+            </el-col>
+            <el-col :span="1">
+              <el-button @click="clickResBody" type="danger" icon="el-icon-magic-stick" size="mini" circle></el-button>
+            </el-col>
+          </el-row>       
           </el-collapse-item>
           <el-collapse-item title="断言信息">
             <el-table :data="assertInfo" stripe highlight-current-row style="width: 100%">
@@ -158,13 +206,13 @@
                       <span>{{ props.row.expression }}</span>
                     </el-form-item><br/>
                     <el-form-item label="预期结果:">
-                      <el-input :value="props.row.exceptedResult" readonly  type="textarea" :autosize="{ minRows: 0, maxRows: 6 }"></el-input>
+                      <el-input :value="props.row.exceptedResult" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }"></el-input>
                     </el-form-item><br/>
                     <el-form-item label="比较类型:">
                       <span>{{ props.row.operator }}</span>
                     </el-form-item><br/>
                     <el-form-item label="实际结果:">
-                      <el-input :value="props.row.actualResult" readonly  type="textarea" :autosize="{ minRows: 0, maxRows: 6 }"></el-input>
+                      <el-input :value="props.row.actualResult" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }"></el-input>
                     </el-form-item>
                     <br />
                     <el-form-item label="错误信息:" v-if="props.row.status=='错误'">
@@ -201,6 +249,14 @@ import {
 export default {
   data() {
     return {
+      isResHeadersBeauty: false,
+      isResBodyBeauty: false,
+
+      isReqHeadersBeauty: false,
+      isReqParamsBeauty: false,
+      isReqDataBeauty: false,
+      isReqJsonBeauty: false,
+
       detailDialogFormVisible: false,
       queryForm: {},
       total: 0,
@@ -232,6 +288,91 @@ export default {
     this.selectInterfaceCaseExecuteLogList(this.queryForm);
   },
   methods: {
+    async clickResHeaders() {
+      this.isResHeadersBeauty = !this.isResHeadersBeauty
+      if (this.dataInfo.responseHeaders != null) {
+        if (this.isResHeadersBeauty) {
+          if (typeof(this.dataInfo.responseHeaders) == 'string') {
+            this.dataInfo.responseHeaders = JSON.parse(this.dataInfo.responseHeaders)
+          }
+        } else {
+          if (typeof(this.dataInfo.responseHeaders) == 'object') {
+            this.dataInfo.responseHeaders = JSON.stringify(this.dataInfo.responseHeaders)
+          }
+        }
+      }
+    },
+    async clickResBody() {
+      this.isResBodyBeauty = !this.isResBodyBeauty
+      if (this.dataInfo.responseBody != null) {
+        if (this.isResBodyBeauty) {
+          if (typeof(this.dataInfo.responseBody) == 'string') {
+            this.dataInfo.responseBody = JSON.parse(this.dataInfo.responseBody)
+          }
+        } else {
+          if (typeof(this.dataInfo.responseBody) == 'object') {
+            this.dataInfo.responseBody = JSON.stringify(this.dataInfo.responseBody)
+          }
+        }
+      }
+    },
+    async clickReqHeaders() {
+      this.isReqHeadersBeauty = !this.isReqHeadersBeauty
+      if (this.dataInfo.requestHeaders != null) {
+      if (this.isReqHeadersBeauty) {
+        if (typeof(this.dataInfo.requestHeaders) == 'string') {
+          this.dataInfo.requestHeaders = JSON.parse(this.dataInfo.requestHeaders)
+        }
+      } else {
+        if (typeof(this.dataInfo.requestHeaders) == 'object') {
+          this.dataInfo.requestHeaders = JSON.stringify(this.dataInfo.requestHeaders)
+        }
+      }
+      }
+
+    },
+    async clickReqParams() {
+      this.isReqParamsBeauty = !this.isReqParamsBeauty
+      if (this.dataInfo.requestParams != null) {
+        if (this.isReqParamsBeauty) {
+          if (typeof(this.dataInfo.requestParams) == 'string') {
+            this.dataInfo.requestParams = JSON.parse(this.dataInfo.requestParams)
+          }
+        } else {
+          if (typeof(this.dataInfo.requestParams) == 'object') {
+            this.dataInfo.requestParams = JSON.stringify(this.dataInfo.requestParams)
+          }
+        }
+      }
+    },
+    async clickReqData() {
+      this.isReqDataBeauty = !this.isReqDataBeauty
+      if (this.dataInfo.requestData != null) {
+        if (this.isReqDataBeauty) {
+          if (typeof(this.dataInfo.requestData) == 'string') {
+            this.dataInfo.requestData = JSON.parse(this.dataInfo.requestData)
+          }
+        } else {
+          if (typeof(this.dataInfo.requestData) == 'object') {
+            this.dataInfo.requestData = JSON.stringify(this.dataInfo.requestData)
+          }
+        }
+      }
+    },
+    async clickReqJson() {
+      this.isReqJsonBeauty = !this.isReqJsonBeauty
+      if (this.JsonInfo.requestJson != null) {
+        if (this.isReqJsonBeauty) {
+          if (typeof(this.JsonInfo.requestJson) == 'string') {
+            this.JsonInfo.requestJson = JSON.parse(this.JsonInfo.requestJson)
+          }
+        } else {
+          if (typeof(this.JsonInfo.requestJson) == 'object') {
+            this.JsonInfo.requestJson = JSON.stringify(this.JsonInfo.requestJson)
+          }
+        }
+      }
+    },
     async selectInterfaceCaseExecuteLogList(queryForm) {
       queryForm["pageNum"] = this.pageNum;
       queryForm["pageSize"] = this.pageSize;
@@ -262,6 +403,14 @@ export default {
       }
     },
     async handleDetail(relyId) {
+      this.isResHeadersBeauty = false
+      this.isResBodyBeauty = false
+
+      this.isReqHeadersBeauty = false
+      this.isReqParamsBeauty = false
+      this.isReqDataBeauty = false
+      this.isReqJsonBeauty = false
+
       const res = await findInterfaceCaseExecuteLog(relyId)
       if (res.code == 200) {
           let data = res.data

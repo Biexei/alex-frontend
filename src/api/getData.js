@@ -241,3 +241,51 @@ export const findInterfaceCaseByCaseId = interfaceCaseId => HttpRequest.get('/in
  * 执行接口测试用例
 */ 
 export const executeInterfaceCase = interfaceCaseId => HttpRequest.get('/interface/case/execute/' + interfaceCaseId)
+
+
+
+
+/**
+ * 新增测试套件
+*/ 
+export const saveInterfaceCaseSuite = data => HttpRequest.post('/interface/suite/save', data)
+
+/**
+ * 修改测试套件
+*/ 
+export const modifyInterfaceCaseSuite = data => HttpRequest.post('/interface/suite/modify', data)
+
+/**
+ * 删除测试套件
+ */
+export const removeInterfaceCaseSuiteById = suiteId => HttpRequest.get('/interface/suite/remove/' + suiteId)
+
+/**
+ * 查看测试套件详情
+ */
+export const findInterfaceCaseSuiteById = suiteId => HttpRequest.get('/interface/suite/' + suiteId)
+
+/**
+ * 查看测试套件列表
+*/ 
+export const findInterfaceCaseSuite = data => HttpRequest.get('/interface/suite', data)
+
+/**
+ * 测试套件新增用例
+ */
+export const saveSuiteCase = data => HttpRequest.post('/interface/suite/case/save', data, true, true)
+
+/**
+ * 测试套件删除用例
+ */
+export const removeSuiteCase = id => HttpRequest.get('/interface/suite/remove/' + id)
+
+/**
+ * 查看测试套件包含的测试用例
+ */
+export const findSuiteCaseList = data => HttpRequest.get('/interface/suite/case', data)
+
+/**
+ * 执行测试套件
+ */
+export const executeSuiteCase = suiteId => HttpRequest.get('/interface/suite/execute/' + suiteId)
