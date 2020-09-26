@@ -286,9 +286,19 @@ export const modifySuiteCase = data => HttpRequest.post('/interface/suite/case/m
 export const removeSuiteCase = id => HttpRequest.get('/interface/suite/case/remove/' + id)
 
 /**
+ * 测试套件删除用例
+ */
+export const removeSuiteCaseByObject = data => HttpRequest.post('/interface/suite/case/remove', data)
+
+/**
  * 查看测试套件包含的测试用例
  */
 export const findSuiteCaseList = data => HttpRequest.get('/interface/suite/case', data)
+
+/**
+ * 查看测试套件包含的所有测试用例
+ */
+export const findAllSuiteCase = data => HttpRequest.get('/interface/suite/case/all', data)
 
 /**
  * 执行测试套件

@@ -468,7 +468,7 @@ export default {
       this.caseQueryForm = {}
       this.casePageSize = 5
       this.casePageNum = 1
-      this.getCaseList(this.queryForm)
+      this.getCaseList(this.caseQueryForm)
     }    
   }
 }

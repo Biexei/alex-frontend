@@ -164,7 +164,7 @@
         <el-collapse>
         <el-collapse-item title="基本信息">
           <el-form-item label="*项目编号" label-width="100px">
-            <el-input readonly v-model="dataAdd.projectId" @focus='handleProjectModuleList' size="small" placeholder="请点击选择"></el-input>
+            <el-input readonly v-model="dataAdd.projectId" @focus='handleProjectModuleList' size="small" disabled></el-input>
           </el-form-item>
           <el-form-item label="*项目名称" label-width="100px">
             <el-input readonly v-model="dataAdd.projectName" @focus='handleProjectModuleList' size="small" disabled></el-input>
@@ -173,7 +173,7 @@
             <el-input readonly v-model="dataAdd.moduleId" @focus='handleProjectModuleList' size="small" disabled></el-input>
           </el-form-item>
           <el-form-item label="*模块名称" label-width="100px">
-            <el-input readonly v-model="dataAdd.moduleName" @focus='handleProjectModuleList' size="small" disabled></el-input>
+            <el-input readonly v-model="dataAdd.moduleName" @focus='handleProjectModuleList' size="small" placeholder="请点击选择"></el-input>
           </el-form-item>
           <el-form-item label="*用例名称" label-width="100px">
             <el-input v-model="dataAdd.desc" size="small"></el-input>
@@ -412,7 +412,7 @@
         <el-collapse>
         <el-collapse-item title="基本信息">
           <el-form-item label="*项目编号" label-width="100px">
-            <el-input readonly v-model="dataInfo.projectId" @focus='handleProjectModuleList' size="small" placeholder="请点击选择"></el-input>
+            <el-input readonly v-model="dataInfo.projectId" @focus='handleProjectModuleList' size="small" disabled></el-input>
           </el-form-item>
           <el-form-item label="*项目名称" label-width="100px">
             <el-input readonly v-model="dataInfo.projectName" @focus='handleProjectModuleList' size="small" disabled></el-input>
@@ -421,7 +421,7 @@
             <el-input readonly v-model="dataInfo.moduleId" @focus='handleProjectModuleList' size="small" disabled></el-input>
           </el-form-item>
           <el-form-item label="*模块名称" label-width="100px">
-            <el-input readonly v-model="dataInfo.moduleName" @focus='handleProjectModuleList' size="small" disabled></el-input>
+            <el-input readonly v-model="dataInfo.moduleName" @focus='handleProjectModuleList' size="small"  placeholder="请点击选择"></el-input>
           </el-form-item>
           <el-form-item label="*用例名称" label-width="100px">
             <el-input v-model="dataInfo.desc" size="small"></el-input>
@@ -620,7 +620,7 @@
         <el-collapse>
         <el-collapse-item title="基本信息">
           <el-form-item label="*项目编号" label-width="100px">
-            <el-input readonly v-model="dataInfo.projectId" @focus='handleProjectModuleList' size="small" placeholder="请点击选择"></el-input>
+            <el-input readonly v-model="dataInfo.projectId" @focus='handleProjectModuleList' size="small" disabled></el-input>
           </el-form-item>
           <el-form-item label="*项目名称" label-width="100px">
             <el-input readonly v-model="dataInfo.projectName" @focus='handleProjectModuleList' size="small" disabled></el-input>
@@ -629,7 +629,7 @@
             <el-input readonly v-model="dataInfo.moduleId" @focus='handleProjectModuleList' size="small" disabled></el-input>
           </el-form-item>
           <el-form-item label="*模块名称" label-width="100px">
-            <el-input readonly v-model="dataInfo.moduleName" @focus='handleProjectModuleList' size="small" disabled></el-input>
+            <el-input readonly v-model="dataInfo.moduleName" @focus='handleProjectModuleList' size="small" placeholder="请点击选择"></el-input>
           </el-form-item>
           <el-form-item label="*用例名称" label-width="100px">
             <el-input v-model="dataInfo.desc" size="small"></el-input>
