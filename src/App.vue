@@ -1,6 +1,6 @@
 <template>
     <div id="app" class="fillcontain">
-		    <router-view></router-view>
+		    <router-view :key="$route.name + ($route.params.suiteId || '')"></router-view>
     </div>
 </template>
 

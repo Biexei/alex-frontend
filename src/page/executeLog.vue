@@ -126,7 +126,7 @@
             <el-col :span="22">
             <el-form-item label="headers" label-width="100px">
               <el-input v-model="dataInfo.requestHeaders" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }" v-show="!isReqHeadersBeauty"></el-input>
-              <json-viewer :value="dataInfo.requestHeaders" :expand-depth=5 copyable v-show="isReqHeadersBeauty"></json-viewer>
+              <json-viewer :value="dataInfo.requestHeaders" :expand-depth=5 copyable v-show="isReqHeadersBeauty"/>
             </el-form-item>
             </el-col>
             <el-col :span="1">
@@ -137,7 +137,7 @@
             <el-col :span="22">
             <el-form-item label="params" label-width="100px">
               <el-input v-model="dataInfo.requestParams" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }" v-show="!isReqParamsBeauty"></el-input>
-              <json-viewer :value="dataInfo.requestParams" :expand-depth=5 copyable v-show="isReqParamsBeauty"></json-viewer>
+              <json-viewer :value="dataInfo.requestParams" :expand-depth=5 copyable v-show="isReqParamsBeauty"/>
             </el-form-item>
             </el-col>
             <el-col :span="1">
@@ -148,7 +148,7 @@
             <el-col :span="22">
             <el-form-item label="data" label-width="100px">
               <el-input v-model="dataInfo.requestData" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }" v-show="!isReqDataBeauty"></el-input>
-              <json-viewer :value="dataInfo.requestData" :expand-depth=5 copyable v-show="isReqDataBeauty"></json-viewer>
+              <json-viewer :value="dataInfo.requestData" :expand-depth=5 copyable v-show="isReqDataBeauty"/>
             </el-form-item>
             </el-col>
             <el-col :span="1">
@@ -159,7 +159,7 @@
             <el-col :span="22">
             <el-form-item label="json" label-width="100px">
               <el-input v-model="dataInfo.requestJson" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }" v-show="!isReqJsonBeauty"></el-input>
-              <json-viewer :value="dataInfo.requestJson" :expand-depth=5 copyable v-show="isReqJsonBeauty"></json-viewer>
+              <json-viewer :value="dataInfo.requestJson" :expand-depth=5 copyable v-show="isReqJsonBeauty"/>
             </el-form-item>
             </el-col>
             <el-col :span="1">
@@ -175,7 +175,7 @@
             <el-col :span="22">
             <el-form-item label="headers" label-width="100px">
               <el-input v-model="dataInfo.responseHeaders" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }" v-show="!isResHeadersBeauty"></el-input>
-              <json-viewer :value="dataInfo.responseHeaders" :expand-depth=5 copyable v-show="isResHeadersBeauty"></json-viewer>
+              <json-viewer :value="dataInfo.responseHeaders" :expand-depth=5 copyable v-show="isResHeadersBeauty"/>
             </el-form-item>
             </el-col>
             <el-col :span="1">
@@ -186,7 +186,7 @@
             <el-col :span="22">
             <el-form-item label="body" label-width="100px">
               <el-input v-model="dataInfo.responseBody" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }" v-show="!isResBodyBeauty"></el-input>
-              <json-viewer :value="dataInfo.responseBody" :expand-depth=5 copyable v-show="isResBodyBeauty"></json-viewer>
+              <json-viewer :value="dataInfo.responseBody" :expand-depth=5 copyable v-show="isResBodyBeauty"/>
             </el-form-item>
             </el-col>
             <el-col :span="1">

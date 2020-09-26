@@ -33,7 +33,7 @@
         <el-table-column property="suiteName" label="名称" min-width="15%"></el-table-column>
         <el-table-column property="desc" label="描述" min-width="15%"></el-table-column>
         <el-table-column property="creator" label="创建人" min-width="15%"></el-table-column>
-        <el-table-column property="createdTime" label="创建时间" min-width="15%"></el-table-column>
+        <el-table-column property="createdTime" label="创建时间" min-width="15%" ></el-table-column>
         <el-table-column property="executeType" label="执行方式" min-width="10%">
           <template slot-scope="scope">
             <el-tag
@@ -46,6 +46,13 @@
         <el-table-column fixed="right" label="操作" min-width="20%">
           <template slot-scope="scope">
             <el-button
+              @click="handleExecute(scope.row.suiteId)"
+              type="success"
+              size="small"
+              :icon="executeIconStyle"
+              circle
+            ></el-button>
+            <el-button
               @click="handleEdit(scope.row.suiteId)"
               type="primary"
               size="small"
@@ -54,9 +61,9 @@
             ></el-button>
             <el-button
               @click="handleManager(scope.row.suiteId)"
-              type="primary"
+              type="warning"
               size="small"
-              icon="el-icon-s-management"
+              icon="el-icon-position"
               circle
             ></el-button>
             <el-button
@@ -80,86 +87,62 @@
           :total="total"
         ></el-pagination>
       </div>
-<!-- 
+
       <el-dialog title="编辑" :visible.sync="editDialogFormVisible">
         <el-form :model="dataInfo">
           <el-form-item label="*名称" label-width="100px">
-            <el-input v-model="dataInfo.name" size='small'></el-input>
+            <el-input v-model="dataInfo.suiteName" size='small'></el-input>
           </el-form-item>
-          <el-form-item label="*类型" label-width="100px">
-            <el-select v-model="dataInfo.type" size='small'>
+          <el-form-item label="*执行方式" label-width="100px">
+            <el-select v-model="dataInfo.executeType" size='small'>
               <el-option
-                v-for="item in dbTypeOptions"
+                v-for="item in executeTypeOptions"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="*URL" label-width="100px">
-            <el-input v-model="dataInfo.url" size='small'></el-input>
-          </el-form-item>
-          <el-form-item label="*帐号" label-width="100px">
-            <el-input v-model="dataInfo.username" size='small'></el-input>
-          </el-form-item>
-          <el-form-item label="*密码" label-width="100px">
-            <el-input v-model="dataInfo.password" size='small'></el-input>
-          </el-form-item>
-          <el-form-item label="*状态" label-width="100px">
-            <el-radio-group v-model="dataInfo.status" size='small'>
-              <el-radio :label="0">启用</el-radio>
-              <el-radio :label="1">禁用</el-radio>
-            </el-radio-group>
-          </el-form-item>
           <el-form-item label="描述" label-width="100px">
             <el-input v-model="dataInfo.desc" size='small'></el-input>
           </el-form-item>  
+          <el-form-item label="创建人" label-width="100px">
+            <el-input v-model="dataInfo.creator" size='small'></el-input>
+          </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="editDialogFormVisible = false" size="small">取 消</el-button>
-          <el-button type="primary" @click="updateDb" size="small">确 定</el-button>
+          <el-button type="primary" @click="updateSuite" size="small">确 定</el-button>
         </div>
       </el-dialog>
 
       <el-dialog title="添加" :visible.sync="addDialogFormVisible">
         <el-form :model="dataAdd" ref="dataAdd">
           <el-form-item label="*名称" label-width="100px">
-            <el-input v-model="dataAdd.name" size='small'></el-input>
+            <el-input v-model="dataAdd.suiteName" size='small'></el-input>
           </el-form-item>
-          <el-form-item label="*类型" label-width="100px">
-            <el-select v-model="dataAdd.type" size='small'>
+          <el-form-item label="*执行方式" label-width="100px">
+            <el-select v-model="dataAdd.executeType" size='small'>
               <el-option
-                v-for="item in dbTypeOptions"
+                v-for="item in executeTypeOptions"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="*URL" label-width="100px">
-            <el-input v-model="dataAdd.url" size='small'></el-input>
-          </el-form-item>
-          <el-form-item label="*帐号" label-width="100px">
-            <el-input v-model="dataAdd.username" size='small'></el-input>
-          </el-form-item>
-          <el-form-item label="*密码" label-width="100px">
-            <el-input v-model="dataAdd.password" size='small'></el-input>
-          </el-form-item>
-          <el-form-item label="*状态" label-width="100px">
-            <el-radio-group v-model="dataAdd.status" size='small'>
-              <el-radio :label="0">启用</el-radio>
-              <el-radio :label="1">禁用</el-radio>
-            </el-radio-group>
-          </el-form-item>
           <el-form-item label="描述" label-width="100px">
             <el-input v-model="dataAdd.desc" size='small'></el-input>
           </el-form-item>  
+          <el-form-item label="创建人" label-width="100px">
+            <el-input v-model="dataAdd.creator" size='small'></el-input>
+          </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="addDialogFormVisible = false" size="small">取 消</el-button>
           <el-button type="primary" @click="handleAdd()" size="small">确 定</el-button>
         </div>
-      </el-dialog> -->
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -169,6 +152,7 @@ import { saveInterfaceCaseSuite,modifyInterfaceCaseSuite,removeInterfaceCaseSuit
 export default {
   data() {
     return {
+      executeIconStyle: 'el-icon-check',
       queryForm: {},
       total: 0,
       pageSize: 10,
@@ -223,7 +207,7 @@ export default {
       }
     },
     async handleAdd() {
-        const res = await saveDb(this.dataAdd);
+        const res = await saveInterfaceCaseSuite(this.dataAdd);
         if (res.code == 200) {
             this.$message({
             type: "success",
@@ -241,8 +225,8 @@ export default {
         }
     },
 
-    async handleEdit(dbId) {
-      const res = await findDbById(dbId);
+    async handleEdit(suiteId) {
+      const res = await findInterfaceCaseSuiteById(suiteId);
       if (res.code == 200) {
         this.dataInfo = res.data;
         this.editDialogFormVisible = true;
@@ -254,8 +238,8 @@ export default {
         });
       }
     },
-    async handleDelete(dbId, index) {
-      const res = await removeDb(dbId);
+    async handleDelete(suiteId, index) {
+      const res = await removeInterfaceCaseSuiteById(suiteId);
       if (res.code == 200) {
         this.$message({
           type: "success",
@@ -272,8 +256,39 @@ export default {
         });
       }
     },
-    async updateDb() {
-      const res = await modifyDb(this.dataInfo);
+    async handleExecute(suiteId, index) {
+      this.executeIconStyle = 'el-icon-loading'
+      this.$message({
+        type: "warning",
+        center: true,
+        message: '开始执行测试套件...'
+      });
+      const res = await executeSuiteCase(suiteId);
+      if (res.code == 200) {
+        this.$message({
+          type: "success",
+          center: true,
+          message: res.msg
+        });
+      } else {
+        this.$message({
+          type: "error",
+          center: true,
+          message: res.msg
+        });
+      }
+      this.executeIconStyle = 'el-icon-check'
+    },
+    async handleManager(suiteId) {
+      this.$router.push({
+        name: 'ifSuiteCaseList',
+        query: {
+          suiteId: suiteId,
+        },
+      })
+    },
+    async updateSuite() {
+      const res = await modifyInterfaceCaseSuite(this.dataInfo);
       if (res.code == 200) {
         this.$message({
           type: "success",

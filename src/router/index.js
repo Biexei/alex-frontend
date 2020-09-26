@@ -15,6 +15,7 @@ const executeLog = r => require.ensure([], () => r(require('@/page/executeLog'))
 const ifAssertLog = r => require.ensure([], () => r(require('@/page/ifAssertLog')), 'ifAssertLog');
 const ifCase = r => require.ensure([], () => r(require('@/page/ifCase')), 'ifCase');
 const ifSuite = r => require.ensure([], () => r(require('@/page/ifSuite')), 'ifSuite');
+const ifSuiteCaseList = r => require.ensure([], () => r(require('@/page/ifSuiteCaseList')), 'ifSuiteCaseList');
 
 
 export default new Router({
@@ -77,7 +78,13 @@ export default new Router({
           path: '/ifSuite',
           component: ifSuite,
           meta: ['接口测试','测试套件'],
-        },       
+        },  
+        {
+          name: 'ifSuiteCaseList',
+          path: '/ifSuiteCaseList',
+          component: ifSuiteCaseList,
+          meta: ['接口测试','测试套件','用例维护'],
+        },      
       ],
     }  
   ],

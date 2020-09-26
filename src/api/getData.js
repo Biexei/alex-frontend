@@ -276,9 +276,14 @@ export const findInterfaceCaseSuite = data => HttpRequest.get('/interface/suite'
 export const saveSuiteCase = data => HttpRequest.post('/interface/suite/case/save', data, true, true)
 
 /**
+ * 测试套件修改用例
+ */
+export const modifySuiteCase = data => HttpRequest.post('/interface/suite/case/modify', data)
+
+/**
  * 测试套件删除用例
  */
-export const removeSuiteCase = id => HttpRequest.get('/interface/suite/remove/' + id)
+export const removeSuiteCase = id => HttpRequest.get('/interface/suite/case/remove/' + id)
 
 /**
  * 查看测试套件包含的测试用例
