@@ -123,7 +123,7 @@
       style="width: 100%">
         <el-table-column property="isCheck" label="选择" min-width="8%">
           <template slot-scope="scope">
-            <el-checkbox v-model="scope.row.isCheck" :checked="scope.row.isCheck==0" @change="handleSelect(scope.row)"></el-checkbox>
+            <el-checkbox v-model="scope.row.isCheck" :checked="scope.row.isCheck" @change="handleSelect(scope.row)"></el-checkbox>
           </template>
         </el-table-column>
         <el-table-column property="caseId" label="用例编号" min-width="8%"></el-table-column>
@@ -301,12 +301,16 @@ export default {
       this.queryForm = {
           suiteId: this.suiteId
       }
+      this.caseQueryForm = {}
       this.pageSize = 10
       this.pageNum = 1
+      this.caseList = []
+      this.selectSuiteAllCase()
       this.selectSuiteCaseList(this.queryForm)
     },
     async openAdd() {
-      this.getCaseList(this.caseQueryForm);
+      this.selectSuiteAllCase()
+      this.getCaseList({});
       this.selectCaseDialogFormVisible = true;
       this.dataAdd = [];
     },
@@ -356,7 +360,7 @@ export default {
             this.$message({
               type: "error",
               center: true,
-              message: res.msg
+              message: res.msg  
             });
           }
       }
@@ -373,9 +377,12 @@ export default {
           // 列表的测试用例编号若在该测试套件下
           this.AllSuiteCase.forEach(item => {
             if (item.caseId == element.caseId) {
-              element.isCheck = 0
+              element.isCheck = true
             }
           });
+          if (element.isCheck == undefined) {
+            element.isCheck = false
+          }
           if (element.level == 0) {
             element.levelStyle = "danger";
             element.level = "高";

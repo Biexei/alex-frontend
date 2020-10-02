@@ -584,7 +584,7 @@
                     <el-col :span="5">
                         <el-input v-model="assertItem.expression" placeholder="提取表达式"  size="small"></el-input>
                     </el-col> 
-                    <el-col :span="3">
+                    <el-col :span="2">
                         <el-select v-model="assertItem.operator" size='small'>
                           <el-option
                             v-for="item in assertOperatorOptions"
@@ -594,7 +594,7 @@
                           </el-option>
                         </el-select>
                     </el-col> 
-                    <el-col :span="5">
+                    <el-col :span="6">
                         <el-input v-model="assertItem.exceptedResult" placeholder="预期结果"  size="small"></el-input>
                     </el-col> 
                     <el-col :span="2">
