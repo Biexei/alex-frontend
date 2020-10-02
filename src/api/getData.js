@@ -304,3 +304,34 @@ export const findAllSuiteCase = data => HttpRequest.get('/interface/suite/case/a
  * 执行测试套件
  */
 export const executeSuiteCase = suiteId => HttpRequest.get('/interface/suite/execute/' + suiteId)
+
+
+
+/**
+ * 查看http设置详情
+ */
+export const findHttpSettingById = settingId => HttpRequest.get('/setting/' + settingId)
+
+
+/**
+ * 查看http设置列表
+ */
+export const findHttpSetting = data => HttpRequest.get('/setting', data)
+
+
+/**
+ * 添加http设置
+ */
+export const saveHttpSetting = data => HttpRequest.post('/setting/save', data)
+
+
+/**
+ * 修改http设置
+ */
+export const modifyHttpSetting = data => HttpRequest.post('/setting/modify', data)
+
+
+/**
+ * 查看http设置详情
+ */
+export const removeHttpSettingById = settingId => HttpRequest.get('/setting/remove/' + settingId)

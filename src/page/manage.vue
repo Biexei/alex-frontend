@@ -19,6 +19,10 @@
 						<el-menu-item index="executeLog"  class="left-color"><span slot="title" class="title-color">执行日志</span></el-menu-item>
 						<el-menu-item index="ifAssertLog"  class="left-color"><span slot="title" class="title-color">断言日志</span></el-menu-item>
 					</el-submenu>
+					<el-submenu index="3"  class="left-color">
+						<template slot="title"  class="left-color"><i class="el-icon-setting"></i><span slot="title" class="title-color">配置中心</span></template>
+						<el-menu-item index="httpSetting"  class="left-color"><span slot="title" class="title-color">请求设置</span></el-menu-item>
+					</el-submenu>
 				</el-menu>
 			</el-col>
 			<el-col :span="20" style="height: 100%;overflow: auto;">
