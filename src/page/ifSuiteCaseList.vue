@@ -332,7 +332,6 @@ export default {
       return row.caseId
     },
     async handleSelect(row) {
-      console.log(row)
       if (row.isCheck) {
         // 调用新增接口
           let data = {}

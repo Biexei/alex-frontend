@@ -12,7 +12,7 @@
         <el-form-item label="用例描述" class='input'>
           <el-input v-model="queryForm.caseDesc" placeholder="用例描述" size='small'></el-input>
         </el-form-item>
-        <el-form-item label="提取方式" class='input'>
+        <el-form-item label="提取类型" class='input'>
           <el-select v-model="queryForm.contentType" clearable placeholder="请选择" size='small'>
             <el-option
               v-for="item in typeOptions"
@@ -69,7 +69,7 @@
         </template>
         </el-table-column>
         <el-table-column property="relyId" label="编号" min-width="5%"></el-table-column>
-        <el-table-column property="contentType" label="提取方式" min-width="10%">
+        <el-table-column property="contentType" label="提取类型" min-width="10%">
           <template slot-scope="scope">
             <el-tag
               effect="dark"
@@ -371,7 +371,6 @@ export default {
       this.selectCaseDialogFormVisible = true
     },
     async handleSelectCase(row){
-      console.log(row)
       this.selectCaseDialogFormVisible = false
       this.dataInfo.relyCaseId = row.caseId;
       this.dataInfo.caseDesc = row.desc;

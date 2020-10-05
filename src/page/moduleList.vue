@@ -18,12 +18,12 @@
     </div>
     <div class="table_container">
       <el-table :data="dataList" stripe highlight-current-row style="width: 100%">
-        <el-table-column property="moduleId" label="模块编号" min-width="20%"></el-table-column>
-        <el-table-column property="moduleName" label="模块名称" min-width="20%"></el-table-column>
-        <el-table-column property="projectName" label="项目名称" min-width="20%"></el-table-column>
-        <el-table-column property="desc" label="模块描述" min-width="20%"></el-table-column>
-        <el-table-column property="createdTime" label="创建时间" min-width="20%"></el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="20%">
+        <el-table-column property="moduleId" label="模块编号" min-width="21%"></el-table-column>
+        <el-table-column property="moduleName" label="模块名称" min-width="21%"></el-table-column>
+        <el-table-column property="projectName" label="项目名称" min-width="21%"></el-table-column>
+        <el-table-column property="desc" label="模块描述" min-width="21%"></el-table-column>
+        <el-table-column property="createdTime" label="创建时间" min-width="21%"></el-table-column>
+        <el-table-column fixed="right" label="操作" min-width="15%">
           <template slot-scope="scope">
             <el-button
               @click="handleEdit(scope.row.moduleId)"

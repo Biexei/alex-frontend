@@ -10,7 +10,7 @@
 					<el-submenu index="1"  class="left-color">
 						<template slot="title"  class="left-color"><i class="el-icon-more"></i><span slot="title" class="title-color">数据中心</span></template>
 						<el-menu-item index="ifRelyData"  class="left-color"><span slot="title" class="title-color">接口依赖</span></el-menu-item>
-						<el-menu-item index="relyData"  class="left-color"><span slot="title" class="title-color">自定义依赖</span></el-menu-item>
+						<el-menu-item index="relyData"  class="left-color"><span slot="title" class="title-color">其它依赖</span></el-menu-item>
 					</el-submenu>
 					<el-submenu index="2"  class="left-color">
 						<template slot="title"  class="left-color"><i class="el-icon-suitcase-1"></i><span slot="title" class="title-color">接口测试</span></template>
@@ -21,7 +21,8 @@
 					</el-submenu>
 					<el-submenu index="3"  class="left-color">
 						<template slot="title"  class="left-color"><i class="el-icon-setting"></i><span slot="title" class="title-color">配置中心</span></template>
-						<el-menu-item index="httpSetting"  class="left-color"><span slot="title" class="title-color">请求设置</span></el-menu-item>
+						<el-menu-item index="httpSetting"  class="left-color"><span slot="title" class="title-color">全局配置</span></el-menu-item>
+						<el-menu-item index="task"  class="left-color"><span slot="title" class="title-color">定时任务</span></el-menu-item>
 					</el-submenu>
 				</el-menu>
 			</el-col>

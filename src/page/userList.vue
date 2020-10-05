@@ -25,7 +25,7 @@
         <el-table-column property="username" label="用户名" min-width="15%"></el-table-column>
         <el-table-column property="sex" label="性别" min-width="15%"></el-table-column>
         <el-table-column property="realName" label="真实姓名" min-width="15%"></el-table-column>
-        <el-table-column property="createdTime" label="注册时间" min-width="15%"></el-table-column>
+        <el-table-column property="createdTime" label="注册时间" min-width="20%"></el-table-column>
         <el-table-column property="isEnable" label="状态" min-width="15%">
           <template slot-scope="scope">
             <el-tag
@@ -35,7 +35,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="20%">
+        <el-table-column fixed="right" label="操作" min-width="15%">
           <template slot-scope="scope">
             <el-button
               @click="handleEdit(scope.row.userId)"
@@ -249,7 +249,6 @@ export default {
       query["pageNum"] = this.pageNum;
       query["pageSize"] = this.pageSize;
       const res = await userList(query);
-      console.log(res);
       if (res.code == 200) {
         this.tableData = [];
         this.total = res.data.total;
@@ -265,7 +264,11 @@ export default {
           this.tableData.push(user);
         });
       } else {
-        console.log(res.msg);
+        this.$message({
+          type:"error",
+          center: true,
+          message:res.msg
+        });
       }
     }
   }

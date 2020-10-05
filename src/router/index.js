@@ -17,6 +17,7 @@ const ifCase = r => require.ensure([], () => r(require('@/page/ifCase')), 'ifCas
 const ifSuite = r => require.ensure([], () => r(require('@/page/ifSuite')), 'ifSuite');
 const ifSuiteCaseList = r => require.ensure([], () => r(require('@/page/ifSuiteCaseList')), 'ifSuiteCaseList');
 const httpSetting = r => require.ensure([], () => r(require('@/page/httpSetting')), 'httpSetting');
+const task = r => require.ensure([], () => r(require('@/page/task')), 'task');
 
 
 export default new Router({
@@ -58,7 +59,7 @@ export default new Router({
         {
           path: '/relyData',
           component: relyData,
-          meta: ['数据中心','自定义依赖'],
+          meta: ['数据中心','其它依赖'],
         },   
         {
           path: '/executeLog',
@@ -89,7 +90,12 @@ export default new Router({
         {
           path: '/httpSetting',
           component: httpSetting,
-          meta: ['配置中心','接口请求'],
+          meta: ['配置中心','全局配置'],
+        },    
+        {
+          path: '/task',
+          component: task,
+          meta: ['配置中心','定时任务'],
         },      
       ],
     }  

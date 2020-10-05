@@ -32,8 +32,8 @@
         <el-table-column property="id" label="编号" min-width="5%"></el-table-column>
         <el-table-column property="name" label="名称" min-width="10%"></el-table-column>
         <el-table-column property="value" label="固定值/方法声明/SQL" min-width="25%"></el-table-column>
-        <el-table-column property="desc" label="描述" min-width="30%"></el-table-column>
-        <el-table-column property="type" label="类型" min-width="10%">
+        <el-table-column property="desc" label="描述" min-width="35%"></el-table-column>
+        <el-table-column property="type" label="类型" min-width="12%">
           <template slot-scope="scope">
             <el-tag
               effect="dark"
@@ -42,7 +42,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="20%">
+        <el-table-column fixed="right" label="操作" min-width="13%">
           <template slot-scope="scope">
             <el-button
               @click="handleEdit(scope.row.id)"

@@ -48,6 +48,7 @@
           <template slot-scope="scope">
             <el-tag effect="dark" disable-transitions v-if="scope.row.type==0" >Proxy</el-tag>
             <el-tag effect="dark" disable-transitions v-else-if="scope.row.type==1" type="success">Header</el-tag>
+            <el-tag effect="dark" disable-transitions v-else-if="scope.row.type==2" type="warning">Email</el-tag>
           </template>
         </el-table-column>
         <el-table-column property="createdTime" label="创建时间" min-width="15%"></el-table-column>
@@ -183,6 +184,10 @@ export default {
         {
           value: 1,
           label: 'Header'
+        },
+        {
+          value: 2,
+          label: 'Email'
         },
       ],
       statusOptions:[

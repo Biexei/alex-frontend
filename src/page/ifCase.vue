@@ -182,7 +182,7 @@
             <el-input v-model="dataAdd.doc" size="small"></el-input>
           </el-form-item>
           <el-form-item label="*用例等级" label-width="100px">
-            <el-select v-model="dataAdd.level" placeholder="请选择"  size="small">
+            <el-select v-model="dataAdd.level" placeholder="请选择"  size="small" >
               <el-option
                 v-for="item in levelOptions"
                 :key="item.value"

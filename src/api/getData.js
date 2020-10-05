@@ -332,6 +332,48 @@ export const modifyHttpSetting = data => HttpRequest.post('/setting/modify', dat
 
 
 /**
- * 查看http设置详情
+ * 删除http设置
  */
 export const removeHttpSettingById = settingId => HttpRequest.get('/setting/remove/' + settingId)
+
+
+
+/**
+ * 定时任务列表
+ */
+export const findTaskList = data => HttpRequest.get('/task/list', data)
+
+/**
+ * 定时任务详情
+ */
+export const findTaskById = taskId => HttpRequest.get('/task/' + taskId)
+
+/**
+ * 新增定时任务
+ */
+export const saveTaskAndRef = data => HttpRequest.post('/task/save', data, true, true)
+
+/**
+ * 修改定时任务
+ */
+export const modifyTask = data => HttpRequest.post('/task/modify', data, true, true)
+
+/**
+ * 删除定时任务
+ */
+export const removeTask = taskId => HttpRequest.get('/task/remove/' + taskId)
+
+/**
+ * 定时任务添加邮箱
+ */
+export const saveTaskEmailRef = data => HttpRequest.post('/task/ref/save', data)
+
+/**
+ * 定时任务删除邮箱
+ */
+export const removeTaskEmailRef = data => HttpRequest.get('/task/ref/remove', data)
+
+/**
+ * 查询所有邮箱
+ */
+export const findAllEmail = () => HttpRequest.get('/setting/email/all')
