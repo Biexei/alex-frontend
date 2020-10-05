@@ -235,6 +235,7 @@ export default {
           message: res.msg
         });
         this.editDialogFormVisible = false;
+        this.getUserList(this.query);
       } else {
         this.$message({
           type: "error",
@@ -243,7 +244,6 @@ export default {
         });
         this.editDialogFormVisible = true;
       }
-      this.getUserList(this.query);
     },
     async getUserList(query) {
       query["pageNum"] = this.pageNum;

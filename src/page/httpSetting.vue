@@ -298,6 +298,7 @@ export default {
       const res = await modifyHttpSetting(row);
       if (res.code == 200) {
         this.editDialogFormVisible = false;
+        this.selectSettingList(this.queryForm);
       } else {
         this.$message({
           type: "error",
@@ -305,7 +306,6 @@ export default {
           message: res.msg
         });
       }
-      this.selectSettingList(this.queryForm);
     },
     handleSizeChange(pageSize) {
       this.pageSize = pageSize;

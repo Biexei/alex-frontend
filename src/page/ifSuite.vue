@@ -290,12 +290,13 @@ export default {
     async updateSuite() {
       const res = await modifyInterfaceCaseSuite(this.dataInfo);
       if (res.code == 200) {
+        this.editDialogFormVisible = false;
+        this.selectSuiteList(this.queryForm);
         this.$message({
           type: "success",
           center: true,
           message: res.msg
         });
-        this.editDialogFormVisible = false;
       } else {
         this.$message({
           type: "error",
@@ -304,7 +305,6 @@ export default {
         });
         this.editDialogFormVisible = true;
       }
-      this.selectSuiteList(this.queryForm);
     },
     handleSizeChange(pageSize) {
       this.pageSize = pageSize;

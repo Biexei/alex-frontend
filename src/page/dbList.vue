@@ -320,6 +320,7 @@ export default {
           message: res.msg
         });
         this.editDialogFormVisible = false;
+        this.selectDbList(this.queryForm);
       } else {
         this.$message({
           type: "error",
@@ -328,7 +329,6 @@ export default {
         });
         this.editDialogFormVisible = true;
       }
-      this.selectDbList(this.queryForm);
     },
     handleSizeChange(pageSize) {
       this.pageSize = pageSize;

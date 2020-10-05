@@ -388,6 +388,7 @@ export default {
       const res = await modifyTask(row);
       if (res.code == 200) {
         this.editDialogFormVisible = false;
+        this.selectTaskList(this.queryForm);
       } else {
         this.$message({
           type: "error",
@@ -395,7 +396,6 @@ export default {
           message: res.msg
         });
       }
-      this.selectTaskList(this.queryForm);
     },
 
     handleSuiteSizeChange(pageSize) {

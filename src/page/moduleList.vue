@@ -224,6 +224,7 @@ export default {
           message: res.msg
         });
         this.editDialogFormVisible = false;
+        this.selectModuleList(this.queryForm);
       } else {
         this.$message({
           type: "error",
@@ -232,7 +233,6 @@ export default {
         });
         this.editDialogFormVisible = true;
       }
-      this.selectModuleList(this.queryForm);
     },
     handleSizeChange(pageSize) {
       this.pageSize = pageSize;

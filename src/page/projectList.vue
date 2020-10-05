@@ -189,6 +189,7 @@ export default {
           message: res.msg
         });
         this.editDialogFormVisible = false;
+        this.selectProjectList(this.queryForm);
       } else {
         this.$message({
           type: "error",
@@ -197,7 +198,6 @@ export default {
         });
         this.editDialogFormVisible = true;
       }
-      this.selectProjectList(this.queryForm);
     },
     handleSizeChange(pageSize) {
       this.pageSize = pageSize;

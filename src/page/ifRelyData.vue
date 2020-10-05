@@ -419,13 +419,13 @@ export default {
       }
       const res = await modifyIfRelyData(modifyData);
       if (res.code == 200) {
+        this.editDialogFormVisible = false;
+        this.selectIfRelyDataList({});
         this.$message({
           type: "success",
           center: true,
           message: res.msg
         });
-      this.editDialogFormVisible = false;
-      this.selectIfRelyDataList({});
       } else {
         this.$message({
           type: "error",

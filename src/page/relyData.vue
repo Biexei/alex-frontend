@@ -460,6 +460,7 @@ export default {
           message: res.msg
         });
         this.editDialogFormVisible = false;
+        this.selectRelyDataList(this.queryForm);
       } else {
         this.$message({
           type: "error",
@@ -468,7 +469,6 @@ export default {
         });
         this.editDialogFormVisible = true;
       }
-      this.selectRelyDataList(this.queryForm);
     },
     handleSizeChange(pageSize) {
       this.pageSize = pageSize;
