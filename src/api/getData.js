@@ -12,6 +12,11 @@ export const login = data => HttpRequest.post('/user/login', data);
 export const userList = data => HttpRequest.get('/user/list', data);
 
 /**
+ * 用户列表
+ */
+export const logout = () => HttpRequest.get('/user/logout');
+
+/**
  * 删除用户
  */
 export const deleteUser = userId => HttpRequest.get('/user/remove/' + userId)

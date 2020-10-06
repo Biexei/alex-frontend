@@ -6,10 +6,13 @@
 		</el-breadcrumb>
 		<div class="btn-div">
 		<el-tooltip effect="dark" content="Json格式化" placement="left-end">
-			<el-button @click=handleBeautyJson size="mini" plain type="primary">Json</el-button>
+			<el-button @click=handleBeautyJson size="mini" circle type="primary" icon="el-icon-s-promotion"></el-button>
 		</el-tooltip>
 		<el-tooltip effect="dark" content="XML格式化" placement="left-end">
-			<el-button @click=handleBeautyXml size="mini" plain type="primary">XML</el-button>
+			<el-button @click=handleBeautyXml size="mini" circle type="primary" icon="el-icon-close"></el-button>
+		</el-tooltip>
+		<el-tooltip effect="dark" content="注销" placement="left-end">
+			 <el-button type="danger" icon="el-icon-switch-button" circle size="mini" @click=logout></el-button>
 		</el-tooltip>
 		</div>
 		<el-drawer title="json格式化" 
@@ -37,6 +40,7 @@
 <script>
 	import {baseImgPath} from '@/config/env'
 	import vkbeautify from 'vkbeautify'
+	import { logout } from "@/api/getData";
 
     export default {
     	data(){
@@ -48,10 +52,14 @@
 				jsonObject: {},
 				xmlText: '',
 				xmlBeautyText: '',
+				userRealName: "",
     		}
 		},
 		components: {
 
+		},
+		mounted() {
+			this.getUserRealName();
 		},
 		methods:{
 			async handleBeautyJson() {
@@ -66,6 +74,24 @@
 			async xml2beauty() {
 				this.xmlBeautyText = vkbeautify.xml(this.xmlText)
 			},
+			async getUserRealName() {
+				let userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
+				if (userInfo) {
+					this.userRealName  = userInfo.realName
+				}
+			},
+			async logout() {
+				const res = await logout()
+				if (res.code == 200) {
+					this.$router.push('/');
+				} else {
+					this.$message({
+					type: "error",
+					center: true,
+					message: res.msg
+					})
+				}
+			}
 		},
     }
 </script>
