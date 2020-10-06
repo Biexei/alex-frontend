@@ -69,18 +69,20 @@
                 :value="props.row.exceptedResult"
                 readonly
                 type="textarea"
+                size="mini"
                 :autosize="{ minRows: 0, maxRows: 6 }"
                 ></el-input>
             </el-form-item>
             <br />
             <el-form-item label="比较类型:">
-                <el-input  :value="props.row.operator" readonly></el-input>
+                <el-input  :value="props.row.operator" readonly size="mini"></el-input>
             </el-form-item>
             <br />
             <el-form-item label="实际结果:">
                 <el-input
                 :value="props.row.actualResult"
                 readonly
+                size="mini"
                 type="textarea"
                 :autosize="{ minRows: 0, maxRows: 6 }"
                 ></el-input>
