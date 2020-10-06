@@ -47,6 +47,9 @@
 					if (valid) {
 						const res = await login(this.loginForm)
 						if (res.code == 200) {
+							sessionStorage.setItem("isLogin", true);
+							let userInfo = JSON.stringify(res.data)
+							sessionStorage.setItem("userInfo", userInfo);
 							this.$router.push('manage');
 						}else{
 							this.$message({

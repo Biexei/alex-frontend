@@ -135,7 +135,7 @@
             <el-input v-model="dataAdd.desc" size='small'></el-input>
           </el-form-item>  
           <el-form-item label="创建人" label-width="100px">
-            <el-input v-model="dataAdd.creator" size='small'></el-input>
+            <el-input v-model="dataAdd.creator" size='small' disabled></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -315,8 +315,10 @@ export default {
       this.selectSuiteList(this.queryForm);
     },
     async openAdd() {
+      let userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
       this.addDialogFormVisible = true;
       this.dataAdd = {};
+      this.dataAdd.creator = userInfo.realName
     },
     async resetForm() {
       this.queryForm = {}

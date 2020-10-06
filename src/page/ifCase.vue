@@ -163,15 +163,15 @@
         <el-form :model="dataAdd" ref="dataAdd">
         <el-collapse>
         <el-collapse-item title="基本信息">
-          <el-form-item label="*项目编号" label-width="100px">
+          <!-- <el-form-item label="*项目编号" label-width="100px">
             <el-input readonly v-model="dataAdd.projectId" @focus='handleProjectModuleList' size="small" disabled></el-input>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item label="*项目名称" label-width="100px">
             <el-input readonly v-model="dataAdd.projectName" @focus='handleProjectModuleList' size="small" disabled></el-input>
           </el-form-item>
-          <el-form-item label="*模块编号" label-width="100px">
+          <!-- <el-form-item label="*模块编号" label-width="100px">
             <el-input readonly v-model="dataAdd.moduleId" @focus='handleProjectModuleList' size="small" disabled></el-input>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item label="*模块名称" label-width="100px">
             <el-input readonly v-model="dataAdd.moduleName" @focus='handleProjectModuleList' size="small" placeholder="请点击选择"></el-input>
           </el-form-item>
@@ -192,7 +192,8 @@
             </el-select>
           </el-form-item>
           <el-form-item label="*创建人" label-width="100px">
-            <el-input v-model="dataAdd.creater"  size="small"></el-input>
+            <!-- <el-input v-model="dataAdd.creater"  size="small"></el-input> -->
+            <el-input v-model="dataAdd.createrRealName"  size="small" disabled></el-input>
           </el-form-item>
         </el-collapse-item>
 
@@ -411,15 +412,15 @@
         <el-form :model="dataInfo" ref="dataInfo">
         <el-collapse>
         <el-collapse-item title="基本信息">
-          <el-form-item label="*项目编号" label-width="100px">
+          <!-- <el-form-item label="*项目编号" label-width="100px">
             <el-input readonly v-model="dataInfo.projectId" @focus='handleProjectModuleList' size="small" disabled></el-input>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item label="*项目名称" label-width="100px">
             <el-input readonly v-model="dataInfo.projectName" @focus='handleProjectModuleList' size="small" disabled></el-input>
           </el-form-item>
-          <el-form-item label="*模块编号" label-width="100px">
+          <!-- <el-form-item label="*模块编号" label-width="100px">
             <el-input readonly v-model="dataInfo.moduleId" @focus='handleProjectModuleList' size="small" disabled></el-input>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item label="*模块名称" label-width="100px">
             <el-input readonly v-model="dataInfo.moduleName" @focus='handleProjectModuleList' size="small"  placeholder="请点击选择"></el-input>
           </el-form-item>
@@ -440,7 +441,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="*创建人" label-width="100px">
-            <el-input v-model="dataInfo.creater"  size="small"></el-input>
+            <el-input v-model="dataInfo.creater"  size="small" disabled></el-input>
           </el-form-item>
         </el-collapse-item>
 
@@ -619,15 +620,15 @@
         <el-form :model="dataInfo" ref="dataInfo">
         <el-collapse>
         <el-collapse-item title="基本信息">
-          <el-form-item label="*项目编号" label-width="100px">
+          <!-- <el-form-item label="*项目编号" label-width="100px">
             <el-input readonly v-model="dataInfo.projectId" @focus='handleProjectModuleList' size="small" disabled></el-input>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item label="*项目名称" label-width="100px">
             <el-input readonly v-model="dataInfo.projectName" @focus='handleProjectModuleList' size="small" disabled></el-input>
           </el-form-item>
-          <el-form-item label="*模块编号" label-width="100px">
+          <!-- <el-form-item label="*模块编号" label-width="100px">
             <el-input readonly v-model="dataInfo.moduleId" @focus='handleProjectModuleList' size="small" disabled></el-input>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item label="*模块名称" label-width="100px">
             <el-input readonly v-model="dataInfo.moduleName" @focus='handleProjectModuleList' size="small" placeholder="请点击选择"></el-input>
           </el-form-item>
@@ -648,7 +649,8 @@
             </el-select>
           </el-form-item>
           <el-form-item label="*创建人" label-width="100px">
-            <el-input v-model="dataInfo.creater"  size="small"></el-input>
+            <!-- <el-input v-model="dataInfo.creater"  size="small"></el-input> -->
+            <el-input v-model="dataInfo.createrRealName"  size="small" disabled></el-input>
           </el-form-item>
         </el-collapse-item>
 
@@ -842,18 +844,18 @@ export default {
           value: 1,
           label: "POST",
         },
-        {
-          value: 2,
-          label: "UPDATE",
-        },
-        {
-          value: 3,
-          label: "PUT",
-        },
-        {
-          value: 4,
-          label: "DELETE",
-        },
+        // {
+        //   value: 2,
+        //   label: "UPDATE",
+        // },
+        // {
+        //   value: 3,
+        //   label: "PUT",
+        // },
+        // {
+        //   value: 4,
+        //   label: "DELETE",
+        // },
       ],
       levelOptions: [
         {
@@ -1063,15 +1065,15 @@ export default {
           } else if (element.method == 1) {
             element.methodStyle = "";
             element.method = "POST";
-          } else if (element.method == 2) {
-            element.methodStyle = "";
-            element.method = "UPDATE";
-          } else if (element.method == 3) {
-            element.methodStyle = "";
-            element.method = "PUT";
-          } else if (element.method == 4) {
-            element.methodStyle = "";
-            element.method = "DELETE";
+          // } else if (element.method == 2) {
+          //   element.methodStyle = "";
+          //   element.method = "UPDATE";
+          // } else if (element.method == 3) {
+          //   element.methodStyle = "";
+          //   element.method = "PUT";
+          // } else if (element.method == 4) {
+          //   element.methodStyle = "";
+          //   element.method = "DELETE";
           } else {
             element.methodStyle = "";
             element.method = "UNKNOW";
@@ -1500,6 +1502,9 @@ export default {
     async openAdd() {
       this.addDialogFormVisible = true;
       this.dataAdd = {};
+      let userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
+      this.dataAdd.creater = userInfo.realName
+      this.dataAdd.createrRealName = userInfo.realName
       // 头置空
       this.headerTypeFlag = 0
       this.dataAddHeaders = []
@@ -1589,6 +1594,9 @@ export default {
       let moduleName = row.moduleName
       const res = await findInterfaceCaseByCaseId(caseId)
       if (res.code == 200) {
+        let userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
+        res.data.creater = userInfo.realName
+        res.data.createrRealName = userInfo.realName
         // 头置空
         this.headerTypeFlag = 0
         this.dataAddHeaders = []

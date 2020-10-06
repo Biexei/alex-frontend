@@ -19,86 +19,143 @@ const ifSuiteCaseList = r => require.ensure([], () => r(require('@/page/ifSuiteC
 const httpSetting = r => require.ensure([], () => r(require('@/page/httpSetting')), 'httpSetting');
 const task = r => require.ensure([], () => r(require('@/page/task')), 'task');
 
-
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
-      component: login
+      component: login,
+      meta: {
+        requireAuth: false
+      },
     },
     {
       path: '/manage',
       component: manage,
       name: '',
+      meta: {
+        requireAuth: true
+      },
       children: [
         {
           path: '/userList',
           component: userList,
-          meta: ['用户管理'],
+          meta: {
+            path: ['用户管理'],
+            requireAuth: true
+          },
         },
         {
           path: '/projectList',
           component: projectList,
-          meta: ['项目管理'],
+          meta: {
+            path: ['项目管理'],
+            requireAuth: true
+          },
         },
         {
           path: '/moduleList',
           component: moduleList,
-          meta: ['模块管理'],
+          meta: {
+            path: ['模块管理'],
+            requireAuth: true
+          },
         }, 
         {
           path: '/dbList',
           component: dbList,
-          meta: ['数据源中心'],
+          meta: {
+            path: ['数据源中心'],
+            requireAuth: true
+          },
         }, 
         {
           path: '/ifRelyData',
           component: ifRelyData,
-          meta: ['数据中心','接口依赖'],
+          meta: {
+            path: ['数据中心','接口依赖'],
+            requireAuth: true
+          },
         }, 
         {
           path: '/relyData',
           component: relyData,
-          meta: ['数据中心','其它依赖'],
+          meta: {
+            path: ['数据中心','其它依赖'],
+            requireAuth: true
+          },
         },   
         {
           path: '/executeLog',
           component: executeLog,
-          meta: ['接口测试','执行日志'],
+          meta: {
+            path: ['接口测试','执行日志'],
+            requireAuth: true
+          },
         }, 
         {
           path: '/ifAssertLog',
           component: ifAssertLog,
-          meta: ['接口测试','断言日志'],
+          meta: {
+            path: ['接口测试','断言日志'],
+            requireAuth: true
+          },
         }, 
         {
           path: '/ifCase',
           component: ifCase,
-          meta: ['接口测试','测试用例'],
+          meta: {
+            path: ['接口测试','测试用例'],
+            requireAuth: true
+          },
         },     
         {
           path: '/ifSuite',
           component: ifSuite,
-          meta: ['接口测试','测试套件'],
+          meta: {
+            path: ['接口测试','测试套件'],
+            requireAuth: true
+          },
         },  
         {
           name: 'ifSuiteCaseList',
           path: '/ifSuiteCaseList',
           component: ifSuiteCaseList,
-          meta: ['接口测试','测试套件','用例维护'],
+          meta: {
+            path: ['接口测试','测试套件','用例维护'],
+            requireAuth: true
+          },
         },  
         {
           path: '/httpSetting',
           component: httpSetting,
-          meta: ['配置中心','全局配置'],
+          meta: {
+            path: ['配置中心','全局配置'],
+            requireAuth: true
+          },
         },    
         {
           path: '/task',
           component: task,
-          meta: ['配置中心','定时任务'],
+          meta: {
+            path: ['配置中心','定时任务'],
+            requireAuth: true
+          },
         },      
       ],
     }  
   ],
   strict: process.env.NODE_ENV !== 'production',
+})
+
+export default router
+router.beforeEach((from, to, next) => {
+  if (to.meta.requireAuth == true) { // 判断跳转的路由是否需要登录
+      if (sessionStorage.getItem("isLogin")) {
+          next() // 已登录
+      } else {
+          next({path:"/"})
+      }
+  } else {
+      next()
+  }
 })

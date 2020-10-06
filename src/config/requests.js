@@ -48,6 +48,11 @@ export default class HttpRequest {
   static _interceptors(instance, url, retOrigin, json) {
     // 请求拦截
     instance.interceptors.request.use(config => {
+      //添加token
+      let userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
+      if (userInfo) {
+        config.headers.Token = userInfo.token;
+      }
       //获取必须参数
       if(this.requireParams != ""){
         let extraPram = this.requireParams;
@@ -76,6 +81,10 @@ export default class HttpRequest {
           return null
         }
       } else {
+        if (data.code == 400) {
+          let currentUrl = window.location.href;
+          window.location.href=currentUrl.substring(0, currentUrl.indexOf("#"))
+        }
         return data
       }
     }, error => {
