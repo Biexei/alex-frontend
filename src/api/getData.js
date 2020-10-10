@@ -382,3 +382,30 @@ export const removeTaskEmailRef = data => HttpRequest.get('/task/ref/remove', da
  * 查询所有邮箱
  */
 export const findAllEmail = () => HttpRequest.get('/setting/email/all')
+
+
+
+/**
+ * 统计数据，用户总数，套件总数，断言总数，用例总数
+ */
+export const countAll = () => HttpRequest.get('/count')
+
+/**
+ * 统计数据，统计近7天用户注册数
+ */
+export const registerWeek = () => HttpRequest.get('/week/register')
+
+/**
+ * 统计数据，近7天用例新增数
+ */
+export const caseWeek = () => HttpRequest.get('/week/case')
+
+/**
+ * 统计数据，近7天断言新增数
+ */
+export const assertWeek = () => HttpRequest.get('/week/assert')
+
+/**
+ * 统计数据，近7天测试套件新增数
+ */
+export const suiteWeek = () => HttpRequest.get('/week/suite')

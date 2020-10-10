@@ -18,6 +18,7 @@ const ifSuite = r => require.ensure([], () => r(require('@/page/ifSuite')), 'ifS
 const ifSuiteCaseList = r => require.ensure([], () => r(require('@/page/ifSuiteCaseList')), 'ifSuiteCaseList');
 const httpSetting = r => require.ensure([], () => r(require('@/page/httpSetting')), 'httpSetting');
 const task = r => require.ensure([], () => r(require('@/page/task')), 'task');
+const analysis = r => require.ensure([], () => r(require('@/page/analysis')), 'analysis');
 
 const router = new Router({
   routes: [
@@ -140,7 +141,15 @@ const router = new Router({
             path: ['配置中心','定时任务'],
             requireAuth: true
           },
-        },      
+        },  
+        {
+          path: '/analysis',
+          component: analysis,
+          meta: {
+            path: [],
+            requireAuth: true
+          },
+        },    
       ],
     }  
   ],

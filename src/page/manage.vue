@@ -3,7 +3,8 @@
 		<el-row style="height: 100%; ">
 	  		<el-col :span="4" class="left-color" style="min-height: 100%">
 				<el-menu :default-active="defaultActive" style="min-height: 100%"  class="left-color" router>
-					<el-menu-item index="manage" class="left-color"><i class="el-icon-pie-chart"></i><span slot="title" class="title-color">仪表盘</span></el-menu-item>
+					<el-menu-item index="analysis" class="left-color"><i class="el-icon-pie-chart"></i><span slot="title" class="title-color">首页</span></el-menu-item>
+					<!-- <el-menu-item index="manage" class="left-color"><i class="el-icon-pie-chart"></i><span slot="title" class="title-color">仪表盘</span></el-menu-item> -->
 					<el-menu-item index="userList" class="left-color"><i class="el-icon-s-custom"></i><span slot="title" class="title-color">用户管理</span></el-menu-item>
 					<el-menu-item index="projectList" class="left-color"><i class="el-icon-s-flag"></i><span slot="title" class="title-color">项目管理</span></el-menu-item>
 					<el-menu-item index="moduleList" class="left-color"><i class="el-icon-potato-strips"></i><span slot="title" class="title-color">模块管理</span></el-menu-item>

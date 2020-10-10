@@ -50,7 +50,7 @@
 							sessionStorage.setItem("isLogin", true);
 							let userInfo = JSON.stringify(res.data)
 							sessionStorage.setItem("userInfo", userInfo);
-							this.$router.push('manage');
+							this.$router.push('analysis');
 						}else{
 							this.$message({
 								message: res.msg,

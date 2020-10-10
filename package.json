@@ -12,10 +12,12 @@
   },
   "dependencies": {
     "axios": "^0.20.0",
+    "echarts": "^4.9.0",
     "element-ui": "^2.13.2",
     "highlight": "^0.2.4",
     "highlight.js": "^10.2.0",
     "qs": "^6.9.4",
+    "v-charts": "^1.19.0",
     "vant": "^2.10.6",
     "vkbeautify": "^0.99.3",
     "vue": "^2.5.2",
