@@ -3,6 +3,10 @@
     <head-top></head-top>
       <div><ve-pie :data="totalCount"></ve-pie></div>
       <el-row>
+        <el-col :span="12"><div><ve-histogram :data="weekExecuteLog"></ve-histogram></div></el-col>
+        <el-col :span="12"><div><ve-histogram :data="weekAssertLog"></ve-histogram></div></el-col>
+      </el-row> 
+      <el-row>
         <el-col :span="12"><div><ve-line :data="weekCase"></ve-line></div></el-col>
         <el-col :span="12"><div><ve-line :data="weekAssert"></ve-line></div></el-col>
       </el-row> 
@@ -14,7 +18,7 @@
 </template>
 <script>
 import headTop from "../components/headTop";
-import { countAll, registerWeek, caseWeek, assertWeek, suiteWeek } from "@/api/getData";
+import { countAll, registerWeek, caseWeek, assertWeek, suiteWeek,executeLogWeek,assertLogWeek } from "@/api/getData";
 export default {
   data() {
     return {
@@ -38,6 +42,14 @@ export default {
           columns: ['日期', '新增测试套件'],
           rows: [],
         },
+        weekAssertLog: {
+          columns: ['日期', '断言通过', '断言失败', '断言错误'],
+          rows: [],
+        },
+        weekExecuteLog: {
+          columns: ['日期', '执行通过', '执行失败', '执行错误'],
+          rows: [],
+        },        
     }
 
   },
@@ -50,6 +62,8 @@ export default {
     this.caseWeek();
     this.assertWeek();
     this.suiteWeek();
+    this.assertLogWeek();
+    this.executeLogWeek();
   },
   methods: {
     async countAll() {
@@ -71,6 +85,14 @@ export default {
     async suiteWeek() {
         const res = await suiteWeek();
         this.weekSuite.rows = res.data
+    },
+    async assertLogWeek() {
+        const res = await assertLogWeek();
+        this.weekAssertLog.rows = res.data
+    },
+    async executeLogWeek() {
+        const res = await executeLogWeek();
+        this.weekExecuteLog.rows = res.data
     },
 
   }

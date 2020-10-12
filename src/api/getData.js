@@ -409,3 +409,13 @@ export const assertWeek = () => HttpRequest.get('/week/assert')
  * 统计数据，近7天测试套件新增数
  */
 export const suiteWeek = () => HttpRequest.get('/week/suite')
+
+/**
+ * 统计数据，近7天用例执行情况统计
+ */
+export const executeLogWeek = () => HttpRequest.get('/week/executeLog')
+
+/**
+ * 统计数据，近7天断言执行情况统计
+ */
+export const assertLogWeek = () => HttpRequest.get('/week/assertLog')
