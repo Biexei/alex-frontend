@@ -215,13 +215,13 @@ export default {
           // 断言提取类型
           if (element.type == 0) {
             element.typeStyle = "";
-            element.type = "jsonpath";
+            element.type = "jsonPath";
           } else if (element.type == 1) {
             element.typeStyle = "success";
-            element.type = "xpath";
+            element.type = "xPath";
           } else if (element.type == 2) {
             element.typeStyle = "danger";
-            element.type = "header";
+            element.type = "httpHead";
           } else if (element.type == 3) {
             element.typeStyle = "warning";
             element.type = "httpCode";
