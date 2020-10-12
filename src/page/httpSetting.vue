@@ -47,7 +47,7 @@
         <el-table-column property="type" label="类型" min-width="10%">
           <template slot-scope="scope">
             <el-tag effect="dark" disable-transitions v-if="scope.row.type==0" >Proxy</el-tag>
-            <el-tag effect="dark" disable-transitions v-else-if="scope.row.type==1" type="success">Header</el-tag>
+            <!-- <el-tag effect="dark" disable-transitions v-else-if="scope.row.type==1" type="success">Header</el-tag> -->
             <el-tag effect="dark" disable-transitions v-else-if="scope.row.type==2" type="warning">Email</el-tag>
           </template>
         </el-table-column>
@@ -181,10 +181,10 @@ export default {
           value: 0,
           label: 'Proxy'
         },
-        {
-          value: 1,
-          label: 'Header'
-        },
+        // {
+        //   value: 1,
+        //   label: 'Header'
+        // },
         {
           value: 2,
           label: 'Email'

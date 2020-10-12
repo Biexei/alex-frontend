@@ -12,6 +12,9 @@
         <el-form-item label="用例描述">
           <el-input v-model="queryForm.caseDesc" placeholder="用例描述" size='small'></el-input>
         </el-form-item>
+        <el-form-item label="执行编号">
+          <el-input v-model="queryForm.suiteLogNo" placeholder="执行编号" size='small'></el-input>
+        </el-form-item>
         <el-form-item label="执行状态">
           <el-select v-model="queryForm.status" placeholder="请选择" size='small'>
               <el-option v-for="item in logStatusOptions"
@@ -52,12 +55,22 @@
     </div>
     <div class="table_container">
       <el-table :data="dataList" stripe highlight-current-row style="width: 100%">
+        <el-table-column type="expand">
+        <template slot-scope="props">
+            <el-form label-position="left" inline class="demo-table-expand">
+            <el-form-item label="创建时间">
+              <el-label>{{props.row.createdTime}}</el-label>
+            </el-form-item>
+            </el-form>
+        </template>
+        </el-table-column>
         <el-table-column property="id" label="编号" min-width="5%"></el-table-column>
+        <el-table-column property="suiteLogNo" label="执行编号" min-width="21%"></el-table-column>
         <el-table-column property="projectName" label="项目名称" min-width="10%"></el-table-column>
         <el-table-column property="moduleName" label="模块名称" min-width="10%"></el-table-column>
         <el-table-column property="caseDesc" label="用例描述" min-width="23%"></el-table-column>
         <el-table-column property="executer" label="执行人" min-width="10%"></el-table-column>
-        <el-table-column property="runTime" label="执行用时" min-width="13%"></el-table-column>
+        <el-table-column property="runTime" label="执行用时" min-width="7%"></el-table-column>
         <el-table-column property="status" label="执行状态" min-width="7%">
           <template slot-scope="scope">
             <el-tag
@@ -66,7 +79,6 @@
               disable-transitions>{{scope.row.status}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column property="createdTime" label="创建时间" min-width="15%"></el-table-column>
         <el-table-column fixed="right" label="操作" min-width="7%">
           <template slot-scope="scope">
             <el-button
@@ -105,6 +117,9 @@
           </el-form-item> 
           <el-form-item label="执行人" label-width="100px">
             <el-input v-model="dataInfo.executer" readonly size='small'></el-input>
+          </el-form-item> 
+          <el-form-item label="执行编号" label-width="100px">
+            <el-input v-model="dataInfo.suiteLogNo" readonly size='small'></el-input>
           </el-form-item> 
           <el-form-item label="异常信息" label-width="100px" v-if="dataInfo.status=='错误'">
             <el-input v-model="dataInfo.errorMessage" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }"></el-input>
