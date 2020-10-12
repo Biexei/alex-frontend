@@ -954,11 +954,11 @@ export default {
         },
         {
           value: 2,
-          label: "header",
+          label: "head",
         },
         {
           value: 3,
-          label: "responsecode",
+          label: "code",
         },
     ],
     dataInfo: {},
