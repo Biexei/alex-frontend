@@ -58,20 +58,19 @@
         <el-table-column type="expand">
         <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand">
-            <el-form-item label="创建时间">
-              <el-label>{{props.row.createdTime}}</el-label>
+            <el-form-item label="执行编号">
+              <el-label>{{props.row.suiteLogNo}}</el-label>
             </el-form-item>
             </el-form>
         </template>
         </el-table-column>
         <el-table-column property="id" label="编号" min-width="5%"></el-table-column>
-        <el-table-column property="suiteLogNo" label="执行编号" min-width="21%"></el-table-column>
         <el-table-column property="projectName" label="项目名称" min-width="10%"></el-table-column>
         <el-table-column property="moduleName" label="模块名称" min-width="10%"></el-table-column>
         <el-table-column property="caseDesc" label="用例描述" min-width="23%"></el-table-column>
         <el-table-column property="executer" label="执行人" min-width="10%"></el-table-column>
-        <el-table-column property="runTime" label="执行用时" min-width="7%"></el-table-column>
-        <el-table-column property="status" label="执行状态" min-width="7%">
+        <el-table-column property="runTime" label="执行用时" min-width="8%"></el-table-column>
+        <el-table-column property="status" label="执行状态" min-width="8%">
           <template slot-scope="scope">
             <el-tag
               effect="dark"
@@ -79,12 +78,20 @@
               disable-transitions>{{scope.row.status}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="7%">
+        <el-table-column property="createdTime" label="创建时间" min-width="15%"></el-table-column>
+        <el-table-column fixed="right" label="操作" min-width="11%">
           <template slot-scope="scope">
             <el-button
               @click="handleDetail(scope.row.id)"
               type="primary"
               icon="el-icon-more"
+              size="small"
+              circle
+            ></el-button>
+            <el-button
+              @click="handleChain(scope.row.id)"
+              type="success"
+              icon="el-icon-view"
               size="small"
               circle
             ></el-button>
@@ -252,6 +259,28 @@
         </el-form>
       </el-collapse>  
       </el-dialog>
+      <el-dialog title="链路跟踪" :visible.sync="chainDialogFormVisible">
+        <!-- <el-steps :active="chainActive"  align-center>
+          <el-step :key="chain.logId" :title="chain.logId" :status="chain.status" :description="chain.caseDesc" v-for="chain in chainList"></el-step>
+        </el-steps> -->
+        <div class="block">
+          <el-timeline>
+            <el-timeline-item 
+            :key="chain.logId" 
+            :timestamp="chain.executer + ' 执行于' + chain.createdTime +'耗时 ' + chain.runTime" 
+            :color="chain.color"
+            placement="top" 
+            v-for="chain in chainList">
+              <el-card>
+                <el-row>
+                  <el-col :span="2"><p>{{chain.logId}}</p></el-col>
+                  <el-col :span="22"><p>{{chain.caseDesc}}</p></el-col>
+                </el-row>
+              </el-card>
+            </el-timeline-item>
+          </el-timeline>
+        </div>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -260,6 +289,7 @@ import headTop from "../components/headTop";
 import {
   findInterfaceCaseExecuteLogList,
   findInterfaceCaseExecuteLog,
+  caseExecuteLogChain,
 } from "@/api/getData";
 export default {
   data() {
@@ -271,6 +301,10 @@ export default {
       isReqParamsBeauty: false,
       isReqDataBeauty: false,
       isReqJsonBeauty: false,
+
+      chainDialogFormVisible: false,
+      chainActive: 0,
+      chainList: [],
 
       detailDialogFormVisible: false,
       queryForm: {},
@@ -509,6 +543,42 @@ export default {
       this.pageSize = 10
       this.pageNum = 1
       this.selectInterfaceCaseExecuteLogList(this.queryForm)
+    },
+    async handleChain(id) {
+      this.active = 0
+      this.chainDialogFormVisible = true
+      this.chainList = []
+      const res = await caseExecuteLogChain(id)
+      if (res.code == 200) {
+        res.data.forEach(element => {
+          let data = {}
+          data.caseId = element.caseId
+          data.executer = element.executer
+          data.suiteLogNo = element.suiteLogNo
+          data.createdTime = element.createdTime
+          data.runTime = element.runTime + 'ms'
+          data.logId = element.logId + ''
+          data.caseDesc = element.caseDesc
+          if (element.status == 0) {
+            data.status = "success"
+            data.color = "#67C23A"
+          } else if (element.status == 1) {
+            data.status = "wait"
+            data.color = "#E6A23C"
+          } else {
+            data.status = "error"
+            data.color = "#F56C6C"
+          }
+          this.chainActive ++ 
+          this.chainList.push(data)
+        });
+      } else {
+        this.$message({
+          type: "error",
+          center: true,
+          message: res.msg
+        })
+      }
     }
   }
 };

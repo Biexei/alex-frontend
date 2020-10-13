@@ -205,6 +205,10 @@ export const findInterfaceCaseExecuteLogList = data => HttpRequest.get('/interfa
  */
 export const findInterfaceCaseExecuteLog = executeId => HttpRequest.get('/interface/log/' + executeId)
 
+/**
+ * 获取执行用例的调用链
+ */
+export const caseExecuteLogChain = executeId => HttpRequest.get('/interface/log/chain/' + executeId)
 
 
 
