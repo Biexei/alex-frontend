@@ -273,8 +273,10 @@
             v-for="chain in chainList">
               <el-card>
                 <el-row>
-                  <el-col :span="2"><p>{{chain.logId}}</p></el-col>
+                  <!-- <el-col :span="2"><el-tag type="info">{{chain.logId}}</el-tag></el-col> -->
+                  <el-col :span="2"><h4>{{chain.logId}}</h4></el-col>
                   <el-col :span="22"><p>{{chain.caseId}} {{chain.caseDesc}}</p></el-col>
+                  <!-- <el-col :span="22"><el-tag type="info">{{chain.caseId}} {{chain.caseDesc}}</el-tag></el-col> -->
                 </el-row>
               </el-card>
             </el-timeline-item>
