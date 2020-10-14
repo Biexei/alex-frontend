@@ -18,21 +18,42 @@
     </div>
     <div class="table_container">
       <el-table :data="dataList" stripe highlight-current-row style="width: 100%">
-        <el-table-column property="project_id" label="项目编号" min-width="21%"></el-table-column>
+        <el-table-column type="expand">
+        <template slot-scope="props">
+            <el-form label-position="left" inline class="demo-table-expand">
+              <el-form-item label="开发环境域名:">
+                  <el-input  :value="props.row.devDomain" readonly size="mini"></el-input>
+              </el-form-item>
+              <br/>
+              <el-form-item label="测试环境域名:">
+                  <el-input  :value="props.row.testDomain" readonly size="mini"></el-input>
+              </el-form-item>
+              <br/>
+              <el-form-item label="预发环境域名:">
+                  <el-input  :value="props.row.stgDomain" readonly size="mini"></el-input>
+              </el-form-item>
+              <br/>
+              <el-form-item label="生产环境域名:">
+                  <el-input  :value="props.row.prodDomain" readonly size="mini"></el-input>
+              </el-form-item>
+            </el-form>
+        </template>
+        </el-table-column>
+        <el-table-column property="projectId" label="项目编号" min-width="21%"></el-table-column>
         <el-table-column property="name" label="项目名称" min-width="21%"></el-table-column>
         <el-table-column property="domain" label="域名" min-width="22%"></el-table-column>
         <el-table-column property="desc" label="项目描述" min-width="21%"></el-table-column>
         <el-table-column fixed="right" label="操作" min-width="15%">
           <template slot-scope="scope">
             <el-button
-              @click="handleEdit(scope.row.project_id)"
+              @click="handleEdit(scope.row.projectId)"
               type="primary"
               size="small"
               icon="el-icon-edit"
               circle
             ></el-button>
             <el-button
-              @click="handleDelete(scope.row.project_id, scope.$index)"
+              @click="handleDelete(scope.row.projectId, scope.$index)"
               type="danger"
               size="small"
               icon="el-icon-delete"
@@ -55,13 +76,25 @@
 
       <el-dialog title="编辑" :visible.sync="editDialogFormVisible">
         <el-form :model="dataInfo">
-          <el-form-item label="*项目名称" label-width="100px">
+          <el-form-item label="*项目名称" label-width="120px">
             <el-input v-model="dataInfo.name"  size='small'></el-input>
           </el-form-item>
-          <el-form-item label="*项目域名" label-width="100px">
+          <el-form-item label="*域名" label-width="120px">
             <el-input v-model="dataInfo.domain"  size='small'></el-input>
           </el-form-item>
-          <el-form-item label="项目描述" label-width="100px">
+          <el-form-item label="*开发环境域名" label-width="120px">
+            <el-input v-model="dataInfo.devDomain"  size='small'></el-input>
+          </el-form-item>
+          <el-form-item label="*测试环境域名" label-width="120px">
+            <el-input v-model="dataInfo.testDomain"  size='small'></el-input>
+          </el-form-item>
+          <el-form-item label="*预发环境域名" label-width="120px">
+            <el-input v-model="dataInfo.stgDomain"  size='small'></el-input>
+          </el-form-item>
+          <el-form-item label="*生产环境域名" label-width="120px">
+            <el-input v-model="dataInfo.prodDomain"  size='small'></el-input>
+          </el-form-item>
+          <el-form-item label="项目描述" label-width="120px">
             <el-input v-model="dataInfo.desc"  size='small'></el-input>
           </el-form-item>  
         </el-form>
@@ -73,13 +106,25 @@
 
       <el-dialog title="添加" :visible.sync="addDialogFormVisible">
         <el-form :model="dataAdd" ref="dataAdd">
-          <el-form-item label="*项目名称" label-width="100px" prop="name">
+          <el-form-item label="*项目名称" label-width="120px" prop="name">
             <el-input v-model="dataAdd.name" auto-complete="off"  size='small'></el-input>
           </el-form-item>
-          <el-form-item label="*项目域名" label-width="100px" prop="domain">
+          <el-form-item label="*域名" label-width="120px" prop="domain">
             <el-input v-model="dataAdd.domain"  size='small'></el-input>
           </el-form-item>
-          <el-form-item label="项目描述" label-width="100px" prop="desc">
+          <el-form-item label="*开发环境域名" label-width="120px">
+            <el-input v-model="dataAdd.devDomain"  size='small'></el-input>
+          </el-form-item>
+          <el-form-item label="*测试环境域名" label-width="120px">
+            <el-input v-model="dataAdd.testDomain"  size='small'></el-input>
+          </el-form-item>
+          <el-form-item label="*预发环境域名" label-width="120px">
+            <el-input v-model="dataAdd.stgDomain"  size='small'></el-input>
+          </el-form-item>
+          <el-form-item label="*生产环境域名" label-width="120px">
+            <el-input v-model="dataAdd.prodDomain"  size='small'></el-input>
+          </el-form-item>
+          <el-form-item label="项目描述" label-width="120px" prop="desc">
             <el-input v-model="dataAdd.desc"  size='small'></el-input>
           </el-form-item>
         </el-form>
@@ -149,8 +194,8 @@ export default {
         }
     },
 
-    async handleEdit(project_id) {
-      const res = await getProject({projectId:project_id});
+    async handleEdit(projectId) {
+      const res = await getProject({projectId:projectId});
       if (res.code == 200) {
         this.dataInfo = res.data;
         this.editDialogFormVisible = true;
@@ -162,8 +207,8 @@ export default {
         });
       }
     },
-    async handleDelete(project_id, index) {
-      const res = await deleteProject(project_id);
+    async handleDelete(projectId, index) {
+      const res = await deleteProject(projectId);
       if (res.code == 200) {
         this.$message({
           type: "success",

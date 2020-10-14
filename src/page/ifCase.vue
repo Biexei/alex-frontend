@@ -79,23 +79,23 @@
         <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand">
             <el-form-item label="项目编号:">
-                <el-label>{{props.row.projectId}}</el-label>
+                <el-input  :value="props.row.projectId" readonly size="mini"></el-input>
             </el-form-item>
             <br />
             <el-form-item label="模块编号:">
-                <el-label>{{props.row.moduleId}}</el-label>
+                <el-input  :value="props.row.moduleId" readonly size="mini"></el-input>
             </el-form-item>
             <br />
             <el-form-item label="项目名称:">
-                <el-label>{{props.row.projectName}}</el-label>
+                <el-input  :value="props.row.projectName" readonly size="mini"></el-input>
             </el-form-item>
             <br />
             <el-form-item label="模块名称:">
-                <el-label>{{props.row.moduleName}}</el-label>
+                <el-input  :value="props.row.moduleName" readonly size="mini"></el-input>
             </el-form-item>
             <br/>
-             <el-form-item label="创建人:">
-                <el-label>{{props.row.creater}}</el-label>
+             <el-form-item label="由谁创建:">
+                <el-input  :value="props.row.creater" readonly size="mini"></el-input>
             </el-form-item>
             </el-form>
         </template>

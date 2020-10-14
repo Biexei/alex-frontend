@@ -1,7 +1,7 @@
 <template>
 	<div class="manage_page fillcontain">
 		<el-row style="height: 100%; ">
-	  		<el-col :span="3" class="left-color" style="min-height: 100%">
+	  		<el-col :span="4" class="left-color" style="min-height: 100%">
 				<el-menu :default-active="defaultActive" style="min-height: 100%"  class="left-color" router>
 					<el-menu-item index="analysis" class="left-color"><i class="el-icon-pie-chart"></i><span slot="title" class="title-color">首页</span></el-menu-item>
 					<!-- <el-menu-item index="manage" class="left-color"><i class="el-icon-pie-chart"></i><span slot="title" class="title-color">仪表盘</span></el-menu-item> -->
@@ -28,7 +28,7 @@
 					</el-submenu>
 				</el-menu>
 			</el-col>
-			<el-col :span="21" style="height: 100%;overflow: auto;">
+			<el-col :span="20" style="height: 100%;overflow: auto;">
 				<router-view></router-view>
 				<!-- 下面这种切换路由时不会刷新页面 -->
 				<!-- <keep-alive>

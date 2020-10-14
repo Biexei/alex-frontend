@@ -59,7 +59,7 @@
         <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand">
             <el-form-item label="执行编号">
-              <el-label>{{props.row.suiteLogNo}}</el-label>
+              <el-input  :value="props.row.suiteLogNo" readonly size="mini"></el-input>
             </el-form-item>
             </el-form>
         </template>
@@ -274,7 +274,7 @@
               <el-card>
                 <el-row>
                   <el-col :span="2"><p>{{chain.logId}}</p></el-col>
-                  <el-col :span="22"><p>{{chain.caseDesc}}</p></el-col>
+                  <el-col :span="22"><p>{{chain.caseId}} {{chain.caseDesc}}</p></el-col>
                 </el-row>
               </el-card>
             </el-timeline-item>

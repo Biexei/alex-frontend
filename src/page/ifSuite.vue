@@ -29,10 +29,10 @@
     </div>
     <div class="table_container">
       <el-table :data="dataList" stripe highlight-current-row style="width: 100%">
-        <el-table-column property="suiteId" label="编号" min-width="10%"></el-table-column>
+        <el-table-column property="suiteId" label="编号" min-width="5%"></el-table-column>
         <el-table-column property="suiteName" label="名称" min-width="15%"></el-table-column>
         <el-table-column property="desc" label="描述" min-width="15%"></el-table-column>
-        <el-table-column property="creator" label="创建人" min-width="15%"></el-table-column>
+        <el-table-column property="creator" label="创建人" min-width="10%"></el-table-column>
         <el-table-column property="createdTime" label="创建时间" min-width="15%" ></el-table-column>
         <el-table-column property="executeType" label="执行方式" min-width="10%">
           <template slot-scope="scope">
@@ -40,6 +40,15 @@
               effect="dark"
               :type="scope.row.executeTypeStyle"
               disable-transitions>{{scope.row.executeType}}
+            </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column property="runDevType" label="运行环境" min-width="10%">
+          <template slot-scope="scope">
+            <el-tag
+              effect="dark"
+              :type="scope.row.runDevStyle"
+              disable-transitions>{{scope.row.runDevType}}
             </el-tag>
           </template>
         </el-table-column>
@@ -110,6 +119,16 @@
               </el-option>
             </el-select>
           </el-form-item>
+          <el-form-item label="*运行环境" label-width="100px">
+            <el-select v-model="dataInfo.runDev" size='small'>
+              <el-option
+                v-for="item in runDevOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
           <el-form-item label="描述" label-width="100px">
             <el-input v-model="dataInfo.desc" size='small'></el-input>
           </el-form-item>  
@@ -132,6 +151,16 @@
             <el-select v-model="dataAdd.executeType" size='small'>
               <el-option
                 v-for="item in executeTypeOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="*运行环境" label-width="100px">
+            <el-select v-model="dataAdd.runDev" size='small'>
+              <el-option
+                v-for="item in runDevOptions"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value">
@@ -178,6 +207,24 @@ export default {
               value:1,
               label:'串行',
           },
+      ],
+      runDevOptions:[
+          {
+              value:0,
+              label:'开发 DEV',
+          },
+          {
+              value:1,
+              label:'测试 TEST',
+          },
+          {
+              value:2,
+              label:'预发 STG',
+          },
+          {
+              value:3,
+              label:'线上 PROD',
+          },
       ]
     };
   },
@@ -202,6 +249,22 @@ export default {
               } else {
                   element.executeType = "串行"
                   element.executeTypeStyle = ''
+              }
+              if (element.runDev == 3) {
+                  element.runDevType = "线上"
+                  element.runDevStyle = 'danger'
+              } else if (element.runDev == 2) {
+                  element.runDevType = "预发"
+                  element.runDevStyle = 'warning'
+              } else if (element.runDev == 1) {
+                  element.runDevType = "测试"
+                  element.runDevStyle = 'success'
+              } else if (element.runDev == 0) {
+                  element.runDevType = "开发"
+                  element.runDevStyle = 'primary'
+              } else {
+                  element.runDevType = "UNKNOW"
+                  element.runDevStyle = ''
               }
               this.dataList.push(element)
           });

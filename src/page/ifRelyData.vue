@@ -58,12 +58,12 @@
         <el-table-column type="expand">
         <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand">
-              <el-form-item label="请求地址:">
-                  <el-label>{{props.row.caseUrl}}</el-label>
+              <el-form-item label="预检地址:">
+                  <el-input  :value="props.row.caseUrl" readonly size="mini"></el-input>
               </el-form-item>
               <br/>
               <el-form-item label="用例描述:">
-                  <el-label>{{props.row.caseDesc}}</el-label>
+                  <el-input  :value="props.row.caseDesc" readonly size="mini"></el-input>
               </el-form-item>
             </el-form>
         </template>
