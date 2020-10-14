@@ -423,3 +423,21 @@ export const executeLogWeek = () => HttpRequest.get('/week/executeLog')
  * 统计数据，近7天断言执行情况统计
  */
 export const assertLogWeek = () => HttpRequest.get('/week/assertLog')
+
+
+
+
+/**
+ * 查询测试套件执行日志列表
+ */
+export const findIfSuiteLog = data => HttpRequest.get('/suite/log', data)
+
+/**
+ * 根据编号查询测试套件执行日志
+ */
+export const findIfSuiteLogByNo = suiteLogNo => HttpRequest.get('/suite/log/no/' + suiteLogNo)
+
+/**
+ * 根据测试套件执行日志编号查询日志详情
+ */
+export const findIfSuiteLogById = id => HttpRequest.get('/suite/log/' + id)

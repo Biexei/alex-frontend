@@ -19,9 +19,20 @@ const ifSuiteCaseList = r => require.ensure([], () => r(require('@/page/ifSuiteC
 const httpSetting = r => require.ensure([], () => r(require('@/page/httpSetting')), 'httpSetting');
 const task = r => require.ensure([], () => r(require('@/page/task')), 'task');
 const analysis = r => require.ensure([], () => r(require('@/page/analysis')), 'analysis');
+const ifSuiteLog = r => require.ensure([], () => r(require('@/page/ifSuiteLog')), 'ifSuiteLog');
+const ifSuiteReport = r => require.ensure([], () => r(require('@/page/ifSuiteReport')), 'ifSuiteReport');
 
 const router = new Router({
   routes: [
+    {
+      name: 'ifSuiteReport',
+      path: '/ifSuiteReport',
+      component: ifSuiteReport,
+      meta: {
+        path: ['接口测试','测试套件','测试报告'],
+        requireAuth: true
+      },
+    }, 
     {
       path: '/',
       component: login,
@@ -126,6 +137,15 @@ const router = new Router({
             requireAuth: true
           },
         },  
+        {
+          name: 'ifSuiteLog',
+          path: '/ifSuiteLog',
+          component: ifSuiteLog,
+          meta: {
+            path: ['接口测试','测试套件','执行日志'],
+            requireAuth: true
+          },
+        }, 
         {
           path: '/httpSetting',
           component: httpSetting,

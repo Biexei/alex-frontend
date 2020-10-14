@@ -46,6 +46,13 @@
         <el-table-column fixed="right" label="操作" min-width="20%">
           <template slot-scope="scope">
             <el-button
+              @click="handleLog(scope.row.suiteId)"
+              type="info"
+              size="small"
+              icon="el-icon-search"
+              circle
+            ></el-button>
+            <el-button
               @click="handleExecute(scope.row.suiteId)"
               type="success"
               size="small"
@@ -63,7 +70,7 @@
               @click="handleManager(scope.row.suiteId)"
               type="warning"
               size="small"
-              icon="el-icon-position"
+              icon="el-icon-star-off"
               circle
             ></el-button>
             <el-button
@@ -325,6 +332,14 @@ export default {
       this.pageSize = 10
       this.pageNum = 1
       this.selectSuiteList(this.queryForm)
+    },
+    async handleLog(suiteId) {
+      this.$router.push({
+        name: 'ifSuiteLog',
+        query: {
+          suiteId: suiteId,
+        },
+      })
     }
   }
 }
