@@ -28,7 +28,10 @@
       </el-form>
     </div>
     <div class="table_container">
-      <el-table :data="dataList" stripe highlight-current-row style="width: 100%">
+      <el-table 
+      :data="dataList" 
+      @row-dblclick="handleLog"
+      stripe highlight-current-row style="width: 100%">
         <el-table-column property="suiteId" label="编号" min-width="5%"></el-table-column>
         <el-table-column property="suiteName" label="名称" min-width="15%"></el-table-column>
         <el-table-column property="desc" label="描述" min-width="15%"></el-table-column>
@@ -55,10 +58,10 @@
         <el-table-column fixed="right" label="操作" min-width="20%">
           <template slot-scope="scope">
             <el-button
-              @click="handleLog(scope.row.suiteId)"
+              @click="handleManager(scope.row.suiteId)"
               type="info"
               size="small"
-              icon="el-icon-search"
+              icon="el-icon-star-off"
               circle
             ></el-button>
             <el-button
@@ -76,10 +79,10 @@
               circle
             ></el-button>
             <el-button
-              @click="handleManager(scope.row.suiteId)"
+              @click="handleCopy(scope.row.suiteId)"
               type="warning"
               size="small"
-              icon="el-icon-star-off"
+              icon="el-icon-copy-document"
               circle
             ></el-button>
             <el-button
@@ -184,7 +187,7 @@
 </template>
 <script>
 import headTop from "../components/headTop";
-import { saveInterfaceCaseSuite,modifyInterfaceCaseSuite,removeInterfaceCaseSuiteById,findInterfaceCaseSuiteById,findInterfaceCaseSuite,saveSuiteCase,removeSuiteCase,findSuiteCaseList,executeSuiteCase } from "@/api/getData";
+import {copyInterfaceCaseSuiteById, saveInterfaceCaseSuite,modifyInterfaceCaseSuite,removeInterfaceCaseSuiteById,findInterfaceCaseSuiteById,findInterfaceCaseSuite,saveSuiteCase,removeSuiteCase,findSuiteCaseList,executeSuiteCase } from "@/api/getData";
 export default {
   data() {
     return {
@@ -396,13 +399,30 @@ export default {
       this.pageNum = 1
       this.selectSuiteList(this.queryForm)
     },
-    async handleLog(suiteId) {
+    async handleLog(row) {
       this.$router.push({
         name: 'ifSuiteLog',
         query: {
-          suiteId: suiteId,
+          suiteId: row.suiteId,
         },
       })
+    },
+    async handleCopy(suiteId) {
+      const res = await copyInterfaceCaseSuiteById(suiteId)
+      if (res.code == 200) {
+        this.$message({
+          type: "success",
+          center: true,
+          message: '复制测试用例' + res.data.copyCaseCount + '个'
+        });
+        this.resetForm()
+      } else {
+        this.$message({
+          type: "error",
+          center: true,
+          message: res.msg
+        });
+      }
     }
   }
 }

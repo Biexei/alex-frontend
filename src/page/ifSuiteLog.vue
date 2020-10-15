@@ -151,7 +151,6 @@ export default {
       this.$router.push({
         name: 'ifSuiteReport',
         query: {
-          suiteId: row.suiteId,
           suiteLogNo: row.suiteLogNo,
         },
       })

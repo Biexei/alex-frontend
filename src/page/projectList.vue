@@ -6,8 +6,8 @@
         <el-form-item label="项目名称">
           <el-input v-model="queryForm.name" placeholder="项目名称" size='small'></el-input>
         </el-form-item>
-        <el-form-item label="域名">
-          <el-input v-model="queryForm.domain" placeholder="域名" size='small'></el-input>
+        <el-form-item label="调试域名">
+          <el-input v-model="queryForm.domain" placeholder="调试域名" size='small'></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" size="small" @click="selectProjectList(queryForm)">查询</el-button>
@@ -41,7 +41,7 @@
         </el-table-column>
         <el-table-column property="projectId" label="项目编号" min-width="21%"></el-table-column>
         <el-table-column property="name" label="项目名称" min-width="21%"></el-table-column>
-        <el-table-column property="domain" label="域名" min-width="22%"></el-table-column>
+        <el-table-column property="domain" label="调试域名" min-width="22%"></el-table-column>
         <el-table-column property="desc" label="项目描述" min-width="21%"></el-table-column>
         <el-table-column fixed="right" label="操作" min-width="15%">
           <template slot-scope="scope">
@@ -79,7 +79,7 @@
           <el-form-item label="*项目名称" label-width="120px">
             <el-input v-model="dataInfo.name"  size='small'></el-input>
           </el-form-item>
-          <el-form-item label="*域名" label-width="120px">
+          <el-form-item label="*调试域名" label-width="120px">
             <el-input v-model="dataInfo.domain"  size='small'></el-input>
           </el-form-item>
           <el-form-item label="*开发环境域名" label-width="120px">
@@ -109,7 +109,7 @@
           <el-form-item label="*项目名称" label-width="120px" prop="name">
             <el-input v-model="dataAdd.name" auto-complete="off"  size='small'></el-input>
           </el-form-item>
-          <el-form-item label="*域名" label-width="120px" prop="domain">
+          <el-form-item label="*调试域名" label-width="120px" prop="domain">
             <el-input v-model="dataAdd.domain"  size='small'></el-input>
           </el-form-item>
           <el-form-item label="*开发环境域名" label-width="120px">
