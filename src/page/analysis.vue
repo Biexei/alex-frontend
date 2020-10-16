@@ -1,7 +1,7 @@
 <template>
   <div class="fillcontain">
     <head-top></head-top>
-      <div><ve-pie :data="totalCount"></ve-pie></div>
+        <div><ve-pie :data="totalCount"></ve-pie></div>
       <el-row>
         <el-col :span="12"><div><ve-histogram :data="weekExecuteLog"></ve-histogram></div></el-col>
         <el-col :span="12"><div><ve-histogram :data="weekAssertLog"></ve-histogram></div></el-col>

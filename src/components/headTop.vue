@@ -6,10 +6,10 @@
 		</el-breadcrumb>
 		<div class="btn-div">
 		<el-tooltip effect="dark" content="Json格式化" placement="left-end">
-			<el-button @click=handleBeautyJson size="mini" circle type="primary" icon="el-icon-s-promotion"></el-button>
+			<el-button @click=handleBeautyJson size="mini" type="primary" plain>JSON</el-button>
 		</el-tooltip>
 		<el-tooltip effect="dark" content="XML格式化" placement="left-end">
-			<el-button @click=handleBeautyXml size="mini" circle type="primary" icon="el-icon-close"></el-button>
+			<el-button @click=handleBeautyXml size="mini" type="primary"  plain>XML</el-button>
 		</el-tooltip>
 		<el-tooltip effect="dark" content="注销" placement="left-end">
 			 <el-button type="danger" icon="el-icon-switch-button" circle size="mini" @click=logout></el-button>

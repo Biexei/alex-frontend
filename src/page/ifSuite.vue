@@ -17,6 +17,17 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="运行环境">
+          <el-select v-model="queryForm.runDev" clearable placeholder="请选择"  size='small'>
+            <el-option
+              v-for="item in runDevOptions"
+              :key="item.value"
+              size='small'
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="描述">
           <el-input v-model="queryForm.desc" placeholder="描述"  size='small'></el-input>
         </el-form-item>

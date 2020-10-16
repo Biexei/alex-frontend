@@ -5,22 +5,44 @@
         <div style="margin:0 auto;width:500px;text-align:center;font-weight: 600; font-size: 12px; align: center;">ReportNo {{suiteLogNo}}</div>
       </div>
       <div class="report_body">
-        <el-row>
+        <el-row :gutter="12">
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+            <div>
+              <div class="title_position" v-if="suiteLog.executeType==1">Sync</div>
+              <div class="title_position" v-else-if="suiteLog.executeType==0">Async</div>
+              <div class="title_position" v-else>Unknow</div>
+              <div class="graph">
+                <ve-bar :data="chartSummaryData" :settings="chartSettings" :extend="chartSummaryExtend" height="160px" width="600px" style="padding-left: 180px;"></ve-bar>
+              </div>
+              <div class="title_position">
+                <span>
+                  <span style="font-weight:bold;"> {{suiteLog.suiteName}}</span>
+                </span>
+              </div>
+              <div class="title_position">
+                <span>
+                  <span style="font-weight:bold;">{{(suiteLog.totalSuccess/suiteLog.totalRunCase)*100 + '%'}}</span> pass/run
+                  <span style="font-weight:bold;">{{(suiteLog.totalRunCase/suiteLog.totalCase)*100 + '%'}}</span> run/total
+                </span>
+              </div>
+            </div>
+            </div>
+          </el-col>
           <el-col :span="12">
             <div class="grid-content bg-purple ">
             <div>
-              <div style="padding-left: 15px;padding-top: 15px;">Tests</div>
+              <div class="title_position">Test</div>
               <div class="graph">
-                <ve-ring :data="chartData" :settings="chartSettings" :extend="chartExtend" height="160px"></ve-ring>
+                <ve-ring :data="chartTestData" :settings="chartSettings" :extend="chartTestExtend" height="160px"></ve-ring>
               </div>
-              <div style="padding-left: 15px;padding-top: 15px;">
-                <span>
-                  <span style="font-weight:bold;">{{suiteLog.totalCase}}</span> total
-                </span>
-              </div>
-              <div style="padding-left: 15px;padding-top: 15px;">
+              <div class="title_position">
                 <span>
                   <span style="font-weight:bold;">{{suiteLog.totalRunCase}}</span> run
+                </span>
+              </div>
+              <div class="title_position">
+                <span>
                   <span style="font-weight:bold;">{{suiteLog.totalSuccess}}</span> pass
                   <span style="font-weight:bold;">{{suiteLog.totalFailed}}</span> failed
                   <span style="font-weight:bold;">{{suiteLog.totalError}}</span> error
@@ -30,28 +52,36 @@
             </div>
             </div>
           </el-col>
-          <el-col :span="12">
-            <div class="grid-content bg-purple-light">
-            <div>
-              <div style="padding-left: 15px;padding-top: 15px;">Asserts</div>
-              <div class="graph">
-                <ve-ring :data="chartData" :settings="chartSettings" :extend="chartExtend" height="160px"></ve-ring>
-              </div>
-              <div style="padding-left: 15px;padding-top: 15px;">
-                <span>
-                  <span style="font-weight:bold;">22</span> run
-                </span>
-              </div>
-              <div style="padding-left: 15px;padding-top: 15px;">
-                <span>
-                  <span style="font-weight:bold;">22</span> pass
-                  <span style="font-weight:bold;">22</span> failed
-                  <span style="font-weight:bold;">22</span> error
-                </span>
-              </div>
-            </div>
-            </div>
-          </el-col>
+      </el-row>
+      <el-row :gutter="12">
+        <el-col :span="6">
+          <el-card shadow="hover">
+            <div>Env</div>
+            <div class="card_content_position" v-if="suiteLog.runDev==0">Dev</div>
+            <div class="card_content_position" v-else-if="suiteLog.runDev==1">Test</div>
+            <div class="card_content_position" v-else-if="suiteLog.runDev==2">Stg</div>
+            <div class="card_content_position" v-else-if="suiteLog.runDev==3">Prod</div>
+            <div class="card_content_position" v-else>Unknow</div>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card shadow="hover">
+            <div>Time Taken</div>
+            <div class="card_content_position">{{suiteLog.runTime}}ms</div>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card shadow="hover">
+            <div>Time</div>
+            <div class="card_content_position">{{suiteLog.startTime}}</div>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card shadow="hover">
+            <div>End</div>
+            <div class="card_content_position">{{suiteLog.endTime}}</div>
+          </el-card>
+        </el-col>
       </el-row>
       </div>
 	</div>
@@ -66,7 +96,7 @@ export default {
       suiteLog: {},
 
       chartSettings: {
-        radius: ["50px", "30px"],
+        radius: ["50px", "40px"],
         label: {
           normal: {
             show: false,
@@ -74,16 +104,29 @@ export default {
           }
         },
       },
-      chartExtend: {        
+      chartTestExtend: {        
 	      series: {
           center: ['50%', '60%'],
         },
         color: ['#67C23A', '#E6A23C', '#F56C6C', '#909399']
       },
-      chartData: {
+      chartTestData: {
         columns: ['type', 'count'],
         rows: []
-      }
+      },
+      chartSummaryData: {
+        // 饼图用
+        // columns: ['type', 'count'],
+        // 条形图用
+        columns: ['type', 'total', 'run', 'skip'],
+        rows: []
+      },
+      chartSummaryExtend: {        
+	      series: {
+          center: ['50%', '60%'],
+        },
+
+      },
 	  }
   },
   components: {
@@ -98,10 +141,17 @@ export default {
       if (res.code == 200) {
         this.suiteLog = res.data
       }
-      this.chartData.rows.push({"type":"pass", "count":res.data.totalSuccess})
-      this.chartData.rows.push({"type":"failed", "count":res.data.totalFailed})
-      this.chartData.rows.push({"type":"error", "count":res.data.totalError})
-      this.chartData.rows.push({"type":"skip", "count":res.data.totalSkip})  
+      this.chartTestData.rows.push({"type":"pass", "count":res.data.totalSuccess})
+      this.chartTestData.rows.push({"type":"failed", "count":res.data.totalFailed})
+      this.chartTestData.rows.push({"type":"error", "count":res.data.totalError})
+      this.chartTestData.rows.push({"type":"skip", "count":res.data.totalSkip})
+
+      // 饼图用 
+      // this.chartSummaryData.rows.push({"type":"run", "count":res.data.totalRunCase})  
+      // this.chartSummaryData.rows.push({"type":"total", "count":res.data.totalCase})
+      
+      // 条形图用
+      this.chartSummaryData.rows.push({"type":"", "total":res.data.totalRunCase, "run":res.data.totalRunCase, "skip":res.data.totalSkip})  
     }
   }
 }
@@ -128,7 +178,15 @@ export default {
   }
   .report_body{
     font-size: 14px;
+    background-color: #F6F6F6;
   }
+  .title_position{
+    padding-left: 15px;
+    padding-top: 15px;
+  }
+  .card_content_position{
+    text-align:right;
+  }  
   .graph{
     max-height: 300px;
   }
@@ -142,10 +200,10 @@ export default {
     border-radius: 4px;
   }
   .bg-purple {
-    background: #d3dce6;
+    background: #FFFFFF;
   }
   .bg-purple-light {
-    background: #e5e9f2;
+    background: #FFFFFF;
   }
   .grid-content {
     border-radius: 3px;
@@ -154,5 +212,12 @@ export default {
   .row-bg {
     padding: 0;
     background-color: #f9fafc;
+  }
+  .left-color{
+    margin: 0 auto; 
+    font-weight: 600;
+    font-size: 12px;
+    color: #F5F5F5;
+    background-color: #1565C0
   }
 </style>

@@ -6,6 +6,17 @@
         <el-form-item label="执行编号">
           <el-input v-model="queryForm.suiteLogNo" placeholder="执行编号" size='small'></el-input>
         </el-form-item>
+        <el-form-item label="运行方式">
+          <el-select v-model="queryForm.runDev" clearable placeholder="请选择"  size='small'>
+            <el-option
+              v-for="item in runDevOptions"
+              :key="item.value"
+              size='small'
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="起始时间">
           <el-date-picker
             v-model="queryForm.createdStartTime"
@@ -35,26 +46,36 @@
       </el-form>
     </div>
     <div class="table_container">
-      <el-table :data="dataList" stripe highlight-current-row style="width: 100%">
+      <el-table 
+      :data="dataList" 
+      @row-dblclick="handleReport"
+      stripe highlight-current-row style="width: 100%">
         <el-table-column property="suiteId" label="套件编号" min-width="7%"></el-table-column>
         <el-table-column property="suiteName" label="套件名称" min-width="15%"></el-table-column>
-        <el-table-column property="suiteLogNo" label="执行编号" min-width="19%"></el-table-column>
-        <el-table-column property="totalCase" label="用例总数" min-width="8%"></el-table-column>
-        <el-table-column property="totalRunCase" label="运行总数" min-width="8%"></el-table-column>
-        <el-table-column property="totalSkip" label="跳过" min-width="7%"></el-table-column>
-        <el-table-column property="totalSuccess" label="成功" min-width="7%"></el-table-column>
-        <el-table-column property="totalFailed" label="失败" min-width="7%"></el-table-column>
-        <el-table-column property="totalError" label="错误" min-width="7%"></el-table-column>
+        <el-table-column property="suiteLogNo" label="执行编号" min-width="18%"></el-table-column>
+        <el-table-column property="totalCase" label="用例数" min-width="6%"></el-table-column>
+        <el-table-column property="totalRunCase" label="运行数" min-width="6%"></el-table-column>
+        <el-table-column property="totalSkip" label="跳过" min-width="6%"></el-table-column>
+        <el-table-column property="totalSuccess" label="成功" min-width="6%"></el-table-column>
+        <el-table-column property="totalFailed" label="失败" min-width="6%"></el-table-column>
+        <el-table-column property="totalError" label="错误" min-width="6%"></el-table-column>
         <el-table-column property="runTime" label="耗时" min-width="10%"></el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="5%">
+        <el-table-column property="executeType" label="执行方式" min-width="7%">
           <template slot-scope="scope">
-            <el-button 
-              @click="handleReport(scope.row)"
-              type="primary"
-              size="small" 
-              icon="el-icon-view" 
-              circle>
-            </el-button>
+            <el-tag
+              effect="dark"
+              :type="scope.row.executeTypeStyle"
+              disable-transitions>{{scope.row.executeType}}
+            </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column property="runDevType" label="运行环境" min-width="7%">
+          <template slot-scope="scope">
+            <el-tag
+              effect="dark"
+              :type="scope.row.runDevStyle"
+              disable-transitions>{{scope.row.runDevType}}
+            </el-tag>
           </template>
         </el-table-column>
       </el-table>
@@ -85,6 +106,34 @@ export default {
       pageNum: 1,
       dataList: [],
       dataInfo: {},
+      executeTypeOptions:[
+          {
+              value:0,
+              label:'并行',
+          },
+          {
+              value:1,
+              label:'串行',
+          },
+      ],
+      runDevOptions:[
+          {
+              value:0,
+              label:'开发 DEV',
+          },
+          {
+              value:1,
+              label:'测试 TEST',
+          },
+          {
+              value:2,
+              label:'预发 STG',
+          },
+          {
+              value:3,
+              label:'线上 PROD',
+          },
+      ]
     };
   },
   components: {
@@ -128,6 +177,32 @@ export default {
                       element.runTime = min + 'min ' + s + 's'
                   }
                   
+              }
+              if (element.executeType == 0) {
+                  element.executeType = "并行"
+                  element.executeTypeStyle = 'danger'
+              } else if (element.executeType == 1) {
+                  element.executeType = "串行"
+                  element.executeTypeStyle = ''
+              } else {
+                  element.executeType = "UNKNOW"
+                  element.executeTypeStyle = ''
+              }
+              if (element.runDev == 3) {
+                  element.runDevType = "线上"
+                  element.runDevStyle = 'danger'
+              } else if (element.runDev == 2) {
+                  element.runDevType = "预发"
+                  element.runDevStyle = 'warning'
+              } else if (element.runDev == 1) {
+                  element.runDevType = "测试"
+                  element.runDevStyle = 'success'
+              } else if (element.runDev == 0) {
+                  element.runDevType = "开发"
+                  element.runDevStyle = 'primary'
+              } else {
+                  element.runDevType = "UNKNOW"
+                  element.runDevStyle = ''
               }
           });  
           this.dataList = res.data.list       

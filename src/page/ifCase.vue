@@ -1127,7 +1127,7 @@ export default {
                 message: res.msg
             })
         } else {
-            if (res.msg === '测试用例执行失败') {
+            if (res.msg === '执行失败') {
                 this.$message({
                 type: "warning",
                 center: true,
