@@ -10,6 +10,9 @@ const projectList = r => require.ensure([], () => r(require('@/page/projectList'
 const moduleList = r => require.ensure([], () => r(require('@/page/moduleList')), 'moduleList');
 const dbList = r => require.ensure([], () => r(require('@/page/dbList')), 'dbList');
 const ifRelyData = r => require.ensure([], () => r(require('@/page/ifRelyData')), 'ifRelyData');
+const relySqlData = r => require.ensure([], () => r(require('@/page/relySqlData')), 'relySqlData');
+const relyInitMethodData = r => require.ensure([], () => r(require('@/page/relyInitMethodData')), 'relyInitMethodData');
+const relyFixedData = r => require.ensure([], () => r(require('@/page/relyFixedData')), 'relyFixedData');
 const relyData = r => require.ensure([], () => r(require('@/page/relyData')), 'relyData');
 const executeLog = r => require.ensure([], () => r(require('@/page/executeLog')), 'executeLog');
 const ifAssertLog = r => require.ensure([], () => r(require('@/page/ifAssertLog')), 'ifAssertLog');
@@ -85,6 +88,30 @@ const router = new Router({
           component: ifRelyData,
           meta: {
             path: ['数据中心','接口依赖'],
+            requireAuth: true
+          },
+        }, 
+        {
+          path: '/relySqlData',
+          component: relySqlData,
+          meta: {
+            path: ['数据中心','其他依赖','查询语句'],
+            requireAuth: true
+          },
+        }, 
+        {
+          path: '/relyInitMethodData',
+          component: relyInitMethodData,
+          meta: {
+            path: ['数据中心','其他依赖','预置方法'],
+            requireAuth: true
+          },
+        }, 
+        {
+          path: '/relyFixedData',
+          component: relyFixedData,
+          meta: {
+            path: ['数据中心','其他依赖','固定字符'],
             requireAuth: true
           },
         }, 

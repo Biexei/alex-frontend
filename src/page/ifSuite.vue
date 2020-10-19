@@ -163,7 +163,7 @@
             <el-input v-model="dataInfo.desc" size='small'></el-input>
           </el-form-item>  
           <el-form-item label="创建人" label-width="100px">
-            <el-input v-model="dataInfo.creator" size='small'></el-input>
+            <el-input v-model="dataInfo.creator" size='small' disabled></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">

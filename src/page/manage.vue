@@ -12,6 +12,9 @@
 					<el-submenu index="1"  class="left-color">
 						<template slot="title"  class="left-color"><i class="el-icon-more"></i><span slot="title" class="title-color">数据中心</span></template>
 						<el-menu-item index="ifRelyData"  class="left-color"><i class="el-icon-ice-cream-square"></i><span slot="title" class="title-color">接口依赖</span></el-menu-item>
+						<el-menu-item index="relySqlData"  class="left-color"><i class="el-icon-ice-cream-square"></i><span slot="title" class="title-color">查询语句</span></el-menu-item>
+						<el-menu-item index="relyInitMethodData"  class="left-color"><i class="el-icon-ice-cream-square"></i><span slot="title" class="title-color">预置方法</span></el-menu-item>
+						<el-menu-item index="relyFixedData"  class="left-color"><i class="el-icon-ice-cream-square"></i><span slot="title" class="title-color">固定字符</span></el-menu-item>
 						<el-menu-item index="relyData"  class="left-color"><i class="el-icon-ice-cream-round"></i><span slot="title" class="title-color">其它依赖</span></el-menu-item>
 					</el-submenu>
 					<el-submenu index="2"  class="left-color">

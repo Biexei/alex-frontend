@@ -22,8 +22,8 @@
               </div>
               <div class="title_position">
                 <span>
-                  <span style="font-weight:bold;">{{(suiteLog.totalSuccess/suiteLog.totalRunCase)*100 + '%'}}</span> pass/run
-                  <span style="font-weight:bold;">{{(suiteLog.totalRunCase/suiteLog.totalCase)*100 + '%'}}</span> run/total
+                  <span style="font-weight:bold;">{{passRate}}</span> pass/run
+                  <span style="font-weight:bold;">{{runRate}}</span> run/total
                 </span>
               </div>
             </div>
@@ -94,6 +94,8 @@ export default {
 
       suiteLogNo: this.$route.query.suiteLogNo,  
       suiteLog: {},
+      passRate: "",
+      runRate: "",
 
       chartSettings: {
         radius: ["50px", "40px"],
@@ -140,6 +142,8 @@ export default {
       const res = await findIfSuiteLogByNo(this.suiteLogNo)
       if (res.code == 200) {
         this.suiteLog = res.data
+        this.passRate = (this.suiteLog.totalSuccess/this.suiteLog.totalRunCase).toFixed(4)*100 + '%'
+        this.runRate = (this.suiteLog.totalRunCase/this.suiteLog.totalCase).toFixed(4)*100 + '%'
       }
       this.chartTestData.rows.push({"type":"pass", "count":res.data.totalSuccess})
       this.chartTestData.rows.push({"type":"failed", "count":res.data.totalFailed})
