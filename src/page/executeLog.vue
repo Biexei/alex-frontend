@@ -237,8 +237,8 @@
                       <el-input :value="props.row.actualResult" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }"></el-input>
                     </el-form-item>
                     <br />
-                    <el-form-item label="错误信息:" v-if="props.row.status=='错误'">
-                        <span>{{ props.row.errorMessage }}</span>
+                    <el-form-item label="错误信息:" v-if="props.row.errorMessage!=null">
+                      <el-input :value="props.row.errorMessage" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }"></el-input>
                     </el-form-item>
                   </el-form>
                 </template>
@@ -253,7 +253,7 @@
                     disable-transitions>{{scope.row.status}}</el-tag>
                 </template>
               </el-table-column>
-              <el-table-column property="errorMessage" label="备注" min-width="10%"></el-table-column>
+              <!-- <el-table-column property="errorMessage" label="备注" min-width="10%"></el-table-column> -->
             </el-table>
           </el-collapse-item>           
         </el-form>

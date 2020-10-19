@@ -48,7 +48,7 @@
         <el-table-column property="desc" label="描述" min-width="15%"></el-table-column>
         <el-table-column property="creator" label="创建人" min-width="10%"></el-table-column>
         <el-table-column property="createdTime" label="创建时间" min-width="15%" ></el-table-column>
-        <el-table-column property="executeType" label="执行方式" min-width="10%">
+        <el-table-column property="executeType" label="执行方式" min-width="6%">
           <template slot-scope="scope">
             <el-tag
               effect="dark"
@@ -57,12 +57,21 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column property="runDevType" label="运行环境" min-width="10%">
+        <el-table-column property="runDevType" label="运行环境" min-width="6%">
           <template slot-scope="scope">
             <el-tag
               effect="dark"
               :type="scope.row.runDevStyle"
               disable-transitions>{{scope.row.runDevType}}
+            </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column property="runDevType" label="失败重跑" min-width="7%">
+          <template slot-scope="scope">
+            <el-tag
+              effect="dark"
+              :type="scope.row.isRetry"
+              disable-transitions>{{scope.row.isRetryType}}
             </el-tag>
           </template>
         </el-table-column>
@@ -143,6 +152,13 @@
               </el-option>
             </el-select>
           </el-form-item>
+          <el-form-item label="*失败重跑" label-width="100px">
+            <el-switch
+              v-model="dataInfo.isRetry"
+              :active-value=0
+              :inactive-value=1>
+            </el-switch>
+          </el-form-item>
           <el-form-item label="描述" label-width="100px">
             <el-input v-model="dataInfo.desc" size='small'></el-input>
           </el-form-item>  
@@ -180,6 +196,13 @@
                 :value="item.value">
               </el-option>
             </el-select>
+          </el-form-item>
+          <el-form-item label="*失败重跑" label-width="100px">
+            <el-switch
+              v-model="dataAdd.isRetry"
+              :active-value=0
+              :inactive-value=1>
+            </el-switch>
           </el-form-item>
           <el-form-item label="描述" label-width="100px">
             <el-input v-model="dataAdd.desc" size='small'></el-input>
@@ -239,6 +262,16 @@ export default {
               value:3,
               label:'线上 PROD',
           },
+      ],
+      isRetryOptions:[
+          {
+              value:0,
+              label:'是',
+          },
+          {
+              value:1,
+              label:'否',
+          },
       ]
     };
   },
@@ -263,6 +296,11 @@ export default {
               } else {
                   element.executeType = "串行"
                   element.executeTypeStyle = ''
+              }
+              if (element.isRetry == 0) {
+                  element.isRetryType = "是"
+              } else {
+                  element.isRetryType = "否"
               }
               if (element.runDev == 3) {
                   element.runDevType = "线上"

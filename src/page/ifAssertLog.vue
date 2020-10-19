@@ -88,8 +88,14 @@
                 ></el-input>
             </el-form-item>
             <br />
-            <el-form-item label="错误信息:" v-if="props.row.status=='错误'">
-                <span>{{ props.row.errorMessage }}</span>
+            <el-form-item label="错误信息:" v-if="props.row.errorMessage!=null">
+                <el-input
+                :value="props.row.errorMessage"
+                readonly
+                type="textarea"
+                size="mini"
+                :autosize="{ minRows: 0, maxRows: 6 }"
+                ></el-input>
             </el-form-item>
             </el-form>
         </template>
