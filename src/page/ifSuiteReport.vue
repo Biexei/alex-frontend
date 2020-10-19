@@ -13,7 +13,7 @@
               <div class="title_position" v-else-if="suiteLog.executeType==0">Async</div>
               <div class="title_position" v-else>Unknow</div>
               <div class="graph">
-                <ve-bar :data="chartSummaryData" :settings="chartSettings" :extend="chartSummaryExtend" height="160px" width="600px" style="padding-left: 180px;"></ve-bar>
+                <ve-bar :data="chartSummaryData" :settings="chartSettings" :extend="chartSummaryExtend" height="160px" width="600px" style="padding-left: 100px;"></ve-bar>
               </div>
               <div class="title_position">
                 <span>
