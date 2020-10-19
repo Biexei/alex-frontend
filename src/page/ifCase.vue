@@ -1143,22 +1143,28 @@ export default {
         }
     },
     async handleDelete(caseId, index) {
-      const res = await removeInterfaceCase(caseId);
-      if (res.code == 200) {
-        this.$message({
-          type: "success",
-          center: true,
-          message: res.msg
-        });
-        this.total --;
-        this.dataList.splice(index, 1);
-      } else {
-        this.$message({
-          type: "error",
-          center: true,
-          message: res.msg
-        });
-      }
+      this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        const res = await removeInterfaceCase(caseId);
+        if (res.code == 200) {
+          this.$message({
+            type: "success",
+            center: true,
+            message: res.msg
+          });
+          this.total --;
+          this.dataList.splice(index, 1);
+        } else {
+          this.$message({
+            type: "error",
+            center: true,
+            message: res.msg
+          });
+        }
+      })  
     }, 
     
     async handleAdd(){

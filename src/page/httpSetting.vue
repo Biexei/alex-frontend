@@ -93,7 +93,7 @@
         ></el-pagination>
       </div>
 
-      <el-dialog title="编辑" :visible.sync="editDialogFormVisible">
+      <el-dialog title="编辑" :visible.sync="editDialogFormVisible" :close-on-click-modal=false>
         <el-form :model="dataInfo">
           <el-form-item label="*名称" label-width="100px">
             <el-input v-model="dataInfo.name" size='small'></el-input>
@@ -131,7 +131,7 @@
         </div>
       </el-dialog>
 
-      <el-dialog title="添加" :visible.sync="addDialogFormVisible">
+      <el-dialog title="添加" :visible.sync="addDialogFormVisible" :close-on-click-modal=false>
         <el-form :model="dataAdd" ref="dataAdd">
           <el-form-item label="*名称" label-width="100px">
             <el-input v-model="dataAdd.name" size='small'></el-input>
@@ -258,22 +258,28 @@ export default {
       }
     },
     async handleDelete(settingId, index) {
-      const res = await removeHttpSettingById(settingId);
-      if (res.code == 200) {
-        this.$message({
-          type: "success",
-          center: true,
-          message: res.msg
-        });
-        this.total --;
-        this.dataList.splice(index, 1);
-      } else {
-        this.$message({
-          type: "error",
-          center: true,
-          message: res.msg
-        });
-      }
+      this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        const res = await removeHttpSettingById(settingId);
+        if (res.code == 200) {
+          this.$message({
+            type: "success",
+            center: true,
+            message: res.msg
+          });
+          this.total --;
+          this.dataList.splice(index, 1);
+        } else {
+          this.$message({
+            type: "error",
+            center: true,
+            message: res.msg
+          });
+        }
+      })  
     },
     async updateSetting() {
       const res = await modifyHttpSetting(this.dataInfo);

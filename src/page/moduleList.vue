@@ -54,7 +54,7 @@
         ></el-pagination>
       </div>
 
-      <el-dialog title="编辑" :visible.sync="editDialogFormVisible">
+      <el-dialog title="编辑" :visible.sync="editDialogFormVisible" :close-on-click-modal=false>
         <el-form :model="dataInfo">
           <el-form-item label="*模块名称" label-width="100px">
             <el-input v-model="dataInfo.moduleName"  size='small'></el-input>
@@ -69,7 +69,7 @@
         </div>
       </el-dialog>
 
-      <el-dialog title="添加" :visible.sync="addDialogFormVisible" @open="selectProjectList">
+      <el-dialog title="添加" :visible.sync="addDialogFormVisible" @open="selectProjectList" :close-on-click-modal=false>
         <el-form :model="dataAdd" ref="dataAdd">
           <el-form-item label="*项目名称" label-width="100px" prop="name">
             <el-select v-model="dataAdd.projectId" @change="handleSelect"  size='small'>
@@ -146,7 +146,7 @@ export default {
           dataList.forEach((item, index) => {
             this.projectOptions.push({
                 label: item.name,
-                value: item.project_id,
+                value: item.projectId,
                 index: index
             });
           });
@@ -158,8 +158,8 @@ export default {
         });
       }
     },
-    async handleSelect(project_id) {
-      this.dataAdd['project_id'] = project_id;
+    async handleSelect(projectId) {
+      this.dataAdd['projectId'] = projectId;
     },  
     async handleAdd() {
         const res = await saveModule(this.dataAdd);
@@ -194,22 +194,28 @@ export default {
       }
     },
     async handleDelete(moduleId, index) {
-      const res = await removeModule(moduleId);
-      if (res.code == 200) {
-        this.$message({
-          type: "success",
-          center: true,
-          message: res.msg
-        });
-        this.total --;
-        this.dataList.splice(index, 1);
-      } else {
-        this.$message({
-          type: "error",
-          center: true,
-          message: res.msg
-        });
-      }
+      this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        const res = await removeModule(moduleId);
+        if (res.code == 200) {
+          this.$message({
+            type: "success",
+            center: true,
+            message: res.msg
+          });
+          this.total --;
+          this.dataList.splice(index, 1);
+        } else {
+          this.$message({
+            type: "error",
+            center: true,
+            message: res.msg
+          });
+        }
+      })  
     },
     async updateModule() {
       let postData = {};
