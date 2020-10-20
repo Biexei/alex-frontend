@@ -72,7 +72,7 @@
         </el-col>
         <el-col :span="6">
           <el-card shadow="hover">
-            <div>Time</div>
+            <div>Start</div>
             <div class="card_content_position">{{suiteLog.startTime}}</div>
           </el-card>
         </el-col>

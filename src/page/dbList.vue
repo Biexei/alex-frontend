@@ -96,14 +96,40 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="*URL" label-width="100px">
-            <el-input v-model="dataInfo.url" size='small'></el-input>
+          <el-form-item label="*调试环境" label-width="100px">
+            <el-row>
+              <el-col :span="4"><el-input v-model="dataInfo.username" size='small' placeholder="*用户名"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataInfo.password" size='small' placeholder="*密码"></el-input></el-col>
+              <el-col :span="16"><el-input v-model="dataInfo.url" size='small' placeholder="*连接地址"></el-input></el-col>
+            </el-row>
           </el-form-item>
-          <el-form-item label="*帐号" label-width="100px">
-            <el-input v-model="dataInfo.username" size='small'></el-input>
+          <el-form-item label="*开发环境" label-width="100px">
+            <el-row>
+              <el-col :span="4"><el-input v-model="dataInfo.devUsername" size='small' placeholder="*用户名"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataInfo.devPassword" size='small' placeholder="*密码"></el-input></el-col>
+              <el-col :span="16"><el-input v-model="dataInfo.devUrl" size='small' placeholder="*连接地址"></el-input></el-col>
+            </el-row>
           </el-form-item>
-          <el-form-item label="*密码" label-width="100px">
-            <el-input v-model="dataInfo.password" size='small'></el-input>
+          <el-form-item label="*测试环境" label-width="100px">
+            <el-row>
+              <el-col :span="4"><el-input v-model="dataInfo.testUsername" size='small' placeholder="*用户名"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataInfo.testPassword" size='small' placeholder="*密码"></el-input></el-col>
+              <el-col :span="16"><el-input v-model="dataInfo.testUrl" size='small' placeholder="*连接地址"></el-input></el-col>
+            </el-row>
+          </el-form-item>
+          <el-form-item label="*预发环境" label-width="100px">
+            <el-row>
+              <el-col :span="4"><el-input v-model="dataInfo.stgUsername" size='small' placeholder="*用户名"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataInfo.stgPassword" size='small' placeholder="*密码"></el-input></el-col>
+              <el-col :span="16"><el-input v-model="dataInfo.stgUrl" size='small' placeholder="*连接地址"></el-input></el-col>
+            </el-row>
+          </el-form-item>
+          <el-form-item label="*线上环境" label-width="100px">
+            <el-row>
+              <el-col :span="4"><el-input v-model="dataInfo.prodUsername" size='small' placeholder="*用户名"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataInfo.prodPassword" size='small' placeholder="*密码"></el-input></el-col>
+              <el-col :span="16"><el-input v-model="dataInfo.prodUrl" size='small' placeholder="*连接地址"></el-input></el-col>
+            </el-row>
           </el-form-item>
           <el-form-item label="*状态" label-width="100px">
             <el-radio-group v-model="dataInfo.status" size='small'>
@@ -136,14 +162,40 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="*URL" label-width="100px">
-            <el-input v-model="dataAdd.url" size='small'></el-input>
+          <el-form-item label="*调试环境" label-width="100px">
+            <el-row>
+              <el-col :span="4"><el-input v-model="dataAdd.username" size='small' placeholder="*用户名"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataAdd.password" size='small' placeholder="*密码"></el-input></el-col>
+              <el-col :span="16"><el-input v-model="dataAdd.url" size='small' placeholder="*连接地址"></el-input></el-col>
+            </el-row>
           </el-form-item>
-          <el-form-item label="*帐号" label-width="100px">
-            <el-input v-model="dataAdd.username" size='small'></el-input>
+          <el-form-item label="*开发环境" label-width="100px">
+            <el-row>
+              <el-col :span="4"><el-input v-model="dataAdd.devUsername" size='small' placeholder="*用户名"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataAdd.devPassword" size='small' placeholder="*密码"></el-input></el-col>
+              <el-col :span="16"><el-input v-model="dataAdd.devUrl" size='small' placeholder="*连接地址"></el-input></el-col>
+            </el-row>
           </el-form-item>
-          <el-form-item label="*密码" label-width="100px">
-            <el-input v-model="dataAdd.password" size='small'></el-input>
+          <el-form-item label="*测试环境" label-width="100px">
+            <el-row>
+              <el-col :span="4"><el-input v-model="dataAdd.testUsername" size='small' placeholder="*用户名"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataAdd.testPassword" size='small' placeholder="*密码"></el-input></el-col>
+              <el-col :span="16"><el-input v-model="dataAdd.testUrl" size='small' placeholder="*连接地址"></el-input></el-col>
+            </el-row>
+          </el-form-item>
+          <el-form-item label="*预发环境" label-width="100px">
+            <el-row>
+              <el-col :span="4"><el-input v-model="dataAdd.stgUsername" size='small' placeholder="*用户名"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataAdd.stgPassword" size='small' placeholder="*密码"></el-input></el-col>
+              <el-col :span="16"><el-input v-model="dataAdd.stgUrl" size='small' placeholder="*连接地址"></el-input></el-col>
+            </el-row>
+          </el-form-item>
+          <el-form-item label="*线上环境" label-width="100px">
+            <el-row>
+              <el-col :span="4"><el-input v-model="dataAdd.prodUsername" size='small' placeholder="*用户名"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataAdd.prodPassword" size='small' placeholder="*密码"></el-input></el-col>
+              <el-col :span="16"><el-input v-model="dataAdd.prodUrl" size='small' placeholder="*连接地址"></el-input></el-col>
+            </el-row>
           </el-form-item>
           <el-form-item label="*状态" label-width="100px">
             <el-radio-group v-model="dataAdd.status" size='small'>
