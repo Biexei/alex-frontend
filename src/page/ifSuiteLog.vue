@@ -118,6 +118,10 @@ export default {
       ],
       runDevOptions:[
           {
+              value:4,
+              label:'调试 DEBUG',
+          },
+          {
               value:0,
               label:'开发 DEV',
           },
@@ -188,7 +192,10 @@ export default {
                   element.executeType = "UNKNOW"
                   element.executeTypeStyle = ''
               }
-              if (element.runDev == 3) {
+              if (element.runDev == 4) {
+                  element.runDevType = "调试"
+                  element.runDevStyle = 'info'
+              } else if (element.runDev == 3) {
                   element.runDevType = "线上"
                   element.runDevStyle = 'danger'
               } else if (element.runDev == 2) {

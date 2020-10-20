@@ -57,10 +57,11 @@
         <el-col :span="6">
           <el-card shadow="hover">
             <div>Env</div>
-            <div class="card_content_position" v-if="suiteLog.runDev==0">Dev</div>
-            <div class="card_content_position" v-else-if="suiteLog.runDev==1">Test</div>
-            <div class="card_content_position" v-else-if="suiteLog.runDev==2">Stg</div>
-            <div class="card_content_position" v-else-if="suiteLog.runDev==3">Prod</div>
+            <div class="card_content_position" v-if="suiteLog.runDev==0">DEV</div>
+            <div class="card_content_position" v-else-if="suiteLog.runDev==1">TEST</div>
+            <div class="card_content_position" v-else-if="suiteLog.runDev==2">STG</div>
+            <div class="card_content_position" v-else-if="suiteLog.runDev==3">PROD</div>
+            <div class="card_content_position" v-else-if="suiteLog.runDev==4">DEBUG</div>
             <div class="card_content_position" v-else>Unknow</div>
           </el-card>
         </el-col>
