@@ -1,19 +1,22 @@
 <template>
   <div class="fillcontain">
-    <head-top></head-top>
-        <div><ve-pie :data="totalCount"></ve-pie></div>
+    <head-top></head-top>  
       <el-row>
-        <el-col :span="12"><div><ve-histogram :data="weekExecuteLog"></ve-histogram></div></el-col>
-        <el-col :span="12"><div><ve-histogram :data="weekAssertLog"></ve-histogram></div></el-col>
+        <el-col :span="12"><div><ve-pie :data="totalCount"></ve-pie></div></el-col>
+        <el-col :span="12"><div><ve-line :data="weekCaseAssert"></ve-line></div></el-col>
       </el-row> 
       <el-row>
+        <el-col :span="12"><div><ve-histogram :data="weekExecuteLog" :extend="histogramExtend"></ve-histogram></div></el-col>
+        <el-col :span="12"><div><ve-histogram :data="weekAssertLog" :extend="histogramExtend"></ve-histogram></div></el-col>
+      </el-row> 
+      <!-- <el-row>
         <el-col :span="12"><div><ve-line :data="weekCase"></ve-line></div></el-col>
         <el-col :span="12"><div><ve-line :data="weekAssert"></ve-line></div></el-col>
-      </el-row> 
-      <el-row>
+      </el-row>  -->
+      <!-- <el-row>
         <el-col :span="12"><div><ve-line :data="weekRegister"></ve-line></div></el-col>
         <el-col :span="12"><div><ve-line :data="weekSuite"></ve-line></div></el-col>
-      </el-row> 
+      </el-row>  -->
    </div>
 </template>
 <script>
@@ -38,6 +41,10 @@ export default {
           columns: ['日期', '新增断言'],
           rows: [],
         },
+        weekCaseAssert: {
+          columns: ['日期', '新增用例', '新增断言'],
+          rows: [],
+        },
         weekSuite: {
           columns: ['日期', '新增测试套件'],
           rows: [],
@@ -49,7 +56,10 @@ export default {
         weekExecuteLog: {
           columns: ['日期', '执行通过', '执行失败', '执行错误'],
           rows: [],
-        },        
+        },    
+        histogramExtend: {        
+          color: ['#67C23A', '#E6A23C', '#F56C6C']
+        },   
     }
 
   },
@@ -58,12 +68,13 @@ export default {
   },
   mounted() {
     this.countAll();
-    this.registerWeek();
-    this.caseWeek();
-    this.assertWeek();
-    this.suiteWeek();
+    // this.registerWeek();
+    // this.suiteWeek();
+    // this.caseWeek();
+    // this.assertWeek();
     this.assertLogWeek();
     this.executeLogWeek();
+    this.caseAssertWeek();
   },
   methods: {
     async countAll() {
@@ -94,7 +105,15 @@ export default {
         const res = await executeLogWeek();
         this.weekExecuteLog.rows = res.data
     },
-
+    async caseAssertWeek() {
+      const caseRes = await caseWeek();
+      const assertRes = await assertWeek();
+      for (var i=0; i < caseRes.data.length; i++) {
+        this.weekCaseAssert.rows.push(
+          {"日期":caseRes.data[i].日期, "新增用例":caseRes.data[i].新增用例, "新增断言":assertRes.data[i].新增断言}
+        )
+      }
+    }
   }
 }
 </script>

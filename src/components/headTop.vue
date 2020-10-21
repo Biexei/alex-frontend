@@ -1,21 +1,21 @@
 <template>
     <div class="header_container">
 		<el-breadcrumb separator="/">
-			<el-breadcrumb-item :to="{ path: '/manage' }">首页</el-breadcrumb-item>
+			<el-breadcrumb-item :to="{ path: '/analysis' }">首页</el-breadcrumb-item>
 			<el-breadcrumb-item v-for="(item, index) in $route.meta.path" :key="index">{{item}}</el-breadcrumb-item>
 		</el-breadcrumb>
 		<div class="btn-div">
 		<el-tooltip effect="dark" content="Json格式化" placement="left-end">
-			<el-button @click=handleBeautyJson size="mini" type="primary" plain>JSON</el-button>
+			<el-button @click=handleBeautyJson size="mini" type="primary" circle icon="el-icon-magic-stick"></el-button>
 		</el-tooltip>
-		<el-tooltip effect="dark" content="XML格式化" placement="left-end">
+		<!-- <el-tooltip effect="dark" content="XML格式化" placement="left-end">
 			<el-button @click=handleBeautyXml size="mini" type="primary"  plain>XML</el-button>
-		</el-tooltip>
+		</el-tooltip> -->
 		<el-tooltip effect="dark" content="注销" placement="left-end">
 			 <el-button type="danger" icon="el-icon-switch-button" circle size="mini" @click=logout></el-button>
 		</el-tooltip>
 		</div>
-		<el-drawer title="json格式化" 
+		<el-drawer title="Json格式化" 
 		direction="ltr"
 		size="50%"
 		:visible.sync="showJsonDrawer">

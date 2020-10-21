@@ -24,17 +24,29 @@ const task = r => require.ensure([], () => r(require('@/page/task')), 'task');
 const analysis = r => require.ensure([], () => r(require('@/page/analysis')), 'analysis');
 const ifSuiteLog = r => require.ensure([], () => r(require('@/page/ifSuiteLog')), 'ifSuiteLog');
 const ifSuiteReport = r => require.ensure([], () => r(require('@/page/ifSuiteReport')), 'ifSuiteReport');
+const report = r => require.ensure([], () => r(require('@/page/report')), 'report');
 
 const router = new Router({
   routes: [
     {
-      name: 'ifSuiteReport',
-      path: '/ifSuiteReport',
-      component: ifSuiteReport,
+      name: 'report',
+      path: '/report',
+      component: report,
       meta: {
         path: ['接口测试','测试套件','测试报告'],
         requireAuth: true
       },
+      children: [
+        {
+          name: 'ifSuiteReport',
+          path: '/ifSuiteReport',
+          component: ifSuiteReport,
+          meta: {
+            path: ['接口测试','测试套件','测试报告'],
+            requireAuth: true
+          },
+        }, 
+      ]
     }, 
     {
       path: '/',
