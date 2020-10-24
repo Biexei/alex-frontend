@@ -50,15 +50,15 @@
       :data="dataList" 
       @row-dblclick="handleReport"
       stripe highlight-current-row style="width: 100%">
-        <el-table-column property="suiteId" label="套件编号" min-width="7%"></el-table-column>
-        <el-table-column property="suiteName" label="套件名称" min-width="15%"></el-table-column>
-        <el-table-column property="suiteLogNo" label="执行编号" min-width="18%"></el-table-column>
-        <el-table-column property="totalCase" label="用例数" min-width="6%"></el-table-column>
-        <el-table-column property="totalRunCase" label="运行数" min-width="6%"></el-table-column>
+        <el-table-column property="suiteName" label="套件名称" min-width="10%"></el-table-column>
+        <el-table-column property="suiteLogNo" label="执行编号" min-width="20%"></el-table-column>
+        <el-table-column property="totalCase" label="用例数" min-width="7%"></el-table-column>
+        <el-table-column property="totalRunCase" label="运行数" min-width="7%"></el-table-column>
         <el-table-column property="totalSkip" label="跳过" min-width="6%"></el-table-column>
         <el-table-column property="totalSuccess" label="成功" min-width="6%"></el-table-column>
         <el-table-column property="totalFailed" label="失败" min-width="6%"></el-table-column>
         <el-table-column property="totalError" label="错误" min-width="6%"></el-table-column>
+        <el-table-column property="totalRetry" label="重试" min-width="6%"></el-table-column>
         <el-table-column property="runTime" label="耗时" min-width="10%"></el-table-column>
         <el-table-column property="executeType" label="执行方式" min-width="7%">
           <template slot-scope="scope">
@@ -211,6 +211,9 @@ export default {
                   element.runDevType = "UNKNOW"
                   element.runDevStyle = ''
               }
+              if (element.totalRetry == null) {
+                element.totalRetry = '-'
+              }
           });  
           this.dataList = res.data.list       
       } else {
@@ -231,7 +234,7 @@ export default {
     },
     handleReport(row) {
       this.$router.push({
-        name: 'ifSuiteReport',
+        path: '/report',
         query: {
           suiteLogNo: row.suiteLogNo,
         },

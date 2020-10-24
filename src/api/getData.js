@@ -446,3 +446,14 @@ export const findIfSuiteLogByNo = suiteLogNo => HttpRequest.get('/suite/log/no/'
  * 根据测试套件执行日志编号查询日志详情
  */
 export const findIfSuiteLogById = id => HttpRequest.get('/suite/log/' + id)
+
+/**
+ * 根据项目 模块统计执行情况
+ */
+export const findSuiteLogSummary = suiteLogNo => HttpRequest.get('/suite/summary/' + suiteLogNo)
+
+
+/**
+ * 统计测试报告首页测试套件执行情况
+ */
+export const findSuiteReportAssert = suiteLogNo => HttpRequest.get('/suite/assert/log/' + suiteLogNo)

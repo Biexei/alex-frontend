@@ -1,10 +1,7 @@
 <template>
 	<div class="body">
-      <div class="header_container">
-        <div class="report_name"><p style="margin: 0 auto; font-weight: 600; font-size: 12px;">Alex</p></div>
-        <div style="margin:0 auto;width:500px;text-align:center;font-weight: 600; font-size: 12px; align: center;">ReportNo {{suiteLogNo}}</div>
-      </div>
       <div class="report_body">
+        <div class="dashbord"><label>Summary</label></div>
         <el-row :gutter="12">
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
@@ -56,6 +53,12 @@
       <el-row :gutter="12">
         <el-col :span="6">
           <el-card shadow="hover">
+            <div>By</div>
+            <div class="card_content_position">{{suiteLog.executor}}</div>
+          </el-card>
+        </el-col>
+        <el-col :span="6">
+          <el-card shadow="hover">
             <div>Env</div>
             <div class="card_content_position" v-if="suiteLog.runDev==0">DEV</div>
             <div class="card_content_position" v-else-if="suiteLog.runDev==1">TEST</div>
@@ -73,28 +76,69 @@
         </el-col>
         <el-col :span="6">
           <el-card shadow="hover">
-            <div>Start</div>
-            <div class="card_content_position">{{suiteLog.startTime}}</div>
-          </el-card>
-        </el-col>
-        <el-col :span="6">
-          <el-card shadow="hover">
-            <div>End</div>
-            <div class="card_content_position">{{suiteLog.endTime}}</div>
+            <div>Time</div>
+            <div class="card_content_position">{{suiteLog.startTime}}~{{suiteLog.endTime}}</div>
           </el-card>
         </el-col>
       </el-row>
-      </div>
+
+      <el-row :gutter="12">
+        <el-col :span="12">
+          <el-card shadow="hover">
+            <div class='card_content_position'>
+                <el-badge :value="suiteLog.totalRetry" class="item" :max="99">
+                  <el-tag effect="plain" size="small">Retry</el-tag>
+                </el-badge>
+            </div>
+            <div>
+              <el-table :data="summaryData" stripe highlight-current-row style="width: 100%; font-size: 13px;">
+                  <el-table-column property="projectName" label="Project" min-width="30%"></el-table-column>
+                  <el-table-column property="moduleName" label="Module" min-width="30%"></el-table-column>
+                  <el-table-column property="pass" label="Pass" min-width="13%"></el-table-column>
+                  <el-table-column property="failure" label="Failed" min-width="13%"></el-table-column>
+                  <el-table-column property="error" label="Error" min-width="13%"></el-table-column>
+              </el-table>  
+            </div>
+          </el-card>
+        </el-col>
+
+        <el-col :span="12">
+          <div class="grid-content bg-purple ">
+          <div>
+            <div class="title_position">Assert</div>
+            <div class="graph">
+              <ve-ring :data="chartAssertData" :settings="chartSettings" :extend="chartTestExtend" height="160px"></ve-ring>
+            </div>
+            <div class="title_position">
+              <span>
+                <span style="font-weight:bold;">{{assertGroup.pass + assertGroup.failed + assertGroup.error}}</span> run
+              </span>
+            </div>
+            <div class="title_position">
+              <span>
+                <span style="font-weight:bold;">{{assertGroup.pass}}</span> pass
+                <span style="font-weight:bold;">{{assertGroup.failed}}</span> failed
+                <span style="font-weight:bold;">{{assertGroup.error}}</span> error
+              </span>
+            </div>
+          </div>
+          </div>
+        </el-col>
+
+      </el-row>
+    </div>
 	</div>
 </template>
 <script>
-import {findIfSuiteLogByNo } from "@/api/getData";
+import {findIfSuiteLogByNo, findSuiteLogSummary,findSuiteReportAssert } from "@/api/getData";
 export default {
   data() {
     return {
 
       suiteLogNo: this.$route.query.suiteLogNo,  
       suiteLog: {},
+      assertGroup: {},
+      summaryData: [],
       passRate: "",
       runRate: "",
 
@@ -114,6 +158,10 @@ export default {
         color: ['#67C23A', '#E6A23C', '#F56C6C', '#909399']
       },
       chartTestData: {
+        columns: ['type', 'count'],
+        rows: []
+      },
+      chartAssertData: {
         columns: ['type', 'count'],
         rows: []
       },
@@ -137,6 +185,8 @@ export default {
   },
   mounted() {
     this.findIfSuiteLogByNo()
+    this.findSuiteLogSummary()
+    this.findSuiteReportAssert()
   },
   methods: {
     async findIfSuiteLogByNo() {
@@ -156,7 +206,26 @@ export default {
       // this.chartSummaryData.rows.push({"type":"total", "count":res.data.totalCase})
       
       // 条形图用
-      this.chartSummaryData.rows.push({"type":"", "total":res.data.totalRunCase, "run":res.data.totalRunCase, "skip":res.data.totalSkip})  
+      this.chartSummaryData.rows.push({"type":"", "total":res.data.totalRunCase + res.data.totalSkip, "run":res.data.totalRunCase, "skip":res.data.totalSkip})  
+    },
+    async findSuiteLogSummary() {
+      const res = await findSuiteLogSummary(this.suiteLogNo)
+      if (res.code == 200) {
+        this.summaryData = res.data
+      } else {
+        this.$message({
+          type:"error",
+          center: true,
+          message:res.msg
+        });
+      }
+    },
+    async findSuiteReportAssert() {
+      const res = await findSuiteReportAssert(this.suiteLogNo)
+      this.assertGroup = res.data
+      this.chartAssertData.rows.push({"type":"pass", "count":res.data.pass})
+      this.chartAssertData.rows.push({"type":"failed", "count":res.data.failed})
+      this.chartAssertData.rows.push({"type":"error", "count":res.data.error})
     }
   }
 }
@@ -164,32 +233,16 @@ export default {
 
 <style lang="less">
 @import "../style/mixin";
-	.header_container{
-    color: #F5F5F5;
-		background-color: #324057;
-		height: 50px;
-		display: flex;
-		justify-content: space-between;
-    align-items: center;
-  }
-	.report_name{
-		background-color: #1565C0;
-    height: 50px;
-    width: 70px;
-		display: flex;
-		justify-content: space-between;
-    align-items: center;
-    text-align: center;
-  }
   .report_body{
     font-size: 14px;
-    background-color: #F6F6F6;
+    background-color: #F7F7F7;
   }
   .title_position{
     padding-left: 15px;
     padding-top: 15px;
   }
   .card_content_position{
+    font-size: 13px;
     text-align:right;
   }  
   .graph{
@@ -202,7 +255,7 @@ export default {
     }
   }
   .el-col {
-    border-radius: 4px;
+    border-radius: 0px;
   }
   .bg-purple {
     background: #FFFFFF;
@@ -218,11 +271,21 @@ export default {
     padding: 0;
     background-color: #f9fafc;
   }
-  .left-color{
-    margin: 0 auto; 
-    font-weight: 600;
-    font-size: 12px;
-    color: #F5F5F5;
-    background-color: #1565C0
+  .dashbord {
+    padding-left: 15px;
+    padding-top: 15px;
+    height: 40px;
+    font-size: 20px;
   }
+  .item {
+    margin-top: 10px;
+    padding-bottom: 10px;
+  }
+  // .left-color{
+  //   margin: 0 auto; 
+  //   font-weight: 600;
+  //   font-size: 12px;
+  //   color: #F5F5F5;
+  //   background-color: #1565C0
+  // }
 </style>

@@ -23,31 +23,13 @@ const httpSetting = r => require.ensure([], () => r(require('@/page/httpSetting'
 const task = r => require.ensure([], () => r(require('@/page/task')), 'task');
 const analysis = r => require.ensure([], () => r(require('@/page/analysis')), 'analysis');
 const ifSuiteLog = r => require.ensure([], () => r(require('@/page/ifSuiteLog')), 'ifSuiteLog');
-const ifSuiteReport = r => require.ensure([], () => r(require('@/page/ifSuiteReport')), 'ifSuiteReport');
+
 const report = r => require.ensure([], () => r(require('@/page/report')), 'report');
+const reportSummary = r => require.ensure([], () => r(require('@/page/reportSummary')), 'reportSummary');
+const reportChannel = r => require.ensure([], () => r(require('@/page/reportChannel')), 'reportChannel');
 
 const router = new Router({
   routes: [
-    {
-      name: 'report',
-      path: '/report',
-      component: report,
-      meta: {
-        path: ['接口测试','测试套件','测试报告'],
-        requireAuth: true
-      },
-      children: [
-        {
-          name: 'ifSuiteReport',
-          path: '/ifSuiteReport',
-          component: ifSuiteReport,
-          meta: {
-            path: ['接口测试','测试套件','测试报告'],
-            requireAuth: true
-          },
-        }, 
-      ]
-    }, 
     {
       path: '/',
       component: login,
@@ -55,6 +37,31 @@ const router = new Router({
         requireAuth: false
       },
     },
+    {
+      path: '/report',
+      component: report,
+      meta: {
+        requireAuth: true
+      },
+      children: [
+        {
+          path: '',
+          name: 'reportSummary',
+          component: reportSummary,
+          meta: {
+            requireAuth: true
+          },
+        },
+        {
+          path: '/reportChannel',
+          name: 'reportChannel',
+          component: reportChannel,
+          meta: {
+            requireAuth: true
+          },
+        }, 
+      ]
+    }, 
     {
       path: '/manage',
       component: manage,
