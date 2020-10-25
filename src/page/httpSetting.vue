@@ -46,9 +46,9 @@
         <el-table-column property="desc" label="描述" min-width="15%"></el-table-column>
         <el-table-column property="type" label="类型" min-width="10%">
           <template slot-scope="scope">
-            <el-tag effect="dark" disable-transitions v-if="scope.row.type==0" >Proxy</el-tag>
+            <el-tag effect="dark" disable-transitions v-if="scope.row.type==0" >代理</el-tag>
             <!-- <el-tag effect="dark" disable-transitions v-else-if="scope.row.type==1" type="success">Header</el-tag> -->
-            <el-tag effect="dark" disable-transitions v-else-if="scope.row.type==2" type="warning">Email</el-tag>
+            <el-tag effect="dark" disable-transitions v-else-if="scope.row.type==2" type="warning">邮箱</el-tag>
           </template>
         </el-table-column>
         <el-table-column property="createdTime" label="创建时间" min-width="15%"></el-table-column>
@@ -179,7 +179,7 @@ export default {
       typeOptions:[
         {
           value: 0,
-          label: 'Proxy'
+          label: '代理'
         },
         // {
         //   value: 1,
@@ -187,7 +187,7 @@ export default {
         // },
         {
           value: 2,
-          label: 'Email'
+          label: '邮箱'
         },
       ],
       statusOptions:[

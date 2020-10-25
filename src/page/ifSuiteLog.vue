@@ -233,12 +233,19 @@ export default {
       this.selectSuiteLogList(this.queryForm);
     },
     handleReport(row) {
-      this.$router.push({
-        path: '/report',
-        query: {
-          suiteLogNo: row.suiteLogNo,
-        },
-      })
+      // this.$router.push({
+      //   path: '/report',
+      //   query: {
+      //     suiteLogNo: row.suiteLogNo,
+      //   },
+      // })
+      const { href } = this.$router.resolve({
+          path: '/report',
+          query: {
+              suiteLogNo: row.suiteLogNo,
+          }
+      });
+      window.open(href, '_blank');
     },
     async resetForm() {
       this.queryForm = {}

@@ -6,8 +6,8 @@
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
             <div>
-              <div class="title_position" v-if="suiteLog.executeType==1">Sync</div>
-              <div class="title_position" v-else-if="suiteLog.executeType==0">Async</div>
+              <div class="title_position" v-if="suiteLog.executeType==1">Sequential</div>
+              <div class="title_position" v-else-if="suiteLog.executeType==0">Parallel</div>
               <div class="title_position" v-else>Unknow</div>
               <div class="graph">
                 <ve-bar :data="chartSummaryData" :settings="chartSettings" :extend="chartSummaryExtend" height="160px" width="600px" style="padding-left: 100px;"></ve-bar>
@@ -85,7 +85,7 @@
       <el-row :gutter="12">
         <el-col :span="12">
           <el-card shadow="hover">
-            <div class='card_content_position'>
+            <div class='card_content_position' v-if='suiteLog.totalRetry!=null'>
                 <el-badge :value="suiteLog.totalRetry" class="item" :max="99">
                   <el-tag effect="plain" size="small">Retry</el-tag>
                 </el-badge>

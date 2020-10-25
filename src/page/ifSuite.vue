@@ -470,21 +470,27 @@ export default {
       })
     },
     async handleCopy(suiteId) {
-      const res = await copyInterfaceCaseSuiteById(suiteId)
-      if (res.code == 200) {
-        this.$message({
-          type: "success",
-          center: true,
-          message: '复制测试用例' + res.data.copyCaseCount + '个'
-        });
-        this.resetForm()
-      } else {
-        this.$message({
-          type: "error",
-          center: true,
-          message: res.msg
-        });
-      }
+      this.$confirm('此操作将复制旗下所有的用例，是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        const res = await copyInterfaceCaseSuiteById(suiteId)
+        if (res.code == 200) {
+          this.$message({
+            type: "success",
+            center: true,
+            message: '复制测试用例' + res.data.copyCaseCount + '个'
+          });
+          this.resetForm()
+        } else {
+          this.$message({
+            type: "error",
+            center: true,
+            message: res.msg
+          });
+        }
+      })  
     }
   }
 }

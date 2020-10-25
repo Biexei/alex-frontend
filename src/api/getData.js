@@ -34,7 +34,12 @@ export const modifyUserInfo = data => HttpRequest.post('/user/update', data);
 /**
  * 新增用户
  */
-export const addUser = data => HttpRequest.post('/user/register', data);
+export const addUser = data => HttpRequest.post('/user/save', data);
+
+/**
+ * 用户注册
+ */
+export const registerUser = data => HttpRequest.post('/user/register', data);
 
 
 

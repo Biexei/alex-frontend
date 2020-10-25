@@ -10,6 +10,11 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import JsonViewer from 'vue-json-viewer'
 
+// 设置浏览器标题
+router.beforeEach((to, from, next)=>{
+  document.title = 'Alex'
+  next()
+})
 
 Vue.config.productionTip = false
 
