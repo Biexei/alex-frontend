@@ -206,6 +206,11 @@ export const removeRelyData = relyId => HttpRequest.get('/rely/remove/' + relyId
 export const findInterfaceCaseExecuteLogList = data => HttpRequest.get('/interface/log/list', data)
 
 /**
+ *  获取接口执行日志(测试报告专用)
+ */
+export const findInterfaceCaseExecuteLogForReportList = data => HttpRequest.get('/interface/report/log/list', data)
+
+/**
  * 获取接口执行日志详情
  */
 export const findInterfaceCaseExecuteLog = executeId => HttpRequest.get('/interface/log/' + executeId)

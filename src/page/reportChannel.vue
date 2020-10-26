@@ -12,7 +12,7 @@
           <el-input v-model="queryForm.caseDesc" placeholder="Case name" size='mini'></el-input>
         </el-form-item>
         <el-form-item label="Status">
-          <el-select v-model="queryForm.status" placeholder="status" size='mini'>
+          <el-select v-model="queryForm.status" placeholder="status" size='mini' style="width:100px">
               <el-option v-for="item in logStatusOptions"
                   :key="item.label"
                   size='small'
@@ -22,7 +22,7 @@
           </el-select>
         </el-form-item>   
         <el-form-item label="Retry">
-          <el-select v-model="queryForm.isFailedRetry" placeholder="Retry" size='mini'>
+          <el-select v-model="queryForm.isFailedRetry" placeholder="Retry" size='mini' style="width:100px">
               <el-option v-for="item in retryOptions"
                   :key="item.label"
                   size='small'
@@ -30,7 +30,17 @@
                   :value="item.value">
               </el-option>
           </el-select>
-        </el-form-item>             
+        </el-form-item>   
+        <el-form-item label="ShowRely">
+          <el-select v-model="queryForm.showDetail" placeholder="showDetail" size='mini' style="width:100px">
+              <el-option v-for="item in showDetailOptions"
+                  :key="item.label"
+                  size='small'
+                  :label="item.label"
+                  :value="item.value">
+              </el-option>
+          </el-select>
+        </el-form-item>          
         <el-form-item>
           <el-button circle type="primary" size="mini" icon="el-icon-search" @click="selectInterfaceCaseExecuteLogList(queryForm)"></el-button>
           <el-button circle type="primary" size="mini" icon="el-icon-refresh" @click="resetForm"></el-button>
@@ -54,7 +64,7 @@
         <el-table-column property="id" label="Id" min-width="7%"></el-table-column>
         <el-table-column property="projectName" label="Project" min-width="12%"></el-table-column>
         <el-table-column property="moduleName" label="Module" min-width="12%"></el-table-column>
-        <el-table-column property="caseDesc" label="Case" min-width="25%"></el-table-column>
+        <el-table-column property="caseDesc" label="Case" min-width="20%"></el-table-column>
         <el-table-column property="executer" label="Executor" min-width="10%"></el-table-column>
         <el-table-column property="runTime" label="Time" min-width="8%"></el-table-column>
         <el-table-column property="status" label="Status" min-width="8%">
@@ -65,12 +75,20 @@
               disable-transitions>{{scope.row.status}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column property="isFailedRetry" label="RetryCase" min-width="10%">
+        <el-table-column property="isFailedRetry" label="RetryCase" min-width="8%">
           <template slot-scope="scope">
             <el-tag
               effect="dark"
               :type="scope.row.isFailedRetryStyle"
               disable-transitions>{{scope.row.isFailedRetryValue}}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column property="isRelyCaseValue" label="CaseRely" min-width="8%">
+          <template slot-scope="scope">
+            <el-tag
+              effect="dark"
+              :type="scope.row.isRelyCaseStyle"
+              disable-transitions>{{scope.row.isRelyCaseValue}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column fixed="right" label="Operation" min-width="8%">
@@ -291,7 +309,7 @@
 <script>
 import headTop from "../components/headTop";
 import {
-  findInterfaceCaseExecuteLogList,
+  findInterfaceCaseExecuteLogForReportList,
   findInterfaceCaseExecuteLog,
   caseExecuteLogChain,
 } from "@/api/getData";
@@ -312,7 +330,9 @@ export default {
       chainList: [],
 
       detailDialogFormVisible: false,
-      queryForm: {},
+      queryForm: {
+        showDetail: 1
+      },
       total: 0,
       pageSize: 10,
       pageNum: 1,
@@ -320,6 +340,16 @@ export default {
       dataInfo: {},
       assertInfo: [],
       retryOptions: [
+          {
+              value: 0,
+              label: '是'
+          },
+          {
+              value: 1,
+              label: '否'
+          },
+      ],
+      showDetailOptions: [
           {
               value: 0,
               label: '是'
@@ -442,7 +472,7 @@ export default {
       queryForm["pageNum"] = this.pageNum;
       queryForm["pageSize"] = this.pageSize;
       this.dataList = []
-      const res = await findInterfaceCaseExecuteLogList(queryForm);
+      const res = await findInterfaceCaseExecuteLogForReportList(queryForm);
       if (res.code == 200) {
         this.total = res.data.total;
         res.data.list.forEach(element => {
@@ -465,6 +495,13 @@ export default {
             } else {
                 element.isFailedRetryStyle = "primary"
                 element.isFailedRetryValue = 'UNKNOW'
+            }
+            if (element.suiteLogNo != null) {
+                element.isRelyCaseStyle = "primary"
+                element.isRelyCaseValue = '否'
+            } else {
+                element.isRelyCaseStyle = "danger"
+                element.isRelyCaseValue = '是'
             }
             element.runTime = element.runTime + 'ms'
             this.dataList.push(element)
@@ -578,6 +615,7 @@ export default {
     },
     async resetForm() {
       this.queryForm = {}
+      this.queryForm.showDetail = 1 
       this.pageSize = 10
       this.pageNum = 1
       this.selectInterfaceCaseExecuteLogList(this.queryForm)
