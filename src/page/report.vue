@@ -8,7 +8,7 @@
 	  		<el-col :span="1" class="menu-color" style="min-height: 100%" >
 				<el-menu :default-active="defaultActive" style="min-height: 100%;"  @select="anchor">
 					<el-menu-item index="reportSummary" class="menu-color"><i class="el-icon-s-data"></i></el-menu-item>
-					<el-menu-item index="reportChannel" class="menu-color"><i class="el-icon-monitor"></i></el-menu-item>
+					<el-menu-item index="reportDetail" class="menu-color"><i class="el-icon-monitor"></i></el-menu-item>
 				</el-menu>
 			</el-col>
             <el-col :span="23" style="height: 100%;overflow: auto;">

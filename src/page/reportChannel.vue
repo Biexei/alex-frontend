@@ -1,318 +1,22 @@
 <template>
-  <div class="fillcontain">
-    <div class="query" style="padding-left:30px">
-      <el-form :inline="true" :model="queryForm" class="demo-form-inline" ref="queryForm">
-        <el-form-item label="Project">
-          <el-input v-model="queryForm.projectName" placeholder="Project Name" size='mini'></el-input>
-        </el-form-item>
-        <el-form-item label="Module">
-          <el-input v-model="queryForm.moduleName" placeholder="Module name" size='mini'></el-input>
-        </el-form-item>
-        <el-form-item label="Case">
-          <el-input v-model="queryForm.caseDesc" placeholder="Case name" size='mini'></el-input>
-        </el-form-item>
-        <el-form-item label="Status">
-          <el-select v-model="queryForm.status" placeholder="status" size='mini' style="width:100px">
-              <el-option v-for="item in logStatusOptions"
-                  :key="item.label"
-                  size='small'
-                  :label="item.label"
-                  :value="item.value">
-              </el-option>
-          </el-select>
-        </el-form-item>   
-        <el-form-item label="Retry">
-          <el-select v-model="queryForm.isFailedRetry" placeholder="Retry" size='mini' style="width:100px">
-              <el-option v-for="item in retryOptions"
-                  :key="item.label"
-                  size='small'
-                  :label="item.label"
-                  :value="item.value">
-              </el-option>
-          </el-select>
-        </el-form-item>   
-        <el-form-item label="ShowRely">
-          <el-select v-model="queryForm.showDetail" placeholder="showDetail" size='mini' style="width:100px">
-              <el-option v-for="item in showDetailOptions"
-                  :key="item.label"
-                  size='small'
-                  :label="item.label"
-                  :value="item.value">
-              </el-option>
-          </el-select>
-        </el-form-item>          
-        <el-form-item>
-          <el-button circle type="primary" size="mini" icon="el-icon-search" @click="selectInterfaceCaseExecuteLogList(queryForm)"></el-button>
-          <el-button circle type="primary" size="mini" icon="el-icon-refresh" @click="resetForm"></el-button>
-        </el-form-item>
-      </el-form>
-    </div>
-    <div class="table_container">
-      <el-table 
-      :data="dataList" 
-      stripe highlight-current-row 
-      style="width: 100%;padding-left:20px">
-        <el-table-column type="expand">
-        <template slot-scope="props">
-            <el-form label-position="left" inline class="demo-table-expand">
-            <el-form-item label="执行日期">
-              <el-input  :value="props.row.createdTime" readonly size="mini"></el-input>
-            </el-form-item>
-            </el-form>
-        </template>
-        </el-table-column>
-        <el-table-column property="id" label="Id" min-width="7%"></el-table-column>
-        <el-table-column property="projectName" label="Project" min-width="12%"></el-table-column>
-        <el-table-column property="moduleName" label="Module" min-width="12%"></el-table-column>
-        <el-table-column property="caseDesc" label="Case" min-width="20%"></el-table-column>
-        <el-table-column property="executer" label="Executor" min-width="10%"></el-table-column>
-        <el-table-column property="runTime" label="Time" min-width="8%"></el-table-column>
-        <el-table-column property="status" label="Status" min-width="8%">
-          <template slot-scope="scope">
-            <el-tag
-              effect="dark"
-              :type="scope.row.style"
-              disable-transitions>{{scope.row.status}}</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column property="isFailedRetry" label="RetryCase" min-width="8%">
-          <template slot-scope="scope">
-            <el-tag
-              effect="dark"
-              :type="scope.row.isFailedRetryStyle"
-              disable-transitions>{{scope.row.isFailedRetryValue}}</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column property="isRelyCaseValue" label="CaseRely" min-width="8%">
-          <template slot-scope="scope">
-            <el-tag
-              effect="dark"
-              :type="scope.row.isRelyCaseStyle"
-              disable-transitions>{{scope.row.isRelyCaseValue}}</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column fixed="right" label="Operation" min-width="8%">
-          <template slot-scope="scope">
-            <el-button
-              @click="handleDetail(scope.row)"
-              type="primary"
-              icon="el-icon-more"
-              size="small"
-              circle
-            ></el-button>
-            <el-button
-              @click="handleChain(scope.row)"
-              type="danger"
-              icon="el-icon-view"
-              size="small"
-              circle
-            ></el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <div class="pagination" style="text-align: left;margin-top: 10px;">
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="pageNum"
-          :page-sizes="[10, 20, 30]"
-          :page-size="pageSize"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="total"
-        ></el-pagination>
-      </div>
-      <el-dialog title="详情" :visible.sync="detailDialogFormVisible">
-        <el-collapse>
-        <el-form :model="dataInfo">
-          <el-collapse-item title="基本信息">
-          <el-form-item label="用例编号" label-width="100px">
-            <el-input v-model="dataInfo.caseId" readonly size='small'></el-input>
-          </el-form-item>
-          <el-form-item label="用例描述" label-width="100px">
-            <el-input v-model="dataInfo.caseDesc" readonly size='small'></el-input>
-          </el-form-item>
-          <el-form-item label="执行用时(ms)" label-width="100px">
-            <el-input v-model="dataInfo.runTime" readonly size='small'></el-input>
-          </el-form-item> 
-          <el-form-item label="执行人" label-width="100px">
-            <el-input v-model="dataInfo.executer" readonly size='small'></el-input>
-          </el-form-item> 
-          <el-form-item label="执行编号" label-width="100px">
-            <el-input v-model="dataInfo.suiteLogNo" readonly size='small'></el-input>
-          </el-form-item> 
-          <el-form-item label="异常信息" label-width="100px" v-if="dataInfo.status=='错误'">
-            <el-input v-model="dataInfo.errorMessage" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }"></el-input>
-          </el-form-item> 
-          <el-form-item label="执行状态" label-width="100px">
-            <template>
-              <el-tag
-                effect="dark"
-                :type="dataInfo.statusStyle"
-                disable-transitions>{{dataInfo.status}}</el-tag>
-            </template>
-          </el-form-item> 
-          <el-form-item label="失败重跑" label-width="100px">
-            <template>
-              <el-tag
-                effect="dark"
-                :type="dataInfo.isFailedRetryStyle"
-                disable-transitions>{{dataInfo.isFailedRetryValue}}</el-tag>
-            </template>
-          </el-form-item> 
-          </el-collapse-item>
-          <el-collapse-item title="请求信息">
-          <el-form-item label="url" label-width="100px">
-            <el-input v-model="dataInfo.caseUrl" readonly></el-input>
-          </el-form-item>          
-          <el-row :gutter="25">
-            <el-col :span="22">
-            <el-form-item label="headers" label-width="100px">
-              <el-input v-model="dataInfo.requestHeaders" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }" v-show="!isReqHeadersBeauty"></el-input>
-              <json-viewer :value="dataInfo.requestHeaders" :expand-depth=5 copyable v-show="isReqHeadersBeauty"/>
-            </el-form-item>
-            </el-col>
-            <el-col :span="1">
-              <el-button @click="clickReqHeaders" type="danger" icon="el-icon-magic-stick" size="mini" circle></el-button>
-            </el-col>
-          </el-row>  
-          <el-row :gutter="25">
-            <el-col :span="22">
-            <el-form-item label="params" label-width="100px">
-              <el-input v-model="dataInfo.requestParams" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }" v-show="!isReqParamsBeauty"></el-input>
-              <json-viewer :value="dataInfo.requestParams" :expand-depth=5 copyable v-show="isReqParamsBeauty"/>
-            </el-form-item>
-            </el-col>
-            <el-col :span="1">
-              <el-button @click="clickReqParams" type="danger" icon="el-icon-magic-stick" size="mini" circle></el-button>
-            </el-col>
-          </el-row>  
-          <el-row :gutter="25">
-            <el-col :span="22">
-            <el-form-item label="data" label-width="100px">
-              <el-input v-model="dataInfo.requestData" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }" v-show="!isReqDataBeauty"></el-input>
-              <json-viewer :value="dataInfo.requestData" :expand-depth=5 copyable v-show="isReqDataBeauty"/>
-            </el-form-item>
-            </el-col>
-            <el-col :span="1">
-              <el-button @click="clickReqData" type="danger" icon="el-icon-magic-stick" size="mini" circle></el-button>
-            </el-col>
-          </el-row>  
-          <el-row :gutter="25">
-            <el-col :span="22">
-            <el-form-item label="json" label-width="100px">
-              <el-input v-model="dataInfo.requestJson" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }" v-show="!isReqJsonBeauty"></el-input>
-              <json-viewer :value="dataInfo.requestJson" :expand-depth=5 copyable v-show="isReqJsonBeauty"/>
-            </el-form-item>
-            </el-col>
-            <el-col :span="1">
-              <el-button @click="clickReqJson" type="danger" icon="el-icon-magic-stick" size="mini" circle></el-button>
-            </el-col>
-          </el-row>  
-          </el-collapse-item>
-          <el-collapse-item title="响应信息">
-          <el-form-item label="code" label-width="100px">
-            <el-input v-model="dataInfo.responseCode" readonly  size='small'></el-input>
-          </el-form-item> 
-          <el-row :gutter="25">
-            <el-col :span="22">
-            <el-form-item label="headers" label-width="100px">
-              <el-input v-model="dataInfo.responseHeaders" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }" v-show="!isResHeadersBeauty"></el-input>
-              <json-viewer :value="dataInfo.responseHeaders" :expand-depth=5 copyable v-show="isResHeadersBeauty"/>
-            </el-form-item>
-            </el-col>
-            <el-col :span="1">
-              <el-button @click="clickResHeaders" type="danger" icon="el-icon-magic-stick" size="mini" circle></el-button>
-            </el-col>
-          </el-row>
-          <el-row :gutter="25">
-            <el-col :span="22">
-            <el-form-item label="body" label-width="100px">
-              <el-input v-model="dataInfo.responseBody" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }" v-show="!isResBodyBeauty"></el-input>
-              <json-viewer :value="dataInfo.responseBody" :expand-depth=5 copyable v-show="isResBodyBeauty"/>
-            </el-form-item>
-            </el-col>
-            <el-col :span="1">
-              <el-button @click="clickResBody" type="danger" icon="el-icon-magic-stick" size="mini" circle></el-button>
-            </el-col>
-          </el-row>       
-          </el-collapse-item>
-          <el-collapse-item title="断言信息">
-            <el-table :data="assertInfo" stripe highlight-current-row style="width: 100%">
-              <el-table-column type="expand">
-                <template slot-scope="props">
-                  <el-form label-position="left" inline class="demo-table-expand">
-                    <el-form-item label="提取方式:">
-                      <span>{{ props.row.type }}</span>
-                    </el-form-item><br/>
-                    <el-form-item label="提取表达式:">
-                      <span>{{ props.row.expression }}</span>
-                    </el-form-item><br/>
-                    <el-form-item label="预期结果:">
-                      <el-input :value="props.row.exceptedResult" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }"></el-input>
-                    </el-form-item><br/>
-                    <el-form-item label="比较类型:">
-                      <span>{{ props.row.operator }}</span>
-                    </el-form-item><br/>
-                    <el-form-item label="实际结果:">
-                      <el-input :value="props.row.actualResult" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }"></el-input>
-                    </el-form-item>
-                    <br />
-                    <el-form-item label="错误信息:" v-if="props.row.errorMessage!=null">
-                      <el-input :value="props.row.errorMessage" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }"></el-input>
-                    </el-form-item>
-                  </el-form>
-                </template>
-              </el-table-column>
-              <el-table-column property="order" label="排序" min-width="5%"></el-table-column>
-              <el-table-column property="assertName" label="断言名称" min-width="10%"></el-table-column>
-              <el-table-column property="status" label="状态" min-width="10%">
-                <template slot-scope="scope">
-                  <el-tag
-                    effect="dark"
-                    :type="scope.row.assertStatusStyle"
-                    disable-transitions>{{scope.row.status}}</el-tag>
-                </template>
-              </el-table-column>
-              <!-- <el-table-column property="errorMessage" label="备注" min-width="10%"></el-table-column> -->
-            </el-table>
-          </el-collapse-item>           
-        </el-form>
-      </el-collapse>  
-      </el-dialog>
-      <el-dialog title="链路跟踪" :visible.sync="chainDialogFormVisible">
-        <!-- <el-steps :active="chainActive"  align-center>
-          <el-step :key="chain.logId" :title="chain.logId" :status="chain.status" :description="chain.caseDesc" v-for="chain in chainList"></el-step>
-        </el-steps> -->
-        <div class="block">
-          <el-timeline>
-            <el-timeline-item 
-            :key="chain.logId" 
-            :timestamp="chain.executer + ' 执行于' + chain.createdTime +'耗时 ' + chain.runTime" 
-            :color="chain.color"
-            placement="top" 
-            v-for="chain in chainList">
-              <el-card>
-                <el-row>
-                  <!-- <el-col :span="2"><el-tag type="info">{{chain.logId}}</el-tag></el-col> -->
-                  <el-col :span="2"><h4>{{chain.logId}}</h4></el-col>
-                  <el-col :span="22"><p>{{chain.caseId}} {{chain.caseDesc}}</p></el-col>
-                  <!-- <el-col :span="22"><el-tag type="info">{{chain.caseId}} {{chain.caseDesc}}</el-tag></el-col> -->
+    <div>
+        <el-tabs tab-position="top" style="height:100%;" @tab-click="handleTabClick">
+            <el-tab-pane v-for="item in chainTitleList" :key="item.id" :label="item.caseDesc + '  ' + item.caseId">
+                <el-row :gutter="10">
+                    <el-col :span="12">
+                        
+                    </el-col>
+                    <el-col :span="12">
+                        
+                    </el-col>
                 </el-row>
-              </el-card>
-            </el-timeline-item>
-          </el-timeline>
-        </div>
-      </el-dialog>
+            </el-tab-pane>
+        </el-tabs>
     </div>
-  </div>
 </template>
+
 <script>
-import headTop from "../components/headTop";
-import {
-  findInterfaceCaseExecuteLogForReportList,
-  findInterfaceCaseExecuteLog,
-  caseExecuteLogChain,
-} from "@/api/getData";
+import {findReportChain} from "@/api/getData";
 export default {
   data() {
     return {
@@ -325,61 +29,16 @@ export default {
       isReqDataBeauty: false,
       isReqJsonBeauty: false,
 
-      chainDialogFormVisible: false,
-      chainActive: 0,
-      chainList: [],
-
       detailDialogFormVisible: false,
-      queryForm: {
-        showDetail: 1
-      },
-      total: 0,
-      pageSize: 10,
-      pageNum: 1,
-      dataList: [],
-      dataInfo: {},
-      assertInfo: [],
-      retryOptions: [
-          {
-              value: 0,
-              label: '是'
-          },
-          {
-              value: 1,
-              label: '否'
-          },
-      ],
-      showDetailOptions: [
-          {
-              value: 0,
-              label: '是'
-          },
-          {
-              value: 1,
-              label: '否'
-          },
-      ],
-      logStatusOptions: [
-          {
-              value: 0,
-              label: '成功'
-          },
-          {
-              value: 1,
-              label: '失败'
-          },
-          {
-              value: 2,
-              label: '错误'
-          },
-      ],
+
+      chainTitleList: [],
     };
   },
   components: {
 
   },
   mounted() {
-    this.selectInterfaceCaseExecuteLogList(this.queryForm);
+    this.findReportChain();
   },
   methods: {
     async clickResHeaders() {
@@ -467,195 +126,29 @@ export default {
         }
       }
     },
-    async selectInterfaceCaseExecuteLogList(queryForm) {
-      queryForm["suiteLogNo"] = this.suiteLogNo
-      queryForm["pageNum"] = this.pageNum;
-      queryForm["pageSize"] = this.pageSize;
-      this.dataList = []
-      const res = await findInterfaceCaseExecuteLogForReportList(queryForm);
-      if (res.code == 200) {
-        this.total = res.data.total;
-        res.data.list.forEach(element => {
-            if (element.status == 0) {
-                element.style = "success"
-                element.status = '成功'
-            } else if (element.status == 1) {
-                element.style = "warning"
-                element.status = '失败'
-            } else {
-                element.style = "danger"
-                element.status = '错误'
-            }
-            if (element.isFailedRetry == 0) {
-                element.isFailedRetryStyle = "danger"
-                element.isFailedRetryValue = '是'
-            } else if (element.isFailedRetry == 1) {
-                element.isFailedRetryStyle = "primary"
-                element.isFailedRetryValue = '否'
-            } else {
-                element.isFailedRetryStyle = "primary"
-                element.isFailedRetryValue = 'UNKNOW'
-            }
-            if (element.suiteLogNo != null) {
-                element.isRelyCaseStyle = "primary"
-                element.isRelyCaseValue = '否'
-            } else {
-                element.isRelyCaseStyle = "danger"
-                element.isRelyCaseValue = '是'
-            }
-            element.runTime = element.runTime + 'ms'
-            this.dataList.push(element)
-        });
-      } else {
-        this.$message({
-          type: "error",
-          center: true,
-          message: res.msg
-        });
-      }
+    async findReportChain() {
+        const res = await findReportChain(this.suiteLogNo);
+        let tempList = [];
+        if (res.code == 200) {
+            res.data.forEach(element => {
+                if (element.caseDesc.length >= 10) {
+                    element.caseDesc = element.caseDesc.substring(0, 10) + "..."
+                    tempList.push(element)
+                } else {
+                    tempList.push(element)
+                }
+            })
+            this.chainTitleList = tempList
+        } else {
+            this.$message({
+              type: "error",
+              center: true,
+              message: res.msg
+            })
+        }
     },
-    async handleDetail(row) {
-      let relyId = row.id
-      this.isResHeadersBeauty = false
-      this.isResBodyBeauty = false
-
-      this.isReqHeadersBeauty = false
-      this.isReqParamsBeauty = false
-      this.isReqDataBeauty = false
-      this.isReqJsonBeauty = false
-
-      const res = await findInterfaceCaseExecuteLog(relyId)
-      if (res.code == 200) {
-          let data = res.data
-          res.data.assertList.forEach(assert => {
-            // 断言执行状态
-            if (assert.status == 0) {
-                assert.assertStatusStyle = "success"
-                assert.status = '成功'
-            } else if (assert.status == 1) {
-                assert.assertStatusStyle = "warning"
-                assert.status = '失败'
-            } else {
-                assert.assertStatusStyle = "danger"
-                assert.status = '错误'
-            }
-            // 断言提取方式
-            if (assert.type == 0) {
-                assert.type = 'jsonpath'
-            } else if (assert.type == 1) {
-                assert.type = 'xpath'
-            } else if (assert.type == 2) {
-                assert.type = 'header'
-            } else if (assert.type == 3) {
-                assert.type = 'httpCode'
-            } else {
-                assert.type = 'unknow'
-            }
-            // 操作符
-            // 操作符0/=、1/< 、2/>、3/<=、4/>=、5/in、6/!=、7/re
-            if (assert.operator == 0) {
-                assert.operator = '='
-            } else if (assert.operator == 1) {
-                assert.operator = '<'
-            } else if (assert.operator == 2) {
-                assert.operator = '>'
-            } else if (assert.operator == 3) {
-                assert.operator = '<='
-            } else if (assert.operator == 4) {
-                assert.operator = '>='
-            } else if (assert.operator == 5) {
-                assert.operator = 'in'
-            } else if (assert.operator == 6) {
-                assert.operator = '!='
-            } else if (assert.operator == 7) {
-                assert.operator = 're'
-            } else {
-                assert.operator = 'unknow'
-            }            
-          });
-          this.assertInfo = res.data.assertList
-          this.detailDialogFormVisible = true
-          // 失败重跑
-          if (data.isFailedRetry == 0) {
-              data.isFailedRetryStyle = 'danger'
-              data.isFailedRetryValue = "是"
-          } else if (data.isFailedRetry == 1) {
-              data.isFailedRetryStyle = 'primary'
-              data.isFailedRetryValue = "否"
-          } else {
-              data.status = 'UNKNOW'
-              data.statusStyle = "primary"
-          }
-          if (data.status == 0) {
-              data.status = '成功'
-              data.statusStyle = "success"
-          } else if (data.status == 1) {
-              data.status = '失败'
-              data.statusStyle = "warning"
-          } else {
-              data.status = '错误'
-              data.statusStyle = "danger"
-          }
-          this.dataInfo = data
-      } else {
-        this.$message({
-          type: "error",
-          center: true,
-          message: res.msg
-        })
-      }
-    },
-    handleSizeChange(pageSize) {
-      this.pageSize = pageSize;
-      this.selectInterfaceCaseExecuteLogList(this.queryForm);
-    },
-    handleCurrentChange(pageNum) {
-      this.pageNum = pageNum;
-      this.selectInterfaceCaseExecuteLogList(this.queryForm);
-    },
-    async resetForm() {
-      this.queryForm = {}
-      this.queryForm.showDetail = 1 
-      this.pageSize = 10
-      this.pageNum = 1
-      this.selectInterfaceCaseExecuteLogList(this.queryForm)
-    },
-    async handleChain(row) {
-      let id = row.id
-      this.active = 0
-      this.chainDialogFormVisible = true
-      this.chainList = []
-      const res = await caseExecuteLogChain(id)
-      if (res.code == 200) {
-        res.data.forEach(element => {
-          let data = {}
-          data.caseId = element.caseId
-          data.executer = element.executer
-          data.suiteLogNo = element.suiteLogNo
-          data.createdTime = element.createdTime
-          data.runTime = element.runTime + 'ms'
-          data.logId = element.logId + ''
-          data.caseDesc = element.caseDesc
-          if (element.status == 0) {
-            data.status = "success"
-            data.color = "#67C23A"
-          } else if (element.status == 1) {
-            data.status = "wait"
-            data.color = "#E6A23C"
-          } else {
-            data.status = "error"
-            data.color = "#F56C6C"
-          }
-          this.chainActive ++ 
-          this.chainList.push(data)
-        });
-      } else {
-        this.$message({
-          type: "error",
-          center: true,
-          message: res.msg
-        })
-      }
+    handleTabClick(data) {
+        console.log(data)
     }
   }
 };
@@ -663,27 +156,5 @@ export default {
 
 <style lang="less">
 @import "../style/mixin";
-.table_container {
-  padding: 5px;
-}
-.query {
-  padding: 5px;
-}
-.pagination {
-  display: flex;
-  justify-content: flex-start;
-  margin-top: 8px;
-.demo-table-expand {
-  font-size: 0;
-}
-.demo-table-expand label {
-  width: 90px;
-  color: #99a9bf;
-}
-.demo-table-expand .el-form-item {
-  margin-right: 0;
-  margin-bottom: 0;
-  width: 50%;
-}
-}
+
 </style>

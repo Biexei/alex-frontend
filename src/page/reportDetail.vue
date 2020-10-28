@@ -1,22 +1,18 @@
 <template>
   <div class="fillcontain">
-    <head-top></head-top>
-    <div class="query">
+    <div class="query" style="padding-left:30px">
       <el-form :inline="true" :model="queryForm" class="demo-form-inline" ref="queryForm">
-        <el-form-item label="项目名称">
-          <el-input v-model="queryForm.projectName" placeholder="项目名称" size='small'></el-input>
+        <el-form-item label="Project">
+          <el-input v-model="queryForm.projectName" placeholder="Project Name" size='mini'></el-input>
         </el-form-item>
-        <el-form-item label="模块名称">
-          <el-input v-model="queryForm.moduleName" placeholder="模块名称" size='small'></el-input>
+        <el-form-item label="Module">
+          <el-input v-model="queryForm.moduleName" placeholder="Module name" size='mini'></el-input>
         </el-form-item>
-        <el-form-item label="用例描述">
-          <el-input v-model="queryForm.caseDesc" placeholder="用例描述" size='small'></el-input>
+        <el-form-item label="Case">
+          <el-input v-model="queryForm.caseDesc" placeholder="Case name" size='mini'></el-input>
         </el-form-item>
-        <el-form-item label="执行编号">
-          <el-input v-model="queryForm.suiteLogNo" placeholder="执行编号" size='small'></el-input>
-        </el-form-item>
-        <el-form-item label="执行状态">
-          <el-select v-model="queryForm.status" placeholder="请选择" size='small'>
+        <el-form-item label="Status">
+          <el-select v-model="queryForm.status" placeholder="status" size='mini' style="width:100px">
               <el-option v-for="item in logStatusOptions"
                   :key="item.label"
                   size='small'
@@ -24,57 +20,54 @@
                   :value="item.value">
               </el-option>
           </el-select>
-        </el-form-item>  
-        <el-form-item label="起始时间">
-          <el-date-picker
-            v-model="queryForm.createdStartTime"
-            format="yyyy-MM-dd HH:mm:ss"
-            value-format="yyyy-MM-dd HH:mm:ss"
-            type="datetime"
-            size='small'
-            placeholder="选择起始时间"
-            align="right">
-          </el-date-picker>
-        </el-form-item>  
-        <el-form-item label="截止时间">
-          <el-date-picker
-            v-model="queryForm.createdEndTime"
-            format="yyyy-MM-dd HH:mm:ss"
-            value-format="yyyy-MM-dd HH:mm:ss"
-            type="datetime"
-            size='small'
-            placeholder="选择截止时间"
-            align="right">
-          </el-date-picker>
-        </el-form-item>                
+        </el-form-item>   
+        <el-form-item label="Retry">
+          <el-select v-model="queryForm.isFailedRetry" placeholder="Retry" size='mini' style="width:100px">
+              <el-option v-for="item in retryOptions"
+                  :key="item.label"
+                  size='small'
+                  :label="item.label"
+                  :value="item.value">
+              </el-option>
+          </el-select>
+        </el-form-item>   
+        <el-form-item label="ShowRely">
+          <el-select v-model="queryForm.showDetail" placeholder="showDetail" size='mini' style="width:100px">
+              <el-option v-for="item in showDetailOptions"
+                  :key="item.label"
+                  size='small'
+                  :label="item.label"
+                  :value="item.value">
+              </el-option>
+          </el-select>
+        </el-form-item>          
         <el-form-item>
-          <el-button type="primary" size="small" @click="selectInterfaceCaseExecuteLogList(queryForm)">查询</el-button>
-          <el-button type="primary" size="small" @click="resetForm">重置</el-button>
+          <el-button circle type="primary" size="mini" icon="el-icon-search" @click="selectInterfaceCaseExecuteLogList(queryForm)"></el-button>
+          <el-button circle type="primary" size="mini" icon="el-icon-refresh" @click="resetForm"></el-button>
         </el-form-item>
       </el-form>
     </div>
     <div class="table_container">
-      <el-table :data="dataList" stripe highlight-current-row style="width: 100%">
+      <el-table 
+      :data="dataList" 
+      stripe highlight-current-row 
+      style="width: 100%;padding-left:20px">
         <el-table-column type="expand">
         <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand">
             <el-form-item label="执行日期">
               <el-input  :value="props.row.createdTime" readonly size="mini"></el-input>
             </el-form-item>
-            <br/>
-            <el-form-item label="执行编号">
-              <el-input  :value="props.row.suiteLogNo" readonly size="mini"></el-input>
-            </el-form-item>
             </el-form>
         </template>
         </el-table-column>
-        <el-table-column property="id" label="编号" min-width="7%"></el-table-column>
-        <el-table-column property="projectName" label="项目名称" min-width="13%"></el-table-column>
-        <el-table-column property="moduleName" label="模块名称" min-width="13%"></el-table-column>
-        <el-table-column property="caseDesc" label="用例描述" min-width="25%"></el-table-column>
-        <el-table-column property="executer" label="执行人" min-width="10%"></el-table-column>
-        <el-table-column property="runTime" label="执行用时" min-width="8%"></el-table-column>
-        <el-table-column property="status" label="执行状态" min-width="8%">
+        <el-table-column property="id" label="Id" min-width="7%"></el-table-column>
+        <el-table-column property="projectName" label="Project" min-width="12%"></el-table-column>
+        <el-table-column property="moduleName" label="Module" min-width="12%"></el-table-column>
+        <el-table-column property="caseDesc" label="Case" min-width="20%"></el-table-column>
+        <el-table-column property="executer" label="Executor" min-width="10%"></el-table-column>
+        <el-table-column property="runTime" label="Time" min-width="8%"></el-table-column>
+        <el-table-column property="status" label="Status" min-width="8%">
           <template slot-scope="scope">
             <el-tag
               effect="dark"
@@ -82,7 +75,7 @@
               disable-transitions>{{scope.row.status}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column property="isFailedRetry" label="重跑用例" min-width="8%">
+        <el-table-column property="isFailedRetry" label="RetryCase" min-width="8%">
           <template slot-scope="scope">
             <el-tag
               effect="dark"
@@ -90,17 +83,25 @@
               disable-transitions>{{scope.row.isFailedRetryValue}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="10%">
+        <el-table-column property="isRelyCaseValue" label="CaseRely" min-width="8%">
+          <template slot-scope="scope">
+            <el-tag
+              effect="dark"
+              :type="scope.row.isRelyCaseStyle"
+              disable-transitions>{{scope.row.isRelyCaseValue}}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column fixed="right" label="Operation" min-width="8%">
           <template slot-scope="scope">
             <el-button
-              @click="handleDetail(scope.row.id)"
+              @click="handleDetail(scope.row)"
               type="primary"
               icon="el-icon-more"
               size="small"
               circle
             ></el-button>
             <el-button
-              @click="handleChain(scope.row.id)"
+              @click="handleChain(scope.row)"
               type="danger"
               icon="el-icon-view"
               size="small"
@@ -294,7 +295,7 @@
                     plain 
                     size="small" 
                     type="info" 
-                    @click="handleDetail(chain.logId)"
+                    @click="handleDetail({id:chain.logId})"
                     style="background-color: #FFFFFF; color: #324057; border:none;font-size: 14px;">{{chain.logId}}
                     </el-button>
                   </el-col>
@@ -303,7 +304,7 @@
                     plain 
                     size="small" 
                     type="info" 
-                    @click="handleDetail(chain.logId)"
+                    @click="handleDetail({id:chain.logId})"
                     style="background-color: #FFFFFF; color: #324057; border:none;font-size: 14px;">{{chain.caseId}} {{chain.caseDesc}}
                     </el-button>
                   </el-col>
@@ -317,15 +318,15 @@
   </div>
 </template>
 <script>
-import headTop from "../components/headTop";
 import {
-  findInterfaceCaseExecuteLogList,
+  findInterfaceCaseExecuteLogForReportList,
   findInterfaceCaseExecuteLog,
   caseExecuteLogChain,
 } from "@/api/getData";
 export default {
   data() {
     return {
+      suiteLogNo: this.$route.query.suiteLogNo,  
       isResHeadersBeauty: false,
       isResBodyBeauty: false,
 
@@ -339,13 +340,35 @@ export default {
       chainList: [],
 
       detailDialogFormVisible: false,
-      queryForm: {},
+      queryForm: {
+        showDetail: 1
+      },
       total: 0,
       pageSize: 10,
       pageNum: 1,
       dataList: [],
       dataInfo: {},
       assertInfo: [],
+      retryOptions: [
+          {
+              value: 0,
+              label: '是'
+          },
+          {
+              value: 1,
+              label: '否'
+          },
+      ],
+      showDetailOptions: [
+          {
+              value: 0,
+              label: '是'
+          },
+          {
+              value: 1,
+              label: '否'
+          },
+      ],
       logStatusOptions: [
           {
               value: 0,
@@ -363,7 +386,7 @@ export default {
     };
   },
   components: {
-    headTop
+
   },
   mounted() {
     this.selectInterfaceCaseExecuteLogList(this.queryForm);
@@ -455,10 +478,11 @@ export default {
       }
     },
     async selectInterfaceCaseExecuteLogList(queryForm) {
+      queryForm["suiteLogNo"] = this.suiteLogNo
       queryForm["pageNum"] = this.pageNum;
       queryForm["pageSize"] = this.pageSize;
       this.dataList = []
-      const res = await findInterfaceCaseExecuteLogList(queryForm);
+      const res = await findInterfaceCaseExecuteLogForReportList(queryForm);
       if (res.code == 200) {
         this.total = res.data.total;
         res.data.list.forEach(element => {
@@ -482,6 +506,13 @@ export default {
                 element.isFailedRetryStyle = "primary"
                 element.isFailedRetryValue = 'UNKNOW'
             }
+            if (element.suiteLogNo != null) {
+                element.isRelyCaseStyle = "primary"
+                element.isRelyCaseValue = '否'
+            } else {
+                element.isRelyCaseStyle = "danger"
+                element.isRelyCaseValue = '是'
+            }
             element.runTime = element.runTime + 'ms'
             this.dataList.push(element)
         });
@@ -493,7 +524,8 @@ export default {
         });
       }
     },
-    async handleDetail(relyId) {
+    async handleDetail(row) {
+      let relyId = row.id
       this.isResHeadersBeauty = false
       this.isResBodyBeauty = false
 
@@ -553,17 +585,6 @@ export default {
           });
           this.assertInfo = res.data.assertList
           this.detailDialogFormVisible = true
-          if (data.status == 0) {
-              data.status = '成功'
-              data.statusStyle = "success"
-          } else if (data.status == 1) {
-              data.status = '失败'
-              data.statusStyle = "warning"
-          } else {
-              data.status = '错误'
-              data.statusStyle = "danger"
-          }
-
           // 失败重跑
           if (data.isFailedRetry == 0) {
               data.isFailedRetryStyle = 'danger'
@@ -574,6 +595,16 @@ export default {
           } else {
               data.status = 'UNKNOW'
               data.statusStyle = "primary"
+          }
+          if (data.status == 0) {
+              data.status = '成功'
+              data.statusStyle = "success"
+          } else if (data.status == 1) {
+              data.status = '失败'
+              data.statusStyle = "warning"
+          } else {
+              data.status = '错误'
+              data.statusStyle = "danger"
           }
           this.dataInfo = data
       } else {
@@ -594,11 +625,13 @@ export default {
     },
     async resetForm() {
       this.queryForm = {}
+      this.queryForm.showDetail = 1 
       this.pageSize = 10
       this.pageNum = 1
       this.selectInterfaceCaseExecuteLogList(this.queryForm)
     },
-    async handleChain(id) {
+    async handleChain(row) {
+      let id = row.id
       this.active = 0
       this.chainDialogFormVisible = true
       this.chainList = []

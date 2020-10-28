@@ -220,6 +220,11 @@ export const findInterfaceCaseExecuteLog = executeId => HttpRequest.get('/interf
  */
 export const caseExecuteLogChain = executeId => HttpRequest.get('/interface/log/chain/' + executeId)
 
+/**
+ * 获取指定suiteLogNo的执行记录，不分页
+ */
+export const findReportChain = suiteLogNo => HttpRequest.get('/interface/log/list/chain/' + suiteLogNo)
+
 
 
 /**

@@ -26,6 +26,7 @@ const ifSuiteLog = r => require.ensure([], () => r(require('@/page/ifSuiteLog'))
 
 const report = r => require.ensure([], () => r(require('@/page/report')), 'report');
 const reportSummary = r => require.ensure([], () => r(require('@/page/reportSummary')), 'reportSummary');
+const reportDetail = r => require.ensure([], () => r(require('@/page/reportDetail')), 'reportDetail');
 const reportChannel = r => require.ensure([], () => r(require('@/page/reportChannel')), 'reportChannel');
 
 const router = new Router({
@@ -52,6 +53,14 @@ const router = new Router({
             requireAuth: true
           },
         },
+        {
+          path: '/reportDetail',
+          name: 'reportDetail',
+          component: reportDetail,
+          meta: {
+            requireAuth: true
+          },
+        }, 
         {
           path: '/reportChannel',
           name: 'reportChannel',
