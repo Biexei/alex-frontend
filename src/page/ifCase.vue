@@ -965,6 +965,23 @@ export default {
           label: "code",
         },
     ],
+
+    postProcessorList:[],
+    postProcessorType: [
+        {
+          value: 0,
+          label: "json",
+        },
+        {
+          value: 1,
+          label: "html",
+        },
+        {
+          value: 2,
+          label: "header",
+        },
+    ],
+
     dataInfo: {},
     editDialogFormVisible: false,
     copyDialogFormVisible: false,
