@@ -69,9 +69,9 @@
         </template>
         </el-table-column>
         <el-table-column property="id" label="编号" min-width="7%"></el-table-column>
-        <el-table-column property="projectName" label="项目名称" min-width="13%"></el-table-column>
-        <el-table-column property="moduleName" label="模块名称" min-width="13%"></el-table-column>
-        <el-table-column property="caseDesc" label="用例描述" min-width="25%"></el-table-column>
+        <el-table-column property="projectName" label="项目名称" min-width="13%" show-overflow-tooltip></el-table-column>
+        <el-table-column property="moduleName" label="模块名称" min-width="13%" show-overflow-tooltip></el-table-column>
+        <el-table-column property="caseDesc" label="用例描述" min-width="25%" show-overflow-tooltip></el-table-column>
         <el-table-column property="executer" label="执行人" min-width="10%"></el-table-column>
         <el-table-column property="runTime" label="执行用时" min-width="8%"></el-table-column>
         <el-table-column property="status" label="执行状态" min-width="8%">

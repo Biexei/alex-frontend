@@ -32,7 +32,7 @@
         <el-table-column property="id" label="编号" min-width="10%"></el-table-column>
         <el-table-column property="name" label="名称" min-width="13%"></el-table-column>
         <el-table-column property="type" label="类型" min-width="13%"></el-table-column>
-        <el-table-column property="desc" label="描述" min-width="13%"></el-table-column>
+        <el-table-column property="desc" label="描述" min-width="13%" show-overflow-tooltip></el-table-column>
         <el-table-column property="createdTime" label="创建时间" min-width="20%"></el-table-column>
         <el-table-column property="status" label="状态" min-width="10%">
           <template slot-scope="scope">

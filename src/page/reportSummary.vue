@@ -193,8 +193,8 @@ export default {
       const res = await findIfSuiteLogByNo(this.suiteLogNo)
       if (res.code == 200) {
         this.suiteLog = res.data
-        this.passRate = (this.suiteLog.totalSuccess/this.suiteLog.totalRunCase).toFixed(4)*100 + '%'
-        this.runRate = (this.suiteLog.totalRunCase/this.suiteLog.totalCase).toFixed(4)*100 + '%'
+        this.passRate = (this.suiteLog.totalSuccess/this.suiteLog.totalRunCase*100).toFixed(2) + '%'
+        this.runRate = (this.suiteLog.totalRunCase/this.suiteLog.totalCase*100).toFixed(2) + '%'
       }
       this.chartTestData.rows.push({"type":"pass", "count":res.data.totalSuccess})
       this.chartTestData.rows.push({"type":"failed", "count":res.data.totalFailed})

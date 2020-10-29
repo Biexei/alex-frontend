@@ -62,9 +62,9 @@
         </template>
         </el-table-column>
         <el-table-column property="id" label="Id" min-width="7%"></el-table-column>
-        <el-table-column property="projectName" label="Project" min-width="12%"></el-table-column>
-        <el-table-column property="moduleName" label="Module" min-width="12%"></el-table-column>
-        <el-table-column property="caseDesc" label="Case" min-width="20%"></el-table-column>
+        <el-table-column property="projectName" label="Project" min-width="12%" show-overflow-tooltip></el-table-column>
+        <el-table-column property="moduleName" label="Module" min-width="12%" show-overflow-tooltip></el-table-column>
+        <el-table-column property="caseDesc" label="Case" min-width="20%" show-overflow-tooltip></el-table-column>
         <el-table-column property="executer" label="Executor" min-width="10%"></el-table-column>
         <el-table-column property="runTime" label="Time" min-width="8%"></el-table-column>
         <el-table-column property="status" label="Status" min-width="8%">

@@ -97,12 +97,17 @@
              <el-form-item label="由谁创建:">
                 <el-input  :value="props.row.creater" readonly size="mini"></el-input>
             </el-form-item>
+            <br/>
+             <el-form-item label="创建时间:">
+                <el-input  :value="props.row.createdTime" readonly size="mini"></el-input>
+            </el-form-item>
             </el-form>
         </template>
         </el-table-column>
         <el-table-column property="caseId" label="用例编号" min-width="8%"></el-table-column>
-        <el-table-column property="desc" label="用例名称" min-width="25%"></el-table-column>
-        <el-table-column property="url" label="请求地址" min-width="20%"></el-table-column>
+        <el-table-column property="projectName" label="项目名称" min-width="15%" show-overflow-tooltip></el-table-column>
+        <el-table-column property="desc" label="用例名称" min-width="25%" show-overflow-tooltip></el-table-column>
+        <el-table-column property="url" label="请求地址" min-width="20%" show-overflow-tooltip></el-table-column>
         <el-table-column property="method" label="请求方式" min-width="8%">
           <template slot-scope="scope">
             <el-tag effect="dark" :type="scope.row.methodStyle" disable-transitions>{{scope.row.method}}</el-tag>
@@ -113,7 +118,6 @@
             <el-tag effect="dark" :type="scope.row.levelStyle" disable-transitions>{{scope.row.level}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column property="createdTime" label="创建时间" min-width="15%"></el-table-column>  
         <el-table-column fixed="right" label="操作" min-width="16%">
             <template slot-scope="scope">
                 <el-button 

@@ -46,16 +46,16 @@
     </div>
     <div class="table_container">
       <el-table :data="dataList" stripe highlight-current-row style="width: 100%">
-        <el-table-column property="id" label="编号" min-width="8%"></el-table-column>
-        <el-table-column property="order" label="排序" min-width="8%">
+        <el-table-column property="order" label="排序" min-width="5%">
           <template slot-scope="scope">
             <el-input v-model="scope.row.order" size='small' @blur='handleEdit(scope.row)'></el-input>
           </template>
         </el-table-column>
-        <el-table-column property="suiteName" label="测试套件" min-width="10%"></el-table-column>
         <el-table-column property="caseId" label="用例编号" min-width="10%"></el-table-column>
-        <el-table-column property="caseDesc" label="用例名称" min-width="20%"></el-table-column>
-        <el-table-column property="url" label="URL" min-width="24%"></el-table-column>
+        <!-- <el-table-column property="id" label="编号" min-width="5%"></el-table-column> -->
+        <el-table-column property="suiteName" label="测试套件" min-width="20%" show-overflow-tooltip></el-table-column>
+        <el-table-column property="caseDesc" label="用例名称" min-width="20%" show-overflow-tooltip></el-table-column>
+        <el-table-column property="url" label="URL" min-width="24%" show-overflow-tooltip></el-table-column>
         <el-table-column property="level" label="等级" min-width="10%">
           <template slot-scope="scope">
             <el-tag effect="dark" :type="scope.row.levelStyle" disable-transitions>{{scope.row.level}}</el-tag>
@@ -71,7 +71,7 @@
           </el-switch>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="15%">
+        <el-table-column fixed="right" label="操作" min-width="5%">
           <template slot-scope="scope">
             <el-button
               @click="handleDelete(scope.row.id)"
@@ -127,10 +127,10 @@
           </template>
         </el-table-column>
         <el-table-column property="caseId" label="用例编号" min-width="8%"></el-table-column>
-        <el-table-column property="projectName" label="项目名称" min-width="12%"></el-table-column>
-        <el-table-column property="moduleName" label="模块名称" min-width="12%"></el-table-column>
-        <el-table-column property="desc" label="用例描述" min-width="20%"></el-table-column>
-        <el-table-column property="url" label="请求地址" min-width="20%"></el-table-column>
+        <el-table-column property="projectName" label="项目名称" min-width="12%" show-overflow-tooltip></el-table-column>
+        <el-table-column property="moduleName" label="模块名称" min-width="12%" show-overflow-tooltip></el-table-column>
+        <el-table-column property="desc" label="用例描述" min-width="20%" show-overflow-tooltip></el-table-column>
+        <el-table-column property="url" label="请求地址" min-width="20%" show-overflow-tooltip></el-table-column>
         <el-table-column property="method" label="请求方式" min-width="10%">
           <template slot-scope="scope">
             <el-tag effect="dark" :type="scope.row.methodStyle" disable-transitions>{{scope.row.method}}</el-tag>

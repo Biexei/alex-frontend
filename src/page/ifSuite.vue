@@ -45,7 +45,7 @@
       stripe highlight-current-row style="width: 100%">
         <el-table-column property="suiteId" label="编号" min-width="5%"></el-table-column>
         <el-table-column property="suiteName" label="名称" min-width="15%"></el-table-column>
-        <el-table-column property="desc" label="描述" min-width="15%"></el-table-column>
+        <el-table-column property="desc" label="描述" min-width="15%" show-overflow-tooltip></el-table-column>
         <el-table-column property="creator" label="创建人" min-width="10%"></el-table-column>
         <el-table-column property="createdTime" label="创建时间" min-width="15%" ></el-table-column>
         <el-table-column property="executeType" label="执行方式" min-width="6%">
