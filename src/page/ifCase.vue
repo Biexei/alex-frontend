@@ -313,8 +313,8 @@
                 </div>   
             </el-tab-pane>
         </el-tabs>
-
           </el-collapse-item>
+
           <el-collapse-item title="断言信息">
                 <el-button @click.prevent="addAssert" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
                 <el-form-item
@@ -360,6 +360,55 @@
                 </el-row> 
                 </el-form-item>
           </el-collapse-item>
+
+flag
+        <!-- <el-collapse-item title="后置处理器">
+                <el-button @click.prevent="addPostProcessor" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
+                <el-form-item
+                    v-for="(postProcessorItem, index) in postProcessorList"
+                    :index="index"
+                    :key="index">
+                <el-row :gutter="20">
+                    <el-col :span="2">
+                        <el-input v-model="postProcessorItem.order" order="排序" size="small"></el-input>
+                    </el-col>
+                    <el-col :span="4">
+                        <el-input v-model="postProcessorItem.assertName" placeholder="描述"  size="small"></el-input>
+                    </el-col> 
+                    <el-col :span="3">
+                        <el-select v-model="postProcessorItem.type" size='small'>
+                          <el-option
+                            v-for="item in assertTypeOptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
+                    </el-col> 
+                    <el-col :span="5">
+                        <el-input v-model="postProcessorItem.expression" placeholder="提取表达式"  size="small"></el-input>
+                    </el-col> 
+                    <el-col :span="3">
+                        <el-select v-model="postProcessorItem.operator" size='small'>
+                          <el-option
+                            v-for="item in assertOperatorOptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
+                    </el-col> 
+                    <el-col :span="5">
+                        <el-input v-model="assertItem.exceptedResult" placeholder="预期结果"  size="small"></el-input>
+                    </el-col> 
+                    <el-col :span="2">
+                        <el-button @click.prevent="removeAssert(assertItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                    </el-col>
+                </el-row> 
+                </el-form-item>
+          </el-collapse-item> -->
+
+
       </el-collapse>
       </el-form>
         <div slot="footer" class="dialog-footer">
