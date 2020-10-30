@@ -231,10 +231,10 @@
                     :key="headerItem.key">
                 <el-row :gutter="20">
                     <el-col :span="7">
-                        <el-input v-model="headerItem.name" placeholder="name"></el-input>
+                        <el-input v-model="headerItem.name" placeholder="name" size='small'></el-input>
                     </el-col>
                     <el-col :span="15">
-                        <el-input v-model="headerItem.value" placeholder="value"></el-input>
+                        <el-input v-model="headerItem.value" placeholder="value" size='small'></el-input>
                     </el-col> 
                     <el-col :span="2">
                         <el-button @click.prevent="removeHeader(headerItem)" type="danger" icon="el-icon-delete" circle size="small"></el-button>
@@ -259,10 +259,10 @@
                     :key="paramsItem.key">
                 <el-row :gutter="20">
                     <el-col :span="7">
-                        <el-input v-model="paramsItem.name" placeholder="name"></el-input>
+                        <el-input v-model="paramsItem.name" placeholder="name" size='small'></el-input>
                     </el-col>
                     <el-col :span="15">
-                        <el-input v-model="paramsItem.value" placeholder="value"></el-input>
+                        <el-input v-model="paramsItem.value" placeholder="value" size='small'></el-input>
                     </el-col> 
                     <el-col :span="2">
                         <el-button @click.prevent="removeParams(paramsItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
@@ -290,10 +290,10 @@
                     :key="dataItem.key">
                 <el-row :gutter="20">
                     <el-col :span="7">
-                        <el-input v-model="dataItem.name" placeholder="name"></el-input>
+                        <el-input v-model="dataItem.name" placeholder="name" size='small'></el-input>
                     </el-col>
                     <el-col :span="15">
-                        <el-input v-model="dataItem.value" placeholder="value"></el-input>
+                        <el-input v-model="dataItem.value" placeholder="value" size='small'></el-input>
                     </el-col> 
                     <el-col :span="2">
                         <el-button @click.prevent="removeDataForm(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
@@ -323,7 +323,7 @@
                     :key="index">
                 <el-row :gutter="20">
                     <el-col :span="2">
-                        <el-input v-model="assertItem.order" order="排序" size="small"></el-input>
+                        <el-input v-model="assertItem.order" placeholder="排序" size="small"></el-input>
                     </el-col>
                     <el-col :span="4">
                         <el-input v-model="assertItem.assertName" placeholder="描述"  size="small"></el-input>
@@ -361,52 +361,45 @@
                 </el-form-item>
           </el-collapse-item>
 
-flag
-        <!-- <el-collapse-item title="后置处理器">
+        <el-collapse-item title="后置处理器">
                 <el-button @click.prevent="addPostProcessor" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
                 <el-form-item
                     v-for="(postProcessorItem, index) in postProcessorList"
                     :index="index"
                     :key="index">
                 <el-row :gutter="20">
-                    <el-col :span="2">
-                        <el-input v-model="postProcessorItem.order" order="排序" size="small"></el-input>
+                    <el-col :span="6">
+                        <el-input v-model="postProcessorItem.name" placeholder="名称" size="small" ></el-input>
                     </el-col>
-                    <el-col :span="4">
-                        <el-input v-model="postProcessorItem.assertName" placeholder="描述"  size="small"></el-input>
-                    </el-col> 
-                    <el-col :span="3">
+                     <el-col :span="3">
                         <el-select v-model="postProcessorItem.type" size='small'>
                           <el-option
-                            v-for="item in assertTypeOptions"
+                            v-for="item in postProcessorTypeOptions"
                             :key="item.value"
                             :label="item.label"
                             :value="item.value">
                           </el-option>
                         </el-select>
                     </el-col> 
-                    <el-col :span="5">
+                    <el-col :span="6">
                         <el-input v-model="postProcessorItem.expression" placeholder="提取表达式"  size="small"></el-input>
                     </el-col> 
-                    <el-col :span="3">
-                        <el-select v-model="postProcessorItem.operator" size='small'>
-                          <el-option
-                            v-for="item in assertOperatorOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
+                    <el-col :span="2">
+                        <el-switch
+                          v-model="postProcessorItem.haveDefaultValue"
+                          :active-value=0
+                          :inactive-value=1>
+                        </el-switch>
                     </el-col> 
                     <el-col :span="5">
-                        <el-input v-model="assertItem.exceptedResult" placeholder="预期结果"  size="small"></el-input>
+                        <el-input v-model="postProcessorItem.defaultValue" placeholder="默认值"  size="small" v-if="postProcessorItem.haveDefaultValue==0"></el-input>
                     </el-col> 
                     <el-col :span="2">
-                        <el-button @click.prevent="removeAssert(assertItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                        <el-button @click.prevent="removePostProcessor(postProcessorItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
                     </el-col>
                 </el-row> 
                 </el-form-item>
-          </el-collapse-item> -->
+          </el-collapse-item>
 
 
       </el-collapse>
@@ -528,10 +521,10 @@ flag
                     :key="headerItem.key">
                 <el-row :gutter="20">
                     <el-col :span="7">
-                        <el-input v-model="headerItem.name" placeholder="name"></el-input>
+                        <el-input v-model="headerItem.name" placeholder="name" size='small'></el-input>
                     </el-col>
                     <el-col :span="15">
-                        <el-input v-model="headerItem.value" placeholder="value"></el-input>
+                        <el-input v-model="headerItem.value" placeholder="value" size='small'></el-input>
                     </el-col> 
                     <el-col :span="2">
                         <el-button @click.prevent="removeHeader(headerItem)" type="danger" icon="el-icon-delete" circle size="small"></el-button>
@@ -556,10 +549,10 @@ flag
                     :key="paramsItem.key">
                 <el-row :gutter="20">
                     <el-col :span="7">
-                        <el-input v-model="paramsItem.name" placeholder="name"></el-input>
+                        <el-input v-model="paramsItem.name" placeholder="name" size='small'></el-input>
                     </el-col>
                     <el-col :span="15">
-                        <el-input v-model="paramsItem.value" placeholder="value"></el-input>
+                        <el-input v-model="paramsItem.value" placeholder="value" size='small'></el-input>
                     </el-col> 
                     <el-col :span="2">
                         <el-button @click.prevent="removeParams(paramsItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
@@ -587,10 +580,10 @@ flag
                     :key="dataItem.key">
                 <el-row :gutter="20">
                     <el-col :span="7">
-                        <el-input v-model="dataItem.name" placeholder="name"></el-input>
+                        <el-input v-model="dataItem.name" placeholder="name" size='small'></el-input>
                     </el-col>
                     <el-col :span="15">
-                        <el-input v-model="dataItem.value" placeholder="value"></el-input>
+                        <el-input v-model="dataItem.value" placeholder="value" size='small'></el-input>
                     </el-col> 
                     <el-col :span="2">
                         <el-button @click.prevent="removeDataForm(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
@@ -657,6 +650,49 @@ flag
                 </el-row> 
                 </el-form-item>
           </el-collapse-item>
+
+
+        <el-collapse-item title="后置处理器">
+                <el-button @click.prevent="addPostProcessor" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
+                <el-form-item
+                    v-for="(postProcessorItem, index) in postProcessorList"
+                    :index="index"
+                    :key="index">
+                <el-row :gutter="20">
+                    <el-col :span="6">
+                        <el-input v-model="postProcessorItem.name" placeholder="名称" size="small" ></el-input>
+                    </el-col>
+                     <el-col :span="3">
+                        <el-select v-model="postProcessorItem.type" size='small'>
+                          <el-option
+                            v-for="item in postProcessorTypeOptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
+                    </el-col> 
+                    <el-col :span="6">
+                        <el-input v-model="postProcessorItem.expression" placeholder="提取表达式"  size="small"></el-input>
+                    </el-col> 
+                    <el-col :span="2">
+                        <el-switch
+                          v-model="postProcessorItem.haveDefaultValue"
+                          :active-value=0
+                          :inactive-value=1>
+                        </el-switch>
+                    </el-col> 
+                    <el-col :span="5">
+                        <el-input v-model="postProcessorItem.defaultValue" placeholder="默认值"  size="small" v-if="postProcessorItem.haveDefaultValue==0"></el-input>
+                    </el-col> 
+                    <el-col :span="2">
+                        <el-button @click.prevent="removePostProcessor(postProcessorItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                    </el-col>
+                </el-row> 
+                </el-form-item>
+          </el-collapse-item>
+
+
       </el-collapse>
       </el-form>
         <div slot="footer" class="dialog-footer">
@@ -737,10 +773,10 @@ flag
                     :key="headerItem.key">
                 <el-row :gutter="20">
                     <el-col :span="7">
-                        <el-input v-model="headerItem.name" placeholder="name"></el-input>
+                        <el-input v-model="headerItem.name" placeholder="name" size='small'></el-input>
                     </el-col>
                     <el-col :span="15">
-                        <el-input v-model="headerItem.value" placeholder="value"></el-input>
+                        <el-input v-model="headerItem.value" placeholder="value" size='small'></el-input>
                     </el-col> 
                     <el-col :span="2">
                         <el-button @click.prevent="removeHeader(headerItem)" type="danger" icon="el-icon-delete" circle size="small"></el-button>
@@ -765,10 +801,10 @@ flag
                     :key="paramsItem.key">
                 <el-row :gutter="20">
                     <el-col :span="7">
-                        <el-input v-model="paramsItem.name" placeholder="name"></el-input>
+                        <el-input v-model="paramsItem.name" placeholder="name" size='small'></el-input>
                     </el-col>
                     <el-col :span="15">
-                        <el-input v-model="paramsItem.value" placeholder="value"></el-input>
+                        <el-input v-model="paramsItem.value" placeholder="value" size='small'></el-input>
                     </el-col> 
                     <el-col :span="2">
                         <el-button @click.prevent="removeParams(paramsItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
@@ -796,10 +832,10 @@ flag
                     :key="dataItem.key">
                 <el-row :gutter="20">
                     <el-col :span="7">
-                        <el-input v-model="dataItem.name" placeholder="name"></el-input>
+                        <el-input v-model="dataItem.name" placeholder="name" size='small'></el-input>
                     </el-col>
                     <el-col :span="15">
-                        <el-input v-model="dataItem.value" placeholder="value"></el-input>
+                        <el-input v-model="dataItem.value" placeholder="value" size='small'></el-input>
                     </el-col> 
                     <el-col :span="2">
                         <el-button @click.prevent="removeDataForm(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
@@ -866,6 +902,49 @@ flag
                 </el-row> 
                 </el-form-item>
           </el-collapse-item>
+
+
+        <el-collapse-item title="后置处理器">
+                <el-button @click.prevent="addPostProcessor" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
+                <el-form-item
+                    v-for="(postProcessorItem, index) in postProcessorList"
+                    :index="index"
+                    :key="index">
+                <el-row :gutter="20">
+                    <el-col :span="6">
+                        <el-input v-model="postProcessorItem.name" placeholder="名称" size="small" ></el-input>
+                    </el-col>
+                     <el-col :span="3">
+                        <el-select v-model="postProcessorItem.type" size='small'>
+                          <el-option
+                            v-for="item in postProcessorTypeOptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
+                    </el-col> 
+                    <el-col :span="6">
+                        <el-input v-model="postProcessorItem.expression" placeholder="提取表达式"  size="small"></el-input>
+                    </el-col> 
+                    <el-col :span="2">
+                        <el-switch
+                          v-model="postProcessorItem.haveDefaultValue"
+                          :active-value=0
+                          :inactive-value=1>
+                        </el-switch>
+                    </el-col> 
+                    <el-col :span="5">
+                        <el-input v-model="postProcessorItem.defaultValue" placeholder="默认值"  size="small" v-if="postProcessorItem.haveDefaultValue==0"></el-input>
+                    </el-col> 
+                    <el-col :span="2">
+                        <el-button @click.prevent="removePostProcessor(postProcessorItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                    </el-col>
+                </el-row> 
+                </el-form-item>
+          </el-collapse-item>
+
+
       </el-collapse>
       </el-form>
         <div slot="footer" class="dialog-footer">
@@ -1016,7 +1095,7 @@ export default {
     ],
 
     postProcessorList:[],
-    postProcessorType: [
+    postProcessorTypeOptions: [
         {
           value: 0,
           label: "json",
@@ -1110,6 +1189,21 @@ export default {
       this.assertList = assertInfo
     });
     },
+
+    addPostProcessor() {
+      this.postProcessorList.push({
+          name: null,
+          type: 0,
+          expression: null,
+          defaultValue: null,
+          haveDefaultValue: 1,
+      });
+    },
+    removePostProcessor(item) {
+      var index = this.postProcessorList.indexOf(item)
+      this.postProcessorList.splice(index, 1)
+    },
+
     async selectInterfaceCase(queryForm) {
       queryForm["pageNum"] = this.pageNum;
       queryForm["pageSize"] = this.pageSize;
@@ -1315,7 +1409,10 @@ export default {
                 }
             }
         } 
+        // 添加断言
         this.dataAdd.asserts = this.assertList
+        // 添加后置处理器
+        this.dataAdd.postProcessors = this.postProcessorList
         const res = await saveInterfaceCase(this.dataAdd)
         if (res.code == 200 ) {
             this.addDialogFormVisible = false
@@ -1411,6 +1508,7 @@ export default {
             }
         } 
         this.dataInfo.asserts = this.assertList
+        this.dataInfo.postProcessors = this.postProcessorList
         const res = await modifyInterfaceCase(this.dataInfo)
         if (res.code == 200 ) {
             this.editDialogFormVisible = false
@@ -1507,6 +1605,7 @@ export default {
             }
         } 
         this.dataInfo.asserts = this.assertList
+        this.dataInfo.postProcessors = this.postProcessorList
         const res = await saveInterfaceCase(this.dataInfo)
         if (res.code == 200 ) {
             this.copyDialogFormVisible = false
@@ -1609,6 +1708,9 @@ export default {
       // 初始化断言
       this.assertList = []
       this.assertIndex = 0
+
+      // 初始化后置处理器
+      this.postProcessorList = []
     },
     async openEdit(row) {
       let caseId = row.caseId
@@ -1655,6 +1757,8 @@ export default {
         }
         this.assertList = res.data.asserts
         this.assertIndex = this.assertList[this.assertList.length-1].order + 1
+
+        this.postProcessorList = res.data.postProcessors
       } else {
         this.$message({
           type: "error",
@@ -1712,6 +1816,7 @@ export default {
         }
         this.assertList = res.data.asserts
         this.assertIndex = this.assertList[this.assertList.length-1].order + 1
+        this.postProcessorList = res.data.postProcessors
       } else {
         this.$message({
           type: "error",
