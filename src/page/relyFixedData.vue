@@ -4,15 +4,15 @@
     <div class="query">
       <el-form :inline="true" :model="queryForm" class="demo-form-inline" ref="queryForm">
         <el-form-item label="依赖名称">
-          <el-input v-model="queryForm.name" placeholder="依赖名称" size='small'></el-input>
+          <el-input v-model="queryForm.name" placeholder="依赖名称" size='mini'></el-input>
         </el-form-item>
         <el-form-item label="固定字符">
-          <el-input v-model="queryForm.value" placeholder="固定字符" size='small'></el-input>
+          <el-input v-model="queryForm.value" placeholder="固定字符" size='mini'></el-input>
         </el-form-item>                
         <el-form-item>
-          <el-button type="primary" size="small" @click="selectRelyDataList(queryForm)">查询</el-button>
-          <el-button type="primary" size="small" @click="resetForm">重置</el-button>
-          <el-button type="primary" size="small" @click="openAdd" plain>新增</el-button>
+          <el-button type="primary" size="mini" @click="selectRelyDataList(queryForm)">查询</el-button>
+          <el-button type="primary" size="mini" @click="resetForm">重置</el-button>
+          <el-button type="primary" size="mini" @click="openAdd" plain>新增</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -21,29 +21,30 @@
         <el-table-column property="id" label="编号" min-width="5%"></el-table-column>
         <el-table-column property="name" label="名称" min-width="10%"></el-table-column>
         <el-table-column property="value" label="固定字符" min-width="25%"></el-table-column>
-        <el-table-column property="desc" label="描述" min-width="35%"></el-table-column>
+        <el-table-column property="desc" label="描述" min-width="38%"></el-table-column>
         <el-table-column property="type" label="类型" min-width="12%">
           <template slot-scope="scope">
             <el-tag
               effect="dark"
+              size="small"
               :type="scope.row.style"
               disable-transitions>{{scope.row.type}}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="13%">
+        <el-table-column fixed="right" label="操作" min-width="10%">
           <template slot-scope="scope">
             <el-button
               @click="handleEdit(scope.row.id)"
               type="primary"
-              size="small"
+              size="mini"
               icon="el-icon-edit"
               circle
             ></el-button>
             <el-button
               @click="handleDelete(scope.row.id, scope.$index)"
               type="danger"
-              size="small"
+              size="mini"
               icon="el-icon-delete"
               circle
               :disabled="!scope.row.deleteable"
@@ -113,72 +114,72 @@
       <el-dialog title="编辑" :visible.sync="editDialogFormVisible" :close-on-click-modal=false>
         <el-form :model="dataInfo">
           <el-form-item label="*名称" label-width="100px">
-            <el-input v-model="dataInfo.name" :disabled="disableModifyName" size='small'></el-input>
+            <el-input v-model="dataInfo.name" :disabled="disableModifyName" size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*类型" label-width="100px">
-            <el-select v-model="dataInfo.type" @change="handleChangeType" :disabled="disableModifyType" size='small'>
+            <el-select v-model="dataInfo.type" @change="handleChangeType" :disabled="disableModifyType" size='mini'>
               <el-option
                 v-for="item in writeTypeOptions"
                 :key="item.value"
                 :label="item.label"
                 :disabled="item.isDisable"
-                size='small'
+                size='mini'
                 :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="*值" label-width="100px" v-if="showValue"> 
-            <el-input v-model="dataInfo.value" size='small'></el-input>
+            <el-input v-model="dataInfo.value" size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*数据源编号" label-width="100px" v-if="showDbId">
-            <el-input v-model="dataInfo.datasourceId"  @focus='handleDbList' size='small'></el-input>
+            <el-input v-model="dataInfo.datasourceId"  @focus='handleDbList' size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*数据源名称" label-width="100px" v-if="showDbName">
-            <el-input v-model="dataInfo.dbName"  disabled size='small'></el-input>
+            <el-input v-model="dataInfo.dbName"  disabled size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*描述" label-width="100px">
-            <el-input v-model="dataInfo.desc" size='small'></el-input>
+            <el-input v-model="dataInfo.desc" size='mini'></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="editDialogFormVisible = false" size="small">取 消</el-button>
-          <el-button type="primary" @click="updateRelyData" size="small">确 定</el-button>
+          <el-button @click="editDialogFormVisible = false" size="mini">取 消</el-button>
+          <el-button type="primary" @click="updateRelyData" size="mini">确 定</el-button>
         </div>
       </el-dialog>
 
       <el-dialog title="添加" :visible.sync="addDialogFormVisible" :close-on-click-modal=false>
         <el-form :model="dataAdd">
           <el-form-item label="*名称" label-width="100px">
-            <el-input v-model="dataAdd.name" :disabled="disableModifyName" size='small'></el-input>
+            <el-input v-model="dataAdd.name" :disabled="disableModifyName" size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*类型" label-width="100px">
-            <el-select v-model="dataAdd.type" @change="handleChangeType" :disabled="disableModifyType" size='small'>
+            <el-select v-model="dataAdd.type" @change="handleChangeType" :disabled="disableModifyType" size='mini'>
               <el-option
                 v-for="item in writeTypeOptions"
                 :key="item.value"
                 :label="item.label"
-                size='small'
+                size='mini'
                 :disabled="item.isDisable"
                 :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="*值" label-width="100px" v-if="showValue"> 
-            <el-input v-model="dataAdd.value" size='small'></el-input>
+            <el-input v-model="dataAdd.value" size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*数据源编号" label-width="100px" v-if="showDbId">
-            <el-input v-model="dataAdd.datasourceId"  @focus='handleDbList' size='small'></el-input>
+            <el-input v-model="dataAdd.datasourceId"  @focus='handleDbList' size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*数据源名称" label-width="100px" v-if="showDbName">
-            <el-input v-model="dataAdd.dbName"  disabled size='small'></el-input>
+            <el-input v-model="dataAdd.dbName"  disabled size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*描述" label-width="100px">
-            <el-input v-model="dataAdd.desc" size='small'></el-input>
+            <el-input v-model="dataAdd.desc" size='mini'></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="addDialogFormVisible = false" size="small">取 消</el-button>
-          <el-button type="primary" @click="handleAdd()" size="small">确 定</el-button>
+          <el-button @click="addDialogFormVisible = false" size="mini">取 消</el-button>
+          <el-button type="primary" @click="handleAdd()" size="mini">确 定</el-button>
         </div>
       </el-dialog>
     </div>

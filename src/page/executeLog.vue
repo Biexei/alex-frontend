@@ -4,22 +4,22 @@
     <div class="query">
       <el-form :inline="true" :model="queryForm" class="demo-form-inline" ref="queryForm">
         <el-form-item label="项目名称">
-          <el-input v-model="queryForm.projectName" placeholder="项目名称" size='small'></el-input>
+          <el-input v-model="queryForm.projectName" placeholder="项目名称" size='mini'></el-input>
         </el-form-item>
         <el-form-item label="模块名称">
-          <el-input v-model="queryForm.moduleName" placeholder="模块名称" size='small'></el-input>
+          <el-input v-model="queryForm.moduleName" placeholder="模块名称" size='mini'></el-input>
         </el-form-item>
         <el-form-item label="用例描述">
-          <el-input v-model="queryForm.caseDesc" placeholder="用例描述" size='small'></el-input>
+          <el-input v-model="queryForm.caseDesc" placeholder="用例描述" size='mini'></el-input>
         </el-form-item>
         <el-form-item label="执行编号">
-          <el-input v-model="queryForm.suiteLogNo" placeholder="执行编号" size='small'></el-input>
+          <el-input v-model="queryForm.suiteLogNo" placeholder="执行编号" size='mini'></el-input>
         </el-form-item>
         <el-form-item label="执行状态">
-          <el-select v-model="queryForm.status" placeholder="请选择" size='small'>
+          <el-select v-model="queryForm.status" placeholder="请选择" size='mini'>
               <el-option v-for="item in logStatusOptions"
                   :key="item.label"
-                  size='small'
+                  size='mini'
                   :label="item.label"
                   :value="item.value">
               </el-option>
@@ -31,7 +31,7 @@
             format="yyyy-MM-dd HH:mm:ss"
             value-format="yyyy-MM-dd HH:mm:ss"
             type="datetime"
-            size='small'
+            size='mini'
             placeholder="选择起始时间"
             align="right">
           </el-date-picker>
@@ -42,14 +42,14 @@
             format="yyyy-MM-dd HH:mm:ss"
             value-format="yyyy-MM-dd HH:mm:ss"
             type="datetime"
-            size='small'
+            size='mini'
             placeholder="选择截止时间"
             align="right">
           </el-date-picker>
         </el-form-item>                
         <el-form-item>
-          <el-button type="primary" size="small" @click="selectInterfaceCaseExecuteLogList(queryForm)">查询</el-button>
-          <el-button type="primary" size="small" @click="resetForm">重置</el-button>
+          <el-button type="primary" size="mini" @click="selectInterfaceCaseExecuteLogList(queryForm)">查询</el-button>
+          <el-button type="primary" size="mini" @click="resetForm">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -78,6 +78,7 @@
           <template slot-scope="scope">
             <el-tag
               effect="dark"
+              size="small"
               :type="scope.row.style"
               disable-transitions>{{scope.row.status}}</el-tag>
           </template>
@@ -86,6 +87,7 @@
           <template slot-scope="scope">
             <el-tag
               effect="dark"
+              size="small"
               :type="scope.row.isFailedRetryStyle"
               disable-transitions>{{scope.row.isFailedRetryValue}}</el-tag>
           </template>
@@ -96,14 +98,14 @@
               @click="handleDetail(scope.row.id)"
               type="primary"
               icon="el-icon-more"
-              size="small"
+              size="mini"
               circle
             ></el-button>
             <el-button
               @click="handleChain(scope.row.id)"
               type="danger"
               icon="el-icon-view"
-              size="small"
+              size="mini"
               circle
             ></el-button>
           </template>
@@ -125,19 +127,19 @@
         <el-form :model="dataInfo">
           <el-collapse-item title="基本信息">
           <el-form-item label="用例编号" label-width="100px">
-            <el-input v-model="dataInfo.caseId" readonly size='small'></el-input>
+            <el-input v-model="dataInfo.caseId" readonly size='mini'></el-input>
           </el-form-item>
           <el-form-item label="用例描述" label-width="100px">
-            <el-input v-model="dataInfo.caseDesc" readonly size='small'></el-input>
+            <el-input v-model="dataInfo.caseDesc" readonly size='mini'></el-input>
           </el-form-item>
           <el-form-item label="执行用时(ms)" label-width="100px">
-            <el-input v-model="dataInfo.runTime" readonly size='small'></el-input>
+            <el-input v-model="dataInfo.runTime" readonly size='mini'></el-input>
           </el-form-item> 
           <el-form-item label="执行人" label-width="100px">
-            <el-input v-model="dataInfo.executer" readonly size='small'></el-input>
+            <el-input v-model="dataInfo.executer" readonly size='mini'></el-input>
           </el-form-item> 
           <el-form-item label="执行编号" label-width="100px">
-            <el-input v-model="dataInfo.suiteLogNo" readonly size='small'></el-input>
+            <el-input v-model="dataInfo.suiteLogNo" readonly size='mini'></el-input>
           </el-form-item> 
           <el-form-item label="异常信息" label-width="100px" v-if="dataInfo.status=='错误'">
             <el-input v-model="dataInfo.errorMessage" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }"></el-input>
@@ -210,7 +212,7 @@
           </el-collapse-item>
           <el-collapse-item title="响应信息">
           <el-form-item label="code" label-width="100px">
-            <el-input v-model="dataInfo.responseCode" readonly  size='small'></el-input>
+            <el-input v-model="dataInfo.responseCode" readonly  size='mini'></el-input>
           </el-form-item> 
           <el-row :gutter="25">
             <el-col :span="22">
@@ -292,7 +294,7 @@
                   <el-col :span="2">
                     <el-button 
                     plain 
-                    size="small" 
+                    size="mini" 
                     type="info" 
                     @click="handleDetail(chain.logId)"
                     style="background-color: #FFFFFF; color: #324057; border:none;font-size: 14px;">{{chain.logId}}
@@ -301,7 +303,7 @@
                   <el-col :span="22">
                     <el-button 
                     plain 
-                    size="small" 
+                    size="mini" 
                     type="info" 
                     @click="handleDetail(chain.logId)"
                     style="background-color: #FFFFFF; color: #324057; border:none;font-size: 14px;">{{chain.caseId}} {{chain.caseDesc}}

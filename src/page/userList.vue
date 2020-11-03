@@ -4,18 +4,18 @@
     <div class="query">
       <el-form :inline="true" :model="query" class="demo-form-inline" ref="queryForm">
         <el-form-item label="用户名">
-          <el-input v-model="query.username" placeholder="用户名" size='small'></el-input>
+          <el-input v-model="query.username" placeholder="用户名" size='mini'></el-input>
         </el-form-item>
         <el-form-item label="状态">
-          <el-select v-model="query.isEnable" placeholder="状态" size='small'>
+          <el-select v-model="query.isEnable" placeholder="状态" size='mini'>
             <el-option label="启用" value="1"></el-option>
             <el-option label="禁用" value="0"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" size="small" @click="getUserList(query)">查询</el-button>
-          <el-button type="primary" size="small" @click="resetForm">重置</el-button>
-          <el-button type="primary" size="small" @click="openAdd" plain>新增</el-button>
+          <el-button type="primary" size="mini" @click="getUserList(query)">查询</el-button>
+          <el-button type="primary" size="mini" @click="resetForm">重置</el-button>
+          <el-button type="primary" size="mini" @click="openAdd" plain>新增</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -30,6 +30,7 @@
           <template slot-scope="scope">
             <el-tag
               effect="dark"
+              size="small"
               :type="scope.row.isEnableStyle"
               disable-transitions>{{scope.row.isEnable}}
             </el-tag>
@@ -40,14 +41,14 @@
             <el-button
               @click="handleEdit(scope.row.userId)"
               type="primary"
-              size="small"
+              size="mini"
               icon="el-icon-edit"
               circle
             ></el-button>
             <el-button
               @click="handleDelete(scope.row.userId, scope.$index)"
               type="danger"
-              size="small"
+              size="mini"
               icon="el-icon-delete"
               circle
             ></el-button>
@@ -69,60 +70,60 @@
       <el-dialog title="编辑" :visible.sync="editDialogFormVisible" :close-on-click-modal=false>
         <el-form :model="userInfo">
           <el-form-item label="*用户名" label-width="100px">
-            <el-input v-model="userInfo.username" auto-complete="off" size='small'></el-input>
+            <el-input v-model="userInfo.username" auto-complete="off" size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*密码" label-width="100px">
-            <el-input v-model="userInfo.password" size='small'></el-input>
+            <el-input v-model="userInfo.password" size='mini'></el-input>
           </el-form-item>
           <el-form-item label="工号" label-width="100px">
-            <el-input v-model="userInfo.jobNumber" size='small'></el-input>
+            <el-input v-model="userInfo.jobNumber" size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*真实姓名" label-width="100px">
-            <el-input v-model="userInfo.realName" size='small'></el-input>
+            <el-input v-model="userInfo.realName" size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*性别" label-width="100px">
-            <el-radio-group v-model="userInfo.sex" size='small'>
+            <el-radio-group v-model="userInfo.sex" size='mini'>
               <el-radio :label="0">女</el-radio>
               <el-radio :label="1">男</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="*状态" label-width="100px">
-            <el-radio-group v-model="userInfo.isEnable"  size='small'>
+            <el-radio-group v-model="userInfo.isEnable"  size='mini'>
               <el-radio :label="1">启用</el-radio>
               <el-radio :label="0">禁用</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="editDialogFormVisible = false" size="small">取 消</el-button>
-          <el-button type="primary" @click="updateUser" size="small">确 定</el-button>
+          <el-button @click="editDialogFormVisible = false" size="mini">取 消</el-button>
+          <el-button type="primary" @click="updateUser" size="mini">确 定</el-button>
         </div>
       </el-dialog>
 
       <el-dialog title="新增" :visible.sync="addDialogFormVisible" :close-on-click-modal=false>
         <el-form :model="addForm" ref="addForm">
           <el-form-item label="*用户名" label-width="100px" prop="username">
-            <el-input v-model="addForm.username" auto-complete="off" size='small'></el-input>
+            <el-input v-model="addForm.username" auto-complete="off" size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*密码" label-width="100px" prop="password">
-            <el-input v-model="addForm.password" size='small'></el-input>
+            <el-input v-model="addForm.password" size='mini'></el-input>
           </el-form-item>
           <el-form-item label="工号" label-width="100px" prop="jobNumber">
-            <el-input v-model="addForm.jobNumber" size='small'></el-input>
+            <el-input v-model="addForm.jobNumber" size='mini'></el-input>
           </el-form-item>
           <el-form-item label="真实姓名" label-width="100px" prop="realName">
-            <el-input v-model="addForm.realName" size='small'></el-input>
+            <el-input v-model="addForm.realName" size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*性别" label-width="100px" prop="sex">
-            <el-radio-group v-model="addForm.sex" size='small'>
+            <el-radio-group v-model="addForm.sex" size='mini'>
               <el-radio :label="0">女</el-radio>
               <el-radio :label="1">男</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="addDialogFormVisible = false" size="small">取 消</el-button>
-          <el-button type="primary" @click="handleAdd()" size="small">确 定</el-button>
+          <el-button @click="addDialogFormVisible = false" size="mini">取 消</el-button>
+          <el-button type="primary" @click="handleAdd()" size="mini">确 定</el-button>
         </div>
       </el-dialog>
     </div>

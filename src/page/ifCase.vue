@@ -4,39 +4,39 @@
     <div class="query">
       <el-form :inline="true" :model="queryForm" class="demo-form-inline" ref="queryForm">
         <el-form-item label="用例编号">
-          <el-input v-model="queryForm.caseId" placeholder="用例编号"  size='small'></el-input>
+          <el-input v-model="queryForm.caseId" placeholder="用例编号"  size='mini'></el-input>
         </el-form-item>
         <el-form-item label="项目编号">
-          <el-input v-model="queryForm.projectId" placeholder="项目编号"  size='small'></el-input>
+          <el-input v-model="queryForm.projectId" placeholder="项目编号"  size='mini'></el-input>
         </el-form-item>
         <el-form-item label="模块编号">
-          <el-input v-model="queryForm.moduleId" placeholder="模块编号"  size='small'></el-input>
+          <el-input v-model="queryForm.moduleId" placeholder="模块编号"  size='mini'></el-input>
         </el-form-item>
         <el-form-item label="项目名称">
-          <el-input v-model="queryForm.projectName" placeholder="项目名称"  size='small'></el-input>
+          <el-input v-model="queryForm.projectName" placeholder="项目名称"  size='mini'></el-input>
         </el-form-item>
         <el-form-item label="模块名称">
-          <el-input v-model="queryForm.moduleName" placeholder="模块名称"  size='small'></el-input>
+          <el-input v-model="queryForm.moduleName" placeholder="模块名称"  size='mini'></el-input>
         </el-form-item>
         <el-form-item label="用例名称">
-          <el-input v-model="queryForm.desc" placeholder="用例名称"  size='small'></el-input>
+          <el-input v-model="queryForm.desc" placeholder="用例名称"  size='mini'></el-input>
         </el-form-item>      
         <el-form-item label="请求方式">
-          <el-select v-model="queryForm.method" placeholder="请求方式"  size='small'>
+          <el-select v-model="queryForm.method" placeholder="请求方式"  size='mini'>
             <el-option
               v-for="item in requestMethodOptions"
               :key="item.label"
-              size='small'
+              size='mini'
               :label="item.label"
               :value="item.value"
             ></el-option>
           </el-select>          
         </el-form-item>
         <el-form-item label="级别">
-          <el-select v-model="queryForm.level" placeholder="级别"  size='small'>
+          <el-select v-model="queryForm.level" placeholder="级别"  size='mini'>
             <el-option
               v-for="item in levelOptions"
-              size='small'
+              size='mini'
               :key="item.label"
               :label="item.label"
               :value="item.value"
@@ -49,7 +49,7 @@
             format="yyyy-MM-dd HH:mm:ss"
             value-format="yyyy-MM-dd HH:mm:ss"
             type="datetime"
-            size='small'
+            size='mini'
             placeholder="选择起始时间"
             align="right"
           ></el-date-picker>
@@ -60,15 +60,15 @@
             format="yyyy-MM-dd HH:mm:ss"
             value-format="yyyy-MM-dd HH:mm:ss"
             type="datetime"
-            size='small'
+            size='mini'
             placeholder="选择截止时间"
             align="right"
           ></el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" size="small" @click="selectInterfaceCase(queryForm)">查询</el-button>
-          <el-button type="primary" size="small" @click="resetForm">重置</el-button>
-          <el-button type="primary" size="small" @click="openAdd" plain>新增</el-button>
+          <el-button type="primary" size="mini" @click="selectInterfaceCase(queryForm)">查询</el-button>
+          <el-button type="primary" size="mini" @click="resetForm">重置</el-button>
+          <el-button type="primary" size="mini" @click="openAdd" plain>新增</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -104,47 +104,51 @@
             </el-form>
         </template>
         </el-table-column>
-        <el-table-column property="caseId" label="用例编号" min-width="8%"></el-table-column>
+        <el-table-column property="caseId" label="用例编号" min-width="10%"></el-table-column>
         <el-table-column property="projectName" label="项目名称" min-width="15%" show-overflow-tooltip></el-table-column>
-        <el-table-column property="desc" label="用例名称" min-width="25%" show-overflow-tooltip></el-table-column>
-        <el-table-column property="url" label="请求地址" min-width="20%" show-overflow-tooltip></el-table-column>
-        <el-table-column property="method" label="请求方式" min-width="8%">
+        <el-table-column property="desc" label="用例名称" min-width="30%" show-overflow-tooltip>
           <template slot-scope="scope">
-            <el-tag effect="dark" :type="scope.row.methodStyle" disable-transitions>{{scope.row.method}}</el-tag>
+            <el-row>
+              <el-col :span="3"><el-tag effect="dark" :type="scope.row.levelStyle" disable-transitions size="mini">{{scope.row.level}}</el-tag></el-col>
+              <el-col :span="21"><span>{{scope.row.desc}}</span></el-col>
+            </el-row>
           </template>
         </el-table-column>
-        <el-table-column property="level" label="级别" min-width="8%">
+        <el-table-column property="method" label="请求地址" min-width="30%" show-overflow-tooltip>
           <template slot-scope="scope">
-            <el-tag effect="dark" :type="scope.row.levelStyle" disable-transitions>{{scope.row.level}}</el-tag>
+            <el-row :gutter="10">
+              <el-col :span="4"><el-tag effect="dark" :type="scope.row.methodStyle" disable-transitions size="mini">{{scope.row.method}}</el-tag></el-col>
+              <el-col :span="20"><span>{{scope.row.url}}</span></el-col>
+            </el-row>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="16%">
+        <el-table-column fixed="right" label="操作" min-width="15%">
             <template slot-scope="scope">
                 <el-button 
                 @click="handleCheck(scope.row.caseId)"
                 type="success"
-                size="small" 
+                size="mini" 
                 icon="el-icon-check" 
                 circle>
                 </el-button>
                 <el-button
                 @click="openEdit(scope.row)"
                 type="primary"
-                size="small"
+                size="mini"
                 icon="el-icon-edit"
                 circle
                 ></el-button>
                 <el-button
                 @click="openCopy(scope.row)"
                 type="warning"
-                size="small"
+                size="mini"
                 icon="el-icon-copy-document"
                 circle
                 ></el-button>                
                 <el-button
                 @click="handleDelete(scope.row.caseId, scope.$index)"
                 type="danger"
-                size="small"
+                size="mini"
                 icon="el-icon-delete"
                 circle
                 ></el-button>
@@ -168,25 +172,25 @@
         <el-collapse>
         <el-collapse-item title="基本信息">
           <!-- <el-form-item label="*项目编号" label-width="100px">
-            <el-input readonly v-model="dataAdd.projectId" @focus='handleProjectModuleList' size="small" disabled></el-input>
+            <el-input readonly v-model="dataAdd.projectId" @focus='handleProjectModuleList' size="mini" disabled></el-input>
           </el-form-item> -->
           <el-form-item label="*项目名称" label-width="100px">
-            <el-input readonly v-model="dataAdd.projectName" @focus='handleProjectModuleList' size="small" disabled></el-input>
+            <el-input readonly v-model="dataAdd.projectName" @focus='handleProjectModuleList' size="mini" disabled></el-input>
           </el-form-item>
           <!-- <el-form-item label="*模块编号" label-width="100px">
-            <el-input readonly v-model="dataAdd.moduleId" @focus='handleProjectModuleList' size="small" disabled></el-input>
+            <el-input readonly v-model="dataAdd.moduleId" @focus='handleProjectModuleList' size="mini" disabled></el-input>
           </el-form-item> -->
           <el-form-item label="*模块名称" label-width="100px">
-            <el-input readonly v-model="dataAdd.moduleName" @focus='handleProjectModuleList' size="small" placeholder="请点击选择"></el-input>
+            <el-input readonly v-model="dataAdd.moduleName" @focus='handleProjectModuleList' size="mini" placeholder="请点击选择"></el-input>
           </el-form-item>
           <el-form-item label="*用例名称" label-width="100px">
-            <el-input v-model="dataAdd.desc" size="small"></el-input>
+            <el-input v-model="dataAdd.desc" size="mini"></el-input>
           </el-form-item>
           <el-form-item label="接口文档地址" label-width="100px">
-            <el-input v-model="dataAdd.doc" size="small"></el-input>
+            <el-input v-model="dataAdd.doc" size="mini"></el-input>
           </el-form-item>
           <el-form-item label="*用例等级" label-width="100px">
-            <el-select v-model="dataAdd.level" placeholder="请选择"  size="small" >
+            <el-select v-model="dataAdd.level" placeholder="请选择"  size="mini" >
               <el-option
                 v-for="item in levelOptions"
                 :key="item.value"
@@ -196,15 +200,15 @@
             </el-select>
           </el-form-item>
           <el-form-item label="*创建人" label-width="100px">
-            <!-- <el-input v-model="dataAdd.creater"  size="small"></el-input> -->
-            <el-input v-model="dataAdd.createrRealName"  size="small" disabled></el-input>
+            <!-- <el-input v-model="dataAdd.creater"  size="mini"></el-input> -->
+            <el-input v-model="dataAdd.createrRealName"  size="mini" disabled></el-input>
           </el-form-item>
         </el-collapse-item>
 
         <el-collapse-item title="请求信息">
           <el-row :gutter="20">
           <el-col :span="4">
-            <el-select v-model="dataAdd.method" placeholder="method"  size="small" @change="handleChangeMethod">
+            <el-select v-model="dataAdd.method" placeholder="method"  size="mini" @change="handleChangeMethod">
               <el-option
                 v-for="item in requestMethodOptions"
                 :key="item.value"
@@ -214,7 +218,7 @@
             </el-select>
           </el-col>
           <el-col :span="20">
-            <el-input v-model="dataAdd.url"  size="small" placeholder="Enter request url"></el-input>
+            <el-input v-model="dataAdd.url"  size="mini" placeholder="Enter request url"></el-input>
           </el-col> 
           </el-row>  
 
@@ -231,19 +235,19 @@
                     :key="headerItem.key">
                 <el-row :gutter="20">
                     <el-col :span="7">
-                        <el-input v-model="headerItem.name" placeholder="name" size='small'></el-input>
+                        <el-input v-model="headerItem.name" placeholder="name" size='mini'></el-input>
                     </el-col>
                     <el-col :span="15">
-                        <el-input v-model="headerItem.value" placeholder="value" size='small'></el-input>
+                        <el-input v-model="headerItem.value" placeholder="value" size='mini'></el-input>
                     </el-col> 
                     <el-col :span="2">
-                        <el-button @click.prevent="removeHeader(headerItem)" type="danger" icon="el-icon-delete" circle size="small"></el-button>
+                        <el-button @click.prevent="removeHeader(headerItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
                     </el-col>
                 </el-row> 
                 </el-form-item>
                 </div>
                 <div v-if="headerTypeFlag==1">
-                    <el-input v-model="dataAddHeadersStr" size="small" type="textarea" :rows="6" placeholder="header json string"></el-input>
+                    <el-input v-model="dataAddHeadersStr" size="mini" type="textarea" :rows="6" placeholder="header json string"></el-input>
                 </div>  
             </el-tab-pane>
 
@@ -259,10 +263,10 @@
                     :key="paramsItem.key">
                 <el-row :gutter="20">
                     <el-col :span="7">
-                        <el-input v-model="paramsItem.name" placeholder="name" size='small'></el-input>
+                        <el-input v-model="paramsItem.name" placeholder="name" size='mini'></el-input>
                     </el-col>
                     <el-col :span="15">
-                        <el-input v-model="paramsItem.value" placeholder="value" size='small'></el-input>
+                        <el-input v-model="paramsItem.value" placeholder="value" size='mini'></el-input>
                     </el-col> 
                     <el-col :span="2">
                         <el-button @click.prevent="removeParams(paramsItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
@@ -271,7 +275,7 @@
                 </el-form-item>
                 </div>
                 <div v-if="paramsTypeFlag==1">
-                    <el-input v-model="dataAddParamsStr" size="small" type="textarea" :rows="6" placeholder="params json string"></el-input>
+                    <el-input v-model="dataAddParamsStr" size="mini" type="textarea" :rows="6" placeholder="params json string"></el-input>
                 </div>            
             </el-tab-pane>
 
@@ -290,10 +294,10 @@
                     :key="dataItem.key">
                 <el-row :gutter="20">
                     <el-col :span="7">
-                        <el-input v-model="dataItem.name" placeholder="name" size='small'></el-input>
+                        <el-input v-model="dataItem.name" placeholder="name" size='mini'></el-input>
                     </el-col>
                     <el-col :span="15">
-                        <el-input v-model="dataItem.value" placeholder="value" size='small'></el-input>
+                        <el-input v-model="dataItem.value" placeholder="value" size='mini'></el-input>
                     </el-col> 
                     <el-col :span="2">
                         <el-button @click.prevent="removeDataForm(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
@@ -303,13 +307,13 @@
                 </div>
 
                 <div v-if="bodyTypeFlag==1">
-                    <el-input v-model="dataAddFormStr" size="small" type="textarea" :rows="6" placeholder="form-data json string"></el-input>
+                    <el-input v-model="dataAddFormStr" size="mini" type="textarea" :rows="6" placeholder="form-data json string"></el-input>
                 </div>   
                 <div v-if="bodyTypeFlag==2">
-                    <el-input v-model="dataAddJsonStr" size="small" type="textarea" :rows="6" placeholder="json string"></el-input>
+                    <el-input v-model="dataAddJsonStr" size="mini" type="textarea" :rows="6" placeholder="json string"></el-input>
                 </div>   
                 <div v-if="bodyTypeFlag==3">
-                    <el-input v-model="dataAddFormRaw" size="small" type="textarea" :rows="6" placeholder="form-data raw"></el-input>
+                    <el-input v-model="dataAddFormRaw" size="mini" type="textarea" :rows="6" placeholder="form-data raw"></el-input>
                 </div>   
             </el-tab-pane>
         </el-tabs>
@@ -323,13 +327,13 @@
                     :key="index">
                 <el-row :gutter="20">
                     <el-col :span="2">
-                        <el-input v-model="assertItem.order" placeholder="排序" size="small"></el-input>
+                        <el-input v-model="assertItem.order" placeholder="排序" size="mini"></el-input>
                     </el-col>
                     <el-col :span="4">
-                        <el-input v-model="assertItem.assertName" placeholder="描述"  size="small"></el-input>
+                        <el-input v-model="assertItem.assertName" placeholder="描述"  size="mini"></el-input>
                     </el-col> 
                     <el-col :span="3">
-                        <el-select v-model="assertItem.type" size='small'>
+                        <el-select v-model="assertItem.type" size='mini'>
                           <el-option
                             v-for="item in assertTypeOptions"
                             :key="item.value"
@@ -339,10 +343,10 @@
                         </el-select>
                     </el-col> 
                     <el-col :span="5">
-                        <el-input v-model="assertItem.expression" placeholder="提取表达式"  size="small"></el-input>
+                        <el-input v-model="assertItem.expression" placeholder="提取表达式"  size="mini"></el-input>
                     </el-col> 
                     <el-col :span="3">
-                        <el-select v-model="assertItem.operator" size='small'>
+                        <el-select v-model="assertItem.operator" size='mini'>
                           <el-option
                             v-for="item in assertOperatorOptions"
                             :key="item.value"
@@ -352,7 +356,7 @@
                         </el-select>
                     </el-col> 
                     <el-col :span="5">
-                        <el-input v-model="assertItem.exceptedResult" placeholder="预期结果"  size="small"></el-input>
+                        <el-input v-model="assertItem.exceptedResult" placeholder="预期结果"  size="mini"></el-input>
                     </el-col> 
                     <el-col :span="2">
                         <el-button @click.prevent="removeAssert(assertItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
@@ -369,10 +373,10 @@
                     :key="index">
                 <el-row :gutter="20">
                     <el-col :span="6">
-                        <el-input v-model="postProcessorItem.name" placeholder="名称" size="small" ></el-input>
+                        <el-input v-model="postProcessorItem.name" placeholder="名称" size="mini" ></el-input>
                     </el-col>
                      <el-col :span="3">
-                        <el-select v-model="postProcessorItem.type" size='small'>
+                        <el-select v-model="postProcessorItem.type" size='mini'>
                           <el-option
                             v-for="item in postProcessorTypeOptions"
                             :key="item.value"
@@ -382,7 +386,7 @@
                         </el-select>
                     </el-col> 
                     <el-col :span="6">
-                        <el-input v-model="postProcessorItem.expression" placeholder="提取表达式"  size="small"></el-input>
+                        <el-input v-model="postProcessorItem.expression" placeholder="提取表达式"  size="mini"></el-input>
                     </el-col> 
                     <el-col :span="2">
                         <el-switch
@@ -392,7 +396,7 @@
                         </el-switch>
                     </el-col> 
                     <el-col :span="5">
-                        <el-input v-model="postProcessorItem.defaultValue" placeholder="默认值"  size="small" v-if="postProcessorItem.haveDefaultValue==0"></el-input>
+                        <el-input v-model="postProcessorItem.defaultValue" placeholder="默认值"  size="mini" v-if="postProcessorItem.haveDefaultValue==0"></el-input>
                     </el-col> 
                     <el-col :span="2">
                         <el-button @click.prevent="removePostProcessor(postProcessorItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
@@ -405,8 +409,8 @@
       </el-collapse>
       </el-form>
         <div slot="footer" class="dialog-footer">
-            <el-button @click="addDialogFormVisible = false" size="small">取 消</el-button>
-            <el-button type="primary" @click="handleAdd()" size="small">确 定</el-button>
+            <el-button @click="addDialogFormVisible = false" size="mini">取 消</el-button>
+            <el-button type="primary" @click="handleAdd()" size="mini">确 定</el-button>
         </div>
       </el-dialog>
 
@@ -459,25 +463,25 @@
         <el-collapse>
         <el-collapse-item title="基本信息">
           <!-- <el-form-item label="*项目编号" label-width="100px">
-            <el-input readonly v-model="dataInfo.projectId" @focus='handleProjectModuleList' size="small" disabled></el-input>
+            <el-input readonly v-model="dataInfo.projectId" @focus='handleProjectModuleList' size="mini" disabled></el-input>
           </el-form-item> -->
           <el-form-item label="*项目名称" label-width="100px">
-            <el-input readonly v-model="dataInfo.projectName" @focus='handleProjectModuleList' size="small" disabled></el-input>
+            <el-input readonly v-model="dataInfo.projectName" @focus='handleProjectModuleList' size="mini" disabled></el-input>
           </el-form-item>
           <!-- <el-form-item label="*模块编号" label-width="100px">
-            <el-input readonly v-model="dataInfo.moduleId" @focus='handleProjectModuleList' size="small" disabled></el-input>
+            <el-input readonly v-model="dataInfo.moduleId" @focus='handleProjectModuleList' size="mini" disabled></el-input>
           </el-form-item> -->
           <el-form-item label="*模块名称" label-width="100px">
-            <el-input readonly v-model="dataInfo.moduleName" @focus='handleProjectModuleList' size="small"  placeholder="请点击选择"></el-input>
+            <el-input readonly v-model="dataInfo.moduleName" @focus='handleProjectModuleList' size="mini"  placeholder="请点击选择"></el-input>
           </el-form-item>
           <el-form-item label="*用例名称" label-width="100px">
-            <el-input v-model="dataInfo.desc" size="small"></el-input>
+            <el-input v-model="dataInfo.desc" size="mini"></el-input>
           </el-form-item>
           <el-form-item label="接口文档地址" label-width="100px">
-            <el-input v-model="dataInfo.doc" size="small"></el-input>
+            <el-input v-model="dataInfo.doc" size="mini"></el-input>
           </el-form-item>
           <el-form-item label="*用例等级" label-width="100px">
-            <el-select v-model="dataInfo.level" placeholder="请选择"  size="small">
+            <el-select v-model="dataInfo.level" placeholder="请选择"  size="mini">
               <el-option
                 v-for="item in levelOptions"
                 :key="item.value"
@@ -487,14 +491,14 @@
             </el-select>
           </el-form-item>
           <el-form-item label="*创建人" label-width="100px">
-            <el-input v-model="dataInfo.creater"  size="small" disabled></el-input>
+            <el-input v-model="dataInfo.creater"  size="mini" disabled></el-input>
           </el-form-item>
         </el-collapse-item>
 
         <el-collapse-item title="请求信息">
           <el-row :gutter="20">
           <el-col :span="4">
-            <el-select v-model="dataInfo.method" placeholder="method"  size="small" @change="handleChangeMethod">
+            <el-select v-model="dataInfo.method" placeholder="method"  size="mini" @change="handleChangeMethod">
               <el-option
                 v-for="item in requestMethodOptions"
                 :key="item.value"
@@ -504,7 +508,7 @@
             </el-select>
           </el-col>
           <el-col :span="20">
-            <el-input v-model="dataInfo.url"  size="small" placeholder="Enter request url"></el-input>
+            <el-input v-model="dataInfo.url"  size="mini" placeholder="Enter request url"></el-input>
           </el-col> 
           </el-row>  
 
@@ -521,19 +525,19 @@
                     :key="headerItem.key">
                 <el-row :gutter="20">
                     <el-col :span="7">
-                        <el-input v-model="headerItem.name" placeholder="name" size='small'></el-input>
+                        <el-input v-model="headerItem.name" placeholder="name" size='mini'></el-input>
                     </el-col>
                     <el-col :span="15">
-                        <el-input v-model="headerItem.value" placeholder="value" size='small'></el-input>
+                        <el-input v-model="headerItem.value" placeholder="value" size='mini'></el-input>
                     </el-col> 
                     <el-col :span="2">
-                        <el-button @click.prevent="removeHeader(headerItem)" type="danger" icon="el-icon-delete" circle size="small"></el-button>
+                        <el-button @click.prevent="removeHeader(headerItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
                     </el-col>
                 </el-row> 
                 </el-form-item>
                 </div>
                 <div v-if="headerTypeFlag==1">
-                    <el-input v-model="dataAddHeadersStr" size="small" type="textarea" :rows="6" placeholder="header json string"></el-input>
+                    <el-input v-model="dataAddHeadersStr" size="mini" type="textarea" :rows="6" placeholder="header json string"></el-input>
                 </div>  
             </el-tab-pane>
 
@@ -549,10 +553,10 @@
                     :key="paramsItem.key">
                 <el-row :gutter="20">
                     <el-col :span="7">
-                        <el-input v-model="paramsItem.name" placeholder="name" size='small'></el-input>
+                        <el-input v-model="paramsItem.name" placeholder="name" size='mini'></el-input>
                     </el-col>
                     <el-col :span="15">
-                        <el-input v-model="paramsItem.value" placeholder="value" size='small'></el-input>
+                        <el-input v-model="paramsItem.value" placeholder="value" size='mini'></el-input>
                     </el-col> 
                     <el-col :span="2">
                         <el-button @click.prevent="removeParams(paramsItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
@@ -561,7 +565,7 @@
                 </el-form-item>
                 </div>
                 <div v-if="paramsTypeFlag==1">
-                    <el-input v-model="dataAddParamsStr" size="small" type="textarea" :rows="6" placeholder="params json string"></el-input>
+                    <el-input v-model="dataAddParamsStr" size="mini" type="textarea" :rows="6" placeholder="params json string"></el-input>
                 </div>            
             </el-tab-pane>
 
@@ -580,10 +584,10 @@
                     :key="dataItem.key">
                 <el-row :gutter="20">
                     <el-col :span="7">
-                        <el-input v-model="dataItem.name" placeholder="name" size='small'></el-input>
+                        <el-input v-model="dataItem.name" placeholder="name" size='mini'></el-input>
                     </el-col>
                     <el-col :span="15">
-                        <el-input v-model="dataItem.value" placeholder="value" size='small'></el-input>
+                        <el-input v-model="dataItem.value" placeholder="value" size='mini'></el-input>
                     </el-col> 
                     <el-col :span="2">
                         <el-button @click.prevent="removeDataForm(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
@@ -593,13 +597,13 @@
                 </div>
 
                 <div v-if="bodyTypeFlag==1">
-                    <el-input v-model="dataAddFormStr" size="small" type="textarea" :rows="6" placeholder="form-data json string"></el-input>
+                    <el-input v-model="dataAddFormStr" size="mini" type="textarea" :rows="6" placeholder="form-data json string"></el-input>
                 </div>   
                 <div v-if="bodyTypeFlag==2">
-                    <el-input v-model="dataAddJsonStr" size="small" type="textarea" :rows="6" placeholder="json string"></el-input>
+                    <el-input v-model="dataAddJsonStr" size="mini" type="textarea" :rows="6" placeholder="json string"></el-input>
                 </div>   
                 <div v-if="bodyTypeFlag==3">
-                    <el-input v-model="dataAddFormRaw" size="small" type="textarea" :rows="6" placeholder="form-data raw"></el-input>
+                    <el-input v-model="dataAddFormRaw" size="mini" type="textarea" :rows="6" placeholder="form-data raw"></el-input>
                 </div>   
             </el-tab-pane>
         </el-tabs>
@@ -613,13 +617,13 @@
                     :key="index">
                 <el-row :gutter="20">
                     <el-col :span="2">
-                        <el-input v-model="assertItem.order" order="排序" size="small"></el-input>
+                        <el-input v-model="assertItem.order" order="排序" size="mini"></el-input>
                     </el-col>
                     <el-col :span="4">
-                        <el-input v-model="assertItem.assertName" placeholder="描述"  size="small"></el-input>
+                        <el-input v-model="assertItem.assertName" placeholder="描述"  size="mini"></el-input>
                     </el-col> 
                     <el-col :span="3">
-                        <el-select v-model="assertItem.type" size='small'>
+                        <el-select v-model="assertItem.type" size='mini'>
                           <el-option
                             v-for="item in assertTypeOptions"
                             :key="item.value"
@@ -629,10 +633,10 @@
                         </el-select>
                     </el-col> 
                     <el-col :span="5">
-                        <el-input v-model="assertItem.expression" placeholder="提取表达式"  size="small"></el-input>
+                        <el-input v-model="assertItem.expression" placeholder="提取表达式"  size="mini"></el-input>
                     </el-col> 
                     <el-col :span="3">
-                        <el-select v-model="assertItem.operator" size='small'>
+                        <el-select v-model="assertItem.operator" size='mini'>
                           <el-option
                             v-for="item in assertOperatorOptions"
                             :key="item.value"
@@ -642,7 +646,7 @@
                         </el-select>
                     </el-col> 
                     <el-col :span="5">
-                        <el-input v-model="assertItem.exceptedResult" placeholder="预期结果"  size="small"></el-input>
+                        <el-input v-model="assertItem.exceptedResult" placeholder="预期结果"  size="mini"></el-input>
                     </el-col> 
                     <el-col :span="2">
                         <el-button @click.prevent="removeAssert(assertItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
@@ -660,10 +664,10 @@
                     :key="index">
                 <el-row :gutter="20">
                     <el-col :span="6">
-                        <el-input v-model="postProcessorItem.name" placeholder="名称" size="small" ></el-input>
+                        <el-input v-model="postProcessorItem.name" placeholder="名称" size="mini" ></el-input>
                     </el-col>
                      <el-col :span="3">
-                        <el-select v-model="postProcessorItem.type" size='small'>
+                        <el-select v-model="postProcessorItem.type" size='mini'>
                           <el-option
                             v-for="item in postProcessorTypeOptions"
                             :key="item.value"
@@ -673,7 +677,7 @@
                         </el-select>
                     </el-col> 
                     <el-col :span="6">
-                        <el-input v-model="postProcessorItem.expression" placeholder="提取表达式"  size="small"></el-input>
+                        <el-input v-model="postProcessorItem.expression" placeholder="提取表达式"  size="mini"></el-input>
                     </el-col> 
                     <el-col :span="2">
                         <el-switch
@@ -683,7 +687,7 @@
                         </el-switch>
                     </el-col> 
                     <el-col :span="5">
-                        <el-input v-model="postProcessorItem.defaultValue" placeholder="默认值"  size="small" v-if="postProcessorItem.haveDefaultValue==0"></el-input>
+                        <el-input v-model="postProcessorItem.defaultValue" placeholder="默认值"  size="mini" v-if="postProcessorItem.haveDefaultValue==0"></el-input>
                     </el-col> 
                     <el-col :span="2">
                         <el-button @click.prevent="removePostProcessor(postProcessorItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
@@ -696,8 +700,8 @@
       </el-collapse>
       </el-form>
         <div slot="footer" class="dialog-footer">
-            <el-button @click="editDialogFormVisible = false" size="small">取 消</el-button>
-            <el-button type="primary" @click="handleEdit" size="small">确 定</el-button>
+            <el-button @click="editDialogFormVisible = false" size="mini">取 消</el-button>
+            <el-button type="primary" @click="handleEdit" size="mini">确 定</el-button>
         </div>
       </el-dialog>
 
@@ -710,25 +714,25 @@
         <el-collapse>
         <el-collapse-item title="基本信息">
           <!-- <el-form-item label="*项目编号" label-width="100px">
-            <el-input readonly v-model="dataInfo.projectId" @focus='handleProjectModuleList' size="small" disabled></el-input>
+            <el-input readonly v-model="dataInfo.projectId" @focus='handleProjectModuleList' size="mini" disabled></el-input>
           </el-form-item> -->
           <el-form-item label="*项目名称" label-width="100px">
-            <el-input readonly v-model="dataInfo.projectName" @focus='handleProjectModuleList' size="small" disabled></el-input>
+            <el-input readonly v-model="dataInfo.projectName" @focus='handleProjectModuleList' size="mini" disabled></el-input>
           </el-form-item>
           <!-- <el-form-item label="*模块编号" label-width="100px">
-            <el-input readonly v-model="dataInfo.moduleId" @focus='handleProjectModuleList' size="small" disabled></el-input>
+            <el-input readonly v-model="dataInfo.moduleId" @focus='handleProjectModuleList' size="mini" disabled></el-input>
           </el-form-item> -->
           <el-form-item label="*模块名称" label-width="100px">
-            <el-input readonly v-model="dataInfo.moduleName" @focus='handleProjectModuleList' size="small" placeholder="请点击选择"></el-input>
+            <el-input readonly v-model="dataInfo.moduleName" @focus='handleProjectModuleList' size="mini" placeholder="请点击选择"></el-input>
           </el-form-item>
           <el-form-item label="*用例名称" label-width="100px">
-            <el-input v-model="dataInfo.desc" size="small"></el-input>
+            <el-input v-model="dataInfo.desc" size="mini"></el-input>
           </el-form-item>
           <el-form-item label="接口文档地址" label-width="100px">
-            <el-input v-model="dataInfo.doc" size="small"></el-input>
+            <el-input v-model="dataInfo.doc" size="mini"></el-input>
           </el-form-item>
           <el-form-item label="*用例等级" label-width="100px">
-            <el-select v-model="dataInfo.level" placeholder="请选择"  size="small">
+            <el-select v-model="dataInfo.level" placeholder="请选择"  size="mini">
               <el-option
                 v-for="item in levelOptions"
                 :key="item.value"
@@ -738,15 +742,15 @@
             </el-select>
           </el-form-item>
           <el-form-item label="*创建人" label-width="100px">
-            <!-- <el-input v-model="dataInfo.creater"  size="small"></el-input> -->
-            <el-input v-model="dataInfo.createrRealName"  size="small" disabled></el-input>
+            <!-- <el-input v-model="dataInfo.creater"  size="mini"></el-input> -->
+            <el-input v-model="dataInfo.createrRealName"  size="mini" disabled></el-input>
           </el-form-item>
         </el-collapse-item>
 
         <el-collapse-item title="请求信息">
           <el-row :gutter="20">
           <el-col :span="4">
-            <el-select v-model="dataInfo.method" placeholder="method"  size="small" @change="handleChangeMethod">
+            <el-select v-model="dataInfo.method" placeholder="method"  size="mini" @change="handleChangeMethod">
               <el-option
                 v-for="item in requestMethodOptions"
                 :key="item.value"
@@ -756,7 +760,7 @@
             </el-select>
           </el-col>
           <el-col :span="20">
-            <el-input v-model="dataInfo.url"  size="small" placeholder="Enter request url"></el-input>
+            <el-input v-model="dataInfo.url"  size="mini" placeholder="Enter request url"></el-input>
           </el-col> 
           </el-row>  
 
@@ -773,19 +777,19 @@
                     :key="headerItem.key">
                 <el-row :gutter="20">
                     <el-col :span="7">
-                        <el-input v-model="headerItem.name" placeholder="name" size='small'></el-input>
+                        <el-input v-model="headerItem.name" placeholder="name" size='mini'></el-input>
                     </el-col>
                     <el-col :span="15">
-                        <el-input v-model="headerItem.value" placeholder="value" size='small'></el-input>
+                        <el-input v-model="headerItem.value" placeholder="value" size='mini'></el-input>
                     </el-col> 
                     <el-col :span="2">
-                        <el-button @click.prevent="removeHeader(headerItem)" type="danger" icon="el-icon-delete" circle size="small"></el-button>
+                        <el-button @click.prevent="removeHeader(headerItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
                     </el-col>
                 </el-row> 
                 </el-form-item>
                 </div>
                 <div v-if="headerTypeFlag==1">
-                    <el-input v-model="dataAddHeadersStr" size="small" type="textarea" :rows="6" placeholder="header json string"></el-input>
+                    <el-input v-model="dataAddHeadersStr" size="mini" type="textarea" :rows="6" placeholder="header json string"></el-input>
                 </div>  
             </el-tab-pane>
 
@@ -801,10 +805,10 @@
                     :key="paramsItem.key">
                 <el-row :gutter="20">
                     <el-col :span="7">
-                        <el-input v-model="paramsItem.name" placeholder="name" size='small'></el-input>
+                        <el-input v-model="paramsItem.name" placeholder="name" size='mini'></el-input>
                     </el-col>
                     <el-col :span="15">
-                        <el-input v-model="paramsItem.value" placeholder="value" size='small'></el-input>
+                        <el-input v-model="paramsItem.value" placeholder="value" size='mini'></el-input>
                     </el-col> 
                     <el-col :span="2">
                         <el-button @click.prevent="removeParams(paramsItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
@@ -813,7 +817,7 @@
                 </el-form-item>
                 </div>
                 <div v-if="paramsTypeFlag==1">
-                    <el-input v-model="dataAddParamsStr" size="small" type="textarea" :rows="6" placeholder="params json string"></el-input>
+                    <el-input v-model="dataAddParamsStr" size="mini" type="textarea" :rows="6" placeholder="params json string"></el-input>
                 </div>            
             </el-tab-pane>
 
@@ -832,10 +836,10 @@
                     :key="dataItem.key">
                 <el-row :gutter="20">
                     <el-col :span="7">
-                        <el-input v-model="dataItem.name" placeholder="name" size='small'></el-input>
+                        <el-input v-model="dataItem.name" placeholder="name" size='mini'></el-input>
                     </el-col>
                     <el-col :span="15">
-                        <el-input v-model="dataItem.value" placeholder="value" size='small'></el-input>
+                        <el-input v-model="dataItem.value" placeholder="value" size='mini'></el-input>
                     </el-col> 
                     <el-col :span="2">
                         <el-button @click.prevent="removeDataForm(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
@@ -845,13 +849,13 @@
                 </div>
 
                 <div v-if="bodyTypeFlag==1">
-                    <el-input v-model="dataAddFormStr" size="small" type="textarea" :rows="6" placeholder="form-data json string"></el-input>
+                    <el-input v-model="dataAddFormStr" size="mini" type="textarea" :rows="6" placeholder="form-data json string"></el-input>
                 </div>   
                 <div v-if="bodyTypeFlag==2">
-                    <el-input v-model="dataAddJsonStr" size="small" type="textarea" :rows="6" placeholder="json string"></el-input>
+                    <el-input v-model="dataAddJsonStr" size="mini" type="textarea" :rows="6" placeholder="json string"></el-input>
                 </div>   
                 <div v-if="bodyTypeFlag==3">
-                    <el-input v-model="dataAddFormRaw" size="small" type="textarea" :rows="6" placeholder="form-data raw"></el-input>
+                    <el-input v-model="dataAddFormRaw" size="mini" type="textarea" :rows="6" placeholder="form-data raw"></el-input>
                 </div>   
             </el-tab-pane>
         </el-tabs>
@@ -865,13 +869,13 @@
                     :key="index">
                 <el-row :gutter="20">
                     <el-col :span="2">
-                        <el-input v-model="assertItem.order" order="排序" size="small"></el-input>
+                        <el-input v-model="assertItem.order" order="排序" size="mini"></el-input>
                     </el-col>
                     <el-col :span="4">
-                        <el-input v-model="assertItem.assertName" placeholder="描述"  size="small"></el-input>
+                        <el-input v-model="assertItem.assertName" placeholder="描述"  size="mini"></el-input>
                     </el-col> 
                     <el-col :span="3">
-                        <el-select v-model="assertItem.type" size='small'>
+                        <el-select v-model="assertItem.type" size='mini'>
                           <el-option
                             v-for="item in assertTypeOptions"
                             :key="item.value"
@@ -881,10 +885,10 @@
                         </el-select>
                     </el-col> 
                     <el-col :span="5">
-                        <el-input v-model="assertItem.expression" placeholder="提取表达式"  size="small"></el-input>
+                        <el-input v-model="assertItem.expression" placeholder="提取表达式"  size="mini"></el-input>
                     </el-col> 
                     <el-col :span="3">
-                        <el-select v-model="assertItem.operator" size='small'>
+                        <el-select v-model="assertItem.operator" size='mini'>
                           <el-option
                             v-for="item in assertOperatorOptions"
                             :key="item.value"
@@ -894,7 +898,7 @@
                         </el-select>
                     </el-col> 
                     <el-col :span="5">
-                        <el-input v-model="assertItem.exceptedResult" placeholder="预期结果"  size="small"></el-input>
+                        <el-input v-model="assertItem.exceptedResult" placeholder="预期结果"  size="mini"></el-input>
                     </el-col> 
                     <el-col :span="2">
                         <el-button @click.prevent="removeAssert(assertItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
@@ -912,10 +916,10 @@
                     :key="index">
                 <el-row :gutter="20">
                     <el-col :span="6">
-                        <el-input v-model="postProcessorItem.name" placeholder="名称" size="small" ></el-input>
+                        <el-input v-model="postProcessorItem.name" placeholder="名称" size="mini" ></el-input>
                     </el-col>
                      <el-col :span="3">
-                        <el-select v-model="postProcessorItem.type" size='small'>
+                        <el-select v-model="postProcessorItem.type" size='mini'>
                           <el-option
                             v-for="item in postProcessorTypeOptions"
                             :key="item.value"
@@ -925,7 +929,7 @@
                         </el-select>
                     </el-col> 
                     <el-col :span="6">
-                        <el-input v-model="postProcessorItem.expression" placeholder="提取表达式"  size="small"></el-input>
+                        <el-input v-model="postProcessorItem.expression" placeholder="提取表达式"  size="mini"></el-input>
                     </el-col> 
                     <el-col :span="2">
                         <el-switch
@@ -935,7 +939,7 @@
                         </el-switch>
                     </el-col> 
                     <el-col :span="5">
-                        <el-input v-model="postProcessorItem.defaultValue" placeholder="默认值"  size="small" v-if="postProcessorItem.haveDefaultValue==0"></el-input>
+                        <el-input v-model="postProcessorItem.defaultValue" placeholder="默认值"  size="mini" v-if="postProcessorItem.haveDefaultValue==0"></el-input>
                     </el-col> 
                     <el-col :span="2">
                         <el-button @click.prevent="removePostProcessor(postProcessorItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
@@ -948,8 +952,8 @@
       </el-collapse>
       </el-form>
         <div slot="footer" class="dialog-footer">
-            <el-button @click="copyDialogFormVisible = false" size="small">取 消</el-button>
-            <el-button type="primary" @click="handleCopy" size="small">确 定</el-button>
+            <el-button @click="copyDialogFormVisible = false" size="mini">取 消</el-button>
+            <el-button type="primary" @click="handleCopy" size="mini">确 定</el-button>
         </div>
       </el-dialog>
 

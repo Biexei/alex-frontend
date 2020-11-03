@@ -4,27 +4,27 @@
     <div class="query">
       <el-form :inline="true" :model="queryForm" class="demo-form-inline" ref="queryForm">
         <el-form-item label="执行日志编号">
-          <el-input v-model="queryForm.executeLogId" placeholder="执行日志编号"  size='small'></el-input>
+          <el-input v-model="queryForm.executeLogId" placeholder="执行日志编号"  size='mini'></el-input>
         </el-form-item>
         <el-form-item label="断言名称">
-          <el-input v-model="queryForm.assertName" placeholder="断言名称"  size='small'></el-input>
+          <el-input v-model="queryForm.assertName" placeholder="断言名称"  size='mini'></el-input>
         </el-form-item>
         <el-form-item label="断言方式">
-          <el-select v-model="queryForm.type" placeholder="断言方式"  size='small'>
+          <el-select v-model="queryForm.type" placeholder="断言方式"  size='mini'>
             <el-option
               v-for="item in logTypeOptions"
               :key="item.label"
-              size='small'
+              size='mini'
               :label="item.label"
               :value="item.value"
             ></el-option>
           </el-select>          
         </el-form-item>
         <el-form-item label="状态">
-          <el-select v-model="queryForm.status" placeholder="状态"  size='small'>
+          <el-select v-model="queryForm.status" placeholder="状态"  size='mini'>
             <el-option
               v-for="item in logStatusOptions"
-              size='small'
+              size='mini'
               :key="item.label"
               :label="item.label"
               :value="item.value"
@@ -37,7 +37,7 @@
             format="yyyy-MM-dd HH:mm:ss"
             value-format="yyyy-MM-dd HH:mm:ss"
             type="datetime"
-            size='small'
+            size='mini'
             placeholder="选择起始时间"
             align="right"
           ></el-date-picker>
@@ -48,14 +48,14 @@
             format="yyyy-MM-dd HH:mm:ss"
             value-format="yyyy-MM-dd HH:mm:ss"
             type="datetime"
-            size='small'
+            size='mini'
             placeholder="选择截止时间"
             align="right"
           ></el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" size="small" @click="selectInterfaceAssertLog(queryForm)">查询</el-button>
-          <el-button type="primary" size="small" @click="resetForm">重置</el-button>
+          <el-button type="primary" size="mini" @click="selectInterfaceAssertLog(queryForm)">查询</el-button>
+          <el-button type="primary" size="mini" @click="resetForm">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -106,14 +106,14 @@
         <el-table-column property="expression" label="提取表达式" min-width="15%"></el-table-column>
         <el-table-column property="type" label="断言方式" min-width="10%">
           <template slot-scope="scope">
-            <el-tag effect="dark" :type="scope.row.typeStyle" disable-transitions>{{scope.row.type}}</el-tag>
+            <el-tag effect="dark" :type="scope.row.typeStyle" disable-transitions size="small">{{scope.row.type}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column property="order" label="排序" min-width="10%"></el-table-column>
         <el-table-column property="createdTime" label="创建时间" min-width="15%"></el-table-column>
         <el-table-column property="status" label="执行状态" min-width="10%">
           <template slot-scope="scope">
-            <el-tag effect="dark" :type="scope.row.style" disable-transitions>{{scope.row.status}}</el-tag>
+            <el-tag effect="dark" :type="scope.row.style" disable-transitions size="small">{{scope.row.status}}</el-tag>
           </template>
         </el-table-column>
         
@@ -221,16 +221,16 @@ export default {
           // 断言提取类型
           if (element.type == 0) {
             element.typeStyle = "";
-            element.type = "jsonPath";
+            element.type = "json";
           } else if (element.type == 1) {
             element.typeStyle = "success";
-            element.type = "xPath";
+            element.type = "html";
           } else if (element.type == 2) {
             element.typeStyle = "danger";
-            element.type = "httpHead";
+            element.type = "head";
           } else if (element.type == 3) {
             element.typeStyle = "warning";
-            element.type = "httpCode";
+            element.type = "code";
           } else {
             element.typeStyle = "info";
             element.type = "unknow";

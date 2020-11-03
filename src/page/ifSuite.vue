@@ -4,37 +4,37 @@
     <div class="query">
       <el-form :inline="true" :model="queryForm" class="demo-form-inline" ref="queryForm">
         <el-form-item label="名称">
-          <el-input v-model="queryForm.suiteName" placeholder="名称" size='small'></el-input>
+          <el-input v-model="queryForm.suiteName" placeholder="名称" size='mini'></el-input>
         </el-form-item>
         <el-form-item label="执行方式">
-          <el-select v-model="queryForm.executeType" clearable placeholder="请选择"  size='small'>
+          <el-select v-model="queryForm.executeType" clearable placeholder="请选择"  size='mini'>
             <el-option
               v-for="item in executeTypeOptions"
               :key="item.value"
-              size='small'
+              size='mini'
               :label="item.label"
               :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="运行环境">
-          <el-select v-model="queryForm.runDev" clearable placeholder="请选择"  size='small'>
+          <el-select v-model="queryForm.runDev" clearable placeholder="请选择"  size='mini'>
             <el-option
               v-for="item in runDevOptions"
               :key="item.value"
-              size='small'
+              size='mini'
               :label="item.label"
               :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="描述">
-          <el-input v-model="queryForm.desc" placeholder="描述"  size='small'></el-input>
+          <el-input v-model="queryForm.desc" placeholder="描述"  size='mini'></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" size="small" @click="selectSuiteList(queryForm)">查询</el-button>
-          <el-button type="primary" size="small" @click="resetForm">重置</el-button>
-          <el-button type="primary" size="small" @click="openAdd" plain>新增</el-button>
+          <el-button type="primary" size="mini" @click="selectSuiteList(queryForm)">查询</el-button>
+          <el-button type="primary" size="mini" @click="resetForm">重置</el-button>
+          <el-button type="primary" size="mini" @click="openAdd" plain>新增</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -52,6 +52,7 @@
           <template slot-scope="scope">
             <el-tag
               effect="dark"
+              size="small"
               :type="scope.row.executeTypeStyle"
               disable-transitions>{{scope.row.executeType}}
             </el-tag>
@@ -61,6 +62,7 @@
           <template slot-scope="scope">
             <el-tag
               effect="dark"
+              size="small"
               :type="scope.row.runDevStyle"
               disable-transitions>{{scope.row.runDevType}}
             </el-tag>
@@ -70,6 +72,7 @@
           <template slot-scope="scope">
             <el-tag
               effect="dark"
+              size="small"
               :type="scope.row.isRetry"
               disable-transitions>{{scope.row.isRetryType}}
             </el-tag>
@@ -80,35 +83,35 @@
             <el-button
               @click="handleManager(scope.row.suiteId)"
               type="info"
-              size="small"
+              size="mini"
               icon="el-icon-star-off"
               circle
             ></el-button>
             <el-button
               @click="handleExecute(scope.row.suiteId)"
               type="success"
-              size="small"
+              size="mini"
               :icon="executeIconStyle"
               circle
             ></el-button>
             <el-button
               @click="handleEdit(scope.row.suiteId)"
               type="primary"
-              size="small"
+              size="mini"
               icon="el-icon-edit"
               circle
             ></el-button>
             <el-button
               @click="handleCopy(scope.row.suiteId)"
               type="warning"
-              size="small"
+              size="mini"
               icon="el-icon-copy-document"
               circle
             ></el-button>
             <el-button
               @click="handleDelete(scope.row.suiteId, scope.$index)"
               type="danger"
-              size="small"
+              size="mini"
               icon="el-icon-delete"
               circle
             ></el-button>
@@ -130,10 +133,10 @@
       <el-dialog title="编辑" :visible.sync="editDialogFormVisible" :close-on-click-modal=false>
         <el-form :model="dataInfo">
           <el-form-item label="*名称" label-width="100px">
-            <el-input v-model="dataInfo.suiteName" size='small'></el-input>
+            <el-input v-model="dataInfo.suiteName" size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*执行方式" label-width="100px">
-            <el-select v-model="dataInfo.executeType" size='small'>
+            <el-select v-model="dataInfo.executeType" size='mini'>
               <el-option
                 v-for="item in executeTypeOptions"
                 :key="item.value"
@@ -143,7 +146,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="*运行环境" label-width="100px">
-            <el-select v-model="dataInfo.runDev" size='small'>
+            <el-select v-model="dataInfo.runDev" size='mini'>
               <el-option
                 v-for="item in runDevOptions"
                 :key="item.value"
@@ -160,25 +163,25 @@
             </el-switch>
           </el-form-item>
           <el-form-item label="描述" label-width="100px">
-            <el-input v-model="dataInfo.desc" size='small'></el-input>
+            <el-input v-model="dataInfo.desc" size='mini'></el-input>
           </el-form-item>  
           <el-form-item label="创建人" label-width="100px">
-            <el-input v-model="dataInfo.creator" size='small' disabled></el-input>
+            <el-input v-model="dataInfo.creator" size='mini' disabled></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="editDialogFormVisible = false" size="small">取 消</el-button>
-          <el-button type="primary" @click="updateSuite" size="small">确 定</el-button>
+          <el-button @click="editDialogFormVisible = false" size="mini">取 消</el-button>
+          <el-button type="primary" @click="updateSuite" size="mini">确 定</el-button>
         </div>
       </el-dialog>
 
       <el-dialog title="添加" :visible.sync="addDialogFormVisible" :close-on-click-modal=false>
         <el-form :model="dataAdd" ref="dataAdd">
           <el-form-item label="*名称" label-width="100px">
-            <el-input v-model="dataAdd.suiteName" size='small'></el-input>
+            <el-input v-model="dataAdd.suiteName" size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*执行方式" label-width="100px">
-            <el-select v-model="dataAdd.executeType" size='small'>
+            <el-select v-model="dataAdd.executeType" size='mini'>
               <el-option
                 v-for="item in executeTypeOptions"
                 :key="item.value"
@@ -188,7 +191,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="*运行环境" label-width="100px">
-            <el-select v-model="dataAdd.runDev" size='small'>
+            <el-select v-model="dataAdd.runDev" size='mini'>
               <el-option
                 v-for="item in runDevOptions"
                 :key="item.value"
@@ -205,15 +208,15 @@
             </el-switch>
           </el-form-item>
           <el-form-item label="描述" label-width="100px">
-            <el-input v-model="dataAdd.desc" size='small'></el-input>
+            <el-input v-model="dataAdd.desc" size='mini'></el-input>
           </el-form-item>  
           <el-form-item label="创建人" label-width="100px">
-            <el-input v-model="dataAdd.creator" size='small' disabled></el-input>
+            <el-input v-model="dataAdd.creator" size='mini' disabled></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="addDialogFormVisible = false" size="small">取 消</el-button>
-          <el-button type="primary" @click="handleAdd()" size="small">确 定</el-button>
+          <el-button @click="addDialogFormVisible = false" size="mini">取 消</el-button>
+          <el-button type="primary" @click="handleAdd()" size="mini">确 定</el-button>
         </div>
       </el-dialog>
     </div>

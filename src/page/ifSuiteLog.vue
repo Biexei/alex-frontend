@@ -4,14 +4,14 @@
     <div class="query">
       <el-form :inline="true" :model="queryForm" class="demo-form-inline" ref="queryForm">
         <el-form-item label="执行编号">
-          <el-input v-model="queryForm.suiteLogNo" placeholder="执行编号" size='small'></el-input>
+          <el-input v-model="queryForm.suiteLogNo" placeholder="执行编号" size='mini'></el-input>
         </el-form-item>
         <el-form-item label="运行方式">
-          <el-select v-model="queryForm.runDev" clearable placeholder="请选择"  size='small'>
+          <el-select v-model="queryForm.runDev" clearable placeholder="请选择"  size='mini'>
             <el-option
               v-for="item in runDevOptions"
               :key="item.value"
-              size='small'
+              size='mini'
               :label="item.label"
               :value="item.value">
             </el-option>
@@ -23,7 +23,7 @@
             format="yyyy-MM-dd HH:mm:ss"
             value-format="yyyy-MM-dd HH:mm:ss"
             type="datetime"
-            size='small'
+            size='mini'
             placeholder="选择起始时间"
             align="right">
           </el-date-picker>
@@ -34,14 +34,14 @@
             format="yyyy-MM-dd HH:mm:ss"
             value-format="yyyy-MM-dd HH:mm:ss"
             type="datetime"
-            size='small'
+            size='mini'
             placeholder="选择截止时间"
             align="right">
           </el-date-picker>
         </el-form-item>  
         <el-form-item>
-          <el-button type="primary" size="small" @click="selectSuiteLogList(queryForm)">查询</el-button>
-          <el-button type="primary" size="small" @click="resetForm">重置</el-button>
+          <el-button type="primary" size="mini" @click="selectSuiteLogList(queryForm)">查询</el-button>
+          <el-button type="primary" size="mini" @click="resetForm">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -64,6 +64,7 @@
           <template slot-scope="scope">
             <el-tag
               effect="dark"
+              size="small"
               :type="scope.row.executeTypeStyle"
               disable-transitions>{{scope.row.executeType}}
             </el-tag>
@@ -73,6 +74,7 @@
           <template slot-scope="scope">
             <el-tag
               effect="dark"
+              size="small"
               :type="scope.row.runDevStyle"
               disable-transitions>{{scope.row.runDevType}}
             </el-tag>

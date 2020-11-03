@@ -4,20 +4,20 @@
     <div class="query">
       <el-form :inline="true" :model="queryForm" class="demo-form-inline" ref="queryForm">
         <el-form-item label="依赖名称">
-          <el-input v-model="queryForm.relyName" placeholder="依赖名称" size='small'></el-input>
+          <el-input v-model="queryForm.relyName" placeholder="依赖名称" size='mini'></el-input>
         </el-form-item>
         <el-form-item label="依赖描述" class='input'>
-          <el-input v-model="queryForm.relyDesc" placeholder="依赖描述" size='small'></el-input>
+          <el-input v-model="queryForm.relyDesc" placeholder="依赖描述" size='mini'></el-input>
         </el-form-item>
         <el-form-item label="用例描述" class='input'>
-          <el-input v-model="queryForm.caseDesc" placeholder="用例描述" size='small'></el-input>
+          <el-input v-model="queryForm.caseDesc" placeholder="用例描述" size='mini'></el-input>
         </el-form-item>
         <el-form-item label="提取类型" class='input'>
-          <el-select v-model="queryForm.contentType" clearable placeholder="请选择" size='small'>
+          <el-select v-model="queryForm.contentType" clearable placeholder="请选择" size='mini'>
             <el-option
               v-for="item in typeOptions"
               :key="item.value"
-              size='small'
+              size='mini'
               :label="item.label"
               :value="item.value">
             </el-option>
@@ -26,7 +26,7 @@
         <br/>    
         <el-form-item label="起始时间">
           <el-date-picker
-            size='small'
+            size='mini'
             v-model="queryForm.createdStartTime"
             format="yyyy-MM-dd HH:mm:ss"
             value-format="yyyy-MM-dd HH:mm:ss"
@@ -37,7 +37,7 @@
         </el-form-item>  
         <el-form-item label="截止时间"  class='input'>
           <el-date-picker
-            size='small'
+            size='mini'
             v-model="queryForm.createdEndTime"
             format="yyyy-MM-dd HH:mm:ss"
             value-format="yyyy-MM-dd HH:mm:ss"
@@ -47,9 +47,9 @@
           </el-date-picker>
         </el-form-item>         
         <el-form-item>
-          <el-button type="primary" size="small" @click="selectIfRelyDataList(queryForm)">查询</el-button>
-          <el-button type="primary" size="small" @click="resetForm">重置</el-button>
-          <el-button type="primary" size="small" @click="openAdd" plain>新增</el-button>
+          <el-button type="primary" size="mini" @click="selectIfRelyDataList(queryForm)">查询</el-button>
+          <el-button type="primary" size="mini" @click="resetForm">重置</el-button>
+          <el-button type="primary" size="mini" @click="openAdd" plain>新增</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -68,40 +68,38 @@
             </el-form>
         </template>
         </el-table-column>
-        <el-table-column property="relyId" label="编号" min-width="5%"></el-table-column>
-        <el-table-column property="contentType" label="提取类型" min-width="10%">
+        <el-table-column property="relyId" label="编号" min-width="10%"></el-table-column>
+        <el-table-column property="relyName" label="名称" min-width="15%"></el-table-column>
+        <el-table-column property="extractExpression" label="提取表达式" min-width="23%" show-overflow-tooltip>
           <template slot-scope="scope">
-            <el-tag
-              effect="dark"
-              :type="scope.row.style"
-              disable-transitions>{{scope.row.contentType}}
-            </el-tag>
+            <el-row :gutter="10">
+              <el-col :span="4"><el-tag effect="dark" size="mini" :type="scope.row.style" disable-transitions>{{scope.row.contentType}}</el-tag></el-col>
+              <el-col :span="20"><span>{{scope.row.extractExpression}}</span></el-col>
+            </el-row>                       
           </template>
         </el-table-column>
-        <el-table-column property="relyName" label="名称" min-width="10%"></el-table-column>
-        <el-table-column property="extractExpression" label="提取表达式" min-width="20%"></el-table-column>
-        <el-table-column property="relyDesc" label="依赖描述" min-width="20%"></el-table-column>
-        <el-table-column property="createdTime" label="创建时间" min-width="20%"></el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="15%">
+        <el-table-column property="relyDesc" label="依赖描述" min-width="25%" show-overflow-tooltip></el-table-column>
+        <el-table-column property="createdTime" label="创建时间" min-width="15%"></el-table-column>
+        <el-table-column fixed="right" label="操作" min-width="12%">
           <template slot-scope="scope">
             <el-button 
               @click="handleCheck(scope.row.relyId)"
               type="success" 
-              size="small"
+              size="mini"
               icon="el-icon-check" 
               circle>
             </el-button>
             <el-button
               @click="handleEdit(scope.row.relyId)"
               type="primary"
-              size="small"
+              size="mini"
               icon="el-icon-edit"
               circle
             ></el-button>
             <el-button
               @click="handleDelete(scope.row.relyId, scope.$index)"
               type="danger"
-              size="small"
+              size="mini"
               icon="el-icon-delete"
               circle
             ></el-button>
@@ -123,10 +121,10 @@
       <el-dialog title="编辑" :visible.sync="editDialogFormVisible" :close-on-click-modal=false>
         <el-form :model="dataInfo">
           <el-form-item label="*依赖名称" label-width="100px">
-            <el-input v-model="dataInfo.relyName" size='small'></el-input>
+            <el-input v-model="dataInfo.relyName" size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*提取类型" label-width="100px">
-            <el-select v-model="dataInfo.contentType" size='small'>
+            <el-select v-model="dataInfo.contentType" size='mini'>
               <el-option
                 v-for="item in typeOptions"
                 :key="item.value"
@@ -136,21 +134,21 @@
             </el-select>
           </el-form-item>
           <el-form-item label="*提取表达式" label-width="100px">
-            <el-input v-model="dataInfo.extractExpression" size='small'></el-input>
+            <el-input v-model="dataInfo.extractExpression" size='mini'></el-input>
           </el-form-item>
           <el-form-item label="依赖描述" label-width="100px">
-            <el-input v-model="dataInfo.relyDesc" size='small'></el-input>
+            <el-input v-model="dataInfo.relyDesc" size='mini'></el-input>
           </el-form-item>  
           <el-form-item label="*用例编号" label-width="100px">
-            <el-input readonly v-model="dataInfo.relyCaseId" @focus='handleCaseList' size='small'></el-input>
+            <el-input readonly v-model="dataInfo.relyCaseId" @focus='handleCaseList' size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*用例名称" label-width="100px">
-            <el-input disabled v-model="dataInfo.caseDesc" size='small'></el-input>
+            <el-input disabled v-model="dataInfo.caseDesc" size='mini'></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="editDialogFormVisible = false" size="small">取 消</el-button>
-          <el-button type="primary" @click="updateIfRelyData" size="small">确 定</el-button>
+          <el-button @click="editDialogFormVisible = false" size="mini">取 消</el-button>
+          <el-button type="primary" @click="updateIfRelyData" size="mini">确 定</el-button>
         </div>
       </el-dialog>
 
@@ -197,10 +195,10 @@
       <el-dialog title="添加" :visible.sync="addDialogFormVisible" :close-on-click-modal=false>
         <el-form :model="dataAdd">
           <el-form-item label="*依赖名称" label-width="100px">
-            <el-input v-model="dataAdd.relyName"></el-input>
+            <el-input v-model="dataAdd.relyName" size="mini"></el-input>
           </el-form-item>
           <el-form-item label="*提取类型" label-width="100px">
-            <el-select v-model="dataAdd.contentType" placeholder="请选择">
+            <el-select v-model="dataAdd.contentType" placeholder="请选择" size="mini">
               <el-option
                 v-for="item in typeOptions"
                 :key="item.value"
@@ -210,21 +208,21 @@
             </el-select>
           </el-form-item>
           <el-form-item label="*提取表达式" label-width="100px">
-            <el-input v-model="dataAdd.extractExpression"></el-input>
+            <el-input v-model="dataAdd.extractExpression" size="mini"></el-input>
           </el-form-item>
           <el-form-item label="依赖描述" label-width="100px">
-            <el-input v-model="dataAdd.relyDesc"></el-input>
+            <el-input v-model="dataAdd.relyDesc" size="mini"></el-input>
           </el-form-item>  
           <el-form-item label="*用例编号" label-width="100px">
-            <el-input readonly v-model="dataAdd.relyCaseId" @focus='handleCaseList'></el-input>
+            <el-input readonly v-model="dataAdd.relyCaseId" @focus='handleCaseList' size="mini"></el-input>
           </el-form-item>
           <el-form-item label="*用例名称" label-width="100px">
-            <el-input disabled v-model="dataAdd.caseDesc"></el-input>
+            <el-input disabled v-model="dataAdd.caseDesc" size="mini"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="addDialogFormVisible = false" size="small">取 消</el-button>
-          <el-button type="primary" @click="handleAdd()" size="small">确 定</el-button>
+          <el-button @click="addDialogFormVisible = false" size="mini">取 消</el-button>
+          <el-button type="primary" @click="handleAdd()" size="mini">确 定</el-button>
         </div>
       </el-dialog>
     </div>

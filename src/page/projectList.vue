@@ -4,15 +4,15 @@
     <div class="query">
       <el-form :inline="true" :model="queryForm" class="demo-form-inline" ref="queryForm">
         <el-form-item label="项目名称">
-          <el-input v-model="queryForm.name" placeholder="项目名称" size='small'></el-input>
+          <el-input v-model="queryForm.name" placeholder="项目名称" size='mini'></el-input>
         </el-form-item>
         <el-form-item label="调试域名">
-          <el-input v-model="queryForm.domain" placeholder="调试域名" size='small'></el-input>
+          <el-input v-model="queryForm.domain" placeholder="调试域名" size='mini'></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" size="small" @click="selectProjectList(queryForm)">查询</el-button>
-          <el-button type="primary" size="small" @click="resetForm">重置</el-button>
-          <el-button type="primary" size="small" @click="openAdd" plain>新增</el-button>
+          <el-button type="primary" size="mini" @click="selectProjectList(queryForm)">查询</el-button>
+          <el-button type="primary" size="mini" @click="resetForm">重置</el-button>
+          <el-button type="primary" size="mini" @click="openAdd" plain>新增</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -48,14 +48,14 @@
             <el-button
               @click="handleEdit(scope.row.projectId)"
               type="primary"
-              size="small"
+              size="mini"
               icon="el-icon-edit"
               circle
             ></el-button>
             <el-button
               @click="handleDelete(scope.row.projectId, scope.$index)"
               type="danger"
-              size="small"
+              size="mini"
               icon="el-icon-delete"
               circle
             ></el-button>
@@ -77,60 +77,60 @@
       <el-dialog title="编辑" :visible.sync="editDialogFormVisible"  :close-on-click-modal=false>
         <el-form :model="dataInfo">
           <el-form-item label="*项目名称" label-width="120px">
-            <el-input v-model="dataInfo.name"  size='small'></el-input>
+            <el-input v-model="dataInfo.name"  size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*调试域名" label-width="120px">
-            <el-input v-model="dataInfo.domain"  size='small'></el-input>
+            <el-input v-model="dataInfo.domain"  size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*开发环境域名" label-width="120px">
-            <el-input v-model="dataInfo.devDomain"  size='small'></el-input>
+            <el-input v-model="dataInfo.devDomain"  size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*测试环境域名" label-width="120px">
-            <el-input v-model="dataInfo.testDomain"  size='small'></el-input>
+            <el-input v-model="dataInfo.testDomain"  size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*预发环境域名" label-width="120px">
-            <el-input v-model="dataInfo.stgDomain"  size='small'></el-input>
+            <el-input v-model="dataInfo.stgDomain"  size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*生产环境域名" label-width="120px">
-            <el-input v-model="dataInfo.prodDomain"  size='small'></el-input>
+            <el-input v-model="dataInfo.prodDomain"  size='mini'></el-input>
           </el-form-item>
           <el-form-item label="项目描述" label-width="120px">
-            <el-input v-model="dataInfo.desc"  size='small'></el-input>
+            <el-input v-model="dataInfo.desc"  size='mini'></el-input>
           </el-form-item>  
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="editDialogFormVisible = false" size="small">取 消</el-button>
-          <el-button type="primary" @click="updateProject" size="small">确 定</el-button>
+          <el-button @click="editDialogFormVisible = false" size="mini">取 消</el-button>
+          <el-button type="primary" @click="updateProject" size="mini">确 定</el-button>
         </div>
       </el-dialog>
 
       <el-dialog title="添加" :visible.sync="addDialogFormVisible" :close-on-click-modal=false>
         <el-form :model="dataAdd" ref="dataAdd">
           <el-form-item label="*项目名称" label-width="120px" prop="name">
-            <el-input v-model="dataAdd.name" auto-complete="off"  size='small'></el-input>
+            <el-input v-model="dataAdd.name" auto-complete="off"  size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*调试域名" label-width="120px" prop="domain">
-            <el-input v-model="dataAdd.domain"  size='small'></el-input>
+            <el-input v-model="dataAdd.domain"  size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*开发环境域名" label-width="120px">
-            <el-input v-model="dataAdd.devDomain"  size='small'></el-input>
+            <el-input v-model="dataAdd.devDomain"  size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*测试环境域名" label-width="120px">
-            <el-input v-model="dataAdd.testDomain"  size='small'></el-input>
+            <el-input v-model="dataAdd.testDomain"  size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*预发环境域名" label-width="120px">
-            <el-input v-model="dataAdd.stgDomain"  size='small'></el-input>
+            <el-input v-model="dataAdd.stgDomain"  size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*生产环境域名" label-width="120px">
-            <el-input v-model="dataAdd.prodDomain"  size='small'></el-input>
+            <el-input v-model="dataAdd.prodDomain"  size='mini'></el-input>
           </el-form-item>
           <el-form-item label="项目描述" label-width="120px" prop="desc">
-            <el-input v-model="dataAdd.desc"  size='small'></el-input>
+            <el-input v-model="dataAdd.desc"  size='mini'></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="addDialogFormVisible = false" size="small">取 消</el-button>
-          <el-button type="primary" @click="handleAdd()" size="small">确 定</el-button>
+          <el-button @click="addDialogFormVisible = false" size="mini">取 消</el-button>
+          <el-button type="primary" @click="handleAdd()" size="mini">确 定</el-button>
         </div>
       </el-dialog>
     </div>
