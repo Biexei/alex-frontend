@@ -617,7 +617,7 @@
                     :key="index">
                 <el-row :gutter="20">
                     <el-col :span="2">
-                        <el-input v-model="assertItem.order" order="排序" size="mini"></el-input>
+                        <el-input v-model="assertItem.order" placeholder="排序" size="mini"></el-input>
                     </el-col>
                     <el-col :span="4">
                         <el-input v-model="assertItem.assertName" placeholder="描述"  size="mini"></el-input>
@@ -869,7 +869,7 @@
                     :key="index">
                 <el-row :gutter="20">
                     <el-col :span="2">
-                        <el-input v-model="assertItem.order" order="排序" size="mini"></el-input>
+                        <el-input v-model="assertItem.order" placeholder="排序" size="mini"></el-input>
                     </el-col>
                     <el-col :span="4">
                         <el-input v-model="assertItem.assertName" placeholder="描述"  size="mini"></el-input>
@@ -1760,8 +1760,12 @@ export default {
           }
         }
         this.assertList = res.data.asserts
-        this.assertIndex = this.assertList[this.assertList.length-1].order + 1
-
+        if (res.data.asserts.length != 0) {
+            this.assertIndex = this.assertList[this.assertList.length-1].order + 1
+        } else {
+            this.assertIndex = 1
+        }
+        
         this.postProcessorList = res.data.postProcessors
       } else {
         this.$message({
@@ -1819,7 +1823,11 @@ export default {
           }
         }
         this.assertList = res.data.asserts
-        this.assertIndex = this.assertList[this.assertList.length-1].order + 1
+        if (res.data.asserts.length != 0) {
+            this.assertIndex = this.assertList[this.assertList.length-1].order + 1
+        } else {
+            this.assertIndex = 1
+        }
         this.postProcessorList = res.data.postProcessors
       } else {
         this.$message({
