@@ -1110,7 +1110,7 @@ export default {
         },
         {
           value: 2,
-          label: "header",
+          label: "head",
         },
     ],
 
