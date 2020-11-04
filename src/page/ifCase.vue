@@ -372,10 +372,10 @@
                     :index="index"
                     :key="index">
                 <el-row :gutter="20">
-                    <el-col :span="6">
+                    <el-col :span="4">
                         <el-input v-model="postProcessorItem.name" placeholder="名称" size="mini" ></el-input>
                     </el-col>
-                     <el-col :span="3">
+                     <el-col :span="5">
                         <el-select v-model="postProcessorItem.type" size='mini'>
                           <el-option
                             v-for="item in postProcessorTypeOptions"
@@ -663,10 +663,10 @@
                     :index="index"
                     :key="index">
                 <el-row :gutter="20">
-                    <el-col :span="6">
+                    <el-col :span="4">
                         <el-input v-model="postProcessorItem.name" placeholder="名称" size="mini" ></el-input>
                     </el-col>
-                     <el-col :span="3">
+                     <el-col :span="5">
                         <el-select v-model="postProcessorItem.type" size='mini'>
                           <el-option
                             v-for="item in postProcessorTypeOptions"
@@ -915,10 +915,10 @@
                     :index="index"
                     :key="index">
                 <el-row :gutter="20">
-                    <el-col :span="6">
+                    <el-col :span="4">
                         <el-input v-model="postProcessorItem.name" placeholder="名称" size="mini" ></el-input>
                     </el-col>
-                     <el-col :span="3">
+                     <el-col :span="5">
                         <el-select v-model="postProcessorItem.type" size='mini'>
                           <el-option
                             v-for="item in postProcessorTypeOptions"
@@ -929,7 +929,7 @@
                         </el-select>
                     </el-col> 
                     <el-col :span="6">
-                        <el-input v-model="postProcessorItem.expression" placeholder="提取表达式"  size="mini"></el-input>
+                        <el-input v-model="postProcessorItem.expression" :placeholder="提取表达式"  size="mini"></el-input>
                     </el-col> 
                     <el-col :span="2">
                         <el-switch
@@ -1102,15 +1102,31 @@ export default {
     postProcessorTypeOptions: [
         {
           value: 0,
-          label: "json",
+          label: "response json",
         },
         {
           value: 1,
-          label: "html",
+          label: "response html",
         },
         {
           value: 2,
-          label: "head",
+          label: "response header",
+        },
+        {
+          value: 3,
+          label: "request header",
+        },
+        {
+          value: 4,
+          label: "request params",
+        },
+        {
+          value: 5,
+          label: "request data",
+        },
+        {
+          value: 6,
+          label: "request json",
         },
     ],
 

@@ -141,7 +141,7 @@
             <el-input v-model="dataInfo.suiteLogNo" readonly size='small'></el-input>
           </el-form-item> 
           <el-form-item label="异常信息" label-width="100px" v-if="dataInfo.status=='错误'">
-            <el-input v-model="dataInfo.errorMessage" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }"></el-input>
+            <el-input v-model="dataInfo.errorMessage" readonly  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
           </el-form-item> 
           <el-form-item label="执行状态" label-width="100px">
             <template>
@@ -162,103 +162,121 @@
           </el-collapse-item>
           <el-collapse-item title="请求信息">
           <el-form-item label="url" label-width="100px">
-            <el-input v-model="dataInfo.caseUrl" readonly></el-input>
+            <el-input v-model="dataInfo.caseUrl" readonly size="mini"></el-input>
           </el-form-item>          
           <el-row :gutter="25">
-            <el-col :span="22">
+            <el-col :span="21">
             <el-form-item label="headers" label-width="100px">
-              <el-input v-model="dataInfo.requestHeaders" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }" v-show="!isReqHeadersBeauty"></el-input>
+              <el-input v-model="dataInfo.requestHeaders" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isReqHeadersBeauty"></el-input>
               <json-viewer :value="dataInfo.requestHeaders" :expand-depth=5 copyable v-show="isReqHeadersBeauty"/>
             </el-form-item>
             </el-col>
-            <el-col :span="1">
+            <el-col :span="3">
+              <el-button @click="showRawRequestHeaders" type="primary" icon="el-icon-thumb" size="mini" circle></el-button>
               <el-button @click="clickReqHeaders" type="danger" icon="el-icon-magic-stick" size="mini" circle></el-button>
             </el-col>
           </el-row>  
+          <el-row :gutter="25" v-if=isShowRawRequestHeaders>
+            <el-col :span="21">
+            <el-form-item label="rawHeaders" label-width="100px">
+              <el-input v-model="dataInfo.rawRequestHeaders" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
+            </el-form-item>
+            </el-col>
+          </el-row> 
           <el-row :gutter="25">
-            <el-col :span="22">
+            <el-col :span="21">
             <el-form-item label="params" label-width="100px">
-              <el-input v-model="dataInfo.requestParams" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }" v-show="!isReqParamsBeauty"></el-input>
+              <el-input v-model="dataInfo.requestParams" readonly  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isReqParamsBeauty"></el-input>
               <json-viewer :value="dataInfo.requestParams" :expand-depth=5 copyable v-show="isReqParamsBeauty"/>
             </el-form-item>
             </el-col>
-            <el-col :span="1">
+            <el-col :span="3">
+              <el-button @click="showRawRequestParams" type="primary" icon="el-icon-thumb" size="mini" circle></el-button>
               <el-button @click="clickReqParams" type="danger" icon="el-icon-magic-stick" size="mini" circle></el-button>
             </el-col>
           </el-row>  
+          <el-row :gutter="25" v-if=isShowRawRequestParams>
+            <el-col :span="21">
+            <el-form-item label="rawParams" label-width="100px">
+              <el-input v-model="dataInfo.rawRequestParams" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
+            </el-form-item>
+            </el-col>
+          </el-row> 
           <el-row :gutter="25">
-            <el-col :span="22">
+            <el-col :span="21">
             <el-form-item label="data" label-width="100px">
-              <el-input v-model="dataInfo.requestData" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }" v-show="!isReqDataBeauty"></el-input>
+              <el-input v-model="dataInfo.requestData" readonly  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isReqDataBeauty"></el-input>
               <json-viewer :value="dataInfo.requestData" :expand-depth=5 copyable v-show="isReqDataBeauty"/>
             </el-form-item>
             </el-col>
-            <el-col :span="1">
+            <el-col :span="3">
+              <el-button @click="showRawRequestData" type="primary" icon="el-icon-thumb" size="mini" circle></el-button>
               <el-button @click="clickReqData" type="danger" icon="el-icon-magic-stick" size="mini" circle></el-button>
             </el-col>
           </el-row>  
+          <el-row :gutter="25" v-if=isShowRawRequestData>
+            <el-col :span="21">
+            <el-form-item label="rawData" label-width="100px">
+              <el-input v-model="dataInfo.rawRequestData" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
+            </el-form-item>
+            </el-col>
+          </el-row> 
           <el-row :gutter="25">
-            <el-col :span="22">
+            <el-col :span="21">
             <el-form-item label="json" label-width="100px">
-              <el-input v-model="dataInfo.requestJson" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }" v-show="!isReqJsonBeauty"></el-input>
+              <el-input v-model="dataInfo.requestJson" readonly  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isReqJsonBeauty"></el-input>
               <json-viewer :value="dataInfo.requestJson" :expand-depth=5 copyable v-show="isReqJsonBeauty"/>
             </el-form-item>
             </el-col>
-            <el-col :span="1">
+            <el-col :span="3">
+              <el-button @click="showRawRequestJson" type="primary" icon="el-icon-thumb" size="mini" circle></el-button>
               <el-button @click="clickReqJson" type="danger" icon="el-icon-magic-stick" size="mini" circle></el-button>
             </el-col>
           </el-row>  
-          </el-collapse-item>
-          <el-collapse-item title="响应信息">
-          <el-form-item label="code" label-width="100px">
-            <el-input v-model="dataInfo.responseCode" readonly  size='small'></el-input>
-          </el-form-item> 
-          <el-row :gutter="25">
-            <el-col :span="22">
-            <el-form-item label="headers" label-width="100px">
-              <el-input v-model="dataInfo.responseHeaders" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }" v-show="!isResHeadersBeauty"></el-input>
-              <json-viewer :value="dataInfo.responseHeaders" :expand-depth=5 copyable v-show="isResHeadersBeauty"/>
+          <el-row :gutter="25" v-if=isShowRawRequestJson>
+            <el-col :span="21">
+            <el-form-item label="rawJson" label-width="100px">
+              <el-input v-model="dataInfo.rawRequestJson" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
             </el-form-item>
             </el-col>
-            <el-col :span="1">
-              <el-button @click="clickResHeaders" type="danger" icon="el-icon-magic-stick" size="mini" circle></el-button>
-            </el-col>
-          </el-row>
-          <el-row :gutter="25">
-            <el-col :span="22">
-            <el-form-item label="body" label-width="100px">
-              <el-input v-model="dataInfo.responseBody" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }" v-show="!isResBodyBeauty"></el-input>
-              <json-viewer :value="dataInfo.responseBody" :expand-depth=5 copyable v-show="isResBodyBeauty"/>
-            </el-form-item>
-            </el-col>
-            <el-col :span="1">
-              <el-button @click="clickResBody" type="danger" icon="el-icon-magic-stick" size="mini" circle></el-button>
-            </el-col>
-          </el-row>       
+          </el-row> 
           </el-collapse-item>
           <el-collapse-item title="断言信息">
             <el-table :data="assertInfo" stripe highlight-current-row style="width: 100%">
               <el-table-column type="expand">
                 <template slot-scope="props">
-                  <el-form label-position="left" inline class="demo-table-expand">
-                    <el-form-item label="提取方式:">
-                      <span>{{ props.row.type }}</span>
-                    </el-form-item><br/>
-                    <el-form-item label="提取表达式:">
-                      <span>{{ props.row.expression }}</span>
-                    </el-form-item><br/>
-                    <el-form-item label="预期结果:">
-                      <el-input :value="props.row.exceptedResult" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }"></el-input>
-                    </el-form-item><br/>
-                    <el-form-item label="比较类型:">
-                      <span>{{ props.row.operator }}</span>
-                    </el-form-item><br/>
-                    <el-form-item label="实际结果:">
-                      <el-input :value="props.row.actualResult" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }"></el-input>
+                  <el-form label-position="right">
+                    <el-form-item label="提取方式" label-width="100px">
+                      <el-input :value="props.row.type" readonly size="mini"></el-input>
                     </el-form-item>
-                    <br />
-                    <el-form-item label="错误信息:" v-if="props.row.errorMessage!=null">
-                      <el-input :value="props.row.errorMessage" readonly  type="textarea" :autosize="{ minRows: 3, maxRows: 6 }"></el-input>
+                    <el-form-item label="提取表达式" label-width="100px">
+                      <el-input :value="props.row.expression" readonly size="mini"></el-input>
+                    </el-form-item>
+                    <el-row :gutter="25">
+                      <el-col :span="22">
+                      <el-form-item label="预期结果" label-width="100px">
+                        <el-input :value="props.row.exceptedResult" size="mini"  readonly  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
+                      </el-form-item>
+                      </el-col>
+                      <el-col :span="2">
+                        <el-button @click="showRawExceptedResult" type="primary" icon="el-icon-thumb" size="mini" circle></el-button>
+                      </el-col>
+                    </el-row> 
+                    <el-row :gutter="25" v-if=isShowRawExceptedResult>
+                      <el-col :span="22">
+                      <el-form-item label="原始预期结果" label-width="100px">
+                        <el-input :value="props.row.rawExceptedResult" size="mini"  readonly  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
+                      </el-form-item>
+                      </el-col>
+                    </el-row>  
+                    <el-form-item label="比较类型" label-width="100px">
+                      <el-input :value="props.row.operator" readonly size="mini"></el-input>
+                    </el-form-item>
+                    <el-form-item label="实际结果" label-width="100px">
+                      <el-input :value="props.row.actualResult" size="mini" readonly  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
+                    </el-form-item>
+                    <el-form-item label="错误信息" label-width="100px" v-if="props.row.errorMessage!=null">
+                      <el-input :value="props.row.errorMessage" size="mini" readonly  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
                     </el-form-item>
                   </el-form>
                 </template>
@@ -383,6 +401,13 @@ export default {
               label: '错误'
           },
       ],
+
+      
+      isShowRawExceptedResult: false,
+      isShowRawRequestHeaders: false,
+      isShowRawRequestParams: false,
+      isShowRawRequestData: false,
+      isShowRawRequestJson: false,
     };
   },
   components: {
@@ -525,6 +550,12 @@ export default {
       }
     },
     async handleDetail(row) {
+      this.isShowRawExceptedResult = false
+      this.isShowRawRequestHeaders = false
+      this.isShowRawRequestParams = false
+      this.isShowRawRequestData = false
+      this.isShowRawRequestJson = false
+      
       let relyId = row.id
       this.isResHeadersBeauty = false
       this.isResBodyBeauty = false
@@ -629,6 +660,12 @@ export default {
       this.pageSize = 10
       this.pageNum = 1
       this.selectInterfaceCaseExecuteLogList(this.queryForm)
+
+      this.isShowRawExceptedResult = false
+      this.isShowRawRequestHeaders = false
+      this.isShowRawRequestParams = false
+      this.isShowRawRequestData = false
+      this.isShowRawRequestJson = false
     },
     async handleChain(row) {
       let id = row.id
@@ -666,7 +703,22 @@ export default {
           message: res.msg
         })
       }
-    }
+    },
+    showRawExceptedResult() {
+      this.isShowRawExceptedResult = ! this.isShowRawExceptedResult
+    },
+    showRawRequestHeaders() {
+      this.isShowRawRequestHeaders = ! this.isShowRawRequestHeaders
+    },
+    showRawRequestParams() {
+      this.isShowRawRequestParams = ! this.isShowRawRequestParams
+    },
+    showRawRequestData() {
+      this.isShowRawRequestData = ! this.isShowRawRequestData
+    },
+    showRawRequestJson() {
+      this.isShowRawRequestJson = ! this.isShowRawRequestJson
+    },
   }
 };
 </script>
