@@ -319,6 +319,50 @@
         </el-tabs>
           </el-collapse-item>
 
+
+
+        <el-collapse-item title="前置处理器">
+                <el-button @click.prevent="addPreProcessor" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
+                <el-form-item
+                    v-for="(preProcessorItem, index) in preProcessorList"
+                    :index="index"
+                    :key="index">
+                <el-row :gutter="20">
+                    <el-col :span="4">
+                        <el-input v-model="preProcessorItem.name" placeholder="名称" size="mini" ></el-input>
+                    </el-col>
+                     <el-col :span="5">
+                        <el-select v-model="preProcessorItem.type" size='mini'>
+                          <el-option
+                            v-for="item in preProcessorTypeOptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
+                    </el-col> 
+                    <el-col :span="6">
+                        <el-input v-model="preProcessorItem.expression" placeholder="提取表达式"  size="mini"></el-input>
+                    </el-col> 
+                    <el-col :span="2">
+                        <el-switch
+                          v-model="preProcessorItem.haveDefaultValue"
+                          :active-value=0
+                          :inactive-value=1>
+                        </el-switch>
+                    </el-col> 
+                    <el-col :span="5">
+                        <el-input v-model="preProcessorItem.defaultValue" placeholder="默认值"  size="mini" v-if="preProcessorItem.haveDefaultValue==0"></el-input>
+                    </el-col> 
+                    <el-col :span="2">
+                        <el-button @click.prevent="removePostProcessor(preProcessorItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                    </el-col>
+                </el-row> 
+                </el-form-item>
+          </el-collapse-item>
+
+
+
           <el-collapse-item title="断言信息">
                 <el-button @click.prevent="addAssert" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
                 <el-form-item
@@ -607,7 +651,49 @@
                 </div>   
             </el-tab-pane>
         </el-tabs>
-        
+      </el-collapse-item>
+
+
+        <el-collapse-item title="前置处理器">
+                <el-button @click.prevent="addPreProcessor" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
+                <el-form-item
+                    v-for="(preProcessorItem, index) in preProcessorList"
+                    :index="index"
+                    :key="index">
+                <el-row :gutter="20">
+                    <el-col :span="4">
+                        <el-input v-model="preProcessorItem.name" placeholder="名称" size="mini" ></el-input>
+                    </el-col>
+                     <el-col :span="5">
+                        <el-select v-model="preProcessorItem.type" size='mini'>
+                          <el-option
+                            v-for="item in preProcessorTypeOptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
+                    </el-col> 
+                    <el-col :span="6">
+                        <el-input v-model="preProcessorItem.expression" placeholder="提取表达式"  size="mini"></el-input>
+                    </el-col> 
+                    <el-col :span="2">
+                        <el-switch
+                          v-model="preProcessorItem.haveDefaultValue"
+                          :active-value=0
+                          :inactive-value=1>
+                        </el-switch>
+                    </el-col> 
+                    <el-col :span="5">
+                        <el-input v-model="preProcessorItem.defaultValue" placeholder="默认值"  size="mini" v-if="preProcessorItem.haveDefaultValue==0"></el-input>
+                    </el-col> 
+                    <el-col :span="2">
+                        <el-button @click.prevent="removePostProcessor(preProcessorItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                    </el-col>
+                </el-row> 
+                </el-form-item>
+
+
           </el-collapse-item>
           <el-collapse-item title="断言信息">
                 <el-button @click.prevent="addAssert" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
@@ -859,8 +945,50 @@
                 </div>   
             </el-tab-pane>
         </el-tabs>
-        
+        </el-collapse-item>
+
+
+        <el-collapse-item title="前置处理器">
+                <el-button @click.prevent="addPostProcessor" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
+                <el-form-item
+                    v-for="(preProcessorItem, index) in preProcessorList"
+                    :index="index"
+                    :key="index">
+                <el-row :gutter="20">
+                    <el-col :span="4">
+                        <el-input v-model="preProcessorItem.name" placeholder="名称" size="mini" ></el-input>
+                    </el-col>
+                     <el-col :span="5">
+                        <el-select v-model="preProcessorItem.type" size='mini'>
+                          <el-option
+                            v-for="item in preProcessorTypeOptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
+                    </el-col> 
+                    <el-col :span="6">
+                        <el-input v-model="preProcessorItem.expression" placeholder="提取表达式"  size="mini"></el-input>
+                    </el-col> 
+                    <el-col :span="2">
+                        <el-switch
+                          v-model="preProcessorItem.haveDefaultValue"
+                          :active-value=0
+                          :inactive-value=1>
+                        </el-switch>
+                    </el-col> 
+                    <el-col :span="5">
+                        <el-input v-model="preProcessorItem.defaultValue" placeholder="默认值"  size="mini" v-if="preProcessorItem.haveDefaultValue==0"></el-input>
+                    </el-col> 
+                    <el-col :span="2">
+                        <el-button @click.prevent="removePreProcessor(preProcessorItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                    </el-col>
+                </el-row> 
+                </el-form-item>
           </el-collapse-item>
+
+
           <el-collapse-item title="断言信息">
                 <el-button @click.prevent="addAssert" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
                 <el-form-item
@@ -929,7 +1057,7 @@
                         </el-select>
                     </el-col> 
                     <el-col :span="6">
-                        <el-input v-model="postProcessorItem.expression" :placeholder="提取表达式"  size="mini"></el-input>
+                        <el-input v-model="postProcessorItem.expression" placeholder="提取表达式"  size="mini"></el-input>
                     </el-col> 
                     <el-col :span="2">
                         <el-switch
@@ -1098,35 +1226,38 @@ export default {
         },
     ],
 
+    preProcessorList:[],
+    preProcessorTypeOptions: [
+        {
+          value: 3,
+          label: "header",
+        },
+        {
+          value: 4,
+          label: "params",
+        },
+        {
+          value: 5,
+          label: "data",
+        },
+        {
+          value: 6,
+          label: "json",
+        },
+    ],
     postProcessorList:[],
     postProcessorTypeOptions: [
         {
           value: 0,
-          label: "response json",
+          label: "json",
         },
         {
           value: 1,
-          label: "response html",
+          label: "html",
         },
         {
           value: 2,
-          label: "response header",
-        },
-        {
-          value: 3,
-          label: "request header",
-        },
-        {
-          value: 4,
-          label: "request params",
-        },
-        {
-          value: 5,
-          label: "request data",
-        },
-        {
-          value: 6,
-          label: "request json",
+          label: "header",
         },
     ],
 
@@ -1213,7 +1344,7 @@ export default {
     addPostProcessor() {
       this.postProcessorList.push({
           name: null,
-          type: 0,
+          type: null,
           expression: null,
           defaultValue: null,
           haveDefaultValue: 1,
@@ -1222,6 +1353,20 @@ export default {
     removePostProcessor(item) {
       var index = this.postProcessorList.indexOf(item)
       this.postProcessorList.splice(index, 1)
+    },
+
+    addPreProcessor() {
+      this.preProcessorList.push({
+          name: null,
+          type: null,
+          expression: null,
+          defaultValue: null,
+          haveDefaultValue: 1,
+      });
+    },
+    removePreProcessor(item) {
+      var index = this.preProcessorList.indexOf(item)
+      this.preProcessorList.splice(index, 1)
     },
 
     async selectInterfaceCase(queryForm) {
@@ -1432,7 +1577,7 @@ export default {
         // 添加断言
         this.dataAdd.asserts = this.assertList
         // 添加后置处理器
-        this.dataAdd.postProcessors = this.postProcessorList
+        this.dataAdd.postProcessors = this.preProcessorList.concat(this.postProcessorList)
         const res = await saveInterfaceCase(this.dataAdd)
         if (res.code == 200 ) {
             this.addDialogFormVisible = false
@@ -1528,7 +1673,7 @@ export default {
             }
         } 
         this.dataInfo.asserts = this.assertList
-        this.dataInfo.postProcessors = this.postProcessorList
+        this.dataInfo.postProcessors = this.preProcessorList.concat(this.postProcessorList)
         const res = await modifyInterfaceCase(this.dataInfo)
         if (res.code == 200 ) {
             this.editDialogFormVisible = false
@@ -1625,7 +1770,7 @@ export default {
             }
         } 
         this.dataInfo.asserts = this.assertList
-        this.dataInfo.postProcessors = this.postProcessorList
+        this.dataInfo.postProcessors = this.preProcessorList.concat(this.postProcessorList)
         const res = await saveInterfaceCase(this.dataInfo)
         if (res.code == 200 ) {
             this.copyDialogFormVisible = false
@@ -1728,7 +1873,8 @@ export default {
       // 初始化断言
       this.assertList = []
       this.assertIndex = 0
-
+      // 初始化后置处理器
+      this.preProcessorList = []
       // 初始化后置处理器
       this.postProcessorList = []
     },
@@ -1782,7 +1928,15 @@ export default {
             this.assertIndex = 1
         }
         
-        this.postProcessorList = res.data.postProcessors
+        this.preProcessorList = []
+        this.postProcessorList = []
+        res.data.postProcessors.forEach(element => {
+          if (element.type <= 2) {
+            this.postProcessorList.push(element)
+          } else {
+            this.preProcessorList.push(element)
+          }
+        });
       } else {
         this.$message({
           type: "error",
@@ -1844,7 +1998,16 @@ export default {
         } else {
             this.assertIndex = 1
         }
-        this.postProcessorList = res.data.postProcessors
+
+        this.preProcessorList = []
+        this.postProcessorList = []
+        res.data.postProcessors.forEach(element => {
+          if (element.type <= 2) {
+            this.postProcessorList.push(element)
+          } else {
+            this.preProcessorList.push(element)
+          }
+        });
       } else {
         this.$message({
           type: "error",

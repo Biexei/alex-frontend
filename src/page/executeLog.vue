@@ -142,12 +142,13 @@
             <el-input v-model="dataInfo.suiteLogNo" readonly size='mini'></el-input>
           </el-form-item> 
           <el-form-item label="异常信息" label-width="100px" v-if="dataInfo.status=='错误'">
-            <el-input v-model="dataInfo.errorMessage" readonly  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
+            <el-input v-model="dataInfo.errorMessage" readonly size="mini" type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
           </el-form-item> 
           <el-form-item label="执行状态" label-width="100px">
             <template>
               <el-tag
                 effect="dark"
+                size="mini"
                 :type="dataInfo.statusStyle"
                 disable-transitions>{{dataInfo.status}}</el-tag>
             </template>
@@ -156,6 +157,7 @@
             <template>
               <el-tag
                 effect="dark"
+                size="mini"
                 :type="dataInfo.isFailedRetryStyle"
                 disable-transitions>{{dataInfo.isFailedRetryValue}}</el-tag>
             </template>
@@ -187,7 +189,7 @@
           <el-row :gutter="25">
             <el-col :span="21">
             <el-form-item label="params" label-width="100px">
-              <el-input v-model="dataInfo.requestParams" readonly  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isReqParamsBeauty"></el-input>
+              <el-input v-model="dataInfo.requestParams" readonly  type="textarea" size="mini" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isReqParamsBeauty"></el-input>
               <json-viewer :value="dataInfo.requestParams" :expand-depth=5 copyable v-show="isReqParamsBeauty"/>
             </el-form-item>
             </el-col>
@@ -206,7 +208,7 @@
           <el-row :gutter="25">
             <el-col :span="21">
             <el-form-item label="data" label-width="100px">
-              <el-input v-model="dataInfo.requestData" readonly  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isReqDataBeauty"></el-input>
+              <el-input v-model="dataInfo.requestData" readonly  type="textarea" size="mini" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isReqDataBeauty"></el-input>
               <json-viewer :value="dataInfo.requestData" :expand-depth=5 copyable v-show="isReqDataBeauty"/>
             </el-form-item>
             </el-col>
@@ -225,7 +227,7 @@
           <el-row :gutter="25">
             <el-col :span="21">
             <el-form-item label="json" label-width="100px">
-              <el-input v-model="dataInfo.requestJson" readonly  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isReqJsonBeauty"></el-input>
+              <el-input v-model="dataInfo.requestJson" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isReqJsonBeauty"></el-input>
               <json-viewer :value="dataInfo.requestJson" :expand-depth=5 copyable v-show="isReqJsonBeauty"/>
             </el-form-item>
             </el-col>
@@ -249,7 +251,7 @@
           <el-row :gutter="25">
             <el-col :span="22">
             <el-form-item label="headers" label-width="100px">
-              <el-input v-model="dataInfo.responseHeaders" readonly  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isResHeadersBeauty"></el-input>
+              <el-input v-model="dataInfo.responseHeaders" readonly  type="textarea" size="mini" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isResHeadersBeauty"></el-input>
               <json-viewer :value="dataInfo.responseHeaders" :expand-depth=5 copyable v-show="isResHeadersBeauty"/>
             </el-form-item>
             </el-col>
@@ -260,7 +262,7 @@
           <el-row :gutter="25">
             <el-col :span="22">
             <el-form-item label="body" label-width="100px">
-              <el-input v-model="dataInfo.responseBody" readonly  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isResBodyBeauty"></el-input>
+              <el-input v-model="dataInfo.responseBody" readonly  type="textarea" size="mini" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isResBodyBeauty"></el-input>
               <json-viewer :value="dataInfo.responseBody" :expand-depth=5 copyable v-show="isResBodyBeauty"/>
             </el-form-item>
             </el-col>
@@ -315,6 +317,7 @@
                 <template slot-scope="scope">
                   <el-tag
                     effect="dark"
+                    size="mini"
                     :type="scope.row.assertStatusStyle"
                     disable-transitions>{{scope.row.status}}</el-tag>
                 </template>

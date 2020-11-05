@@ -15,7 +15,7 @@
           <el-select v-model="queryForm.status" placeholder="status" size='mini' style="width:100px">
               <el-option v-for="item in logStatusOptions"
                   :key="item.label"
-                  size='small'
+                  size='mini'
                   :label="item.label"
                   :value="item.value">
               </el-option>
@@ -25,7 +25,7 @@
           <el-select v-model="queryForm.isFailedRetry" placeholder="Retry" size='mini' style="width:100px">
               <el-option v-for="item in retryOptions"
                   :key="item.label"
-                  size='small'
+                  size="mini"
                   :label="item.label"
                   :value="item.value">
               </el-option>
@@ -35,7 +35,7 @@
           <el-select v-model="queryForm.showDetail" placeholder="showDetail" size='mini' style="width:100px">
               <el-option v-for="item in showDetailOptions"
                   :key="item.label"
-                  size='small'
+                  size="mini"
                   :label="item.label"
                   :value="item.value">
               </el-option>
@@ -71,6 +71,7 @@
           <template slot-scope="scope">
             <el-tag
               effect="dark"
+              size="mini"
               :type="scope.row.style"
               disable-transitions>{{scope.row.status}}</el-tag>
           </template>
@@ -79,6 +80,7 @@
           <template slot-scope="scope">
             <el-tag
               effect="dark"
+              size="mini"
               :type="scope.row.isFailedRetryStyle"
               disable-transitions>{{scope.row.isFailedRetryValue}}</el-tag>
           </template>
@@ -87,6 +89,7 @@
           <template slot-scope="scope">
             <el-tag
               effect="dark"
+              size="mini"
               :type="scope.row.isRelyCaseStyle"
               disable-transitions>{{scope.row.isRelyCaseValue}}</el-tag>
           </template>
@@ -97,14 +100,14 @@
               @click="handleDetail(scope.row)"
               type="primary"
               icon="el-icon-more"
-              size="small"
+              size="mini"
               circle
             ></el-button>
             <el-button
               @click="handleChain(scope.row)"
               type="danger"
               icon="el-icon-view"
-              size="small"
+              size="mini"
               circle
             ></el-button>
           </template>
@@ -126,27 +129,28 @@
         <el-form :model="dataInfo">
           <el-collapse-item title="基本信息">
           <el-form-item label="用例编号" label-width="100px">
-            <el-input v-model="dataInfo.caseId" readonly size='small'></el-input>
+            <el-input v-model="dataInfo.caseId" readonly size='mini'></el-input>
           </el-form-item>
           <el-form-item label="用例描述" label-width="100px">
-            <el-input v-model="dataInfo.caseDesc" readonly size='small'></el-input>
+            <el-input v-model="dataInfo.caseDesc" readonly size='mini'></el-input>
           </el-form-item>
           <el-form-item label="执行用时(ms)" label-width="100px">
-            <el-input v-model="dataInfo.runTime" readonly size='small'></el-input>
+            <el-input v-model="dataInfo.runTime" readonly size='mini'></el-input>
           </el-form-item> 
           <el-form-item label="执行人" label-width="100px">
-            <el-input v-model="dataInfo.executer" readonly size='small'></el-input>
+            <el-input v-model="dataInfo.executer" readonly size='mini'></el-input>
           </el-form-item> 
           <el-form-item label="执行编号" label-width="100px">
-            <el-input v-model="dataInfo.suiteLogNo" readonly size='small'></el-input>
+            <el-input v-model="dataInfo.suiteLogNo" readonly size='mini'></el-input>
           </el-form-item> 
           <el-form-item label="异常信息" label-width="100px" v-if="dataInfo.status=='错误'">
-            <el-input v-model="dataInfo.errorMessage" readonly  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
+            <el-input v-model="dataInfo.errorMessage" readonly size="mini" type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
           </el-form-item> 
           <el-form-item label="执行状态" label-width="100px">
             <template>
               <el-tag
                 effect="dark"
+                size="mini"
                 :type="dataInfo.statusStyle"
                 disable-transitions>{{dataInfo.status}}</el-tag>
             </template>
@@ -155,6 +159,7 @@
             <template>
               <el-tag
                 effect="dark"
+                size="mini"
                 :type="dataInfo.isFailedRetryStyle"
                 disable-transitions>{{dataInfo.isFailedRetryValue}}</el-tag>
             </template>
@@ -167,7 +172,7 @@
           <el-row :gutter="25">
             <el-col :span="21">
             <el-form-item label="headers" label-width="100px">
-              <el-input v-model="dataInfo.requestHeaders" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isReqHeadersBeauty"></el-input>
+              <el-input v-model="dataInfo.requestHeaders" readonly size="mini" type="textarea" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isReqHeadersBeauty"></el-input>
               <json-viewer :value="dataInfo.requestHeaders" :expand-depth=5 copyable v-show="isReqHeadersBeauty"/>
             </el-form-item>
             </el-col>
@@ -186,7 +191,7 @@
           <el-row :gutter="25">
             <el-col :span="21">
             <el-form-item label="params" label-width="100px">
-              <el-input v-model="dataInfo.requestParams" readonly  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isReqParamsBeauty"></el-input>
+              <el-input v-model="dataInfo.requestParams" readonly size="mini" type="textarea" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isReqParamsBeauty"></el-input>
               <json-viewer :value="dataInfo.requestParams" :expand-depth=5 copyable v-show="isReqParamsBeauty"/>
             </el-form-item>
             </el-col>
@@ -205,7 +210,7 @@
           <el-row :gutter="25">
             <el-col :span="21">
             <el-form-item label="data" label-width="100px">
-              <el-input v-model="dataInfo.requestData" readonly  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isReqDataBeauty"></el-input>
+              <el-input v-model="dataInfo.requestData" readonly size="mini" type="textarea" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isReqDataBeauty"></el-input>
               <json-viewer :value="dataInfo.requestData" :expand-depth=5 copyable v-show="isReqDataBeauty"/>
             </el-form-item>
             </el-col>
@@ -217,14 +222,14 @@
           <el-row :gutter="25" v-if=isShowRawRequestData>
             <el-col :span="21">
             <el-form-item label="rawData" label-width="100px">
-              <el-input v-model="dataInfo.rawRequestData" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
+              <el-input v-model="dataInfo.rawRequestData" readonly size="mini" type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
             </el-form-item>
             </el-col>
           </el-row> 
           <el-row :gutter="25">
             <el-col :span="21">
             <el-form-item label="json" label-width="100px">
-              <el-input v-model="dataInfo.requestJson" readonly  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isReqJsonBeauty"></el-input>
+              <el-input v-model="dataInfo.requestJson" readonly size="mini" type="textarea" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isReqJsonBeauty"></el-input>
               <json-viewer :value="dataInfo.requestJson" :expand-depth=5 copyable v-show="isReqJsonBeauty"/>
             </el-form-item>
             </el-col>
@@ -240,6 +245,33 @@
             </el-form-item>
             </el-col>
           </el-row> 
+          </el-collapse-item>
+          <el-collapse-item title="响应信息">
+          <el-form-item label="code" label-width="100px">
+            <el-input v-model="dataInfo.responseCode" readonly  size='mini'></el-input>
+          </el-form-item> 
+          <el-row :gutter="25">
+            <el-col :span="22">
+            <el-form-item label="headers" label-width="100px">
+              <el-input v-model="dataInfo.responseHeaders" readonly size="mini" type="textarea" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isResHeadersBeauty"></el-input>
+              <json-viewer :value="dataInfo.responseHeaders" :expand-depth=5 copyable v-show="isResHeadersBeauty"/>
+            </el-form-item>
+            </el-col>
+            <el-col :span="1">
+              <el-button @click="clickResHeaders" type="danger" icon="el-icon-magic-stick" size="mini" circle></el-button>
+            </el-col>
+          </el-row>
+          <el-row :gutter="25">
+            <el-col :span="22">
+            <el-form-item label="body" label-width="100px">
+              <el-input v-model="dataInfo.responseBody" readonly size="mini" type="textarea" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isResBodyBeauty"></el-input>
+              <json-viewer :value="dataInfo.responseBody" :expand-depth=5 copyable v-show="isResBodyBeauty"/>
+            </el-form-item>
+            </el-col>
+            <el-col :span="1">
+              <el-button @click="clickResBody" type="danger" icon="el-icon-magic-stick" size="mini" circle></el-button>
+            </el-col>
+          </el-row>       
           </el-collapse-item>
           <el-collapse-item title="断言信息">
             <el-table :data="assertInfo" stripe highlight-current-row style="width: 100%">
@@ -287,6 +319,7 @@
                 <template slot-scope="scope">
                   <el-tag
                     effect="dark"
+                    size="mini"
                     :type="scope.row.assertStatusStyle"
                     disable-transitions>{{scope.row.status}}</el-tag>
                 </template>
@@ -311,7 +344,7 @@
                   <el-col :span="2">
                     <el-button 
                     plain 
-                    size="small" 
+                    size="mini" 
                     type="info" 
                     @click="handleDetail({id:chain.logId})"
                     style="background-color: #FFFFFF; color: #324057; border:none;font-size: 14px;">{{chain.logId}}
@@ -320,7 +353,7 @@
                   <el-col :span="22">
                     <el-button 
                     plain 
-                    size="small" 
+                    size="mini" 
                     type="info" 
                     @click="handleDetail({id:chain.logId})"
                     style="background-color: #FFFFFF; color: #324057; border:none;font-size: 14px;">{{chain.caseId}} {{chain.caseDesc}}
