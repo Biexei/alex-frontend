@@ -472,3 +472,19 @@ export const findSuiteLogSummary = suiteLogNo => HttpRequest.get('/suite/summary
  * 统计测试报告首页测试套件执行情况
  */
 export const findSuiteReportAssert = suiteLogNo => HttpRequest.get('/suite/assert/log/' + suiteLogNo)
+
+
+/**
+ * 获取所有的临时后置处理器值
+ */
+export const findAllTempValue = data => HttpRequest.get('/env', data)
+
+/**
+ * 移除指定临时后置处理器值
+ */
+export const removeTempValue = key => HttpRequest.get('/env/remove/' + key)
+
+/**
+ * 移除全部临时后置处理器值
+ */
+export const removeAllTempValue = () => HttpRequest.get('/env/removeAll')

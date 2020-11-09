@@ -23,11 +23,14 @@ const httpSetting = r => require.ensure([], () => r(require('@/page/httpSetting'
 const task = r => require.ensure([], () => r(require('@/page/task')), 'task');
 const analysis = r => require.ensure([], () => r(require('@/page/analysis')), 'analysis');
 const ifSuiteLog = r => require.ensure([], () => r(require('@/page/ifSuiteLog')), 'ifSuiteLog');
+const tempEnv = r => require.ensure([], () => r(require('@/page/tempEnv')), 'tempEnv');
 
 const report = r => require.ensure([], () => r(require('@/page/report')), 'report');
 const reportSummary = r => require.ensure([], () => r(require('@/page/reportSummary')), 'reportSummary');
 const reportDetail = r => require.ensure([], () => r(require('@/page/reportDetail')), 'reportDetail');
 const reportChannel = r => require.ensure([], () => r(require('@/page/reportChannel')), 'reportChannel');
+
+
 
 const router = new Router({
   routes: [
@@ -108,6 +111,14 @@ const router = new Router({
           component: dbList,
           meta: {
             path: ['数据源中心'],
+            requireAuth: true
+          },
+        }, 
+        {
+          path: '/tempEnv',
+          component: tempEnv,
+          meta: {
+            path: ['数据中心','临时变量'],
             requireAuth: true
           },
         }, 

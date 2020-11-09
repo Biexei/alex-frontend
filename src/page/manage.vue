@@ -11,6 +11,7 @@
 					<el-menu-item index="dbList" class="left-color"><i class="el-icon-coin"></i><span slot="title" class="title-color">数据源中心</span></el-menu-item>
 					<el-submenu index="1"  class="left-color">
 						<template slot="title"  class="left-color"><i class="el-icon-more"></i><span slot="title" class="title-color">数据中心</span></template>
+						<el-menu-item index="tempEnv"  class="left-color"><i class="el-icon-position"></i><span slot="title" class="title-color">临时变量</span></el-menu-item>
 						<el-menu-item index="ifRelyData"  class="left-color"><i class="el-icon-ice-cream-square"></i><span slot="title" class="title-color">接口依赖</span></el-menu-item>
 						<el-menu-item index="relyData"  class="left-color"><i class="el-icon-ice-cream-round"></i><span slot="title" class="title-color">其它依赖</span></el-menu-item>
 						<el-menu-item index="relySqlData"  class="left-color"><i class="el-icon-cloudy"></i><span slot="title" class="title-color">查询语句</span></el-menu-item>
