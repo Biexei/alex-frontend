@@ -100,35 +100,35 @@
           <el-form-item label="*调试环境" label-width="100px">
             <el-row>
               <el-col :span="4"><el-input v-model="dataInfo.username" size='mini' placeholder="*用户名"></el-input></el-col>
-              <el-col :span="4"><el-input v-model="dataInfo.password" size='mini' placeholder="*密码"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataInfo.password" size='mini' placeholder="*密码" show-password></el-input></el-col>
               <el-col :span="16"><el-input v-model="dataInfo.url" size='mini' placeholder="*连接地址"></el-input></el-col>
             </el-row>
           </el-form-item>
           <el-form-item label="*开发环境" label-width="100px">
             <el-row>
               <el-col :span="4"><el-input v-model="dataInfo.devUsername" size='mini' placeholder="*用户名"></el-input></el-col>
-              <el-col :span="4"><el-input v-model="dataInfo.devPassword" size='mini' placeholder="*密码"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataInfo.devPassword" size='mini' placeholder="*密码" show-password></el-input></el-col>
               <el-col :span="16"><el-input v-model="dataInfo.devUrl" size='mini' placeholder="*连接地址"></el-input></el-col>
             </el-row>
           </el-form-item>
           <el-form-item label="*测试环境" label-width="100px">
             <el-row>
               <el-col :span="4"><el-input v-model="dataInfo.testUsername" size='mini' placeholder="*用户名"></el-input></el-col>
-              <el-col :span="4"><el-input v-model="dataInfo.testPassword" size='mini' placeholder="*密码"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataInfo.testPassword" size='mini' placeholder="*密码" show-password></el-input></el-col>
               <el-col :span="16"><el-input v-model="dataInfo.testUrl" size='mini' placeholder="*连接地址"></el-input></el-col>
             </el-row>
           </el-form-item>
           <el-form-item label="*预发环境" label-width="100px">
             <el-row>
               <el-col :span="4"><el-input v-model="dataInfo.stgUsername" size='mini' placeholder="*用户名"></el-input></el-col>
-              <el-col :span="4"><el-input v-model="dataInfo.stgPassword" size='mini' placeholder="*密码"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataInfo.stgPassword" size='mini' placeholder="*密码" show-password></el-input></el-col>
               <el-col :span="16"><el-input v-model="dataInfo.stgUrl" size='mini' placeholder="*连接地址"></el-input></el-col>
             </el-row>
           </el-form-item>
           <el-form-item label="*线上环境" label-width="100px">
             <el-row>
               <el-col :span="4"><el-input v-model="dataInfo.prodUsername" size='mini' placeholder="*用户名"></el-input></el-col>
-              <el-col :span="4"><el-input v-model="dataInfo.prodPassword" size='mini' placeholder="*密码"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataInfo.prodPassword" size='mini' placeholder="*密码" show-password></el-input></el-col>
               <el-col :span="16"><el-input v-model="dataInfo.prodUrl" size='mini' placeholder="*连接地址"></el-input></el-col>
             </el-row>
           </el-form-item>
@@ -166,35 +166,35 @@
           <el-form-item label="*调试环境" label-width="100px">
             <el-row>
               <el-col :span="4"><el-input v-model="dataAdd.username" size='mini' placeholder="*用户名"></el-input></el-col>
-              <el-col :span="4"><el-input v-model="dataAdd.password" size='mini' placeholder="*密码"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataAdd.password" size='mini' placeholder="*密码" show-password></el-input></el-col>
               <el-col :span="16"><el-input v-model="dataAdd.url" size='mini' placeholder="*连接地址"></el-input></el-col>
             </el-row>
           </el-form-item>
           <el-form-item label="*开发环境" label-width="100px">
             <el-row>
               <el-col :span="4"><el-input v-model="dataAdd.devUsername" size='mini' placeholder="*用户名"></el-input></el-col>
-              <el-col :span="4"><el-input v-model="dataAdd.devPassword" size='mini' placeholder="*密码"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataAdd.devPassword" size='mini' placeholder="*密码" show-password></el-input></el-col>
               <el-col :span="16"><el-input v-model="dataAdd.devUrl" size='mini' placeholder="*连接地址"></el-input></el-col>
             </el-row>
           </el-form-item>
           <el-form-item label="*测试环境" label-width="100px">
             <el-row>
               <el-col :span="4"><el-input v-model="dataAdd.testUsername" size='mini' placeholder="*用户名"></el-input></el-col>
-              <el-col :span="4"><el-input v-model="dataAdd.testPassword" size='mini' placeholder="*密码"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataAdd.testPassword" size='mini' placeholder="*密码" show-password></el-input></el-col>
               <el-col :span="16"><el-input v-model="dataAdd.testUrl" size='mini' placeholder="*连接地址"></el-input></el-col>
             </el-row>
           </el-form-item>
           <el-form-item label="*预发环境" label-width="100px">
             <el-row>
               <el-col :span="4"><el-input v-model="dataAdd.stgUsername" size='mini' placeholder="*用户名"></el-input></el-col>
-              <el-col :span="4"><el-input v-model="dataAdd.stgPassword" size='mini' placeholder="*密码"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataAdd.stgPassword" size='mini' placeholder="*密码" show-password></el-input></el-col>
               <el-col :span="16"><el-input v-model="dataAdd.stgUrl" size='mini' placeholder="*连接地址"></el-input></el-col>
             </el-row>
           </el-form-item>
           <el-form-item label="*线上环境" label-width="100px">
             <el-row>
               <el-col :span="4"><el-input v-model="dataAdd.prodUsername" size='mini' placeholder="*用户名"></el-input></el-col>
-              <el-col :span="4"><el-input v-model="dataAdd.prodPassword" size='mini' placeholder="*密码"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataAdd.prodPassword" size='mini' placeholder="*密码" show-password></el-input></el-col>
               <el-col :span="16"><el-input v-model="dataAdd.prodUrl" size='mini' placeholder="*连接地址"></el-input></el-col>
             </el-row>
           </el-form-item>

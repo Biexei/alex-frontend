@@ -73,7 +73,7 @@
             <el-input v-model="userInfo.username" auto-complete="off" size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*密码" label-width="100px">
-            <el-input v-model="userInfo.password" size='mini'></el-input>
+            <el-input v-model="userInfo.password" size='mini' show-password></el-input>
           </el-form-item>
           <el-form-item label="工号" label-width="100px">
             <el-input v-model="userInfo.jobNumber" size='mini'></el-input>
@@ -106,7 +106,7 @@
             <el-input v-model="addForm.username" auto-complete="off" size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*密码" label-width="100px" prop="password">
-            <el-input v-model="addForm.password" size='mini'></el-input>
+            <el-input v-model="addForm.password" size='mini' show-password></el-input>
           </el-form-item>
           <el-form-item label="工号" label-width="100px" prop="jobNumber">
             <el-input v-model="addForm.jobNumber" size='mini'></el-input>

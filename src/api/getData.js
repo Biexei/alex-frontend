@@ -272,12 +272,12 @@ export const executeInterfaceCase = interfaceCaseId => HttpRequest.get('/interfa
 /**
  * 新增测试套件
 */ 
-export const saveInterfaceCaseSuite = data => HttpRequest.post('/interface/suite/save', data)
+export const saveInterfaceCaseSuite = data => HttpRequest.post('/interface/suite/save', data, true, true)
 
 /**
  * 修改测试套件
 */ 
-export const modifyInterfaceCaseSuite = data => HttpRequest.post('/interface/suite/modify', data)
+export const modifyInterfaceCaseSuite = data => HttpRequest.post('/interface/suite/modify', data, true, true)
 
 /**
  * 删除测试套件
