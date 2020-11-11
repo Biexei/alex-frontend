@@ -132,6 +132,71 @@
 
       <el-dialog title="编辑" :visible.sync="editDialogFormVisible" :close-on-click-modal=false>
         <el-form :model="dataInfo">
+        <el-collapse>
+          <el-collapse-item title="前置处理器">
+                <el-form-item>
+                      <el-tabs>
+                        <el-tab-pane label="GlobalHeaders">
+                              <el-form-item
+                                  v-for="(preProcessorHeaders, index) in addPreProcessorHeadersList"
+                                  :index="index"
+                                  :key="preProcessorHeaders.key">
+                                <el-row :gutter="20">
+                                    <el-col :span="7">
+                                        <el-input v-model="preProcessorHeaders.name" placeholder="name" size='mini' @blur=addPreProcessorHeadersItem(preProcessorHeaders)></el-input>
+                                    </el-col>
+                                    <el-col :span="15">
+                                        <el-input v-model="preProcessorHeaders.value" placeholder="value" size='mini'></el-input>
+                                    </el-col> 
+                                    <el-col :span="2">
+                                        <el-button @click.prevent="removePreProcessorHeadersItem(preProcessorHeaders)" type="danger" icon="el-icon-delete" circle size="mini" :disabled="addPreProcessorHeadersList.length==1"></el-button>
+                                    </el-col>
+                                </el-row>
+                              </el-form-item> 
+                        </el-tab-pane> 
+                        <el-tab-pane label="GlobalParams">
+                              <el-form-item
+                                  v-for="(preProcessorParams, index) in addPreProcessorParamsList"
+                                  :index="index"
+                                  :key="preProcessorParams.key">
+                                <el-row :gutter="20">
+                                    <el-col :span="7">
+                                        <el-input v-model="preProcessorParams.name" placeholder="name" size='mini' @blur=addPreProcessorParamsItem(preProcessorParams)></el-input>
+                                    </el-col>
+                                    <el-col :span="15">
+                                        <el-input v-model="preProcessorParams.value" placeholder="value" size='mini'></el-input>
+                                    </el-col> 
+                                    <el-col :span="2">
+                                        <el-button @click.prevent="removePreProcessorParamsItem(preProcessorParams)" type="danger" icon="el-icon-delete" circle size="mini" :disabled="addPreProcessorParamsList.length==1"></el-button>
+                                    </el-col>
+                                </el-row>
+                              </el-form-item> 
+                        </el-tab-pane> 
+                        <el-tab-pane label="GlobalData">
+                              <el-form-item
+                                  v-for="(preProcessorData, index) in addPreProcessorDataList"
+                                  :index="index"
+                                  :key="preProcessorData.key">
+                                <el-row :gutter="20">
+                                    <el-col :span="7">
+                                        <el-input v-model="preProcessorData.name" placeholder="name" size='mini' @blur=addPreProcessorDataItem(preProcessorData)></el-input>
+                                    </el-col>
+                                    <el-col :span="15">
+                                        <el-input v-model="preProcessorData.value" placeholder="value" size='mini'></el-input>
+                                    </el-col> 
+                                    <el-col :span="2">
+                                        <el-button @click.prevent="removePreProcessorDataItem(preProcessorData)" type="danger" icon="el-icon-delete" circle size="mini" :disabled="addPreProcessorDataList.length==1"></el-button>
+                                    </el-col>
+                                </el-row>
+                              </el-form-item> 
+                        </el-tab-pane> 
+                        <el-tab-pane label="ExecuteRely">
+                                <el-input v-model="addPreProcessorExecuteRelyValue" placeholder="value" size='mini'></el-input>
+                        </el-tab-pane> 
+                      </el-tabs>
+                </el-form-item>
+          </el-collapse-item>
+          <el-collapse-item title="基本信息">
           <el-form-item label="*名称" label-width="100px">
             <el-input v-model="dataInfo.suiteName" size='mini'></el-input>
           </el-form-item>
@@ -168,6 +233,19 @@
           <el-form-item label="创建人" label-width="100px">
             <el-input v-model="dataInfo.creator" size='mini' disabled></el-input>
           </el-form-item>
+        </el-collapse-item>
+
+          <el-collapse-item title="后置处理器">
+                <el-form-item>
+                      <el-tabs>
+                        <el-tab-pane label="ExecuteRely">
+                                <el-input v-model="addPostProcessorExecuteRelyValue" placeholder="value" size='mini'></el-input>
+                        </el-tab-pane> 
+                      </el-tabs>
+                </el-form-item>
+          </el-collapse-item>
+
+        </el-collapse>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="editDialogFormVisible = false" size="mini">取 消</el-button>
@@ -181,7 +259,7 @@
           <el-collapse-item title="前置处理器">
                 <el-form-item>
                       <el-tabs>
-                        <el-tab-pane label="Headers">
+                        <el-tab-pane label="GlobalHeaders">
                               <el-form-item
                                   v-for="(preProcessorHeaders, index) in addPreProcessorHeadersList"
                                   :index="index"
@@ -199,7 +277,7 @@
                                 </el-row>
                               </el-form-item> 
                         </el-tab-pane> 
-                        <el-tab-pane label="Params">
+                        <el-tab-pane label="GlobalParams">
                               <el-form-item
                                   v-for="(preProcessorParams, index) in addPreProcessorParamsList"
                                   :index="index"
@@ -217,7 +295,7 @@
                                 </el-row>
                               </el-form-item> 
                         </el-tab-pane> 
-                        <el-tab-pane label="Data">
+                        <el-tab-pane label="GlobalData">
                               <el-form-item
                                   v-for="(preProcessorData, index) in addPreProcessorDataList"
                                   :index="index"
@@ -279,6 +357,17 @@
             <el-input v-model="dataAdd.creator" size='mini' disabled></el-input>
           </el-form-item>
           </el-collapse-item>
+
+          <el-collapse-item title="后置处理器">
+                <el-form-item>
+                      <el-tabs>
+                        <el-tab-pane label="ExecuteRely">
+                                <el-input v-model="addPostProcessorExecuteRelyValue" placeholder="value" size='mini'></el-input>
+                        </el-tab-pane> 
+                      </el-tabs>
+                </el-form-item>
+          </el-collapse-item>
+
         </el-collapse>  
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -353,6 +442,8 @@ export default {
       addPreProcessorParamsList:[],
       addPreProcessorDataList:[],
       addPreProcessorExecuteRelyValue:null,
+
+      addPostProcessorExecuteRelyValue:null,
     };
   },
   components: {
@@ -412,54 +503,74 @@ export default {
       }
     },
     async handleAdd() {
-        let suiteProcessors = []
+        // 前置处理器
+        let preSuiteProcessors = []
         // 添加headers
-        let headers = {}
+        let preHeaders = {}
         this.addPreProcessorHeadersList.forEach(element => {
-          headers[element.name] = headers[element.value]
+          if (element.name != null || element.name == '') {
+            preHeaders[element.name] = element.value
+          }
         });
         // 添加params
-        let params = {}
+        let preParams = {}
         this.addPreProcessorParamsList.forEach(element => {
-          params[element.name] = params[element.value]
+          if (element.name != null || element.name == '') {
+            preParams[element.name] = element.value
+          }
         });
         // 添加data
-        let data = {}
+        let preData = {}
         this.addPreProcessorDataList.forEach(element => {
-          data[element.name] = data[element.value]
+          if (element.name != null || element.name == '') {
+            preData[element.name] = element.value
+          }
         });
-        let headersStr = JSON.stringify(headers)
-        let paramsStr = JSON.stringify(params)
-        let dataStr = JSON.stringify(data)
-        console.log(headersStr)
-        if (headersStr != '{}') {
-          suiteProcessors.push({
+        let preHeadersStr = JSON.stringify(preHeaders)
+        let preParamsStr = JSON.stringify(preParams)
+        let preDataStr = JSON.stringify(preData)
+        if (preHeadersStr != '{}') {
+          preSuiteProcessors.push({
             "processorType":0,
             "type":1,
-            "value": headersStr
+            "value": preHeadersStr
           })
         }
-        if (paramsStr != '{}') {
-          suiteProcessors.push({
+        if (preParamsStr != '{}') {
+          preSuiteProcessors.push({
             "processorType":0,
             "type":2,
-            "value": paramsStr
+            "value": preParamsStr
           })
         }
-        if (dataStr != '{}') {
-          suiteProcessors.push({
+        if (preDataStr != '{}') {
+          preSuiteProcessors.push({
             "processorType":0,
             "type":3,
-            "value": dataStr
+            "value": preDataStr
           })
         }
-        // 添加rely
-        suiteProcessors.push({
-          "processorType":0,
-          "type":0,
-          "value": this.addPreProcessorExecuteRelyValue
-        })
-        this.dataAdd.suiteProcessors = suiteProcessors
+        if (this.addPreProcessorExecuteRelyValue != null) {
+          // 添加rely
+          preSuiteProcessors.push({
+            "processorType":0,
+            "type":0,
+            "value": this.addPreProcessorExecuteRelyValue
+          })
+        }
+        
+        // 后置处理器
+        let postSuiteProcessors = []
+        if (this.addPostProcessorExecuteRelyValue != null) {
+          // 添加rely
+          postSuiteProcessors.push({
+            "processorType":1,
+            "type":0,
+            "value": this.addPostProcessorExecuteRelyValue
+          })
+        }
+        let arr = preSuiteProcessors.concat(postSuiteProcessors)
+        this.dataAdd.suiteProcessors = arr
 
         const res = await saveInterfaceCaseSuite(this.dataAdd);
         if (res.code == 200) {
@@ -480,9 +591,78 @@ export default {
     },
 
     async handleEdit(suiteId) {
+      this.addPreProcessorHeadersList = []
+      this.addPreProcessorParamsList = []
+      this.addPreProcessorDataList = []
+      this.addPreProcessorExecuteRelyValue = null
       const res = await findInterfaceCaseSuiteById(suiteId);
       if (res.code == 200) {
-        this.dataInfo = res.data;
+        this.dataInfo.createdTime = res.data.createdTime;
+        this.dataInfo.creator = res.data.creator;
+        this.dataInfo.desc = res.data.desc;
+        this.dataInfo.executeType = res.data.executeType;
+        this.dataInfo.isRetry = res.data.isRetry;
+        this.dataInfo.runDev = res.data.runDev;
+        this.dataInfo.suiteId = res.data.suiteId;
+        this.dataInfo.suiteName = res.data.suiteName;
+        this.dataInfo.updateTime = res.data.updateTime;
+        let suiteProcessors = res.data.suiteProcessors;
+        suiteProcessors.forEach(element => {
+          let processorType = element.processorType
+          let type = element.type
+          let value = element.value
+          if (processorType == 0) {
+            if (type == 0) {
+              this.addPreProcessorExecuteRelyValue = element.value
+            } else if (type == 1) {
+              let headers = JSON.parse(value)
+              for(let name in headers) {
+                this.addPreProcessorHeadersList.push({
+                  "name":name,
+                  "value":headers[name]
+                })
+              }
+            } else if (type == 2) {
+              let params = JSON.parse(value)
+              for(let name in params) {
+                this.addPreProcessorParamsList.push({
+                  "name":name,
+                  "value":params[name]
+                })
+              }
+            } else if (type == 3) {
+              let data = JSON.parse(value)
+              for(let name in data) {
+                this.addPreProcessorDataList.push({
+                  "name":name,
+                  "value":data[name]
+                })
+              }
+            }
+          } else if (processorType == 1) {
+            if (type == 0) {
+              this.addPostProcessorExecuteRelyValue = element.value
+            }
+          }
+        });
+        this.addPreProcessorHeadersList.push(
+          {
+            "name": null,
+            "value": null
+          },
+        )
+        this.addPreProcessorParamsList.push(
+          {
+            "name": null,
+            "value": null
+          },
+        )
+        this.addPreProcessorDataList.push(
+          {
+            "name": null,
+            "value": null
+          },
+        )
         this.editDialogFormVisible = true;
       } else {
         this.$message({
@@ -548,6 +728,74 @@ export default {
       })
     },
     async updateSuite() {
+      // 前置处理器
+      let preSuiteProcessors = []
+      // 添加headers
+      let preHeaders = {}
+      this.addPreProcessorHeadersList.forEach(element => {
+        if (element.name != null || element.name == '') {
+          preHeaders[element.name] = element.value
+        }
+      });
+      // 添加params
+      let preParams = {}
+      this.addPreProcessorParamsList.forEach(element => {
+        if (element.name != null || element.name == '') {
+          preParams[element.name] = element.value
+        }
+      });
+      // 添加data
+      let preData = {}
+      this.addPreProcessorDataList.forEach(element => {
+        if (element.name != null || element.name == '') {
+          preData[element.name] = element.value
+        }
+      });
+      let preHeadersStr = JSON.stringify(preHeaders)
+      let preParamsStr = JSON.stringify(preParams)
+      let preDataStr = JSON.stringify(preData)
+      if (preHeadersStr != '{}') {
+        preSuiteProcessors.push({
+          "processorType":0,
+          "type":1,
+          "value": preHeadersStr
+        })
+      }
+      if (preParamsStr != '{}') {
+        preSuiteProcessors.push({
+          "processorType":0,
+          "type":2,
+          "value": preParamsStr
+        })
+      }
+      if (preDataStr != '{}') {
+        preSuiteProcessors.push({
+          "processorType":0,
+          "type":3,
+          "value": preDataStr
+        })
+      }
+      if (this.addPreProcessorExecuteRelyValue != null) {
+        // 添加rely
+        preSuiteProcessors.push({
+          "processorType":0,
+          "type":0,
+          "value": this.addPreProcessorExecuteRelyValue
+        })
+      }
+      
+      // 后置处理器
+      let postSuiteProcessors = []
+      if (this.addPostProcessorExecuteRelyValue != null) {
+        // 添加rely
+        postSuiteProcessors.push({
+          "processorType":1,
+          "type":0,
+          "value": this.addPostProcessorExecuteRelyValue
+        })
+      }
+      let arr = preSuiteProcessors.concat(postSuiteProcessors)
+      this.dataInfo.suiteProcessors = arr
       const res = await modifyInterfaceCaseSuite(this.dataInfo);
       if (res.code == 200) {
         this.editDialogFormVisible = false;
@@ -600,6 +848,8 @@ export default {
         },
       ]
       this.addPreProcessorExecuteRelyValue = null
+
+      this.addPostProcessorExecuteRelyValue = null
     },
     async resetForm() {
       this.queryForm = {}
@@ -660,16 +910,35 @@ export default {
       }
     },
     addPreProcessorParamsItem(item) {
-      this.addPreProcessorParamsList.push({
-        "name":null,
-        "value":null,
-      })
+      var index = this.addPreProcessorParamsList.indexOf(item)
+      if (index == this.addPreProcessorParamsList.length - 1) {
+        this.addPreProcessorParamsList.push({
+          "name":null,
+          "value":null,
+        })
+      }
     },
     addPreProcessorDataItem(item) {
-      this.addPreProcessorDataList.push({
-        "name":null,
-        "value":null,
-      })
+      var index = this.addPreProcessorDataList.indexOf(item)
+      if (index == this.addPreProcessorDataList.length - 1) {
+        this.addPreProcessorDataList.push({
+          "name":null,
+          "value":null,
+        })
+      }
+    },
+
+    removePostProcessorHeadersItem(item) {
+      var index = this.addPostProcessorHeadersList.indexOf(item)
+      this.addPostProcessorHeadersList.splice(index, 1)
+    },
+    removePostProcessorParamsItem(item) {
+      var index = this.addPostProcessorParamsList.indexOf(item)
+      this.addPostProcessorParamsList.splice(index, 1)
+    },
+    removePostProcessorDataItem(item) {
+      var index = this.addPostProcessorHeadersList.indexOf(item)
+      this.addPostProcessorDataList.splice(index, 1)
     },
   }
 }

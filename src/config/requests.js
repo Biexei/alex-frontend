@@ -30,7 +30,6 @@ export default class HttpRequest {
       }
     }
     if (json == true) {
-      console.log("json")
       config = {
         headers: {
           'content-type': 'application/json;charset=utf-8'
