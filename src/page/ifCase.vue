@@ -355,7 +355,7 @@
                         <el-input v-model="preProcessorItem.defaultValue" placeholder="默认值"  size="mini" v-if="preProcessorItem.haveDefaultValue==0"></el-input>
                     </el-col> 
                     <el-col :span="2">
-                        <el-button @click.prevent="removePostProcessor(preProcessorItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                        <el-button @click.prevent="removePreProcessor(preProcessorItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
                     </el-col>
                 </el-row> 
                 </el-form-item>
@@ -688,7 +688,7 @@
                         <el-input v-model="preProcessorItem.defaultValue" placeholder="默认值"  size="mini" v-if="preProcessorItem.haveDefaultValue==0"></el-input>
                     </el-col> 
                     <el-col :span="2">
-                        <el-button @click.prevent="removePostProcessor(preProcessorItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                        <el-button @click.prevent="removePreProcessor(preProcessorItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
                     </el-col>
                 </el-row> 
                 </el-form-item>

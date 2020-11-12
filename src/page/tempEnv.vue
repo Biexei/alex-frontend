@@ -9,7 +9,7 @@
         <el-form-item>
           <el-button type="primary" size="mini" @click="findAllTempValue(queryForm)">查询</el-button>
           <el-button type="primary" size="mini" @click="resetForm">重置</el-button>
-          <el-button type="primary" size="mini" @click="handleDeleteAll">清空</el-button>
+          <el-button type="danger" size="mini" @click="handleDeleteAll">清空</el-button>
         </el-form-item>
       </el-form>
     </div>

@@ -136,7 +136,7 @@
           <el-collapse-item title="前置处理器">
                 <el-form-item>
                       <el-tabs>
-                        <el-tab-pane label="GlobalHeaders">
+                        <el-tab-pane label="Global Headers">
                               <el-form-item
                                   v-for="(preProcessorHeaders, index) in addPreProcessorHeadersList"
                                   :index="index"
@@ -154,7 +154,7 @@
                                 </el-row>
                               </el-form-item> 
                         </el-tab-pane> 
-                        <el-tab-pane label="GlobalParams">
+                        <el-tab-pane label="Global Params">
                               <el-form-item
                                   v-for="(preProcessorParams, index) in addPreProcessorParamsList"
                                   :index="index"
@@ -172,7 +172,7 @@
                                 </el-row>
                               </el-form-item> 
                         </el-tab-pane> 
-                        <el-tab-pane label="GlobalData">
+                        <el-tab-pane label="Global Data">
                               <el-form-item
                                   v-for="(preProcessorData, index) in addPreProcessorDataList"
                                   :index="index"
@@ -190,7 +190,7 @@
                                 </el-row>
                               </el-form-item> 
                         </el-tab-pane> 
-                        <el-tab-pane label="ExecuteRely">
+                        <el-tab-pane label="Execute Rely">
                                 <el-input v-model="addPreProcessorExecuteRelyValue" placeholder="value" size='mini'></el-input>
                         </el-tab-pane> 
                       </el-tabs>
@@ -238,7 +238,7 @@
           <el-collapse-item title="后置处理器">
                 <el-form-item>
                       <el-tabs>
-                        <el-tab-pane label="ExecuteRely">
+                        <el-tab-pane label="Execute Rely">
                                 <el-input v-model="addPostProcessorExecuteRelyValue" placeholder="value" size='mini'></el-input>
                         </el-tab-pane> 
                       </el-tabs>
@@ -259,7 +259,7 @@
           <el-collapse-item title="前置处理器">
                 <el-form-item>
                       <el-tabs>
-                        <el-tab-pane label="GlobalHeaders">
+                        <el-tab-pane label="Global Headers">
                               <el-form-item
                                   v-for="(preProcessorHeaders, index) in addPreProcessorHeadersList"
                                   :index="index"
@@ -277,7 +277,7 @@
                                 </el-row>
                               </el-form-item> 
                         </el-tab-pane> 
-                        <el-tab-pane label="GlobalParams">
+                        <el-tab-pane label="Global Params">
                               <el-form-item
                                   v-for="(preProcessorParams, index) in addPreProcessorParamsList"
                                   :index="index"
@@ -295,7 +295,7 @@
                                 </el-row>
                               </el-form-item> 
                         </el-tab-pane> 
-                        <el-tab-pane label="GlobalData">
+                        <el-tab-pane label="Global Data">
                               <el-form-item
                                   v-for="(preProcessorData, index) in addPreProcessorDataList"
                                   :index="index"
@@ -313,7 +313,7 @@
                                 </el-row>
                               </el-form-item> 
                         </el-tab-pane> 
-                        <el-tab-pane label="ExecuteRely">
+                        <el-tab-pane label="Execute Rely">
                                 <el-input v-model="addPreProcessorExecuteRelyValue" placeholder="value" size='mini'></el-input>
                         </el-tab-pane> 
                       </el-tabs>
@@ -361,7 +361,7 @@
           <el-collapse-item title="后置处理器">
                 <el-form-item>
                       <el-tabs>
-                        <el-tab-pane label="ExecuteRely">
+                        <el-tab-pane label="Execute Rely">
                                 <el-input v-model="addPostProcessorExecuteRelyValue" placeholder="value" size='mini'></el-input>
                         </el-tab-pane> 
                       </el-tabs>
