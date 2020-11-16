@@ -73,7 +73,6 @@
             <el-tag
               effect="dark"
               size="small"
-              :type="scope.row.isRetry"
               disable-transitions>{{scope.row.isRetryType}}
             </el-tag>
           </template>
@@ -196,6 +195,7 @@
                       </el-tabs>
                 </el-form-item>
           </el-collapse-item>
+
           <el-collapse-item title="基本信息">
           <el-form-item label="*名称" label-width="100px">
             <el-input v-model="dataInfo.suiteName" size='mini'></el-input>
@@ -233,7 +233,7 @@
           <el-form-item label="创建人" label-width="100px">
             <el-input v-model="dataInfo.creator" size='mini' disabled></el-input>
           </el-form-item>
-        </el-collapse-item>
+          </el-collapse-item>
 
           <el-collapse-item title="后置处理器">
                 <el-form-item>
@@ -319,6 +319,7 @@
                       </el-tabs>
                 </el-form-item>
           </el-collapse-item>
+
           <el-collapse-item title="基本信息">
           <el-form-item label="*名称" label-width="100px">
             <el-input v-model="dataAdd.suiteName" size='mini'></el-input>
