@@ -595,6 +595,9 @@ export default {
       this.addPreProcessorParamsList = []
       this.addPreProcessorDataList = []
       this.addPreProcessorExecuteRelyValue = null
+
+      this.addPostProcessorExecuteRelyValue = null
+
       const res = await findInterfaceCaseSuiteById(suiteId);
       if (res.code == 200) {
         this.dataInfo.createdTime = res.data.createdTime;
