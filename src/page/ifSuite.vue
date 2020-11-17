@@ -131,10 +131,14 @@
 
       <el-dialog title="编辑" :visible.sync="editDialogFormVisible" :close-on-click-modal=false>
         <el-form :model="dataInfo">
+          
         <el-collapse>
           <el-collapse-item title="前置处理器">
                 <el-form-item>
                       <el-tabs>
+                        <el-tab-pane label="Execute Rely">
+                                <el-input v-model="addPreProcessorExecuteRelyValue" placeholder="value" size='mini'></el-input>
+                        </el-tab-pane> 
                         <el-tab-pane label="Global Headers">
                               <el-form-item
                                   v-for="(preProcessorHeaders, index) in addPreProcessorHeadersList"
@@ -188,9 +192,6 @@
                                     </el-col>
                                 </el-row>
                               </el-form-item> 
-                        </el-tab-pane> 
-                        <el-tab-pane label="Execute Rely">
-                                <el-input v-model="addPreProcessorExecuteRelyValue" placeholder="value" size='mini'></el-input>
                         </el-tab-pane> 
                       </el-tabs>
                 </el-form-item>
@@ -259,6 +260,9 @@
           <el-collapse-item title="前置处理器">
                 <el-form-item>
                       <el-tabs>
+                        <el-tab-pane label="Execute Rely">
+                                <el-input v-model="addPreProcessorExecuteRelyValue" placeholder="value" size='mini'></el-input>
+                        </el-tab-pane> 
                         <el-tab-pane label="Global Headers">
                               <el-form-item
                                   v-for="(preProcessorHeaders, index) in addPreProcessorHeadersList"
@@ -312,9 +316,6 @@
                                     </el-col>
                                 </el-row>
                               </el-form-item> 
-                        </el-tab-pane> 
-                        <el-tab-pane label="Execute Rely">
-                                <el-input v-model="addPreProcessorExecuteRelyValue" placeholder="value" size='mini'></el-input>
                         </el-tab-pane> 
                       </el-tabs>
                 </el-form-item>
@@ -391,7 +392,16 @@ export default {
       pageSize: 10,
       pageNum: 1,
       dataList: [],
-      dataInfo: {},
+      dataInfo: {
+        creator:'',
+        desc:'',
+        executeType:null,
+        isRetry:null,
+        runDev:null,
+        suiteId:null,
+        suiteName:'',
+        suiteProcessors:[]
+      },
       dataAdd:{},
       editDialogFormVisible: false,
       addDialogFormVisible: false,
@@ -601,7 +611,6 @@ export default {
 
       const res = await findInterfaceCaseSuiteById(suiteId);
       if (res.code == 200) {
-        this.dataInfo.createdTime = res.data.createdTime;
         this.dataInfo.creator = res.data.creator;
         this.dataInfo.desc = res.data.desc;
         this.dataInfo.executeType = res.data.executeType;
@@ -609,7 +618,6 @@ export default {
         this.dataInfo.runDev = res.data.runDev;
         this.dataInfo.suiteId = res.data.suiteId;
         this.dataInfo.suiteName = res.data.suiteName;
-        this.dataInfo.updateTime = res.data.updateTime;
         let suiteProcessors = res.data.suiteProcessors;
         suiteProcessors.forEach(element => {
           let processorType = element.processorType
@@ -901,7 +909,7 @@ export default {
       this.addPreProcessorParamsList.splice(index, 1)
     },
     removePreProcessorDataItem(item) {
-      var index = this.addPreProcessorHeadersList.indexOf(item)
+      var index = this.addPreProcessorDataList.indexOf(item)
       this.addPreProcessorDataList.splice(index, 1)
     },
     addPreProcessorHeadersItem(item) {
@@ -941,7 +949,7 @@ export default {
       this.addPostProcessorParamsList.splice(index, 1)
     },
     removePostProcessorDataItem(item) {
-      var index = this.addPostProcessorHeadersList.indexOf(item)
+      var index = this.addPostProcessorDataList.indexOf(item)
       this.addPostProcessorDataList.splice(index, 1)
     },
   }

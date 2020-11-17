@@ -330,6 +330,11 @@ export const findAllSuiteCase = data => HttpRequest.get('/interface/suite/case/a
 export const executeSuiteCase = suiteId => HttpRequest.get('/interface/suite/execute/' + suiteId)
 
 /**
+ * 执行测试套件中某一个用例
+ */
+export const executeCaseInSuite = data => HttpRequest.get('/interface/suite/execute-case', data)
+
+/**
  * 复制测试套件
  */
 export const copyInterfaceCaseSuiteById = suiteId => HttpRequest.get('/interface/suite/copy/' + suiteId)

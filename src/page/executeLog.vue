@@ -57,15 +57,13 @@
       <el-table :data="dataList" stripe highlight-current-row style="width: 100%">
         <el-table-column type="expand">
         <template slot-scope="props">
-            <el-form label-position="left" inline class="demo-table-expand">
-            <el-form-item label="执行日期">
-              <el-input  :value="props.row.createdTime" readonly size="mini"></el-input>
-            </el-form-item>
-            <br/>
-            <el-form-item label="执行编号">
-              <el-input  :value="props.row.suiteLogNo" readonly size="mini"></el-input>
-            </el-form-item>
-            </el-form>
+            <el-row>
+              <el-col :span="18">
+                <el-input :value="props.row.responseBody" readonly size="mini" type="textarea" :autosize="{ minRows: 3, maxRows: 20 }"></el-input>
+              </el-col>
+              <el-col :span="6">
+              </el-col>
+            </el-row>
         </template>
         </el-table-column>
         <el-table-column property="id" label="编号" min-width="7%"></el-table-column>
@@ -717,6 +715,15 @@ export default {
     showRawRequestJson() {
       this.isShowRawRequestJson = ! this.isShowRawRequestJson
     },
+    isJsonString(str) {
+        try {
+            if (typeof JSON.parse(str) == "object") {
+                return true;
+            }
+        } catch(e) {
+        }
+        return false;
+    }
   }
 };
 </script>
