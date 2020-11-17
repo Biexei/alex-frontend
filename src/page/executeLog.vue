@@ -166,76 +166,76 @@
             <el-input v-model="dataInfo.caseUrl" readonly size="mini"></el-input>
           </el-form-item>          
           <el-row :gutter="25">
-            <el-col :span="21">
+            <el-col :span="20">
             <el-form-item label="headers" label-width="100px">
               <el-input v-model="dataInfo.requestHeaders" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isReqHeadersBeauty"></el-input>
               <json-viewer :value="dataInfo.requestHeaders" :expand-depth=5 copyable v-show="isReqHeadersBeauty"/>
             </el-form-item>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="4">
               <el-button @click="showRawRequestHeaders" type="primary" icon="el-icon-thumb" size="mini" circle></el-button>
               <el-button @click="clickReqHeaders" type="danger" icon="el-icon-magic-stick" size="mini" circle></el-button>
             </el-col>
           </el-row>  
           <el-row :gutter="25" v-if=isShowRawRequestHeaders>
-            <el-col :span="21">
+            <el-col :span="20">
             <el-form-item label="rawHeaders" label-width="100px">
               <el-input v-model="dataInfo.rawRequestHeaders" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
             </el-form-item>
             </el-col>
           </el-row> 
           <el-row :gutter="25">
-            <el-col :span="21">
+            <el-col :span="20">
             <el-form-item label="params" label-width="100px">
               <el-input v-model="dataInfo.requestParams" readonly  type="textarea" size="mini" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isReqParamsBeauty"></el-input>
               <json-viewer :value="dataInfo.requestParams" :expand-depth=5 copyable v-show="isReqParamsBeauty"/>
             </el-form-item>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="4">
               <el-button @click="showRawRequestParams" type="primary" icon="el-icon-thumb" size="mini" circle></el-button>
               <el-button @click="clickReqParams" type="danger" icon="el-icon-magic-stick" size="mini" circle></el-button>
             </el-col>
           </el-row>  
           <el-row :gutter="25" v-if=isShowRawRequestParams>
-            <el-col :span="21">
+            <el-col :span="20">
             <el-form-item label="rawParams" label-width="100px">
               <el-input v-model="dataInfo.rawRequestParams" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
             </el-form-item>
             </el-col>
           </el-row> 
           <el-row :gutter="25">
-            <el-col :span="21">
+            <el-col :span="20">
             <el-form-item label="data" label-width="100px">
               <el-input v-model="dataInfo.requestData" readonly  type="textarea" size="mini" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isReqDataBeauty"></el-input>
               <json-viewer :value="dataInfo.requestData" :expand-depth=5 copyable v-show="isReqDataBeauty"/>
             </el-form-item>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="4">
               <el-button @click="showRawRequestData" type="primary" icon="el-icon-thumb" size="mini" circle></el-button>
               <el-button @click="clickReqData" type="danger" icon="el-icon-magic-stick" size="mini" circle></el-button>
             </el-col>
           </el-row>  
           <el-row :gutter="25" v-if=isShowRawRequestData>
-            <el-col :span="21">
+            <el-col :span="20">
             <el-form-item label="rawData" label-width="100px">
               <el-input v-model="dataInfo.rawRequestData" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
             </el-form-item>
             </el-col>
           </el-row> 
           <el-row :gutter="25">
-            <el-col :span="21">
+            <el-col :span="20">
             <el-form-item label="json" label-width="100px">
               <el-input v-model="dataInfo.requestJson" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isReqJsonBeauty"></el-input>
               <json-viewer :value="dataInfo.requestJson" :expand-depth=5 copyable v-show="isReqJsonBeauty"/>
             </el-form-item>
             </el-col>
-            <el-col :span="3">
+            <el-col :span="4">
               <el-button @click="showRawRequestJson" type="primary" icon="el-icon-thumb" size="mini" circle></el-button>
               <el-button @click="clickReqJson" type="danger" icon="el-icon-magic-stick" size="mini" circle></el-button>
             </el-col>
           </el-row>  
           <el-row :gutter="25" v-if=isShowRawRequestJson>
-            <el-col :span="21">
+            <el-col :span="20">
             <el-form-item label="rawJson" label-width="100px">
               <el-input v-model="dataInfo.rawRequestJson" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
             </el-form-item>
