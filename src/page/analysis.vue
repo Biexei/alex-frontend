@@ -2,8 +2,30 @@
   <div class="fillcontain">
     <head-top></head-top>  
       <el-row>
-        <el-col :span="12"><div><ve-pie :data="totalCount"></ve-pie></div></el-col>
-        <el-col :span="12"><div><ve-line :data="weekCaseAssert"></ve-line></div></el-col>
+        <!-- <el-col :span="12"><div><ve-ring :data="totalCount" :settings="chartSettings"></ve-ring></div></el-col> -->
+        <el-col :span="12">
+          <div class="grid-content bg-purple"  style="font-size: 14px;">
+          <div>
+            <div class="title_position">Total</div>
+            <div class="graph">
+              <ve-ring :data="totalCount" :settings="chartSettings" :extend="chartTestExtend" height="235px"></ve-ring>
+            </div>
+            <div class="title_position">
+              <span>
+                <span style="font-weight:bold;">{{totalCount.rows[0].total}}</span> 用户
+              </span>
+            </div>
+            <div class="title_position">
+              <span>
+                <span style="font-weight:bold;">{{totalCount.rows[3].total}}</span> 套件
+                <span style="font-weight:bold;">{{totalCount.rows[1].total}}</span> 用例
+                <span style="font-weight:bold;">{{totalCount.rows[2].total}}</span> 断言
+              </span>
+            </div>
+          </div>
+          </div>
+        </el-col>
+        <el-col :span="12"><div><ve-line :data="weekCaseAssert" ></ve-line></div></el-col>
       </el-row> 
       <el-row>
         <el-col :span="12"><div><ve-histogram :data="weekExecuteLog" :extend="histogramExtend"></ve-histogram></div></el-col>
@@ -26,8 +48,13 @@ export default {
   data() {
     return {
         totalCount: {
-          columns: ['类型', '总数'],
-          rows: [],
+          columns: ['type', 'total'],
+          rows: [
+            {type:"",total:0},
+            {type:"",total:0},
+            {type:"",total:0},
+            {type:"",total:0},
+          ],
         },
         weekRegister: {
           columns: ['日期', '新增用户'],
@@ -60,6 +87,20 @@ export default {
         histogramExtend: {        
           color: ['#67C23A', '#E6A23C', '#F56C6C']
         },   
+        chartSettings: {
+          radius: ["50px", "35px"],
+          label: {
+            normal: {
+              show: false,
+              position: "inside"
+            }
+          },
+        },
+        chartTestExtend: {        
+          series: {
+            center: ['50%', '60%'],
+          },
+        },
     }
 
   },
@@ -131,4 +172,8 @@ export default {
   justify-content: flex-start;
   margin-top: 8px;
 }
+  .title_position{
+    padding-left: 15px;
+    padding-top: 15px;
+  }
 </style>

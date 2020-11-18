@@ -136,6 +136,9 @@
           <el-form-item label="执行人" label-width="100px">
             <el-input v-model="dataInfo.executer" readonly size='mini'></el-input>
           </el-form-item> 
+          <el-form-item label="执行时间" label-width="100px">
+            <el-input v-model="dataInfo.createdTime" readonly size='mini'></el-input>
+          </el-form-item> 
           <el-form-item label="执行编号" label-width="100px">
             <el-input v-model="dataInfo.suiteLogNo" readonly size='mini'></el-input>
           </el-form-item> 

@@ -54,11 +54,13 @@
       style="width: 100%;padding-left:20px">
         <el-table-column type="expand">
         <template slot-scope="props">
-            <el-form label-position="left" inline class="demo-table-expand">
-            <el-form-item label="执行日期">
-              <el-input  :value="props.row.createdTime" readonly size="mini"></el-input>
-            </el-form-item>
-            </el-form>
+            <el-row>
+              <el-col :span="18">
+                <el-input :value="props.row.responseBody" readonly size="mini" type="textarea" :autosize="{ minRows: 3, maxRows: 20 }"></el-input>
+              </el-col>
+              <el-col :span="6">
+              </el-col>
+            </el-row>
         </template>
         </el-table-column>
         <el-table-column property="id" label="Id" min-width="7%"></el-table-column>
@@ -139,6 +141,9 @@
           </el-form-item> 
           <el-form-item label="执行人" label-width="100px">
             <el-input v-model="dataInfo.executer" readonly size='mini'></el-input>
+          </el-form-item> 
+          <el-form-item label="执行时间" label-width="100px">
+            <el-input v-model="dataInfo.createdTime" readonly size='mini'></el-input>
           </el-form-item> 
           <el-form-item label="执行编号" label-width="100px">
             <el-input v-model="dataInfo.suiteLogNo" readonly size='mini'></el-input>

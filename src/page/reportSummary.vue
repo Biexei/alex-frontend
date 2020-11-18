@@ -176,7 +176,6 @@ export default {
 	      series: {
           center: ['50%', '60%'],
         },
-
       },
 	  }
   },

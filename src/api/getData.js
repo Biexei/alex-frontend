@@ -420,6 +420,11 @@ export const findAllEmail = () => HttpRequest.get('/setting/email/all')
 export const countAll = () => HttpRequest.get('/count')
 
 /**
+ * 统计数据，用户总数，套件总数，断言总数，用例总数
+ */
+export const countGroup = () => HttpRequest.get('/count/group')
+
+/**
  * 统计数据，统计近7天用户注册数
  */
 export const registerWeek = () => HttpRequest.get('/week/register')
