@@ -170,7 +170,7 @@
       <el-dialog title="添加" :visible.sync="addDialogFormVisible" :close-on-click-modal="false">
         <el-form :model="dataAdd" ref="dataAdd">
         <el-collapse>
-        <el-collapse-item title="基本信息">
+        <el-collapse-item title="*基本信息">
           <!-- <el-form-item label="*项目编号" label-width="100px">
             <el-input readonly v-model="dataAdd.projectId" @focus='handleProjectModuleList' size="mini" disabled></el-input>
           </el-form-item> -->
@@ -205,7 +205,7 @@
           </el-form-item>
         </el-collapse-item>
 
-        <el-collapse-item title="请求信息">
+        <el-collapse-item title="*请求信息">
           <el-row :gutter="20">
           <el-col :span="4">
             <el-select v-model="dataAdd.method" placeholder="method"  size="mini" @change="handleChangeMethod">
@@ -321,7 +321,7 @@
 
 
 
-        <el-collapse-item title="前置处理器">
+        <el-collapse-item title="请求参数提取">
                 <el-button @click.prevent="addPreProcessor" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
                 <el-form-item
                     v-for="(preProcessorItem, index) in preProcessorList"
@@ -409,7 +409,7 @@
                 </el-form-item>
           </el-collapse-item>
 
-        <el-collapse-item title="后置处理器">
+        <el-collapse-item title="响应数据缓存">
                 <el-button @click.prevent="addPostProcessor" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
                 <el-form-item
                     v-for="(postProcessorItem, index) in postProcessorList"
@@ -505,7 +505,7 @@
       <el-dialog title="编辑" :visible.sync="editDialogFormVisible" :close-on-click-modal="false">
         <el-form :model="dataInfo" ref="dataInfo">
         <el-collapse>
-        <el-collapse-item title="基本信息">
+        <el-collapse-item title="*基本信息">
           <!-- <el-form-item label="*项目编号" label-width="100px">
             <el-input readonly v-model="dataInfo.projectId" @focus='handleProjectModuleList' size="mini" disabled></el-input>
           </el-form-item> -->
@@ -539,7 +539,7 @@
           </el-form-item>
         </el-collapse-item>
 
-        <el-collapse-item title="请求信息">
+        <el-collapse-item title="*请求信息">
           <el-row :gutter="20">
           <el-col :span="4">
             <el-select v-model="dataInfo.method" placeholder="method"  size="mini" @change="handleChangeMethod">
@@ -654,7 +654,7 @@
       </el-collapse-item>
 
 
-        <el-collapse-item title="前置处理器">
+        <el-collapse-item title="请求参数提取">
                 <el-button @click.prevent="addPreProcessor" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
                 <el-form-item
                     v-for="(preProcessorItem, index) in preProcessorList"
@@ -742,7 +742,7 @@
           </el-collapse-item>
 
 
-        <el-collapse-item title="后置处理器">
+        <el-collapse-item title="响应数据缓存">
                 <el-button @click.prevent="addPostProcessor" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
                 <el-form-item
                     v-for="(postProcessorItem, index) in postProcessorList"
@@ -798,7 +798,7 @@
       <el-dialog title="复制" :visible.sync="copyDialogFormVisible" :close-on-click-modal="false">
         <el-form :model="dataInfo" ref="dataInfo">
         <el-collapse>
-        <el-collapse-item title="基本信息">
+        <el-collapse-item title="*基本信息">
           <!-- <el-form-item label="*项目编号" label-width="100px">
             <el-input readonly v-model="dataInfo.projectId" @focus='handleProjectModuleList' size="mini" disabled></el-input>
           </el-form-item> -->
@@ -833,7 +833,7 @@
           </el-form-item>
         </el-collapse-item>
 
-        <el-collapse-item title="请求信息">
+        <el-collapse-item title="*请求信息">
           <el-row :gutter="20">
           <el-col :span="4">
             <el-select v-model="dataInfo.method" placeholder="method"  size="mini" @change="handleChangeMethod">
@@ -948,7 +948,7 @@
         </el-collapse-item>
 
 
-        <el-collapse-item title="前置处理器">
+        <el-collapse-item title="请求参数提取">
                 <el-button @click.prevent="addPostProcessor" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
                 <el-form-item
                     v-for="(preProcessorItem, index) in preProcessorList"
@@ -1036,7 +1036,7 @@
           </el-collapse-item>
 
 
-        <el-collapse-item title="后置处理器">
+        <el-collapse-item title="响应数据缓存">
                 <el-button @click.prevent="addPostProcessor" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
                 <el-form-item
                     v-for="(postProcessorItem, index) in postProcessorList"
