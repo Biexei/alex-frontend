@@ -170,6 +170,38 @@
       <el-dialog title="添加" :visible.sync="addDialogFormVisible" :close-on-click-modal="false">
         <el-form :model="dataAdd" ref="dataAdd">
         <el-collapse>
+
+          <el-collapse-item title="前置用例">
+                <el-button @click.prevent="addPreCase" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
+                <el-form-item
+                    v-for="(preCaseItem, index) in preCaseList"
+                    :index="index"
+                    :key="index">
+                <el-row :gutter="20">
+                    <el-col :span="2">
+                        <el-input v-model="preCaseItem.order" placeholder="排序" size="mini"></el-input>
+                    </el-col>
+                    <el-col :span="4">
+                        <el-input v-model="preCaseItem.preCaseId" placeholder="前置用例编号" disabled size="mini"></el-input>
+                    </el-col>
+                    <el-col :span="13">
+                        <el-input v-model="preCaseItem.preCaseDesc" placeholder="前置用例描述，请点击选择" size="mini"></el-input>
+                    </el-col> 
+                    <el-col :span="3">
+                        <el-switch
+                          v-model="preCaseItem.status"
+                          :active-value=0
+                          :inactive-value=1>
+                        </el-switch>
+                    </el-col> 
+                    <el-col :span="2">
+                        <el-button @click.prevent="removePreCase(preCaseItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                    </el-col>
+                </el-row> 
+                </el-form-item>
+          </el-collapse-item>
+
+
         <el-collapse-item title="*基本信息">
           <!-- <el-form-item label="*项目编号" label-width="100px">
             <el-input readonly v-model="dataAdd.projectId" @focus='handleProjectModuleList' size="mini" disabled></el-input>
@@ -505,6 +537,38 @@
       <el-dialog title="编辑" :visible.sync="editDialogFormVisible" :close-on-click-modal="false">
         <el-form :model="dataInfo" ref="dataInfo">
         <el-collapse>
+
+          <el-collapse-item title="前置用例">
+                <el-button @click.prevent="addPreCase" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
+                <el-form-item
+                    v-for="(preCaseItem, index) in preCaseList"
+                    :index="index"
+                    :key="index">
+                <el-row :gutter="20">
+                    <el-col :span="2">
+                        <el-input v-model="preCaseItem.order" placeholder="排序" size="mini"></el-input>
+                    </el-col>
+                    <el-col :span="4">
+                        <el-input v-model="preCaseItem.preCaseId" placeholder="前置用例编号" disabled size="mini"></el-input>
+                    </el-col>
+                    <el-col :span="13">
+                        <el-input v-model="preCaseItem.preCaseDesc" placeholder="前置用例描述，请点击选择"  size="mini"></el-input>
+                    </el-col> 
+                    <el-col :span="3">
+                        <el-switch
+                          v-model="preCaseItem.status"
+                          :active-value=0
+                          :inactive-value=1>
+                        </el-switch>
+                    </el-col> 
+                    <el-col :span="2">
+                        <el-button @click.prevent="removePreCase(preCaseItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                    </el-col>
+                </el-row> 
+                </el-form-item>
+          </el-collapse-item>
+
+
         <el-collapse-item title="*基本信息">
           <!-- <el-form-item label="*项目编号" label-width="100px">
             <el-input readonly v-model="dataInfo.projectId" @focus='handleProjectModuleList' size="mini" disabled></el-input>
@@ -798,6 +862,37 @@
       <el-dialog title="复制" :visible.sync="copyDialogFormVisible" :close-on-click-modal="false">
         <el-form :model="dataInfo" ref="dataInfo">
         <el-collapse>
+
+          <el-collapse-item title="前置用例">
+                <el-button @click.prevent="addPreCase" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
+                <el-form-item
+                    v-for="(preCaseItem, index) in preCaseList"
+                    :index="index"
+                    :key="index">
+                <el-row :gutter="20">
+                    <el-col :span="2">
+                        <el-input v-model="preCaseItem.order" placeholder="排序" size="mini"></el-input>
+                    </el-col>
+                    <el-col :span="4">
+                        <el-input v-model="preCaseItem.preCaseId" placeholder="前置用例编号" disabled size="mini"></el-input>
+                    </el-col>
+                    <el-col :span="13">
+                        <el-input v-model="preCaseItem.preCaseDesc" placeholder="前置用例描述,请点击选择" size="mini"></el-input>
+                    </el-col> 
+                    <el-col :span="3">
+                        <el-switch
+                          v-model="preCaseItem.status"
+                          :active-value=0
+                          :inactive-value=1>
+                        </el-switch>
+                    </el-col> 
+                    <el-col :span="2">
+                        <el-button @click.prevent="removePreCase(preCaseItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                    </el-col>
+                </el-row> 
+                </el-form-item>
+          </el-collapse-item>
+
         <el-collapse-item title="*基本信息">
           <!-- <el-form-item label="*项目编号" label-width="100px">
             <el-input readonly v-model="dataInfo.projectId" @focus='handleProjectModuleList' size="mini" disabled></el-input>
@@ -1261,6 +1356,8 @@ export default {
         },
     ],
 
+    preCaseList: [], 
+
     dataInfo: {},
     editDialogFormVisible: false,
     copyDialogFormVisible: false,
@@ -1321,6 +1418,18 @@ export default {
         exceptedResult: '',
         order:this.assertIndex++
     });
+    },
+    addPreCase() {
+    this.preCaseList.push({
+        order: 1,
+        preCaseId: null,
+        preCaseDesc: '',
+        status: 0,
+    });
+    },
+    removePreCase(item) {
+      var index = this.preCaseList.indexOf(item)
+      this.preCaseList.splice(index, 1)
     },
     removeAssert(item) {
     var index = this.assertList.indexOf(item)
@@ -1576,6 +1685,7 @@ export default {
         } 
         // 添加断言
         this.dataAdd.asserts = this.assertList
+        this.dataAdd.preCases = this.preCaseList
         // 添加后置处理器
         this.dataAdd.postProcessors = this.preProcessorList.concat(this.postProcessorList)
         const res = await saveInterfaceCase(this.dataAdd)
@@ -1673,6 +1783,7 @@ export default {
             }
         } 
         this.dataInfo.asserts = this.assertList
+        this.dataInfo.preCases = this.preCaseList
         this.dataInfo.postProcessors = this.preProcessorList.concat(this.postProcessorList)
         const res = await modifyInterfaceCase(this.dataInfo)
         if (res.code == 200 ) {
@@ -1770,6 +1881,7 @@ export default {
             }
         } 
         this.dataInfo.asserts = this.assertList
+        this.dataInfo.preCases = this.preCaseList
         this.dataInfo.postProcessors = this.preProcessorList.concat(this.postProcessorList)
         const res = await saveInterfaceCase(this.dataInfo)
         if (res.code == 200 ) {
@@ -1922,6 +2034,7 @@ export default {
           }
         }
         this.assertList = res.data.asserts
+        this.preCaseList = res.data.preCases
         if (res.data.asserts.length != 0) {
             this.assertIndex = this.assertList[this.assertList.length-1].order + 1
         } else {
@@ -1993,6 +2106,7 @@ export default {
           }
         }
         this.assertList = res.data.asserts
+        this.preCaseList = res.data.preCases
         if (res.data.asserts.length != 0) {
             this.assertIndex = this.assertList[this.assertList.length-1].order + 1
         } else {
