@@ -177,17 +177,17 @@
                     v-for="(preCaseItem, index) in preCaseList"
                     :index="index"
                     :key="index">
-                <el-row :gutter="20">
+                <el-row :gutter="10">
                     <el-col :span="2">
                         <el-input v-model="preCaseItem.order" placeholder="排序" size="mini"></el-input>
                     </el-col>
                     <el-col :span="4">
                         <el-input v-model="preCaseItem.preCaseId" placeholder="前置用例编号" disabled size="mini"></el-input>
                     </el-col>
-                    <el-col :span="13">
-                        <el-input v-model="preCaseItem.preCaseDesc" placeholder="前置用例描述，请点击选择" size="mini"></el-input>
+                    <el-col :span="14">
+                        <el-input v-model="preCaseItem.preCaseDesc" placeholder="前置用例描述，请点击选择" @focus='handlePreCaseList(index)' size="mini"></el-input>
                     </el-col> 
-                    <el-col :span="3">
+                    <el-col :span="2">
                         <el-switch
                           v-model="preCaseItem.status"
                           :active-value=0
@@ -544,17 +544,17 @@
                     v-for="(preCaseItem, index) in preCaseList"
                     :index="index"
                     :key="index">
-                <el-row :gutter="20">
+                <el-row :gutter="10">
                     <el-col :span="2">
                         <el-input v-model="preCaseItem.order" placeholder="排序" size="mini"></el-input>
                     </el-col>
                     <el-col :span="4">
                         <el-input v-model="preCaseItem.preCaseId" placeholder="前置用例编号" disabled size="mini"></el-input>
                     </el-col>
-                    <el-col :span="13">
-                        <el-input v-model="preCaseItem.preCaseDesc" placeholder="前置用例描述，请点击选择"  size="mini"></el-input>
+                    <el-col :span="14">
+                        <el-input v-model="preCaseItem.preCaseDesc" placeholder="前置用例描述，请点击选择" @focus='handlePreCaseList(index)'  size="mini"></el-input>
                     </el-col> 
-                    <el-col :span="3">
+                    <el-col :span="2">
                         <el-switch
                           v-model="preCaseItem.status"
                           :active-value=0
@@ -856,6 +856,48 @@
       </el-dialog>
 
 
+      <el-dialog title="选择前置用例" :visible.sync="selectPreCaseDialogFormVisible" append-to-body>
+        <el-form :inline="true" :model="preCaseQuery" class="demo-form-inline" ref="queryForm">
+          <el-form-item label="项目名称">
+            <el-input v-model="preCaseQuery.projectName" placeholder="项目名称" size="mini"></el-input>
+          </el-form-item>
+          <el-form-item label="模块名称">
+            <el-input v-model="preCaseQuery.moduleName" placeholder="项目名称" size="mini"></el-input>
+          </el-form-item>
+          <el-form-item label="用例名称">
+            <el-input v-model="preCaseQuery.desc" placeholder="用例名称" size="mini"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" icon="el-icon-search" circle @click="selectPreCase" size="mini"></el-button>
+            <el-button type="primary" icon="el-icon-refresh" circle @click="resetPreCaseQuery" size="mini"></el-button>
+          </el-form-item>
+        </el-form>
+        <el-table 
+        :data="preCaseTable" 
+        stripe 
+        highlight-current-row 
+        @row-click="handleSelectPreCase"
+        style="width: 100%">
+          <el-table-column property="caseId" label="用例编号" min-width="10%" show-overflow-tooltip></el-table-column>
+          <el-table-column property="projectName" label="项目名称" min-width="20%" show-overflow-tooltip></el-table-column>
+          <el-table-column property="moduleName" label="模块名称" min-width="20%" show-overflow-tooltip></el-table-column>
+          <el-table-column property="desc" label="用例名称" min-width="25%" show-overflow-tooltip></el-table-column>
+          <el-table-column property="url" label="URL" min-width="25%" show-overflow-tooltip></el-table-column>
+        </el-table>
+        <div class="pagination" style="text-align: left;margin-top: 10px;">
+          <el-pagination
+            @size-change="handlePreCaseSizeChange"
+            @current-change="handlePreCaseCurrentChange"
+            :current-page="preCasePageNum"
+            :page-sizes="[5, 10, 20]"
+            :page-size="preCasePageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="preCasePageTotal"
+          ></el-pagination>
+        </div>
+      </el-dialog>
+
+
 
 
 <!-- 222222222222222222222222222 -->
@@ -869,17 +911,17 @@
                     v-for="(preCaseItem, index) in preCaseList"
                     :index="index"
                     :key="index">
-                <el-row :gutter="20">
+                <el-row :gutter="10">
                     <el-col :span="2">
                         <el-input v-model="preCaseItem.order" placeholder="排序" size="mini"></el-input>
                     </el-col>
                     <el-col :span="4">
                         <el-input v-model="preCaseItem.preCaseId" placeholder="前置用例编号" disabled size="mini"></el-input>
                     </el-col>
-                    <el-col :span="13">
-                        <el-input v-model="preCaseItem.preCaseDesc" placeholder="前置用例描述,请点击选择" size="mini"></el-input>
+                    <el-col :span="14">
+                        <el-input v-model="preCaseItem.preCaseDesc" placeholder="前置用例描述,请点击选择" @focus='handlePreCaseList(index)' size="mini"></el-input>
                     </el-col> 
-                    <el-col :span="3">
+                    <el-col :span="2">
                         <el-switch
                           v-model="preCaseItem.status"
                           :active-value=0
@@ -1231,13 +1273,23 @@ export default {
         },
       ],
       dataAdd: {},
+      addDialogFormVisible: false,
+
       projectModuleQuery: {},
       projectModuleTable: [],
       projectModulePageSize: 5,
       projectModulePageNum: 1,
       projectModulePageTotal: 0,
       selectProjectModuleDialogFormVisible: false,
-      addDialogFormVisible: false,
+
+      preCaseQuery: {},
+      preCaseTable: [],
+      preCasePageSize: 5,
+      preCasePageNum: 1,
+      preCasePageTotal: 0,
+      selectPreCaseDialogFormVisible: false,
+      // 用来确定选择前置用例后填充至哪个数组
+      preCaseIndex:null,
 
       headerMerge:false,
       paramsMerge:false,
@@ -1989,6 +2041,8 @@ export default {
       this.preProcessorList = []
       // 初始化后置处理器
       this.postProcessorList = []
+      // 初始化前置用例列表
+      this.preCaseList = []
     },
     async openEdit(row) {
       let caseId = row.caseId
@@ -2132,14 +2186,16 @@ export default {
     },
 
     async handleProjectModuleList() {
-      this.selectProjetModule()
+      this.projectModulePageSize = 5
+      this.projectModulePageNum = 1
       this.projectModuleQuery = {}
+      this.selectProjetModule()
       this.selectProjectModuleDialogFormVisible = true
     },
     async resetProjectModuleQuery() {
-      this.projectModuleQuery = {}
       this.projectModulePageSize = 5
       this.projectModulePageNum = 1
+      this.projectModuleQuery = {}
       this.selectProjetModule(this.projectModuleQuery)
     },
     // 切换header radio时将之前的清空
@@ -2180,6 +2236,50 @@ export default {
            this.dataAddFormStr = ""
            this.dataAddJsonStr = ""
         }
+    },
+    // 前置用例
+    async selectPreCase(preCaseQuery) {
+      this.preCaseQuery['pageSize'] = this.preCasePageSize 
+      this.preCaseQuery['pageNum'] = this.preCasePageNum 
+      const res = await listInterfaceCase(this.preCaseQuery)
+      if (res.code == 200) {
+        this.preCaseTable = []
+        this.preCasePageTotal = res.data.total
+        this.preCaseTable = res.data.list
+      } else {
+        this.$message({
+          type: "error",
+          center: true,
+          message: res.msg
+        });
+      }    
+    }, 
+    async handlePreCaseList(index) {
+      this.preCaseIndex = index
+      this.preCasePageSize = 5
+      this.preCasePageNum = 1
+      this.preCaseQuery = {}
+      this.selectPreCase()
+      this.selectPreCaseDialogFormVisible = true
+    },
+    async resetPreCaseQuery() {
+      this.preCasePageSize = 5
+      this.preCasePageNum = 1
+      this.preCaseQuery = {}
+      this.selectPreCase(this.preCaseQuery)
+    },
+    handlePreCaseSizeChange (pageSize) {
+      this.preCasePageSize = pageSize;
+      this.selectPreCase(this.preCaseQuery);
+    },
+    handlePreCaseCurrentChange(pageNum) {
+      this.preCasePageNum = pageNum;
+      this.selectPreCase(this.preCaseQuery);
+    },
+    async handleSelectPreCase(row){
+      this.selectPreCaseDialogFormVisible = false
+      this.preCaseList[this.preCaseIndex].preCaseId = row.caseId;
+      this.preCaseList[this.preCaseIndex].preCaseDesc = row.desc;
     },
   },
 };
