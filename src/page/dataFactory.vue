@@ -27,13 +27,23 @@
     <div class="table_container">
       <el-table :data="dataList" stripe highlight-current-row style="width: 100%">
         <el-table-column property="id" label="编号" min-width="10%"></el-table-column>
-        <el-table-column property="name" label="名称" min-width="20%"></el-table-column>
-        <el-table-column property="type" label="类型" min-width="15%">
+        <el-table-column property="name" label="名称" min-width="25%"></el-table-column>
+        <el-table-column property="times" label="执行次数" min-width="10%"></el-table-column>
+        <el-table-column property="type" label="类型" min-width="10%">
             <template slot-scope="scope">
                 <el-tag effect="dark" disable-transitions type="scope.row.style" size="small">{{scope.row.type}}</el-tag>
             </template>
         </el-table-column>
-        <el-table-column property="times" label="执行次数" min-width="15%"></el-table-column>
+        <el-table-column property="executeType" label="执行方式" min-width="10%">
+          <template slot-scope="scope">
+            <el-tag
+              effect="dark"
+              size="small"
+              :type="scope.row.executeTypeStyle"
+              disable-transitions>{{scope.row.executeType}}
+            </el-tag>
+          </template>
+        </el-table-column>
         <el-table-column property="createdTime" label="创建时间" min-width="15%"></el-table-column>
         <el-table-column fixed="right" label="操作" min-width="15%">
           <template slot-scope="scope">
@@ -41,7 +51,7 @@
               @click="handleExecute(scope.row.id)"
               type="success"
               size="mini" 
-              icon="el-icon-check" 
+              :icon="executeIconStyle"
               circle>
             </el-button>
             <el-button
@@ -90,6 +100,16 @@
           </el-form-item>
           <el-form-item label="*执行次数" label-width="120px">
             <el-input-number v-model="dataInfo.times" :min="1" :max="100" size="mini"></el-input-number>
+          </el-form-item>
+          <el-form-item label="*执行方式" label-width="120px">
+            <el-select v-model="dataInfo.executeType" size='mini'>
+              <el-option
+                v-for="item in executeTypeOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="*遇到错误停止" label-width="120px">
             <el-radio-group v-model="dataInfo.failedStop" size='mini'>
@@ -157,6 +177,16 @@
           </el-form-item>
           <el-form-item label="*执行次数" label-width="120px">
             <el-input-number v-model="dataAdd.times" :min="1" :max="100" size="mini"></el-input-number>
+          </el-form-item>
+          <el-form-item label="*执行方式" label-width="120px">
+            <el-select v-model="dataAdd.executeType" size='mini'>
+              <el-option
+                v-for="item in executeTypeOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="*遇到错误停止" label-width="120px">
             <el-radio-group v-model="dataAdd.failedStop" size='mini'>
@@ -264,6 +294,7 @@ import { saveDataFactory, modifyDataFactory, findDataFactoryById, findDataFactor
 export default {
   data() {
     return {
+      executeIconStyle: 'el-icon-check',
       queryForm: {},
       total: 0,
       pageSize: 10,
@@ -286,6 +317,16 @@ export default {
         //   value: 2,
         //   label: 'UI'
         // },
+      ],
+      executeTypeOptions:[
+          {
+              value:0,
+              label:'并行',
+          },
+          {
+              value:1,
+              label:'串行',
+          },
       ],
       dbOptions:[],
       interfaceSuiteOptions:[],
@@ -361,6 +402,13 @@ export default {
               element.type = 'UI'
               element.style = 'warning'
             } 
+            if (element.executeType == 0) {
+                element.executeType = "并行"
+                element.executeTypeStyle = 'danger'
+            } else {
+                element.executeType = "串行"
+                element.executeTypeStyle = ''
+            }
             this.dataList.push(element)
           });
       } else {
@@ -372,6 +420,7 @@ export default {
       }
     },
     async handleExecute(id) {
+        this.executeIconStyle = 'el-icon-loading'
         const res = await executeDataFactory(id)
         if (res.code == 200) {
             this.$message({
@@ -386,6 +435,7 @@ export default {
             message: res.msg
           })
         }
+        this.executeIconStyle = 'el-icon-check'
     },
     async handleAdd() {
         const res = await saveDataFactory(this.dataAdd);
