@@ -30,6 +30,8 @@ const reportSummary = r => require.ensure([], () => r(require('@/page/reportSumm
 const reportDetail = r => require.ensure([], () => r(require('@/page/reportDetail')), 'reportDetail');
 const reportChannel = r => require.ensure([], () => r(require('@/page/reportChannel')), 'reportChannel');
 
+const dataFactory = r => require.ensure([], () => r(require('@/page/dataFactory')), 'dataFactory');
+
 
 
 const router = new Router({
@@ -225,6 +227,14 @@ const router = new Router({
           component: task,
           meta: {
             path: ['配置中心','定时任务'],
+            requireAuth: true
+          },
+        },  
+        {
+          path: '/dataFactory',
+          component: dataFactory,
+          meta: {
+            path: ['数据工厂'],
             requireAuth: true
           },
         },  

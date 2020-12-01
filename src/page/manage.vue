@@ -9,6 +9,7 @@
 					<el-menu-item index="projectList" class="left-color"><i class="el-icon-s-flag"></i><span slot="title" class="title-color">项目管理</span></el-menu-item>
 					<el-menu-item index="moduleList" class="left-color"><i class="el-icon-potato-strips"></i><span slot="title" class="title-color">模块管理</span></el-menu-item>
 					<el-menu-item index="dbList" class="left-color"><i class="el-icon-coin"></i><span slot="title" class="title-color">数据源中心</span></el-menu-item>
+					<el-menu-item index="dataFactory" class="left-color"><i class="el-icon-tickets"></i><span slot="title" class="title-color">数据工厂</span></el-menu-item>
 					<el-submenu index="1"  class="left-color">
 						<template slot="title"  class="left-color"><i class="el-icon-more"></i><span slot="title" class="title-color">数据中心</span></template>
 						<el-menu-item index="tempEnv"  class="left-color"><i class="el-icon-position"></i><span slot="title" class="title-color">临时变量</span></el-menu-item>

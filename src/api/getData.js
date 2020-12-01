@@ -295,6 +295,11 @@ export const findInterfaceCaseSuiteById = suiteId => HttpRequest.get('/interface
 export const findInterfaceCaseSuite = data => HttpRequest.get('/interface/suite', data)
 
 /**
+ * 查看测试套件列表
+*/ 
+export const findInterfaceCaseSuiteAll = data => HttpRequest.get('/interface/suiteAll', data)
+
+/**
  * 测试套件新增用例
  */
 export const saveSuiteCase = data => HttpRequest.post('/interface/suite/case/save', data, true, true)
@@ -498,3 +503,35 @@ export const removeTempValue = key => HttpRequest.get('/env/remove/' + key)
  * 移除全部临时后置处理器值
  */
 export const removeAllTempValue = () => HttpRequest.get('/env/removeAll')
+
+
+
+/**
+ * 新增数据工厂
+ */
+export const saveDataFactory = data => HttpRequest.post('/data/factory/save', data)
+
+/**
+ * 修改数据工厂
+ */
+export const modifyDataFactory = data => HttpRequest.post('/data/factory/modify', data)
+
+/**
+ * 删除数据工厂
+ */
+export const removeDataFactoryById = id => HttpRequest.get('/data/factory/remove/' + id)
+
+/**
+ * 获取数据工厂详情
+ */
+export const findDataFactoryById = id => HttpRequest.get('/data/factory/' + id)
+
+/**
+ * 获取数据工厂列表
+ */
+export const findDataFactoryList = data => HttpRequest.get('/data/factory', data)
+
+/**
+ * 执行数据工厂
+ */
+export const executeDataFactory = id => HttpRequest.get('/data/factory/execute/' + id)
