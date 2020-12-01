@@ -89,9 +89,9 @@
             </el-select>
           </el-form-item>
           <el-form-item label="*执行次数" label-width="120px">
-            <el-input v-model="dataInfo.times" size='mini' placeholder="1-100"></el-input>
+            <el-input-number v-model="dataInfo.times" :min="1" :max="100" size="mini"></el-input-number>
           </el-form-item>
-          <el-form-item label="*遇到错误继续" label-width="120px">
+          <el-form-item label="*遇到错误停止" label-width="120px">
             <el-radio-group v-model="dataInfo.failedStop" size='mini'>
               <el-radio :label="0">是</el-radio>
               <el-radio :label="1">否</el-radio>
@@ -111,7 +111,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="*SQL语句" label-width="120px" v-if="dataInfo.type == 0">
-            <el-input v-model="dataInfo.sqlStr" size="mini" type="textarea" :rows="6" placeholder="enter sql"></el-input>
+            <el-input v-model="dataInfo.sqlStr" size="mini" type="textarea" :rows="6" placeholder="如需运行多条语句，请回车换行"></el-input>
           </el-form-item>
           <el-form-item label="*接口测试套件" label-width="120px" v-if="dataInfo.type == 1">
             <el-select v-model="dataInfo.interfaceSuiteId" size='mini'>
@@ -156,9 +156,9 @@
             </el-select>
           </el-form-item>
           <el-form-item label="*执行次数" label-width="120px">
-            <el-input v-model="dataAdd.times" size='mini' placeholder="1-100"></el-input>
+            <el-input-number v-model="dataAdd.times" :min="1" :max="100" size="mini"></el-input-number>
           </el-form-item>
-          <el-form-item label="*遇到错误继续" label-width="120px">
+          <el-form-item label="*遇到错误停止" label-width="120px">
             <el-radio-group v-model="dataAdd.failedStop" size='mini'>
               <el-radio :label="0">是</el-radio>
               <el-radio :label="1">否</el-radio>
@@ -178,7 +178,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="*SQL语句" label-width="120px" v-if="dataAdd.type == 0">
-            <el-input v-model="dataAdd.sqlStr" size="mini" type="textarea" :rows="6" placeholder="enter sql"></el-input>
+            <el-input v-model="dataAdd.sqlStr" size="mini" type="textarea" :rows="6" placeholder="如需运行多条语句，请回车换行"></el-input>
           </el-form-item>
           <el-form-item label="*接口测试套件" label-width="120px" v-if="dataAdd.type == 1">
             <el-select v-model="dataAdd.interfaceSuiteId" size='mini'>
@@ -493,7 +493,6 @@ export default {
       this.addDialogFormVisible = true;
       this.dataAdd = {};
       this.dataAdd.failedStop = 1
-      this.dataAdd.times = 1
       const ifSuite = await findInterfaceCaseSuiteAll()
       if (ifSuite.code == 200) {
         this.interfaceSuiteOptions = []
