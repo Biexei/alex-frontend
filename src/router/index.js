@@ -236,7 +236,7 @@ const router = new Router({
           path: '/proxy',
           component: proxy,
           meta: {
-            path: ['配置中心','代理管理'],
+            path: ['配置中心','代理配置'],
             requireAuth: true
           },
         }, 
