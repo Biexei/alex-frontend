@@ -20,6 +20,8 @@ const ifCase = r => require.ensure([], () => r(require('@/page/ifCase')), 'ifCas
 const ifSuite = r => require.ensure([], () => r(require('@/page/ifSuite')), 'ifSuite');
 const ifSuiteCaseList = r => require.ensure([], () => r(require('@/page/ifSuiteCaseList')), 'ifSuiteCaseList');
 const httpSetting = r => require.ensure([], () => r(require('@/page/httpSetting')), 'httpSetting');
+const email = r => require.ensure([], () => r(require('@/page/email')), 'email');
+const proxy = r => require.ensure([], () => r(require('@/page/proxy')), 'proxy');
 const task = r => require.ensure([], () => r(require('@/page/task')), 'task');
 const analysis = r => require.ensure([], () => r(require('@/page/analysis')), 'analysis');
 const ifSuiteLog = r => require.ensure([], () => r(require('@/page/ifSuiteLog')), 'ifSuiteLog');
@@ -221,7 +223,23 @@ const router = new Router({
             path: ['配置中心','全局配置'],
             requireAuth: true
           },
-        },    
+        },  
+        {
+          path: '/email',
+          component: email,
+          meta: {
+            path: ['配置中心','邮箱管理'],
+            requireAuth: true
+          },
+        },  
+        {
+          path: '/proxy',
+          component: proxy,
+          meta: {
+            path: ['配置中心','代理管理'],
+            requireAuth: true
+          },
+        }, 
         {
           path: '/task',
           component: task,
