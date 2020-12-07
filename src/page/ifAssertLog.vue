@@ -199,6 +199,14 @@ export default {
         {
           value: 7,
           label: "re",
+        },  
+        {
+          value: 8,
+          label: "isNull",
+        },   
+        {
+          value: 9,
+          label: "notNull",
         },        
       ],
     };

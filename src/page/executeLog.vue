@@ -610,6 +610,10 @@ export default {
                 assert.operator = '!='
             } else if (assert.operator == 7) {
                 assert.operator = 're'
+            } else if (assert.operator == 8) {
+                assert.operator = 'isNull'
+            } else if (assert.operator == 9) {
+                assert.operator = 'notNull'
             } else {
                 assert.operator = 'unknow'
             }            
