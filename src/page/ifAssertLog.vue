@@ -271,10 +271,10 @@ export default {
             element.operator = '!='
         } else if (element.operator == 7) {
             element.operator = 're'
-        } else if (assert.operator == 8) {
-            assert.operator = 'isNull'
-        } else if (assert.operator == 9) {
-            assert.operator = 'notNull'
+        } else if (element.operator == 8) {
+            element.operator = 'isNull'
+        } else if (element.operator == 9) {
+            element.operator = 'notNull'
         } else {
             element.operator = 'unknow'
         }   
