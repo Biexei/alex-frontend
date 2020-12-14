@@ -203,15 +203,9 @@
 
 
         <el-collapse-item title="*基本信息">
-          <!-- <el-form-item label="*项目编号" label-width="100px">
-            <el-input readonly v-model="dataAdd.projectId" @focus='handleProjectModuleList' size="mini" disabled></el-input>
-          </el-form-item> -->
           <el-form-item label="*项目名称" label-width="100px">
             <el-input readonly v-model="dataAdd.projectName" @focus='handleProjectModuleList' size="mini" disabled></el-input>
           </el-form-item>
-          <!-- <el-form-item label="*模块编号" label-width="100px">
-            <el-input readonly v-model="dataAdd.moduleId" @focus='handleProjectModuleList' size="mini" disabled></el-input>
-          </el-form-item> -->
           <el-form-item label="*模块名称" label-width="100px">
             <el-input readonly v-model="dataAdd.moduleName" @focus='handleProjectModuleList' size="mini" placeholder="请点击选择"></el-input>
           </el-form-item>
@@ -232,7 +226,6 @@
             </el-select>
           </el-form-item>
           <el-form-item label="*创建人" label-width="100px">
-            <!-- <el-input v-model="dataAdd.creater"  size="mini"></el-input> -->
             <el-input v-model="dataAdd.createrRealName"  size="mini" disabled></el-input>
           </el-form-item>
         </el-collapse-item>
@@ -353,7 +346,7 @@
 
 
 
-        <el-collapse-item title="请求参数提取">
+        <el-collapse-item title="请求参数缓存">
                 <el-button @click.prevent="addPreProcessor" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
                 <el-form-item
                     v-for="(preProcessorItem, index) in preProcessorList"
@@ -570,15 +563,9 @@
 
 
         <el-collapse-item title="*基本信息">
-          <!-- <el-form-item label="*项目编号" label-width="100px">
-            <el-input readonly v-model="dataInfo.projectId" @focus='handleProjectModuleList' size="mini" disabled></el-input>
-          </el-form-item> -->
           <el-form-item label="*项目名称" label-width="100px">
             <el-input readonly v-model="dataInfo.projectName" @focus='handleProjectModuleList' size="mini" disabled></el-input>
           </el-form-item>
-          <!-- <el-form-item label="*模块编号" label-width="100px">
-            <el-input readonly v-model="dataInfo.moduleId" @focus='handleProjectModuleList' size="mini" disabled></el-input>
-          </el-form-item> -->
           <el-form-item label="*模块名称" label-width="100px">
             <el-input readonly v-model="dataInfo.moduleName" @focus='handleProjectModuleList' size="mini"  placeholder="请点击选择"></el-input>
           </el-form-item>
@@ -718,7 +705,7 @@
       </el-collapse-item>
 
 
-        <el-collapse-item title="请求参数提取">
+        <el-collapse-item title="请求参数缓存">
                 <el-button @click.prevent="addPreProcessor" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
                 <el-form-item
                     v-for="(preProcessorItem, index) in preProcessorList"
@@ -936,15 +923,9 @@
           </el-collapse-item>
 
         <el-collapse-item title="*基本信息">
-          <!-- <el-form-item label="*项目编号" label-width="100px">
-            <el-input readonly v-model="dataInfo.projectId" @focus='handleProjectModuleList' size="mini" disabled></el-input>
-          </el-form-item> -->
           <el-form-item label="*项目名称" label-width="100px">
             <el-input readonly v-model="dataInfo.projectName" @focus='handleProjectModuleList' size="mini" disabled></el-input>
           </el-form-item>
-          <!-- <el-form-item label="*模块编号" label-width="100px">
-            <el-input readonly v-model="dataInfo.moduleId" @focus='handleProjectModuleList' size="mini" disabled></el-input>
-          </el-form-item> -->
           <el-form-item label="*模块名称" label-width="100px">
             <el-input readonly v-model="dataInfo.moduleName" @focus='handleProjectModuleList' size="mini" placeholder="请点击选择"></el-input>
           </el-form-item>
@@ -965,7 +946,6 @@
             </el-select>
           </el-form-item>
           <el-form-item label="*创建人" label-width="100px">
-            <!-- <el-input v-model="dataInfo.creater"  size="mini"></el-input> -->
             <el-input v-model="dataInfo.createrRealName"  size="mini" disabled></el-input>
           </el-form-item>
         </el-collapse-item>
@@ -1085,7 +1065,7 @@
         </el-collapse-item>
 
 
-        <el-collapse-item title="请求参数提取">
+        <el-collapse-item title="请求参数缓存">
                 <el-button @click.prevent="addPostProcessor" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
                 <el-form-item
                     v-for="(preProcessorItem, index) in preProcessorList"
@@ -1247,16 +1227,16 @@ export default {
         },
         // {
         //   value: 2,
-        //   label: "UPDATE",
+        //   label: "PATCH",
         // },
-        // {
-        //   value: 3,
-        //   label: "PUT",
-        // },
-        // {
-        //   value: 4,
-        //   label: "DELETE",
-        // },
+        {
+          value: 3,
+          label: "PUT",
+        },
+        {
+          value: 4,
+          label: "DELETE",
+        },
       ],
       levelOptions: [
         {
@@ -1565,13 +1545,13 @@ export default {
             element.method = "POST";
           // } else if (element.method == 2) {
           //   element.methodStyle = "";
-          //   element.method = "UPDATE";
-          // } else if (element.method == 3) {
-          //   element.methodStyle = "";
-          //   element.method = "PUT";
-          // } else if (element.method == 4) {
-          //   element.methodStyle = "";
-          //   element.method = "DELETE";
+          //   element.method = "PATCH";
+          } else if (element.method == 3) {
+            element.methodStyle = "";
+            element.method = "PUT";
+          } else if (element.method == 4) {
+            element.methodStyle = "";
+            element.method = "DELETE";
           } else {
             element.methodStyle = "";
             element.method = "UNKNOW";
@@ -1598,7 +1578,7 @@ export default {
             this.showParams = true
             this.showData = true
             this.showJson = true            
-        } else if (method == 2) { //update
+        } else if (method == 2) { //patch
             this.showParams = true
             this.showData = true
             this.showJson = true              
