@@ -1225,10 +1225,10 @@ export default {
           value: 1,
           label: "POST",
         },
-        // {
-        //   value: 2,
-        //   label: "PATCH",
-        // },
+        {
+          value: 2,
+          label: "PATCH",
+        },
         {
           value: 3,
           label: "PUT",
@@ -1543,9 +1543,9 @@ export default {
           } else if (element.method == 1) {
             element.methodStyle = "";
             element.method = "POST";
-          // } else if (element.method == 2) {
-          //   element.methodStyle = "";
-          //   element.method = "PATCH";
+          } else if (element.method == 2) {
+            element.methodStyle = "";
+            element.method = "PATCH";
           } else if (element.method == 3) {
             element.methodStyle = "";
             element.method = "PUT";
