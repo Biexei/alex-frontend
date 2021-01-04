@@ -69,6 +69,7 @@
           <el-button type="primary" size="mini" @click="selectInterfaceCase(queryForm)">查询</el-button>
           <el-button type="primary" size="mini" @click="resetForm">重置</el-button>
           <el-button type="primary" size="mini" @click="openAdd" plain>新增</el-button>
+          <el-button type="primary" size="mini" @click="openImport" plain>导入</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -166,7 +167,38 @@
           :total="total"
         ></el-pagination>
       </div>
-      
+
+      <el-dialog @close="closeImportDialog" title="导入" :visible.sync="importDialogFormVisible" :close-on-click-modal="false">
+        <el-form :model="dataImport" ref="dataImport">
+          <el-form-item label="*类型" label-width="100px">
+            <el-select v-model="dataImport.type" size='mini'>
+              <el-option
+                v-for="item in importTypeOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+            <el-link :href="downloadUrl + dataImport.type" type="primary" target="_blank" icon="el-icon-download" :underline="false">下载模版</el-link>
+          </el-form-item>
+          <el-form-item label="*选择文件" label-width="100px">
+            <el-upload
+              ref="upload"
+              :action=importUrl
+              :data=dataImport
+              multiple
+              :headers=importHeader
+              :auto-upload=true
+              :on-success="handleUploadSuccess"
+              :on-error="handleUploadError"
+              accept=".xls,.xlsx,.csv,.json,.yaml"
+              :limit="1">
+              <el-button size="mini" type="primary">立即上传</el-button>
+            </el-upload>
+          </el-form-item>
+        </el-form>
+      </el-dialog>
+
       <el-dialog title="添加" :visible.sync="addDialogFormVisible" :close-on-click-modal="false">
         <el-form :model="dataAdd" ref="dataAdd">
         <el-collapse>
@@ -1207,10 +1239,41 @@
 </template>
 <script>
 import headTop from "../components/headTop";
-import {findProjectModuleList, listInterfaceCase,saveInterfaceCase,modifyInterfaceCase,removeInterfaceCase,findInterfaceCaseByCaseId,executeInterfaceCase } from "@/api/getData";
+import { baseUrl } from '../config/env';
+import {downloadTemplate, findProjectModuleList, listInterfaceCase,saveInterfaceCase,modifyInterfaceCase,removeInterfaceCase,findInterfaceCaseByCaseId,executeInterfaceCase } from "@/api/getData";
 export default {
   data() {
     return {
+
+      dataImport:{
+        type: 1,
+      },
+      importHeader: {
+        Token: "",
+      },
+      importUrl: baseUrl + "/interface/case/import",
+      downloadUrl: baseUrl + "/interface/template/download/",
+
+      importDialogFormVisible: false,
+      importTypeOptions: [
+        {
+          value: 1,
+          label: "excel",
+        },
+        {
+          value: 2,
+          label: "csv",
+        },
+        {
+          value: 3,
+          label: "json",
+        },
+        {
+          value: 4,
+          label: "yaml",
+        },
+      ],
+
       queryForm: {},
       total: 0,
       pageSize: 10,
@@ -1254,6 +1317,7 @@ export default {
       ],
       dataAdd: {},
       addDialogFormVisible: false,
+
 
       projectModuleQuery: {},
       projectModuleTable: [],
@@ -1408,6 +1472,7 @@ export default {
   },
   mounted() {
     this.selectInterfaceCase(this.queryForm);
+    this.initToken();
   },
   methods: {
     removeHeader(item) {
@@ -1516,6 +1581,14 @@ export default {
     removePreProcessor(item) {
       var index = this.preProcessorList.indexOf(item)
       this.preProcessorList.splice(index, 1)
+    },
+
+    async importInterfaceCase(formdata) {
+      let data = {
+        type: 1,
+      }
+      const res = await importInterfaceCase(data, formdata)
+      console.log(res)
     },
 
     async selectInterfaceCase(queryForm) {
@@ -1991,6 +2064,9 @@ export default {
       this.pageNum = 1
       this.selectInterfaceCase(this.queryForm)
     },
+    async openImport() {
+      this.importDialogFormVisible = true;
+    },
     async openAdd() {
       this.addDialogFormVisible = true;
       this.dataAdd = {};
@@ -2269,6 +2345,54 @@ export default {
       this.preCaseList[this.preCaseIndex].preCaseId = row.caseId;
       this.preCaseList[this.preCaseIndex].preCaseDesc = row.desc;
     },
+    // 初始化文件上传参数
+    initToken() {
+      let userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
+      if (userInfo) {
+        this.importHeader.Token = userInfo.token;
+      }
+    },
+    // 文件上传失败回调
+    handleUploadError(response, file, fileList) {
+      this.$message({
+        type: "error",
+        center: true,
+        message: "文件上传失败 " + response.msg
+      });
+      // 初始化
+      this.dataImport = {
+        type: 1
+      }
+      this.$refs.upload.clearFiles();
+    },
+    // 文件上传成功回调
+    handleUploadSuccess(response, file, fileList) {
+      if(response.code == 200) {
+        this.$message({
+          type: "success",
+          center: true,
+          message: "总记录数：" + response.data.total + " 成功数：" + response.data.success + " 失败数：" + response.data.failed
+        });
+        this.importDialogFormVisible = false
+        // 初始化
+        this.dataImport = {
+          type: 1
+        }
+        this.$refs.upload.clearFiles();
+        // 刷新列表
+        this.selectInterfaceCase({})
+      } else {
+        this.$message({
+          type: "error",
+          center: true,
+          message: response.msg
+        });
+      }
+    },
+    // 关闭导入框回调
+    closeImportDialog() {
+      this.$refs.upload.clearFiles();
+    }
   },
 };
 </script>

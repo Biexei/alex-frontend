@@ -234,7 +234,10 @@ export const findReportChain = suiteLogNo => HttpRequest.get('/interface/log/lis
 export const listInterfaceAssertLog = data => HttpRequest.get('/interface/assert/log', data)
 
 
-
+/**
+ * 下载导入模版
+ */
+export const downloadTemplate = data => HttpRequest.get('/interface/template/download/' + data)
 
 /**
  * 查询用例列表
