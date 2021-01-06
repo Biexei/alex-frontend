@@ -79,28 +79,34 @@
         <el-table-column type="expand">
         <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand">
-            <el-form-item label="项目编号:">
-                <el-input  :value="props.row.projectId" readonly size="mini"></el-input>
+            <el-form-item label="用例来源">
+                <el-input v-if="props.row.source==0" value="新增" readonly size="mini"></el-input>
+                <el-input v-else-if="props.row.source==1" value="excel" readonly size="mini"></el-input>
+                <el-input v-else-if="props.row.source==2" value="csv" readonly size="mini"></el-input>
+                <el-input v-else-if="props.row.source==3" value="json" readonly size="mini"></el-input>
+                <el-input v-else-if="props.row.source==4" value="yaml" readonly size="mini"></el-input>
             </el-form-item>
-            <br />
-            <el-form-item label="模块编号:">
-                <el-input  :value="props.row.moduleId" readonly size="mini"></el-input>
+            <el-form-item label="导入批次">
+                <el-input  :value="props.row.importNo" readonly size="mini"></el-input>
             </el-form-item>
-            <br />
-            <el-form-item label="项目名称:">
-                <el-input  :value="props.row.projectName" readonly size="mini"></el-input>
-            </el-form-item>
-            <br />
-            <el-form-item label="模块名称:">
-                <el-input  :value="props.row.moduleName" readonly size="mini"></el-input>
-            </el-form-item>
-            <br/>
-             <el-form-item label="由谁创建:">
+             <el-form-item label="由谁创建">
                 <el-input  :value="props.row.creater" readonly size="mini"></el-input>
             </el-form-item>
-            <br/>
-             <el-form-item label="创建时间:">
+             <el-form-item label="创建时间">
                 <el-input  :value="props.row.createdTime" readonly size="mini"></el-input>
+            </el-form-item>
+            <br />
+            <el-form-item label="项目编号">
+                <el-input  :value="props.row.projectId" readonly size="mini"></el-input>
+            </el-form-item>
+            <el-form-item label="项目名称">
+                <el-input  :value="props.row.projectName" readonly size="mini"></el-input>
+            </el-form-item>
+            <el-form-item label="模块编号">
+                <el-input  :value="props.row.moduleId" readonly size="mini"></el-input>
+            </el-form-item>
+            <el-form-item label="模块名称">
+                <el-input  :value="props.row.moduleName" readonly size="mini"></el-input>
             </el-form-item>
             </el-form>
         </template>
@@ -188,7 +194,7 @@
               :data=dataImport
               multiple
               :headers=importHeader
-              :auto-upload=true
+              :auto-upload=false
               :on-success="handleUploadSuccess"
               :on-error="handleUploadError"
               accept=".xls,.xlsx,.csv,.json,.yaml"
@@ -197,6 +203,10 @@
             </el-upload>
           </el-form-item>
         </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="importDialogFormVisible = false" size="mini">取 消</el-button>
+            <el-button type="primary" @click="handleImport" size="mini">确 定</el-button>
+        </div>
       </el-dialog>
 
       <el-dialog title="添加" :visible.sync="addDialogFormVisible" :close-on-click-modal="false">
@@ -2378,7 +2388,6 @@ export default {
         this.dataImport = {
           type: 1
         }
-        this.$refs.upload.clearFiles();
         // 刷新列表
         this.selectInterfaceCase({})
       } else {
@@ -2388,10 +2397,15 @@ export default {
           message: response.msg
         });
       }
+      this.$refs.upload.clearFiles();
     },
     // 关闭导入框回调
     closeImportDialog() {
       this.$refs.upload.clearFiles();
+    },
+    // 手动上传
+    handleImport(){
+      this.$refs.upload.submit();
     }
   },
 };
