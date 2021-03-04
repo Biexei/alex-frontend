@@ -174,7 +174,7 @@
         ></el-pagination>
       </div>
 
-      <el-dialog @close="closeImportDialog" title="导入" :visible.sync="importDialogFormVisible" :close-on-click-modal="false">
+      <el-dialog @close="closeImportDialog" title="导入" :visible.sync="importDialogFormVisible" :close-on-click-modal="false" @open="selectSuiteList">
         <el-form :model="dataImport" ref="dataImport">
           <el-form-item label="*类型" label-width="100px">
             <el-select v-model="dataImport.type" size='mini'>
@@ -201,6 +201,17 @@
               :limit="1">
               <el-button size="mini" type="primary">立即上传</el-button>
             </el-upload>
+          </el-form-item>
+          <el-form-item label="并导入" label-width="100px" prop="name">
+            <el-select v-model="dataImport.suiteId" @change="handleSelectSuite"  size='mini'>
+              <el-option
+              size='mini'
+              v-for="item in suiteOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -1250,7 +1261,7 @@
 <script>
 import headTop from "../components/headTop";
 import { baseUrl } from '../config/env';
-import {downloadTemplate, findProjectModuleList, listInterfaceCase,saveInterfaceCase,modifyInterfaceCase,removeInterfaceCase,findInterfaceCaseByCaseId,executeInterfaceCase } from "@/api/getData";
+import {findInterfaceCaseSuiteAll, downloadTemplate, findProjectModuleList, listInterfaceCase,saveInterfaceCase,modifyInterfaceCase,removeInterfaceCase,findInterfaceCaseByCaseId,executeInterfaceCase } from "@/api/getData";
 export default {
   data() {
     return {
@@ -1258,6 +1269,8 @@ export default {
       dataImport:{
         type: 1,
       },
+      suiteOptions: [],
+
       importHeader: {
         Token: "",
       },
@@ -2375,6 +2388,32 @@ export default {
       }
       this.$refs.upload.clearFiles();
     },
+
+    async selectSuiteList(){
+      this.suiteOptions = []
+      const res = await findInterfaceCaseSuiteAll({})
+      if (res.code == 200) {
+          let dataList = res.data
+          dataList.forEach((item, index) => {
+            this.suiteOptions.push({
+                label: item.suiteName,
+                value: item.suiteId,
+                index: index
+            });
+          });
+      } else {
+        this.$message({
+          type:"error",
+          center: true,
+          message:res.msg
+        });
+      }
+    },
+
+    async handleSelectSuite(suiteId) {
+      this.dataImport['suiteId'] = suiteId;
+    },  
+
     // 文件上传成功回调
     handleUploadSuccess(response, file, fileList) {
       if(response.code == 200) {
