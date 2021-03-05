@@ -69,7 +69,8 @@
           <el-button type="primary" size="mini" @click="selectInterfaceCase(queryForm)">查询</el-button>
           <el-button type="primary" size="mini" @click="resetForm">重置</el-button>
           <el-button type="primary" size="mini" @click="openAdd" plain>新增</el-button>
-          <el-button type="primary" size="mini" @click="openImport" plain>导入</el-button>
+          <el-button type="primary" size="mini" @click="openGenerator" plain>自动生成</el-button>
+          <el-button type="primary" size="mini" @click="openImport" plain>批量导入</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -219,6 +220,44 @@
             <el-button type="primary" @click="handleImport" size="mini">确 定</el-button>
         </div>
       </el-dialog>
+
+      <!--自动生成用例-->
+      <el-dialog @close="closeGeneratorDialog" title="生成" :visible.sync="generatorDialogFormVisible" :close-on-click-modal="false">
+        <el-form :model="caseGenerator" ref="caseGenerator">
+          <el-form-item label="使用说明" label-width="100px">
+            <el-link :href="downloadUrl + 5" type="primary" target="_blank" icon="el-icon-download" :underline="false">使用说明</el-link>
+          </el-form-item>
+          <el-form-item label="查看示例" label-width="100px">
+            <el-link :href="downloadUrl + 6" type="primary" target="_blank" icon="el-icon-download" :underline="false">查看示例</el-link>
+          </el-form-item>
+          <el-form-item label="*选择文件" label-width="100px">
+            <el-upload
+              ref="uploadGenerator"
+              :action=generatorUrl
+              :data=caseGenerator
+              multiple
+              :headers=importHeader
+              :auto-upload=false
+              :on-success="handleGeneratorUploadSuccess"
+              :on-error="handleGeneratorUploadError"
+              accept=".json"
+              :limit="1">
+              <el-button size="mini" type="primary">立即上传</el-button>
+            </el-upload>
+          </el-form-item>
+          <el-form-item label="*生成策略" label-width="100px">
+            <el-radio-group v-model="caseGenerator.type" size='mini'>
+              <el-radio :label="1">正交实验法</el-radio>
+              <el-radio :label="2">笛卡尔积</el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="generatorDialogFormVisible = false" size="mini">取 消</el-button>
+            <el-button type="primary" @click="handleGenerator" size="mini">确 定</el-button>
+        </div>
+      </el-dialog>
+
 
       <el-dialog title="添加" :visible.sync="addDialogFormVisible" :close-on-click-modal="false">
         <el-form :model="dataAdd" ref="dataAdd">
@@ -1296,6 +1335,12 @@ export default {
           label: "yaml",
         },
       ],
+
+      caseGenerator:{
+        type: 1,
+      },
+      generatorUrl: baseUrl + "/interface/case/generator",
+      generatorDialogFormVisible: false,
 
       queryForm: {},
       total: 0,
@@ -2445,6 +2490,47 @@ export default {
     // 手动上传
     handleImport(){
       this.$refs.upload.submit();
+    },
+
+// 上传用例约束，自动生成用例
+// 文件上传失败回调
+    handleGeneratorUploadError(response, file, fileList) {
+      this.$message({
+        type: "error",
+        center: true,
+        message: "文件上传失败"
+      });
+      // 初始化
+      this.caseGenerator = {
+        type: 1
+      }
+      this.$refs.uploadGenerator.clearFiles();
+    },
+
+    // 文件上传成功回调
+    handleGeneratorUploadSuccess(response, file, fileList) {
+      this.$message({
+        type: "success",
+        center: true,
+        message: "文件上传成功"
+      });
+      this.generatorDialogFormVisible = false
+      // 初始化
+      this.caseGenerator = {
+        type: 1
+      }
+      this.$refs.uploadGenerator.clearFiles();
+    },
+    // 关闭导入框回调
+    closeGeneratorDialog() {
+      this.$refs.uploadGenerator.clearFiles();
+    },
+    // 手动上传
+    handleGenerator(){
+      this.$refs.uploadGenerator.submit();
+    },
+    async openGenerator() {
+      this.generatorDialogFormVisible = true;
     }
   },
 };
