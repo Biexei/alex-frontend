@@ -2534,7 +2534,7 @@ export default {
         let link = document.createElement("a");
         link.href = uri;
         //对下载的文件命名
-        link.download = "生成结果.json";
+        link.download = response.data.length + "条生成结果.json";
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);

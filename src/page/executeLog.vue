@@ -81,7 +81,7 @@
               disable-transitions>{{scope.row.status}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column property="isFailedRetry" label="重跑用例" min-width="8%">
+        <el-table-column property="isFailedRetry" label="失败重跑" min-width="8%">
           <template slot-scope="scope">
             <el-tag
               effect="dark"

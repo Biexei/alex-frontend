@@ -2,17 +2,17 @@
   <div class="fillcontain">
     <div class="query" style="padding-left:30px">
       <el-form :inline="true" :model="queryForm" class="demo-form-inline" ref="queryForm">
-        <el-form-item label="Project">
-          <el-input v-model="queryForm.projectName" placeholder="Project Name" size='mini'></el-input>
+        <el-form-item label="项目名称">
+          <el-input v-model="queryForm.projectName" placeholder="项目名称" size='mini'></el-input>
         </el-form-item>
-        <el-form-item label="Module">
-          <el-input v-model="queryForm.moduleName" placeholder="Module name" size='mini'></el-input>
+        <el-form-item label="模块名称">
+          <el-input v-model="queryForm.moduleName" placeholder="模块名称" size='mini'></el-input>
         </el-form-item>
-        <el-form-item label="Case">
-          <el-input v-model="queryForm.caseDesc" placeholder="Case name" size='mini'></el-input>
+        <el-form-item label="用例描述">
+          <el-input v-model="queryForm.caseDesc" placeholder="用例描述" size='mini'></el-input>
         </el-form-item>
-        <el-form-item label="Status">
-          <el-select v-model="queryForm.status" placeholder="status" size='mini' style="width:100px">
+        <el-form-item label="状态">
+          <el-select v-model="queryForm.status" size='mini' style="width:100px">
               <el-option v-for="item in logStatusOptions"
                   :key="item.label"
                   size='mini'
@@ -21,8 +21,8 @@
               </el-option>
           </el-select>
         </el-form-item>   
-        <el-form-item label="Retry">
-          <el-select v-model="queryForm.isFailedRetry" placeholder="Retry" size='mini' style="width:100px">
+        <el-form-item label="重跑">
+          <el-select v-model="queryForm.isFailedRetry" size='mini' style="width:100px">
               <el-option v-for="item in retryOptions"
                   :key="item.label"
                   size="mini"
@@ -31,8 +31,8 @@
               </el-option>
           </el-select>
         </el-form-item>   
-        <el-form-item label="ShowRely">
-          <el-select v-model="queryForm.showDetail" placeholder="showDetail" size='mini' style="width:100px">
+        <el-form-item label="展示依赖">
+          <el-select v-model="queryForm.showDetail" size='mini' style="width:100px">
               <el-option v-for="item in showDetailOptions"
                   :key="item.label"
                   size="mini"
@@ -63,13 +63,13 @@
             </el-row>
         </template>
         </el-table-column>
-        <el-table-column property="id" label="Id" min-width="7%"></el-table-column>
-        <el-table-column property="projectName" label="Project" min-width="12%" show-overflow-tooltip></el-table-column>
-        <el-table-column property="moduleName" label="Module" min-width="12%" show-overflow-tooltip></el-table-column>
-        <el-table-column property="caseDesc" label="Case" min-width="20%" show-overflow-tooltip></el-table-column>
-        <el-table-column property="executer" label="Executor" min-width="10%"></el-table-column>
-        <el-table-column property="runTime" label="Time" min-width="8%"></el-table-column>
-        <el-table-column property="status" label="Status" min-width="8%">
+        <el-table-column property="id" label="编号" min-width="7%"></el-table-column>
+        <el-table-column property="projectName" label="项目名称" min-width="12%" show-overflow-tooltip></el-table-column>
+        <el-table-column property="moduleName" label="模块名称" min-width="12%" show-overflow-tooltip></el-table-column>
+        <el-table-column property="caseDesc" label="用例描述" min-width="20%" show-overflow-tooltip></el-table-column>
+        <el-table-column property="executer" label="执行人" min-width="10%"></el-table-column>
+        <el-table-column property="runTime" label="耗时" min-width="8%"></el-table-column>
+        <el-table-column property="status" label="状态" min-width="8%">
           <template slot-scope="scope">
             <el-tag
               effect="dark"
@@ -78,7 +78,7 @@
               disable-transitions>{{scope.row.status}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column property="isFailedRetry" label="RetryCase" min-width="8%">
+        <el-table-column property="isFailedRetry" label="失败重试" min-width="8%">
           <template slot-scope="scope">
             <el-tag
               effect="dark"
@@ -87,7 +87,7 @@
               disable-transitions>{{scope.row.isFailedRetryValue}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column property="isRelyCaseValue" label="CaseRely" min-width="8%">
+        <el-table-column property="isRelyCaseValue" label="用例依赖" min-width="8%">
           <template slot-scope="scope">
             <el-tag
               effect="dark"
@@ -96,7 +96,7 @@
               disable-transitions>{{scope.row.isRelyCaseValue}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="Operation" min-width="8%">
+        <el-table-column fixed="right" label="操作" min-width="8%">
           <template slot-scope="scope">
             <el-button
               @click="handleDetail(scope.row)"
