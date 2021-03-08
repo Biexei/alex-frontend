@@ -69,8 +69,8 @@
           <el-button type="primary" size="mini" @click="selectInterfaceCase(queryForm)">查询</el-button>
           <el-button type="primary" size="mini" @click="resetForm">重置</el-button>
           <el-button type="primary" size="mini" @click="openAdd" plain>新增</el-button>
-          <el-button type="primary" size="mini" @click="openGenerator" plain>自动生成</el-button>
-          <el-button type="primary" size="mini" @click="openImport" plain>批量导入</el-button>
+          <el-button type="primary" size="mini" @click="openGenerator" plain>生成</el-button>
+          <el-button type="primary" size="mini" @click="openImport" plain>导入</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -224,11 +224,11 @@
       <!--自动生成用例-->
       <el-dialog @close="closeGeneratorDialog" title="生成" :visible.sync="generatorDialogFormVisible" :close-on-click-modal="false">
         <el-form :model="caseGenerator" ref="caseGenerator">
-          <el-form-item label="使用说明" label-width="100px">
-            <el-link :href="downloadUrl + 5" type="primary" target="_blank" icon="el-icon-download" :underline="false">使用说明</el-link>
+          <el-form-item label="约束示例" label-width="100px">
+            <el-link :href="downloadUrl + 5" type="primary" target="_blank" icon="el-icon-download" :underline="false">约束示例</el-link>
           </el-form-item>
-          <el-form-item label="查看示例" label-width="100px">
-            <el-link :href="downloadUrl + 6" type="primary" target="_blank" icon="el-icon-download" :underline="false">查看示例</el-link>
+          <el-form-item label="介绍文档" label-width="100px">
+            <el-link :href="downloadUrl + 6" type="primary" target="_blank" icon="el-icon-download" :underline="false">介绍文档</el-link>
           </el-form-item>
           <el-form-item label="*选择文件" label-width="100px">
             <el-upload
@@ -242,13 +242,15 @@
               :on-error="handleGeneratorUploadError"
               accept=".json"
               :limit="1">
-              <el-button size="mini" type="primary">立即上传</el-button>
+              <el-button size="mini" type="primary">上传约束</el-button>
             </el-upload>
           </el-form-item>
           <el-form-item label="*生成策略" label-width="100px">
+            <el-checkbox  disabled checked>等价类</el-checkbox>
+            <el-checkbox  disabled checked>边界值</el-checkbox>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <el-radio-group v-model="caseGenerator.type" size='mini'>
-              <el-radio :label="1">正交实验法</el-radio>
-              <el-radio :label="2">笛卡尔积</el-radio>
+              <el-radio :label="1">正交法</el-radio>
+              <el-radio :label="2">穷举法</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-form>
@@ -2509,17 +2511,41 @@ export default {
 
     // 文件上传成功回调
     handleGeneratorUploadSuccess(response, file, fileList) {
-      this.$message({
-        type: "success",
-        center: true,
-        message: "文件上传成功"
-      });
-      this.generatorDialogFormVisible = false
-      // 初始化
-      this.caseGenerator = {
-        type: 1
+      if (response.code == 200) {
+        this.$message({
+          type: "success",
+          center: true,
+          message: response.msg
+        });
+        this.generatorDialogFormVisible = false
+        // 初始化
+        this.caseGenerator = {
+          type: 1
+        }
+        this.$refs.uploadGenerator.clearFiles();
+
+        /**
+         * 将后端给的json写入文件
+         */
+        var data = JSON.stringify(response.data, null, '\t')
+        //encodeURIComponent解决中文乱码
+        let uri = 'data:text/csv;charset=utf-8,\ufeff' + encodeURIComponent(data);
+        //通过创建a标签实现
+        let link = document.createElement("a");
+        link.href = uri;
+        //对下载的文件命名
+        link.download = "生成结果.json";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else {
+        this.$message({
+          type: "error",
+          center: true,
+          message: response.msg + ", 请检查约束文件"
+        });
+        this.$refs.uploadGenerator.clearFiles();
       }
-      this.$refs.uploadGenerator.clearFiles();
     },
     // 关闭导入框回调
     closeGeneratorDialog() {
