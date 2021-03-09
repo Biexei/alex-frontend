@@ -245,10 +245,13 @@ export default {
             element.type = "html";
           } else if (element.type == 2) {
             element.typeStyle = "danger";
-            element.type = "head";
+            element.type = "header";
           } else if (element.type == 3) {
             element.typeStyle = "warning";
             element.type = "code";
+          } else if (element.type == 4) {
+            element.typeStyle = "info";
+            element.type = "time";
           } else {
             element.typeStyle = "info";
             element.type = "unknow";

@@ -1487,11 +1487,15 @@ export default {
         },
         {
           value: 2,
-          label: "head",
+          label: "header",
         },
         {
           value: 3,
           label: "code",
+        },
+        {
+          value: 4,
+          label: "time(ms)",
         },
     ],
 

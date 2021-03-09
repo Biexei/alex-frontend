@@ -582,13 +582,15 @@ export default {
             }
             // 断言提取方式
             if (assert.type == 0) {
-                assert.type = 'jsonpath'
+                assert.type = 'json'
             } else if (assert.type == 1) {
-                assert.type = 'xpath'
+                assert.type = 'html'
             } else if (assert.type == 2) {
                 assert.type = 'header'
             } else if (assert.type == 3) {
-                assert.type = 'httpCode'
+                assert.type = 'code'
+            } else if (assert.type == 4) {
+                assert.type = 'time(ms)'
             } else {
                 assert.type = 'unknow'
             }
