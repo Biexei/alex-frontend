@@ -52,6 +52,13 @@
               icon="el-icon-delete"
               circle
             ></el-button>
+            <el-button
+              @click="handleResetPwd(scope.row.userId)"
+              type="info"
+              size="mini"
+              icon="el-icon-refresh-right"
+              circle
+            ></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -157,6 +164,7 @@ import {
   getUserInfo,
   modifyUserInfo,
   addUser,
+  pwdReset,  
   findAllRole
 } from "@/api/getData";
 export default {
@@ -212,6 +220,28 @@ export default {
     async openAdd() {
       this.addDialogFormVisible = true;
       this.addForm = {};
+    },
+    async handleResetPwd(userId) {
+      this.$confirm('此操作将重置密码, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        const res = await pwdReset(userId)
+          if (res.code == 200) {
+              this.$message({
+              type: "success",
+              center: true,
+              message: res.msg
+              });
+          } else {
+              this.$message({
+              type: "error",
+              center: true,
+              message: res.msg
+              });
+          }
+        })
     },
     async resetForm() {
       this.query = {}

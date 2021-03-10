@@ -22,6 +22,11 @@ export const logout = () => HttpRequest.get('/user/logout');
 export const deleteUser = userId => HttpRequest.get('/user/remove/' + userId)
 
 /**
+ * 重置密码
+ */
+export const pwdReset = userId => HttpRequest.get('/user/reset/' + userId)
+
+/**
  * 用户详情
  */
 export const getUserInfo = userId => HttpRequest.get('/user/info/' + userId)
