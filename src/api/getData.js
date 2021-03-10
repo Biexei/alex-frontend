@@ -538,3 +538,38 @@ export const findDataFactoryList = data => HttpRequest.get('/data/factory', data
  * 执行数据工厂
  */
 export const executeDataFactory = id => HttpRequest.get('/data/factory/execute/' + id)
+
+
+
+
+/**
+ * 查看角色列表（分页）
+ */
+ export const findRole = data => HttpRequest.get('/role', data)
+
+ /**
+ * 查看角色列表（全部）
+ */
+  export const findAllRole = data => HttpRequest.get('/role/all', data)
+
+ /**
+  * 查看角色详情
+  */
+ export const findRoleById = roleId => HttpRequest.get('/role/' + roleId)
+ 
+ 
+ /**
+  * 修改角色信息
+  */
+ export const modifyRole = data => HttpRequest.post('/role/modify', data)
+
+  /**
+  * 新增角色信息
+  */
+   export const saveRole = data => HttpRequest.post('/role/save', data)
+ 
+ 
+ /**
+  * 删除角色信息
+  */
+ export const removeRoleById = roleId => HttpRequest.get('/role/remove/' + roleId)

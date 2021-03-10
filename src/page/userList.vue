@@ -24,7 +24,7 @@
         <el-table-column property="userId" label="用户编号" min-width="15%"></el-table-column>
         <el-table-column property="username" label="用户名" min-width="15%"></el-table-column>
         <el-table-column property="sex" label="性别" min-width="15%"></el-table-column>
-        <el-table-column property="realName" label="真实姓名" min-width="15%"></el-table-column>
+        <el-table-column property="realName" label="昵称" min-width="15%"></el-table-column>
         <el-table-column property="createdTime" label="注册时间" min-width="20%"></el-table-column>
         <el-table-column property="isEnable" label="状态" min-width="15%">
           <template slot-scope="scope">
@@ -67,18 +67,15 @@
         ></el-pagination>
       </div>
 
-      <el-dialog title="编辑" :visible.sync="editDialogFormVisible" :close-on-click-modal=false>
+      <el-dialog title="编辑" :visible.sync="editDialogFormVisible" :close-on-click-modal=false @open="selectRole">
         <el-form :model="userInfo">
           <el-form-item label="*用户名" label-width="100px">
             <el-input v-model="userInfo.username" auto-complete="off" size='mini'></el-input>
           </el-form-item>
-          <el-form-item label="*密码" label-width="100px">
-            <el-input v-model="userInfo.password" size='mini' show-password></el-input>
-          </el-form-item>
           <el-form-item label="工号" label-width="100px">
             <el-input v-model="userInfo.jobNumber" size='mini'></el-input>
           </el-form-item>
-          <el-form-item label="*真实姓名" label-width="100px">
+          <el-form-item label="*昵称" label-width="100px">
             <el-input v-model="userInfo.realName" size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*性别" label-width="100px">
@@ -93,6 +90,17 @@
               <el-radio :label="0">禁用</el-radio>
             </el-radio-group>
           </el-form-item>
+          <el-form-item label="*角色" label-width="100px" prop="name">
+            <el-select v-model="userInfo.roleId" @change="handleSelectRole"  size='mini'>
+              <el-option
+              size='mini'
+              v-for="item in roleOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="editDialogFormVisible = false" size="mini">取 消</el-button>
@@ -100,7 +108,7 @@
         </div>
       </el-dialog>
 
-      <el-dialog title="新增" :visible.sync="addDialogFormVisible" :close-on-click-modal=false>
+      <el-dialog title="新增" :visible.sync="addDialogFormVisible" :close-on-click-modal=false @open="selectRole">
         <el-form :model="addForm" ref="addForm">
           <el-form-item label="*用户名" label-width="100px" prop="username">
             <el-input v-model="addForm.username" auto-complete="off" size='mini'></el-input>
@@ -111,7 +119,7 @@
           <el-form-item label="工号" label-width="100px" prop="jobNumber">
             <el-input v-model="addForm.jobNumber" size='mini'></el-input>
           </el-form-item>
-          <el-form-item label="真实姓名" label-width="100px" prop="realName">
+          <el-form-item label="*昵称" label-width="100px" prop="realName">
             <el-input v-model="addForm.realName" size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*性别" label-width="100px" prop="sex">
@@ -119,6 +127,17 @@
               <el-radio :label="0">女</el-radio>
               <el-radio :label="1">男</el-radio>
             </el-radio-group>
+          </el-form-item>
+          <el-form-item label="*角色" label-width="100px" prop="name">
+            <el-select v-model="addForm.roleId" @change="handleSelectRole"  size='mini'>
+              <el-option
+              size='mini'
+              v-for="item in roleOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -137,7 +156,8 @@ import {
   deleteUser,
   getUserInfo,
   modifyUserInfo,
-  addUser
+  addUser,
+  findAllRole
 } from "@/api/getData";
 export default {
   data() {
@@ -151,6 +171,7 @@ export default {
       editDialogFormVisible: false,
       addDialogFormVisible: false,
       addForm: {},
+      roleOptions:[]
     };
   },
   components: {
@@ -160,6 +181,26 @@ export default {
     this.getUserList(this.query);
   },
   methods: {
+    async selectRole(){
+      this.roleOptions = []
+      const res = await findAllRole({status:0})
+      if (res.code == 200) {
+          let dataList = res.data
+          dataList.forEach((item, index) => {
+            this.roleOptions.push({
+                label: item.roleName,
+                value: item.roleId,
+                index: index
+            });
+          });
+      } else {
+        this.$message({
+          type:"error",
+          center: true,
+          message:res.msg
+        });
+      }
+    },
     handleSizeChange(pageSize) {
       this.pageSize = pageSize;
       this.getUserList(this.query);
@@ -252,6 +293,10 @@ export default {
         this.editDialogFormVisible = true;
       }
     },
+    async handleSelectRole(roleId) {
+      this.userInfo['roleId'] = roleId;
+      this.addForm['roleId'] = roleId;
+    },  
     async getUserList(query) {
       query["pageNum"] = this.pageNum;
       query["pageSize"] = this.pageSize;

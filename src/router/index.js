@@ -6,6 +6,7 @@ Vue.use(Router)
 const login = r => require.ensure([], () => r(require('@/page/login')), 'login');
 const manage = r => require.ensure([], () => r(require('@/page/manage')), 'manage');
 const userList = r => require.ensure([], () => r(require('@/page/userList')), 'userList');
+const role = r => require.ensure([], () => r(require('@/page/role')), 'role');
 const projectList = r => require.ensure([], () => r(require('@/page/projectList')), 'projectList');
 const moduleList = r => require.ensure([], () => r(require('@/page/moduleList')), 'moduleList');
 const dbList = r => require.ensure([], () => r(require('@/page/dbList')), 'dbList');
@@ -91,6 +92,14 @@ const router = new Router({
           component: userList,
           meta: {
             path: ['用户管理'],
+            requireAuth: true
+          },
+        },
+        {
+          path: '/role',
+          component: role,
+          meta: {
+            path: ['角色管理'],
             requireAuth: true
           },
         },
