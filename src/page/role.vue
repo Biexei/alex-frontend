@@ -27,7 +27,7 @@
     <div class="table_container">
       <el-table :data="dataList" stripe highlight-current-row style="width: 100%">
         <el-table-column property="roleId" label="编号" min-width="20%"></el-table-column>
-        <el-table-column property="roleName" label="名称" min-width="60%"></el-table-column>
+        <el-table-column property="roleName" label="名称" min-width="58%"></el-table-column>
         <el-table-column property="status" label="状态" min-width="10%">
           <template slot-scope="scope">
           <el-switch
@@ -38,7 +38,7 @@
           </el-switch>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="10%">
+        <el-table-column fixed="right" label="操作" min-width="12%">
           <template slot-scope="scope">
             <el-button
               @click="handleEdit(scope.row.roleId)"
@@ -52,6 +52,13 @@
               type="danger"
               size="mini"
               icon="el-icon-delete"
+              circle
+            ></el-button>
+            <el-button
+              @click="handleAuthor(scope.row.roleId)"
+              type="warning"
+              size="mini"
+              icon="el-icon-connection"
               circle
             ></el-button>
           </template>
@@ -89,6 +96,16 @@
           <el-button @click="editDialogFormVisible = false" size="mini">取 消</el-button>
           <el-button type="primary" @click="updateRole" size="mini">确 定</el-button>
         </div>
+      </el-dialog>
+
+      <el-dialog title="权限管理" :visible.sync="permissionDialogFormVisible" :close-on-click-modal=false>
+          <el-tree
+            :props="props"
+            :data="permission"
+            node-key="id"
+            show-checkbox
+            @check-change="handleCheckChange">
+          </el-tree>
       </el-dialog>
 
       <el-dialog title="添加" :visible.sync="addDialogFormVisible" :close-on-click-modal=false>
@@ -130,6 +147,7 @@ export default {
       dataAdd:{},
       editDialogFormVisible: false,
       addDialogFormVisible: false,
+      permissionDialogFormVisible:false,
 
       statusOptions:[
         {
@@ -141,6 +159,42 @@ export default {
           label: '禁用'
         },
       ],
+
+
+      props: {
+        children: 'nodeList',
+        label: 'permissionName'
+      },
+
+      permission: [{
+        id: "5",
+        permissionCode: 'user',
+        permissionName: '用户管理',
+        nodeList: [
+          {
+            id: 1,
+            permissionCode: 'user:list',
+            permissionName: '列表',
+          },
+          {
+            id: 2,
+            permissionCode: 'user:add',
+            permissionName: '新增',
+          },
+          {
+            id: 3,
+            permissionCode: 'user:modify',
+            permissionName: '修改',
+          },
+          {
+            id: 4,
+            permissionCode: 'user:remove',
+            permissionName: '删除',
+          },
+        ]
+      }],
+
+      count: 1,
     };
   },
   components: {
@@ -273,8 +327,16 @@ export default {
       this.pageNum = 1
       this.type = 2
       this.selectRoleList(this.queryForm)
-    }
-  }
+    },
+
+    handleAuthor(roleId) {
+      this.permissionDialogFormVisible = true
+    },
+
+    handleCheckChange() {
+
+    },
+  }  
 }
 </script>
 
