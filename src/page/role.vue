@@ -98,16 +98,6 @@
         </div>
       </el-dialog>
 
-      <el-dialog title="权限管理" :visible.sync="permissionDialogFormVisible" :close-on-click-modal=false>
-          <el-tree
-            :props="props"
-            :data="permission"
-            node-key="id"
-            show-checkbox
-            @check-change="handleCheckChange">
-          </el-tree>
-      </el-dialog>
-
       <el-dialog title="添加" :visible.sync="addDialogFormVisible" :close-on-click-modal=false>
         <el-form :model="dataAdd" ref="dataAdd">
           <el-form-item label="*名称" label-width="100px">
@@ -129,12 +119,31 @@
           <el-button type="primary" @click="handleAdd()" size="mini">确 定</el-button>
         </div>
       </el-dialog>
+
+      <el-dialog title="权限管理" :visible.sync="permissionDialogFormVisible" :close-on-click-modal=false>
+        <div class="el-dialog-div">
+          <el-tree
+            :props="props"
+            :data="permission"
+            node-key="id"
+            highlight-current
+            default-expand-all
+            show-checkbox
+            ref="tree"
+            check-strictly
+            :default-checked-keys="checkedPermissionArray"
+            :expand-on-click-node="true"
+            :filter-node-method="filterNode"
+            @check-change="handleCheckChange">
+          </el-tree>
+        </div>
+      </el-dialog>
     </div>
   </div>
 </template>
 <script>
 import headTop from "../components/headTop";
-import { findRoleById, findRole, saveRole, modifyRole, removeRoleById} from "@/api/getData";
+import { findRoleById, findRole, saveRole, modifyRole, removeRoleById, findAllPermission, findPermissionIdArrayByRoleId, saveRolePermission, removeRolePermission} from "@/api/getData";
 export default {
   data() {
     return {
@@ -166,33 +175,10 @@ export default {
         label: 'permissionName'
       },
 
-      permission: [{
-        id: "5",
-        permissionCode: 'user',
-        permissionName: '用户管理',
-        nodeList: [
-          {
-            id: 1,
-            permissionCode: 'user:list',
-            permissionName: '列表',
-          },
-          {
-            id: 2,
-            permissionCode: 'user:add',
-            permissionName: '新增',
-          },
-          {
-            id: 3,
-            permissionCode: 'user:modify',
-            permissionName: '修改',
-          },
-          {
-            id: 4,
-            permissionCode: 'user:remove',
-            permissionName: '删除',
-          },
-        ]
-      }],
+      filterText: '',
+      permission: [],
+      checkedPermissionArray: [],
+      roleId: null,
 
       count: 1,
     };
@@ -204,6 +190,26 @@ export default {
     this.selectRoleList(this.queryForm);
   },
   methods: {
+    // 节点查找
+    filterNode(value, data) {
+      if (!value) return true;
+      return data.permissionName.indexOf(value) !== -1;
+    },
+    async selectAllPermission(){
+      this.permission = []
+      const res = await findAllPermission()
+      if (res.code == 200) {
+          this.permission = res.data
+      } else {
+        this.$message({
+          type:"error",
+          center: true,
+          message:res.msg
+        });
+      }
+    },
+
+
     async selectRoleList(queryForm){
       queryForm['pageNum'] = this.pageNum
       queryForm['pageSize'] = this.pageSize
@@ -329,12 +335,46 @@ export default {
       this.selectRoleList(this.queryForm)
     },
 
-    handleAuthor(roleId) {
-      this.permissionDialogFormVisible = true
+    async handleAuthor(roleId) {
+      this.roleId = roleId
+      this.selectAllPermission();
+      const res = await findPermissionIdArrayByRoleId(roleId)
+      if (res.code == 200) {
+        this.checkedPermissionArray = res.data
+        this.permissionDialogFormVisible = true
+      } else {
+        this.$message({
+          type: "error",
+          center: true,
+          message: res.msg
+        });
+      }
     },
 
-    handleCheckChange() {
-
+    async handleCheckChange(data, checked) {
+      let roleId = this.roleId
+      let permissionId = data.id
+      if (checked) {
+        // 调用新增
+        const result = await saveRolePermission({roleId:roleId, permissionId:permissionId})
+        if (result.code != 200) {
+          this.$message({
+            type: "error",
+            center: true,
+            message: result.msg
+          });
+        }
+      } else {
+        //调用删除
+        const result = await removeRolePermission({roleId:roleId, permissionId:permissionId})
+        if (result.code != 200) {
+          this.$message({
+            type: "error",
+            center: true,
+            message: result.msg
+          });
+        }
+      }
     },
   }  
 }
@@ -352,5 +392,22 @@ export default {
   display: flex;
   justify-content: flex-start;
   margin-top: 8px;
+}
+.el-dialog-div {
+  height: 70vh;
+  overflow: auto;
+}
+/* 改变节点高度 */
+.el-tree-node__content {
+  height: 35px;
+}
+
+.custom-tree-node {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  padding-right: 8px;
 }
 </style>

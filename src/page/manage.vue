@@ -7,6 +7,7 @@
 					<!-- <el-menu-item index="manage" class="left-color"><i class="el-icon-pie-chart"></i><span slot="title" class="title-color">仪表盘</span></el-menu-item> -->
 					<el-menu-item index="userList" class="left-color"><i class="el-icon-s-custom"></i><span slot="title" class="title-color">用户管理</span></el-menu-item>
 					<el-menu-item index="role" class="left-color"><i class="el-icon-place"></i><span slot="title" class="title-color">角色管理</span></el-menu-item>
+					<el-menu-item index="permission" class="left-color"><i class="el-icon-connection"></i><span slot="title" class="title-color">权限管理</span></el-menu-item>
 					<el-menu-item index="projectList" class="left-color"><i class="el-icon-s-flag"></i><span slot="title" class="title-color">项目管理</span></el-menu-item>
 					<el-menu-item index="moduleList" class="left-color"><i class="el-icon-potato-strips"></i><span slot="title" class="title-color">模块管理</span></el-menu-item>
 					<el-menu-item index="dbList" class="left-color"><i class="el-icon-coin"></i><span slot="title" class="title-color">数据源中心</span></el-menu-item>

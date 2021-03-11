@@ -578,3 +578,47 @@ export const executeDataFactory = id => HttpRequest.get('/data/factory/execute/'
   * 删除角色信息
   */
  export const removeRoleById = roleId => HttpRequest.get('/role/remove/' + roleId)
+
+  /**
+  * 查询角色已有权限
+  */
+   export const findPermissionIdArrayByRoleId = roleId => HttpRequest.get('/role/permission/' + roleId)
+
+ /**
+  * 为角色新增权限
+  */
+  export const saveRolePermission = data => HttpRequest.post('/role/permission/save', data)
+
+  /**
+  * 为角色删除权限
+  */
+   export const removeRolePermission = data => HttpRequest.post('/role/permission/remove', data)
+
+
+
+
+  /**
+  * 查看所有权限
+  */
+  export const findAllPermission = () => HttpRequest.get('/permission')
+
+  /**
+  * 详情
+  */
+   export const findPermissionById = id => HttpRequest.get('/permission/' + id)
+
+  /**
+  * 新增权限
+  */
+  export const savePermission = data => HttpRequest.post('/permission/save', data)
+
+  /**
+  * 修改权限
+  */
+  export const modifyPermission = data => HttpRequest.post('/permission/modify', data)
+
+
+  /**
+  * 删除权限
+  */
+  export const removePermissionById = id => HttpRequest.get('/permission/remove/' + id)
