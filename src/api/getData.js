@@ -12,6 +12,11 @@ export const login = data => HttpRequest.post('/user/login', data);
 export const userList = data => HttpRequest.get('/user/list', data);
 
 /**
+ * 修改密码
+ */
+ export const changePwd = data => HttpRequest.post('/user/pwd/change', data);
+
+/**
  * 用户列表
  */
 export const logout = () => HttpRequest.get('/user/logout');
