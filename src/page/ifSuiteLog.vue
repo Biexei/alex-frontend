@@ -40,8 +40,8 @@
           </el-date-picker>
         </el-form-item>  
         <el-form-item>
-          <el-button type="primary" size="mini" @click="selectSuiteLogList(queryForm)">查询</el-button>
-          <el-button type="primary" size="mini" @click="resetForm">重置</el-button>
+          <el-button v-has="'interface:assert_log:find'" type="primary" size="mini" @click="selectSuiteLogList(queryForm)">查询</el-button>
+          <el-button v-has="'interface:assert_log:find'" type="primary" size="mini" @click="resetForm">重置</el-button>
         </el-form-item>
       </el-form>
     </div>

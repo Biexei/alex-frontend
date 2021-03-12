@@ -24,9 +24,9 @@
           <el-input v-model="queryForm.emailAddress" placeholder="Email"  size='mini'></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" size="mini" @click="selectTaskList(queryForm)">查询</el-button>
-          <el-button type="primary" size="mini" @click="resetForm">重置</el-button>
-          <el-button type="primary" size="mini" @click="openAdd" plain>新增</el-button>
+          <el-button v-has="'setting:task:find'" type="primary" size="mini" @click="selectTaskList(queryForm)">查询</el-button>
+          <el-button v-has="'setting:task:find'" type="primary" size="mini" @click="resetForm">重置</el-button>
+          <el-button v-has="'setting:task:add'" type="primary" size="mini" @click="openAdd" plain>新增</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -51,6 +51,7 @@
           <template slot-scope="scope">
             <el-button
               @click="handleEdit(scope.row.taskId)"
+              v-has="'setting:task:modify'"
               type="primary"
               size="mini"
               icon="el-icon-edit"
@@ -58,6 +59,7 @@
             ></el-button>
             <el-button
               @click="handleDelete(scope.row.taskId, scope.$index)"
+              v-has="'setting:task:remove'"
               type="danger"
               size="mini"
               icon="el-icon-delete"

@@ -18,9 +18,9 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" size="mini" @click="selectRoleList(queryForm)">查询</el-button>
-          <el-button type="primary" size="mini" @click="resetForm">重置</el-button>
-          <el-button type="primary" size="mini" @click="openAdd" plain>新增</el-button>
+          <el-button v-has="'role:find'" type="primary" size="mini" @click="selectRoleList(queryForm)">查询</el-button>
+          <el-button v-has="'role:find'" type="primary" size="mini" @click="resetForm">重置</el-button>
+          <el-button v-has="'role:add'" type="primary" size="mini" @click="openAdd" plain>新增</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -42,6 +42,7 @@
           <template slot-scope="scope">
             <el-button
               @click="handleEdit(scope.row.roleId)"
+              v-has="'role:modify'"
               type="primary"
               size="mini"
               icon="el-icon-edit"
@@ -49,6 +50,7 @@
             ></el-button>
             <el-button
               @click="handleDelete(scope.row.roleId, scope.$index)"
+              v-has="'role:remove'"
               type="danger"
               size="mini"
               icon="el-icon-delete"
@@ -56,9 +58,10 @@
             ></el-button>
             <el-button
               @click="handleAuthor(scope.row.roleId)"
+              v-has="'role:permission'"
               type="warning"
               size="mini"
-              icon="el-icon-connection"
+              icon="el-icon-s-operation"
               circle
             ></el-button>
           </template>
@@ -127,7 +130,6 @@
             :data="permission"
             node-key="id"
             highlight-current
-            default-expand-all
             show-checkbox
             ref="tree"
             check-strictly

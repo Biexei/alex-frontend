@@ -32,9 +32,9 @@
           <el-input v-model="queryForm.desc" placeholder="描述"  size='mini'></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" size="mini" @click="selectSuiteList(queryForm)">查询</el-button>
-          <el-button type="primary" size="mini" @click="resetForm">重置</el-button>
-          <el-button type="primary" size="mini" @click="openAdd" plain>新增</el-button>
+          <el-button v-has="'interface:suite:find'" type="primary" size="mini" @click="selectSuiteList(queryForm)">查询</el-button>
+          <el-button v-has="'interface:suite:find'" type="primary" size="mini" @click="resetForm">重置</el-button>
+          <el-button v-has="'interface:suite:add'" type="primary" size="mini" @click="openAdd" plain>新增</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -81,6 +81,7 @@
           <template slot-scope="scope">
             <el-button
               @click="handleManager(scope.row.suiteId)"
+              v-has="'interface:suite:manager'"
               type="info"
               size="mini"
               icon="el-icon-star-off"
@@ -88,6 +89,7 @@
             ></el-button>
             <el-button
               @click="handleExecute(scope.row.suiteId)"
+              v-has="'interface:suite:execute'"
               type="success"
               size="mini"
               :icon="executeIconStyle"
@@ -95,6 +97,7 @@
             ></el-button>
             <el-button
               @click="handleEdit(scope.row.suiteId)"
+              v-has="'interface:suite:modify'"
               type="primary"
               size="mini"
               icon="el-icon-edit"
@@ -102,6 +105,7 @@
             ></el-button>
             <el-button
               @click="handleCopy(scope.row.suiteId)"
+              v-has="'interface:suite:copy'"
               type="warning"
               size="mini"
               icon="el-icon-copy-document"
@@ -109,6 +113,7 @@
             ></el-button>
             <el-button
               @click="handleDelete(scope.row.suiteId, scope.$index)"
+              v-has="'interface:suite:remove'"
               type="danger"
               size="mini"
               icon="el-icon-delete"

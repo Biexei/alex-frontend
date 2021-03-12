@@ -11,7 +11,7 @@
           </el-input>
         </el-col>
         <el-col :span="4">
-          <el-button @click="addTopDialogFormVisible = true" type="primary" plain size="mini">添加顶级节点</el-button>
+          <el-button v-has="'permission:add_top'" @click="addTopDialogFormVisible = true" type="primary" plain size="mini">添加顶级节点</el-button>
         </el-col>
       </el-row>
     </div>
@@ -21,8 +21,6 @@
         :data="permission"
         node-key="id"
         highlight-current
-        default-expand-all
-        show-checkbox
         ref="tree"
         :expand-on-click-node="false"
         :filter-node-method="filterNode"
@@ -247,9 +245,9 @@ export default {
         <span class="custom-tree-node">
           <span>{node.label}</span>
           <span class="right">
-            <el-button size="mini" type="text" plain on-click={ () => this.append(data) }>添加</el-button>
-            <el-button size="mini" type="text" plain on-click={ () => this.edit(data) }>编辑</el-button>
-            <el-button size="mini" type="text" plain on-click={ () => this.remove(node, data) }>删除</el-button>
+            <el-button  size="mini" type="text" plain on-click={ () => this.append(data) }>添加</el-button>
+            <el-button  size="mini" type="text" plain on-click={ () => this.edit(data) }>编辑</el-button>
+            <el-button  size="mini" type="text" plain on-click={ () => this.remove(node, data) }>删除</el-button>
           </span>
         </span>);
     },
@@ -290,7 +288,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 13px;
+  font-size: 14px;
   padding-right: 8px;
 }
 </style>

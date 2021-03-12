@@ -47,9 +47,9 @@
           </el-date-picker>
         </el-form-item>         
         <el-form-item>
-          <el-button type="primary" size="mini" @click="selectIfRelyDataList(queryForm)">查询</el-button>
-          <el-button type="primary" size="mini" @click="resetForm">重置</el-button>
-          <el-button type="primary" size="mini" @click="openAdd" plain>新增</el-button>
+          <el-button v-has="'data_center:if_rely:find'" type="primary" size="mini" @click="selectIfRelyDataList(queryForm)">查询</el-button>
+          <el-button v-has="'data_center:if_rely:find'" type="primary" size="mini" @click="resetForm">重置</el-button>
+          <el-button v-has="'data_center:if_rely:add'" type="primary" size="mini" @click="openAdd" plain>新增</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -84,6 +84,7 @@
           <template slot-scope="scope">
             <el-button 
               @click="handleCheck(scope.row.relyId)"
+              v-has="'data_center:if_rely:execute'"
               type="success" 
               size="mini"
               icon="el-icon-check" 
@@ -91,6 +92,7 @@
             </el-button>
             <el-button
               @click="handleEdit(scope.row.relyId)"
+              v-has="'data_center:if_rely:modify'"
               type="primary"
               size="mini"
               icon="el-icon-edit"
@@ -98,6 +100,7 @@
             ></el-button>
             <el-button
               @click="handleDelete(scope.row.relyId, scope.$index)"
+              v-has="'data_center:if_rely:remove'"
               type="danger"
               size="mini"
               icon="el-icon-delete"

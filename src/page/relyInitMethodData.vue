@@ -10,9 +10,9 @@
           <el-input v-model="queryForm.value" placeholder="预置方法" size='mini'></el-input>
         </el-form-item>                
         <el-form-item>
-          <el-button type="primary" size="mini" @click="selectRelyDataList(queryForm)">查询</el-button>
-          <el-button type="primary" size="mini" @click="resetForm">重置</el-button>
-          <el-button type="primary" size="mini" @click="openAdd" plain>新增</el-button>
+          <el-button v-has="'data_center:rely_init_method:find'" type="primary" size="mini" @click="selectRelyDataList(queryForm)">查询</el-button>
+          <el-button v-has="'data_center:rely_init_method:find'" type="primary" size="mini" @click="resetForm">重置</el-button>
+          <el-button v-has="'data_center:rely_init_method:add'" type="primary" size="mini" @click="openAdd" plain>新增</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -36,6 +36,7 @@
           <template slot-scope="scope">
             <el-button
               @click="handleEdit(scope.row.id)"
+              v-has="'data_center:rely_init_method:modify'"
               type="primary"
               size="mini"
               icon="el-icon-edit"
@@ -43,6 +44,7 @@
             ></el-button>
             <el-button
               @click="handleDelete(scope.row.id, scope.$index)"
+              v-has="'data_center:rely_init_method:remove'"
               type="danger"
               size="mini"
               icon="el-icon-delete"

@@ -7,9 +7,9 @@
           <el-input v-model="queryForm.key" placeholder="key" size='mini'></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" size="mini" @click="findAllTempValue(queryForm)">查询</el-button>
-          <el-button type="primary" size="mini" @click="resetForm">重置</el-button>
-          <el-button type="danger" size="mini" @click="handleDeleteAll">清空</el-button>
+          <el-button v-has="'data_center:temp_env:find'" type="primary" size="mini" @click="findAllTempValue(queryForm)">查询</el-button>
+          <el-button v-has="'data_center:temp_env:find'" type="primary" size="mini" @click="resetForm">重置</el-button>
+          <el-button v-has="'data_center:temp_env:clear'" type="danger" size="mini" @click="handleDeleteAll">清空</el-button>
         </el-form-item>
       </el-form>
     </div>

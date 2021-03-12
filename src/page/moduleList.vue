@@ -10,9 +10,9 @@
           <el-input v-model="queryForm.moduleName" placeholder="模块名称"  size='mini'></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" size="mini" @click="selectModuleList(queryForm)">查询</el-button>
-          <el-button type="primary" size="mini" @click="resetForm">重置</el-button>
-          <el-button type="primary" size="mini" @click="openAdd" plain>新增</el-button>
+          <el-button v-has="'module:find'" type="primary" size="mini" @click="selectModuleList(queryForm)">查询</el-button>
+          <el-button v-has="'module:find'" type="primary" size="mini" @click="resetForm">重置</el-button>
+          <el-button v-has="'module:add'" type="primary" size="mini" @click="openAdd" plain>新增</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -27,6 +27,7 @@
           <template slot-scope="scope">
             <el-button
               @click="handleEdit(scope.row.moduleId)"
+              v-has="'module:modify'"
               type="primary"
               size="mini"
               icon="el-icon-edit"
@@ -34,6 +35,7 @@
             ></el-button>
             <el-button
               @click="handleDelete(scope.row.moduleId, scope.$index)"
+              v-has="'module:remove'"
               type="danger"
               size="mini"
               icon="el-icon-delete"

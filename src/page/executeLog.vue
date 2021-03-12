@@ -48,8 +48,8 @@
           </el-date-picker>
         </el-form-item>                
         <el-form-item>
-          <el-button type="primary" size="mini" @click="selectInterfaceCaseExecuteLogList(queryForm)">查询</el-button>
-          <el-button type="primary" size="mini" @click="resetForm">重置</el-button>
+          <el-button v-has="'interface:case_log:find'" type="primary" size="mini" @click="selectInterfaceCaseExecuteLogList(queryForm)">查询</el-button>
+          <el-button v-has="'interface:case_log:find'" type="primary" size="mini" @click="resetForm">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -94,6 +94,7 @@
           <template slot-scope="scope">
             <el-button
               @click="handleDetail(scope.row.id)"
+              v-has="'interface:case_log:detail'"
               type="primary"
               icon="el-icon-more"
               size="mini"
@@ -101,6 +102,7 @@
             ></el-button>
             <el-button
               @click="handleChain(scope.row.id)"
+              v-has="'interface:case_log:chain'"
               type="danger"
               icon="el-icon-view"
               size="mini"

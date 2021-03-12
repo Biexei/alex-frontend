@@ -13,9 +13,9 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" size="mini" @click="getUserList(query)">查询</el-button>
-          <el-button type="primary" size="mini" @click="resetForm">重置</el-button>
-          <el-button type="primary" size="mini" @click="openAdd" plain>新增</el-button>
+          <el-button v-has="'user:find'" type="primary" size="mini" @click="getUserList(query)">查询</el-button>
+          <el-button v-has="'user:find'" type="primary" size="mini" @click="resetForm">重置</el-button>
+          <el-button v-has="'user:add'" type="primary" size="mini" @click="openAdd" plain>新增</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -40,6 +40,7 @@
           <template slot-scope="scope">
             <el-button
               @click="handleEdit(scope.row.userId)"
+              v-has="'user:modify'"
               type="primary"
               size="mini"
               icon="el-icon-edit"
@@ -47,6 +48,7 @@
             ></el-button>
             <el-button
               @click="handleDelete(scope.row.userId, scope.$index)"
+              v-has="'user:remove'"
               type="danger"
               size="mini"
               icon="el-icon-delete"
@@ -54,6 +56,7 @@
             ></el-button>
             <el-button
               @click="handleResetPwd(scope.row.userId)"
+              v-has="'user:reset'"
               type="info"
               size="mini"
               icon="el-icon-refresh-right"
