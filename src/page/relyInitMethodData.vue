@@ -12,7 +12,7 @@
         <el-form-item>
           <el-button v-has="'data_center:rely_init_method:find'" type="primary" size="mini" @click="selectRelyDataList(queryForm)">查询</el-button>
           <el-button v-has="'data_center:rely_init_method:find'" type="primary" size="mini" @click="resetForm">重置</el-button>
-          <el-button v-has="'data_center:rely_init_method:add'" type="primary" size="mini" @click="openAdd" plain>新增</el-button>
+          <!-- <el-button v-has="'data_center:rely_init_method:add'" type="primary" size="mini" @click="openAdd" plain>新增</el-button> -->
         </el-form-item>
       </el-form>
     </div>
@@ -130,7 +130,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="*值" label-width="100px" v-if="showValue"> 
+          <el-form-item label="*方法定义" label-width="100px" v-if="showValue"> 
             <el-input v-model="dataInfo.value" size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*数据源编号" label-width="100px" v-if="showDbId">
@@ -166,7 +166,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="*值" label-width="100px" v-if="showValue"> 
+          <el-form-item label="*方法定义" label-width="100px" v-if="showValue"> 
             <el-input v-model="dataAdd.value" size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*数据源编号" label-width="100px" v-if="showDbId">
@@ -204,18 +204,18 @@ export default {
       editDialogFormVisible: false,
       addDialogFormVisible: false,
       typeOptions:[
-        {
-          value: 0,
-          label: '固定字符'
-        },
+        // {
+        //   value: 0,
+        //   label: '固定字符'
+        // },
         {
           value: 1,
           label: '预置方法'
         },
-        {
-          value: 2,
-          label: '查询语句'
-        },
+        // {
+        //   value: 2,
+        //   label: '查询语句'
+        // },
       ],
       writeTypeOptions:[
         {

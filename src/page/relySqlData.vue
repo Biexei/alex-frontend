@@ -139,7 +139,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="*值" label-width="100px" v-if="showValue"> 
+          <el-form-item label="*SQL" label-width="100px" v-if="showValue"> 
             <el-input v-model="dataInfo.value" size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*数据源编号" label-width="100px" v-if="showDbId">
@@ -175,7 +175,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="*值" label-width="100px" v-if="showValue"> 
+          <el-form-item label="*SQL" label-width="100px" v-if="showValue"> 
             <el-input v-model="dataAdd.value" size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*数据源编号" label-width="100px" v-if="showDbId">
@@ -227,16 +227,16 @@ export default {
         },
       ],
       writeTypeOptions:[
-        {
-          value: 0,
-          label: '固定字符',
-          isDisable: false,
-        },
-        {
-          value: 1,
-          label: '预置方法',
-          isDisable: true,
-        },
+        // {
+        //   value: 0,
+        //   label: '固定字符',
+        //   isDisable: false,
+        // },
+        // {
+        //   value: 1,
+        //   label: '预置方法',
+        //   isDisable: true,
+        // },
         {
           value: 2,
           label: '查询语句',
@@ -497,12 +497,12 @@ export default {
     },
     async openAdd() {
       this.addDialogFormVisible = true;
-      this.dataAdd = {};
-      this.showValue = false
-      this.showDbId = false
-      this.showDbName = false
+      this.showValue = true
+      this.showDbId = true
+      this.showDbName = true
       this.disableModifyName = false //能否修改名称
       this.disableModifyType = false //能否修改类型
+      this.dataAdd = {type:2};
     },
     async resetForm() {
       this.queryForm = {}

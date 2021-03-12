@@ -131,6 +131,7 @@
             node-key="id"
             highlight-current
             show-checkbox
+            default-expand-all
             ref="tree"
             check-strictly
             :default-checked-keys="checkedPermissionArray"

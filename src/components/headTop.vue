@@ -10,10 +10,10 @@
 				<el-avatar src="../../static/avatar.jpg" size="small"></el-avatar>
 			</span>
 			<el-dropdown-menu slot="dropdown">
-				<el-dropdown-item command="changePwd" icon="el-icon-wind-power">修改密码</el-dropdown-item>
-				<el-dropdown-item command="logout" icon="el-icon-switch-button">注销登录</el-dropdown-item>
 				<el-dropdown-item command="jsonFormatter" icon="el-icon-sunny">Json美化</el-dropdown-item>
 				<el-dropdown-item command="xmlFormatter" icon="el-icon-sunset">Xml美化</el-dropdown-item>
+				<el-dropdown-item command="changePwd" icon="el-icon-wind-power">修改密码</el-dropdown-item>
+				<el-dropdown-item command="logout" icon="el-icon-switch-button">注销登录</el-dropdown-item>
 			</el-dropdown-menu>
 			</el-dropdown>
 
