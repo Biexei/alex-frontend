@@ -223,16 +223,16 @@ export default {
           label: '固定字符',
           isDisable: false,
         },
-        {
-          value: 1,
-          label: '预置方法',
-          isDisable: true,
-        },
-        {
-          value: 2,
-          label: '查询语句',
-          isDisable: false,
-        },
+        // {
+        //   value: 1,
+        //   label: '预置方法',
+        //   isDisable: true,
+        // },
+        // {
+        //   value: 2,
+        //   label: '查询语句',
+        //   isDisable: false,
+        // },
       ],
       showValue:true, //展示固定值/SQL
       showDbId:true, //展示数据源编号
