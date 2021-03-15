@@ -26,16 +26,13 @@
         <el-form-item label="状态">
           <el-select v-model="queryForm.caseStatusOptions" clearable placeholder="请选择"  size='mini'>
             <el-option
-              v-for="item in levelTypeOptions"
+              v-for="item in caseStatusOptions"
               :key="item.value"
               size='mini'
               :label="item.label"
               :value="item.value">
             </el-option>
           </el-select>
-        </el-form-item>
-        <el-form-item label="描述">
-          <el-input v-model="queryForm.desc" placeholder="描述"  size='mini'></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" size="mini" @click="selectSuiteCaseList(queryForm)">查询</el-button>
