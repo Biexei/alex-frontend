@@ -12,7 +12,9 @@
 			<el-dropdown-menu slot="dropdown">
 				<el-dropdown-item command="jsonFormatter" icon="el-icon-sunny">Json美化</el-dropdown-item>
 				<el-dropdown-item command="xmlFormatter" icon="el-icon-sunset">Xml美化</el-dropdown-item>
-				<el-dropdown-item command="changePwd" icon="el-icon-wind-power">修改密码</el-dropdown-item>
+				<el-dropdown-item command="yellowPage" icon="el-icon-link">常用外链</el-dropdown-item>
+				<el-dropdown-item command="changePwd" icon="el-icon-scissors">修改密码</el-dropdown-item>
+				<el-dropdown-item command="clearCache" icon="el-icon-refresh-right">清除缓存</el-dropdown-item>
 				<el-dropdown-item command="logout" icon="el-icon-switch-button">注销登录</el-dropdown-item>
 			</el-dropdown-menu>
 			</el-dropdown>
@@ -53,6 +55,20 @@
 		<el-input v-model="xmlText" @input="xml2beauty" clearable></el-input>
 		 <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 1000 }"  v-model="xmlBeautyText"></el-input>
 		</el-drawer>
+
+		<el-drawer title="黄页" 
+		direction="ttb"
+		size="28%"
+		:visible.sync="showYellowPage">
+			<div align="center">
+				<el-link type="primary" href="http://www.atoolbox.net/Tool.php?Id=792" target="_blank">1.JSONPath在线</el-link><br/>
+				<el-link type="primary" href="http://www.ab173.com/other/xpath.php" target="_blank">2.xpath在线</el-link><br/>
+				<el-link type="primary" href="https://www.sojson.com/" target="_blank">3.在线JSON解析</el-link><br/>
+				<el-link type="primary" href="https://tool.oschina.net/regex" target="_blank">4.在线正则表达式</el-link><br/>
+				<el-link type="primary" href="https://www.cmd5.com/" target="_blank">5.在线加密解密</el-link><br/>
+				<el-link type="primary" href="https://tool.lu/timestamp/" target="_blank">6.时间戳转换</el-link>
+			</div>
+		</el-drawer>
     </div>
 </template>
 
@@ -66,6 +82,7 @@
     		return {
 				showJsonDrawer: false,
 				showXmlDrawer: false,
+				showYellowPage: false,
 				baseImgPath,
 				jsonText: "",
 				jsonObject: {},
@@ -127,6 +144,14 @@
 					this.showJsonDrawer = true
 				} else if (command == 'xmlFormatter') {
 					this.showXmlDrawer = true
+				} else if (command == 'yellowPage') {
+					this.showYellowPage = true
+				} else if (command == 'clearCache') {
+					this.$message({
+						type: "success",
+						center: true,
+						message: "清除成功"
+					})
 				}
 			},
 
