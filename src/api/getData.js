@@ -49,7 +49,7 @@ export const addUser = data => HttpRequest.post('/user/save', data);
 /**
  * 用户注册
  */
-export const registerUser = data => HttpRequest.post('/user/register', data);
+export const registerUser = data => HttpRequest.post('/user/register', data, true, true);
 
 
 

@@ -10,8 +10,8 @@
 				<el-avatar src="../../static/avatar.jpg" size="small"></el-avatar>
 			</span>
 			<el-dropdown-menu slot="dropdown">
-				<el-dropdown-item command="jsonFormatter" icon="el-icon-sunny">Json美化</el-dropdown-item>
-				<el-dropdown-item command="xmlFormatter" icon="el-icon-sunset">Xml美化</el-dropdown-item>
+				<!-- <el-dropdown-item command="jsonFormatter" icon="el-icon-sunny">Json美化</el-dropdown-item>
+				<el-dropdown-item command="xmlFormatter" icon="el-icon-sunset">Xml美化</el-dropdown-item> -->
 				<el-dropdown-item command="yellowPage" icon="el-icon-link">常用外链</el-dropdown-item>
 				<el-dropdown-item command="changePwd" icon="el-icon-scissors">修改密码</el-dropdown-item>
 				<el-dropdown-item command="clearCache" icon="el-icon-refresh-right">清除缓存</el-dropdown-item>
