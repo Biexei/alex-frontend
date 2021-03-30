@@ -18,8 +18,8 @@
             title="小提示"
             width="300"
             trigger="hover"
-            content='当依赖为查询语句时，第一个参数为json path表达式。如依赖名称[InterfaceCaseTable]，
-            sql语句=[select * from t_interface_case where case_id = ?]。${InterfaceCaseTable("$..url","277")}，可查询case_id==277的url字段~'>
+            content='当依赖为新增语句时，返回自增主键。当依赖为查询语句时，第一个参数为json path表达式。如依赖名称[InterfaceCaseTable]，
+            sql语句=[select * from t_interface_case where case_id = ?]。${InterfaceCaseTable("$..url","277")}，可查询case_id==277的url字段。其他类型则返回空字符串'>
             <el-button slot="reference" size="mini" type="primary">Tips</el-button>
           </el-popover>
         </el-form-item>
@@ -29,7 +29,7 @@
       <el-table :data="dataList" stripe highlight-current-row style="width: 100%">
         <el-table-column property="id" label="编号" min-width="5%"></el-table-column>
         <el-table-column property="name" label="名称" min-width="10%"></el-table-column>
-        <el-table-column property="value" label="SQL" min-width="25%"></el-table-column>
+        <el-table-column property="value" label="SQL" min-width="25%" show-overflow-tooltip></el-table-column>
         <el-table-column property="desc" label="描述" min-width="38%"></el-table-column>
         <el-table-column property="type" label="类型" min-width="12%">
           <template slot-scope="scope">
@@ -140,7 +140,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="*SQL" label-width="100px" v-if="showValue"> 
-            <el-input v-model="dataInfo.value" size='mini'></el-input>
+            <el-input v-model="dataInfo.value" size="mini" type="textarea" :rows="6" placeholder="如需运行多条语句，请回车换行"></el-input>
           </el-form-item>
           <el-form-item label="*数据源编号" label-width="100px" v-if="showDbId">
             <el-input v-model="dataInfo.datasourceId"  @focus='handleDbList' size='mini'></el-input>
@@ -176,7 +176,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="*SQL" label-width="100px" v-if="showValue"> 
-            <el-input v-model="dataAdd.value" size='mini'></el-input>
+            <el-input v-model="dataAdd.value" size="mini" type="textarea" :rows="6" placeholder="如需运行多条语句，请回车换行"></el-input>
           </el-form-item>
           <el-form-item label="*数据源编号" label-width="100px" v-if="showDbId">
             <el-input v-model="dataAdd.datasourceId"  @focus='handleDbList' size='mini'></el-input>
@@ -223,8 +223,24 @@ export default {
         },
         {
           value: 2,
-          label: '查询语句'
+          label: '查询'
         },
+        {
+          value: 3,
+          label: '新增'
+        },
+        {
+          value: 4,
+          label: '修改'
+        },
+        {
+          value: 5,
+          label: '删除'
+        }, 
+        {
+          value: 6,
+          label: '脚本'
+        }, 
       ],
       writeTypeOptions:[
         // {
@@ -239,7 +255,27 @@ export default {
         // },
         {
           value: 2,
-          label: '查询语句',
+          label: '查询',
+          isDisable: false,
+        },
+        {
+          value: 3,
+          label: '新增',
+          isDisable: false,
+        },
+        {
+          value: 4,
+          label: '修改',
+          isDisable: false,
+        },
+        {
+          value: 5,
+          label: '删除',
+          isDisable: false,
+        },
+        {
+          value: 6,
+          label: '脚本',
           isDisable: false,
         },
       ],
@@ -296,7 +332,23 @@ export default {
               element.style = "success"
               element['deleteable'] = false
             } else if (element.type == 2) {
-              element.type = '查询语句'
+              element.type = '查询'
+              element.style = "primary"
+              element['deleteable'] = true
+            } else if (element.type == 3) {
+              element.type = '新增'
+              element.style = "success"
+              element['deleteable'] = true
+            } else if (element.type == 4) {
+              element.type = '修改'
+              element.style = "info"
+              element['deleteable'] = true
+            } else if (element.type == 5) {
+              element.type = '删除'
+              element.style = "warning"
+              element['deleteable'] = true
+            } else if (element.type == 6) {
+              element.type = '脚本'
               element.style = "danger"
               element['deleteable'] = true
             } else {
@@ -502,7 +554,6 @@ export default {
       this.showDbName = true
       this.disableModifyName = false //能否修改名称
       this.disableModifyType = false //能否修改类型
-      this.dataAdd = {type:2};
     },
     async resetForm() {
       this.queryForm = {}
