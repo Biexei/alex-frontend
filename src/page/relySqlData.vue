@@ -124,10 +124,10 @@
 
       <el-dialog title="编辑" :visible.sync="editDialogFormVisible"  :close-on-click-modal=false>
         <el-form :model="dataInfo">
-          <el-form-item label="*名称" label-width="100px">
+          <el-form-item label="*名称" label-width="120px">
             <el-input v-model="dataInfo.name" :disabled="disableModifyName" size='mini'></el-input>
           </el-form-item>
-          <el-form-item label="*类型" label-width="100px">
+          <el-form-item label="*类型" label-width="120px">
             <el-select v-model="dataInfo.type" @change="handleChangeType" :disabled="disableModifyType" size='mini'>
               <el-option
                 v-for="item in writeTypeOptions"
@@ -139,16 +139,22 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="*SQL" label-width="100px" v-if="showValue"> 
+          <el-form-item label="*返回自增主键" label-width="120px" v-if="dataInfo.type==3 && showValue"> 
+            <el-radio-group v-model="dataInfo.enableReturn" size='mini'>
+              <el-radio :label="0">是</el-radio>
+              <el-radio :label="1">否</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="*SQL" label-width="120px" v-if="showValue"> 
             <el-input v-model="dataInfo.value" size="mini" type="textarea" :rows="6" placeholder="如需运行多条语句，请回车换行"></el-input>
           </el-form-item>
-          <el-form-item label="*数据源编号" label-width="100px" v-if="showDbId">
+          <el-form-item label="*数据源编号" label-width="120px" v-if="showDbId">
             <el-input v-model="dataInfo.datasourceId"  @focus='handleDbList' size='mini'></el-input>
           </el-form-item>
-          <el-form-item label="*数据源名称" label-width="100px" v-if="showDbName">
+          <el-form-item label="*数据源名称" label-width="120px" v-if="showDbName">
             <el-input v-model="dataInfo.dbName"  disabled size='mini'></el-input>
           </el-form-item>
-          <el-form-item label="*描述" label-width="100px">
+          <el-form-item label="*描述" label-width="120px">
             <el-input v-model="dataInfo.desc" size='mini'></el-input>
           </el-form-item>
         </el-form>
@@ -160,10 +166,10 @@
 
       <el-dialog title="添加" :visible.sync="addDialogFormVisible"  :close-on-click-modal=false>
         <el-form :model="dataAdd">
-          <el-form-item label="*名称" label-width="100px">
+          <el-form-item label="*名称" label-width="120px">
             <el-input v-model="dataAdd.name" :disabled="disableModifyName" size='mini'></el-input>
           </el-form-item>
-          <el-form-item label="*类型" label-width="100px">
+          <el-form-item label="*类型" label-width="120px">
             <el-select v-model="dataAdd.type" @change="handleChangeType" :disabled="disableModifyType" size='mini'>
               <el-option
                 v-for="item in writeTypeOptions"
@@ -175,16 +181,22 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="*SQL" label-width="100px" v-if="showValue"> 
+          <el-form-item label="*返回自增主键" label-width="120px" v-if="dataAdd.type==3 && showValue"> 
+            <el-radio-group v-model="dataAdd.enableReturn" size='mini'>
+              <el-radio :label="0">是</el-radio>
+              <el-radio :label="1">否</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="*SQL" label-width="120px" v-if="showValue"> 
             <el-input v-model="dataAdd.value" size="mini" type="textarea" :rows="6" placeholder="如需运行多条语句，请回车换行"></el-input>
           </el-form-item>
-          <el-form-item label="*数据源编号" label-width="100px" v-if="showDbId">
+          <el-form-item label="*数据源编号" label-width="120px" v-if="showDbId">
             <el-input v-model="dataAdd.datasourceId"  @focus='handleDbList' size='mini'></el-input>
           </el-form-item>
-          <el-form-item label="*数据源名称" label-width="100px" v-if="showDbName">
+          <el-form-item label="*数据源名称" label-width="120px" v-if="showDbName">
             <el-input v-model="dataAdd.dbName"  disabled size='mini'></el-input>
           </el-form-item>
-          <el-form-item label="*描述" label-width="100px">
+          <el-form-item label="*描述" label-width="120px">
             <el-input v-model="dataAdd.desc" size='mini'></el-input>
           </el-form-item>
         </el-form>
