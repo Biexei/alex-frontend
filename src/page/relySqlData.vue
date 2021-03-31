@@ -145,6 +145,12 @@
               <el-radio :label="1">否</el-radio>
             </el-radio-group>
           </el-form-item>
+          <el-form-item label="*是否解析依赖" label-width="120px" v-if="dataInfo.type==6 && showValue"> 
+            <el-radio-group v-model="dataInfo.analysisRely" size='mini'>
+              <el-radio :label="0">是</el-radio>
+              <el-radio :label="1">否</el-radio>
+            </el-radio-group>
+          </el-form-item>
           <el-form-item label="*SQL" label-width="120px" v-if="showValue"> 
             <el-input v-model="dataInfo.value" size="mini" type="textarea" :rows="6" placeholder="如需运行多条语句，请回车换行"></el-input>
           </el-form-item>
@@ -183,6 +189,12 @@
           </el-form-item>
           <el-form-item label="*返回自增主键" label-width="120px" v-if="dataAdd.type==3 && showValue"> 
             <el-radio-group v-model="dataAdd.enableReturn" size='mini'>
+              <el-radio :label="0">是</el-radio>
+              <el-radio :label="1">否</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="*是否解析依赖" label-width="120px" v-if="dataAdd.type==6 && showValue"> 
+            <el-radio-group v-model="dataAdd.analysisRely" size='mini'>
               <el-radio :label="0">是</el-radio>
               <el-radio :label="1">否</el-radio>
             </el-radio-group>
