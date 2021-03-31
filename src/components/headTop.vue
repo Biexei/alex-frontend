@@ -7,7 +7,7 @@
 		<div class="btn-div">
 			<el-dropdown @command="handleCommand">
 			<span>
-				<el-avatar src="../../static/avatar.jpg" size="small"></el-avatar>
+				<el-avatar src="../../static/avatar.png" size="small"></el-avatar>
 			</span>
 			<el-dropdown-menu slot="dropdown">
 				<!-- <el-dropdown-item command="jsonFormatter" icon="el-icon-sunny">Json美化</el-dropdown-item>
