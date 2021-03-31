@@ -145,7 +145,7 @@
               <el-radio :label="1">否</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="*是否解析依赖" label-width="120px" v-if="dataInfo.type==6 && showValue"> 
+          <el-form-item label="*是否解析依赖" label-width="120px" v-if="dataInfo.type>1 && showValue"> 
             <el-radio-group v-model="dataInfo.analysisRely" size='mini'>
               <el-radio :label="0">是</el-radio>
               <el-radio :label="1">否</el-radio>
@@ -193,7 +193,7 @@
               <el-radio :label="1">否</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="*是否解析依赖" label-width="120px" v-if="dataAdd.type==6 && showValue"> 
+          <el-form-item label="*是否解析依赖" label-width="120px" v-if="dataAdd.type>1 && showValue"> 
             <el-radio-group v-model="dataAdd.analysisRely" size='mini'>
               <el-radio :label="0">是</el-radio>
               <el-radio :label="1">否</el-radio>
