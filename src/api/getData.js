@@ -401,6 +401,11 @@ export const findTaskList = data => HttpRequest.get('/task/list', data)
 export const findTaskById = taskId => HttpRequest.get('/task/' + taskId)
 
 /**
+ * 手动执行一次定时任务
+ */
+ export const executeTask = taskId => HttpRequest.get('/task/execute/' + taskId)
+
+/**
  * 新增定时任务
  */
 export const saveTaskAndRef = data => HttpRequest.post('/task/save', data, true, true)

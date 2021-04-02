@@ -36,7 +36,7 @@
         <el-table-column property="desc" label="名称" min-width="15%"></el-table-column>
         <el-table-column property="cron" label="Cron" min-width="15%"></el-table-column>
         <el-table-column property="suiteName" label="测试套件" min-width="15%"></el-table-column>
-        <el-table-column property="nextTime" label="下次执行时间" min-width="20%"></el-table-column>
+        <el-table-column property="nextTime" label="最近执行时间" min-width="20%"></el-table-column>
         <el-table-column property="status" label="状态" min-width="10%">
           <template slot-scope="scope">
           <el-switch
@@ -49,6 +49,14 @@
         </el-table-column>
         <el-table-column fixed="right" label="操作" min-width="15%">
           <template slot-scope="scope">
+            <el-button
+              @click="handleExecute(scope.row.taskId)"
+              v-has="'setting:task:execute'"
+              type="success"
+              size="mini"
+              icon="el-icon-check"
+              circle
+            ></el-button>
             <el-button
               @click="handleEdit(scope.row.taskId)"
               v-has="'setting:task:modify'"
@@ -207,7 +215,7 @@
 </template>
 <script>
 import headTop from "../components/headTop";
-import {findInterfaceCaseSuite,findAllEmail, findTaskList, findTaskById, saveTaskAndRef, modifyTask, removeTask, saveTaskEmailRef, removeTaskEmailRef } from "@/api/getData";
+import {executeTask, findInterfaceCaseSuite,findAllEmail, findTaskList, findTaskById, saveTaskAndRef, modifyTask, removeTask, saveTaskEmailRef, removeTaskEmailRef } from "@/api/getData";
 export default {
   data() {
     return {
@@ -332,6 +340,28 @@ export default {
           });
           this.total --;
           this.dataList.splice(index, 1);
+        } else {
+          this.$message({
+            type: "error",
+            center: true,
+            message: res.msg
+          });
+        }
+      })  
+    },
+    async handleExecute(taskId) {
+      this.$confirm('此操作将手动触发一次该任务, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        const res = await executeTask(taskId);
+        if (res.code == 200) {
+          this.$message({
+            type: "success",
+            center: true,
+            message: res.msg
+          });
         } else {
           this.$message({
             type: "error",
