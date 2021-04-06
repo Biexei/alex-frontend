@@ -283,7 +283,7 @@
                         <el-input v-model="preCaseItem.preCaseId" placeholder="前置用例编号" disabled size="mini"></el-input>
                     </el-col>
                     <el-col :span="14">
-                        <el-input v-model="preCaseItem.preCaseDesc" placeholder="前置用例描述，请点击选择" @focus='handlePreCaseList(index)' size="mini"></el-input>
+                        <el-input v-model="preCaseItem.preCaseDesc" readonly placeholder="前置用例描述，请点击选择" @focus='handlePreCaseList(index)' size="mini"></el-input>
                     </el-col> 
                     <el-col :span="2">
                         <el-switch
@@ -643,7 +643,7 @@
                         <el-input v-model="preCaseItem.preCaseId" placeholder="前置用例编号" disabled size="mini"></el-input>
                     </el-col>
                     <el-col :span="14">
-                        <el-input v-model="preCaseItem.preCaseDesc" placeholder="前置用例描述，请点击选择" @focus='handlePreCaseList(index)'  size="mini"></el-input>
+                        <el-input v-model="preCaseItem.preCaseDesc" readonly placeholder="前置用例描述，请点击选择" @focus='handlePreCaseList(index)'  size="mini"></el-input>
                     </el-col> 
                     <el-col :span="2">
                         <el-switch
