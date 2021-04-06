@@ -335,7 +335,7 @@
         <div class="block">
           <el-timeline>
             <el-timeline-item 
-            :key="chain.logId" 
+            :key="chain.id" 
             :timestamp="chain.typeDesc + '  ' + chain.time" 
             :color="chain.color"
             placement="top" 
@@ -345,16 +345,19 @@
                   <el-col :span="22">
                     <div>
                       <el-row :gutter="10">
-                        <el-col :span="3"><el-tag effect="dark" type="primary" disable-transitions size="mini">{{chain.desc}}</el-tag></el-col>
-                        <el-col :span="21"><span>{{chain.name}}</span></el-col>
+                        <h4>
+                          <el-col :span="3"><el-tag effect="dark" type="primary" disable-transitions size="mini">{{chain.desc}}</el-tag></el-col>
+                          <el-col :span="21"><span>{{chain.name}}</span></el-col>
+                        </h4>
                       </el-row>
                       <el-row :gutter="10">
-                        <el-col :span="24"><span>{{chain.value}}</span></el-col>
+                        <br/>
+                        <el-col :span="24"><p>{{chain.value}}</p></el-col>
                       </el-row>
                     </div>
                   </el-col>
-                  <el-col :span="2" v-if="chain.type=='PRE_CASE' || chain.type=='INTERFACE_JSON' || 
-                  chain.type=='INTERFACE_HTML'|| chain.type=='INTERFACE_HEADER'|| chain.type=='END'">
+                  <el-col :span="2" v-if="chain.type=='INTERFACE_JSON' || 
+                  chain.type=='INTERFACE_HTML'|| chain.type=='INTERFACE_HEADER'">
                     <el-button 
                     plain 
                     size="mini" 
@@ -691,6 +694,7 @@ export default {
           data.value = element.value
           data.desc = element.desc
           data.typeDesc = element.typeDesc
+          data.expression = element.expression
           data.time = element.time + 'ms'
           data.status = "success"
           data.color = "#67C23A"
