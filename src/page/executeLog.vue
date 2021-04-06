@@ -336,28 +336,30 @@
           <el-timeline>
             <el-timeline-item 
             :key="chain.logId" 
-            :timestamp="chain.executer + ' 执行于' + chain.createdTime +'耗时 ' + chain.runTime" 
+            :timestamp="chain.typeDesc + '  ' + chain.time" 
             :color="chain.color"
             placement="top" 
             v-for="chain in chainList">
               <el-card>
                 <el-row>
-                  <el-col :span="2">
-                    <el-button 
-                    plain 
-                    size="mini" 
-                    type="info" 
-                    @click="handleDetail(chain.logId)"
-                    style="background-color: #FFFFFF; color: #324057; border:none;font-size: 14px;">{{chain.logId}}
-                    </el-button>
-                  </el-col>
                   <el-col :span="22">
+                    <div>
+                      <el-row :gutter="10">
+                        <el-col :span="3"><el-tag effect="dark" type="primary" disable-transitions size="mini">{{chain.desc}}</el-tag></el-col>
+                        <el-col :span="21"><span>{{chain.name}}</span></el-col>
+                      </el-row>
+                      <el-row :gutter="10">
+                        <el-col :span="24"><span>{{chain.value}}</span></el-col>
+                      </el-row>
+                    </div>
+                  </el-col>
+                  <el-col :span="2" v-if="chain.type=='PRE_CASE' || chain.type=='INTERFACE_JSON' || 
+                  chain.type=='INTERFACE_HTML'|| chain.type=='INTERFACE_HEADER'|| chain.type=='END'">
                     <el-button 
                     plain 
                     size="mini" 
-                    type="info" 
-                    @click="handleDetail(chain.logId)"
-                    style="background-color: #FFFFFF; color: #324057; border:none;font-size: 14px;">{{chain.caseId}} {{chain.caseDesc}}
+                    @click="handleDetail(chain.id)"
+                    style="background-color: #FFFFFF; color: #324057; border:none;font-size: 14px;">详情
                     </el-button>
                   </el-col>
                 </el-row>
@@ -683,23 +685,15 @@ export default {
       if (res.code == 200) {
         res.data.forEach(element => {
           let data = {}
-          data.caseId = element.caseId
-          data.executer = element.executer
-          data.suiteLogNo = element.suiteLogNo
-          data.createdTime = element.createdTime
-          data.runTime = element.runTime + 'ms'
-          data.logId = element.logId + ''
-          data.caseDesc = element.caseDesc
-          if (element.status == 0) {
-            data.status = "success"
-            data.color = "#67C23A"
-          } else if (element.status == 1) {
-            data.status = "wait"
-            data.color = "#E6A23C"
-          } else {
-            data.status = "error"
-            data.color = "#F56C6C"
-          }
+          data.name = element.name
+          data.id = element.id
+          data.type = element.type
+          data.value = element.value
+          data.desc = element.desc
+          data.typeDesc = element.typeDesc
+          data.time = element.time + 'ms'
+          data.status = "success"
+          data.color = "#67C23A"
           this.chainActive ++ 
           this.chainList.push(data)
         });
