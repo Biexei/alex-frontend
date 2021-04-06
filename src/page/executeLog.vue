@@ -336,7 +336,7 @@
           <el-timeline>
             <el-timeline-item 
             :key="chain.id" 
-            :timestamp="chain.typeDesc + '  ' + chain.time" 
+            :timestamp="chain.typeDesc + ' 执行于 ' + chain.date + ' 耗时 ' + chain.time" 
             :color="chain.color"
             placement="top" 
             v-for="chain in chainList">
@@ -693,6 +693,7 @@ export default {
           data.type = element.type
           data.value = element.value
           data.desc = element.desc
+          data.date = element.date
           data.typeDesc = element.typeDesc
           data.expression = element.expression
           data.time = element.time + 'ms'
