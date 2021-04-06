@@ -264,7 +264,7 @@ export default {
         },
         {
           value: 2,
-          label: 'head'
+          label: 'header'
         },
       ],
     };
@@ -292,7 +292,7 @@ export default {
               element.contentType = 'html'
             } else if (element.contentType == 2) {
               element.style = "danger"
-              element.contentType = 'head'
+              element.contentType = 'header'
             } else {
               element.contentType = 'other'
             }

@@ -121,7 +121,7 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item label="*数据源" label-width="120px" v-if="dataInfo.type == 0">
-            <el-input v-model="dataInfo.sqlDbName"  @focus='handleDbList' size='mini'></el-input>
+            <el-input v-model="dataInfo.sqlDbName" readonly @focus='handleDbList' size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*运行环境" label-width="120px" v-if="dataInfo.type == 0">
             <el-select v-model="dataInfo.sqlRunDev" size='mini'>
@@ -198,7 +198,7 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item label="*数据源" label-width="120px" v-if="dataAdd.type == 0">
-            <el-input v-model="dataAdd.sqlDbName"  @focus='handleDbList' size='mini'></el-input>
+            <el-input v-model="dataAdd.sqlDbName" readonly @focus='handleDbList' size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*运行环境" label-width="120px" v-if="dataAdd.type == 0">
             <el-select v-model="dataAdd.sqlRunDev" size='mini'>

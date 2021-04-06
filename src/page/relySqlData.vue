@@ -155,7 +155,7 @@
             <el-input v-model="dataInfo.value" size="mini" type="textarea" :rows="6" placeholder="如需运行多条语句，请回车换行"></el-input>
           </el-form-item>
           <el-form-item label="*数据源编号" label-width="120px" v-if="showDbId">
-            <el-input v-model="dataInfo.datasourceId"  @focus='handleDbList' size='mini'></el-input>
+            <el-input v-model="dataInfo.datasourceId" readonly @focus='handleDbList' size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*数据源名称" label-width="120px" v-if="showDbName">
             <el-input v-model="dataInfo.dbName"  disabled size='mini'></el-input>
@@ -203,7 +203,7 @@
             <el-input v-model="dataAdd.value" size="mini" type="textarea" :rows="6" placeholder="如需运行多条语句，请回车换行"></el-input>
           </el-form-item>
           <el-form-item label="*数据源编号" label-width="120px" v-if="showDbId">
-            <el-input v-model="dataAdd.datasourceId"  @focus='handleDbList' size='mini'></el-input>
+            <el-input v-model="dataAdd.datasourceId" readonly @focus='handleDbList' size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*数据源名称" label-width="120px" v-if="showDbName">
             <el-input v-model="dataAdd.dbName"  disabled size='mini'></el-input>

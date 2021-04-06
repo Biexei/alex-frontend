@@ -97,7 +97,7 @@
             <el-input v-model="dataInfo.cron" size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*测试套件" label-width="100px">
-            <el-input v-model="dataInfo.suiteName" size='mini' @focus='handleSuiteList'></el-input>
+            <el-input readonly v-model="dataInfo.suiteName" size='mini' @focus='handleSuiteList'></el-input>
           </el-form-item>
           <el-form-item label="*状态" label-width="100px">
             <el-radio-group v-model="dataInfo.status" size='mini'>
@@ -132,7 +132,7 @@
             <el-input v-model="dataAdd.cron" size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*测试套件" label-width="100px">
-            <el-input v-model="dataAdd.suiteName" size='mini' @focus='handleSuiteList'></el-input>
+            <el-input readonly v-model="dataAdd.suiteName" size='mini' @focus='handleSuiteList'></el-input>
           </el-form-item>
           <el-form-item label="*状态" label-width="100px">
             <el-radio-group v-model="dataAdd.status" size='mini'>
