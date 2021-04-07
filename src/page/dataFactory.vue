@@ -102,7 +102,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="*执行次数" label-width="120px">
-            <el-input-number v-model="dataInfo.times" :min="1" :max="100" size="mini"></el-input-number>
+            <el-input-number v-model="dataInfo.times" :min="1" :max="1000" size="mini"></el-input-number>
           </el-form-item>
           <el-form-item label="*执行方式" label-width="120px">
             <el-select v-model="dataInfo.executeType" size='mini'>
@@ -179,7 +179,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="*执行次数" label-width="120px">
-            <el-input-number v-model="dataAdd.times" :min="1" :max="100" size="mini"></el-input-number>
+            <el-input-number v-model="dataAdd.times" :min="1" :max="1000" size="mini"></el-input-number>
           </el-form-item>
           <el-form-item label="*执行方式" label-width="120px">
             <el-select v-model="dataAdd.executeType" size='mini'>
