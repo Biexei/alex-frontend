@@ -347,7 +347,16 @@
                       <el-row :gutter="10">
                         <h4>
                           <el-col :span="3"><el-tag effect="dark" type="primary" disable-transitions size="mini">{{chain.desc}}</el-tag></el-col>
-                          <el-col :span="21"><span>{{chain.name}}</span></el-col>
+                          <el-col :span="19"><span>{{chain.name}}</span></el-col>
+                          <el-col :span="2" v-if="chain.type=='INTERFACE_JSON' || 
+                          chain.type=='INTERFACE_HTML'|| chain.type=='INTERFACE_HEADER' || chain.type=='PRE_CASE_END' || chain.type=='CASE_END'">
+                            <el-button 
+                            plain 
+                            size="mini" 
+                            @click="handleDetail(chain.id)"
+                            style="background-color: #FFFFFF; color: #324057; border:none;font-size: 14px;">详情
+                            </el-button>
+                          </el-col>
                         </h4>
                       </el-row>
                       <el-row :gutter="10">
@@ -355,15 +364,6 @@
                         <el-col :span="24"><p>{{chain.value}}</p></el-col>
                       </el-row>
                     </div>
-                  </el-col>
-                  <el-col :span="2" v-if="chain.type=='INTERFACE_JSON' || 
-                  chain.type=='INTERFACE_HTML'|| chain.type=='INTERFACE_HEADER'">
-                    <el-button 
-                    plain 
-                    size="mini" 
-                    @click="handleDetail(chain.id)"
-                    style="background-color: #FFFFFF; color: #324057; border:none;font-size: 14px;">详情
-                    </el-button>
                   </el-col>
                 </el-row>
               </el-card>
