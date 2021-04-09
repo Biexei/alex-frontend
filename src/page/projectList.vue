@@ -97,7 +97,7 @@
             <el-input v-model="dataInfo.prodDomain"  size='mini'></el-input>
           </el-form-item>
           <el-form-item label="项目描述" label-width="120px">
-            <el-input v-model="dataInfo.desc"  size='mini'></el-input>
+            <el-input v-model="dataInfo.desc" size="mini" type="textarea" :rows="3"></el-input>
           </el-form-item>  
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -127,7 +127,7 @@
             <el-input v-model="dataAdd.prodDomain"  size='mini'></el-input>
           </el-form-item>
           <el-form-item label="项目描述" label-width="120px" prop="desc">
-            <el-input v-model="dataAdd.desc"  size='mini'></el-input>
+            <el-input v-model="dataAdd.desc" size="mini" type="textarea" :rows="3"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">

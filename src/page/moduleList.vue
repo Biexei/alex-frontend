@@ -62,7 +62,7 @@
             <el-input v-model="dataInfo.moduleName"  size='mini'></el-input>
           </el-form-item>
           <el-form-item label="模块描述" label-width="100px">
-            <el-input v-model="dataInfo.desc"  size='mini'></el-input>
+            <el-input v-model="dataInfo.desc" size="mini" type="textarea" :rows="3"></el-input>
           </el-form-item>  
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -88,7 +88,7 @@
             <el-input v-model="dataAdd.name" size='mini'></el-input>
           </el-form-item>
           <el-form-item label="模块描述" label-width="100px" prop="desc">
-            <el-input v-model="dataAdd.desc" size='mini'></el-input>
+            <el-input v-model="dataAdd.desc" size="mini" type="textarea" :rows="3"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
