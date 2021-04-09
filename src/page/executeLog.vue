@@ -57,13 +57,13 @@
       <el-table :data="dataList" stripe highlight-current-row style="width: 100%">
         <el-table-column type="expand">
         <template slot-scope="props">
-            <el-row>
-              <el-col :span="18">
-                <el-input :value="props.row.responseBody" readonly size="mini" type="textarea" :autosize="{ minRows: 3, maxRows: 20 }"></el-input>
-              </el-col>
-              <el-col :span="6">
-              </el-col>
-            </el-row>
+            <div>
+              <el-tabs tab-position="top">
+                <el-tab-pane label="Body" ><el-input :value="props.row.responseBody" readonly size="mini" type="textarea" :autosize="{ minRows: 10, maxRows: 10 }"></el-input></el-tab-pane>
+                <el-tab-pane label="Header" ><el-input :value="props.row.responseHeaders" readonly size="mini" type="textarea" :autosize="{ minRows: 10, maxRows: 10 }"></el-input></el-tab-pane>
+                <el-tab-pane label="Code" ><el-input :value="props.row.responseCode" readonly size="mini" type="textarea" :autosize="{ minRows: 10, maxRows: 10 }"></el-input></el-tab-pane>
+              </el-tabs>
+            </div>
         </template>
         </el-table-column>
         <el-table-column property="id" label="编号" min-width="7%"></el-table-column>
