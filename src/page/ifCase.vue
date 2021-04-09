@@ -75,7 +75,7 @@
       </el-form>
     </div>
     <div class="table_container">
-      <el-table :data="dataList" stripe highlight-current-row style="width: 100%">
+      <el-table @row-dblclick="handleLastTenLog" :data="dataList" stripe highlight-current-row style="width: 100%">
 
         <el-table-column type="expand">
         <template slot-scope="props">
@@ -621,6 +621,232 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="projectModulePageTotal"
           ></el-pagination>
+        </div>
+      </el-dialog>
+
+
+      <el-dialog title="日志详情" :visible.sync="logDetailDialogFormVisible">
+        <el-collapse>
+        <el-form :model="logInfo">
+          <el-collapse-item title="基本信息">
+          <el-form-item label="用例编号" label-width="100px">
+            <el-input v-model="logInfo.caseId" readonly size='mini'></el-input>
+          </el-form-item>
+          <el-form-item label="用例描述" label-width="100px">
+            <el-input v-model="logInfo.caseDesc" readonly size='mini'></el-input>
+          </el-form-item>
+          <el-form-item label="执行用时(ms)" label-width="100px">
+            <el-input v-model="logInfo.runTime" readonly size='mini'></el-input>
+          </el-form-item> 
+          <el-form-item label="执行人" label-width="100px">
+            <el-input v-model="logInfo.executer" readonly size='mini'></el-input>
+          </el-form-item> 
+          <el-form-item label="执行时间" label-width="100px">
+            <el-input v-model="logInfo.createdTime" readonly size='mini'></el-input>
+          </el-form-item> 
+          <el-form-item label="执行编号" label-width="100px">
+            <el-input v-model="logInfo.suiteLogNo" readonly size='mini'></el-input>
+          </el-form-item> 
+          <el-form-item label="异常信息" label-width="100px" v-if="logInfo.status=='错误'">
+            <el-input v-model="logInfo.errorMessage" readonly size="mini" type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
+          </el-form-item> 
+          <el-form-item label="执行状态" label-width="100px">
+            <template>
+              <el-tag
+                effect="dark"
+                size="mini"
+                :type="logInfo.statusStyle"
+                disable-transitions>{{logInfo.status}}</el-tag>
+            </template>
+          </el-form-item> 
+          <el-form-item label="失败重跑" label-width="100px">
+            <template>
+              <el-tag
+                effect="dark"
+                size="mini"
+                :type="logInfo.isFailedRetryStyle"
+                disable-transitions>{{logInfo.isFailedRetryValue}}</el-tag>
+            </template>
+          </el-form-item> 
+          </el-collapse-item>
+          <el-collapse-item title="请求信息">
+          <el-form-item label="url" label-width="100px">
+            <el-input v-model="logInfo.caseUrl" readonly size="mini"></el-input>
+          </el-form-item>          
+          <el-row :gutter="25">
+            <el-col :span="22">
+            <el-form-item label="headers" label-width="100px">
+              <el-input v-model="logInfo.requestHeaders" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
+            </el-form-item>
+            </el-col>
+            <el-col :span="2">
+              <el-button @click="showRawRequestHeaders" type="primary" icon="el-icon-thumb" size="mini" circle></el-button>
+            </el-col>
+          </el-row>  
+          <el-row :gutter="25" v-if=isShowRawRequestHeaders>
+            <el-col :span="22">
+            <el-form-item label="rawHeaders" label-width="100px">
+              <el-input v-model="logInfo.rawRequestHeaders" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
+            </el-form-item>
+            </el-col>
+          </el-row> 
+          <el-row :gutter="25">
+            <el-col :span="22">
+            <el-form-item label="params" label-width="100px">
+              <el-input v-model="logInfo.requestParams" readonly  type="textarea" size="mini" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
+            </el-form-item>
+            </el-col>
+            <el-col :span="2">
+              <el-button @click="showRawRequestParams" type="primary" icon="el-icon-thumb" size="mini" circle></el-button>
+            </el-col>
+          </el-row>  
+          <el-row :gutter="25" v-if=isShowRawRequestParams>
+            <el-col :span="22">
+            <el-form-item label="rawParams" label-width="100px">
+              <el-input v-model="logInfo.rawRequestParams" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
+            </el-form-item>
+            </el-col>
+          </el-row> 
+          <el-row :gutter="25">
+            <el-col :span="22">
+            <el-form-item label="data" label-width="100px">
+              <el-input v-model="logInfo.requestData" readonly  type="textarea" size="mini" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
+            </el-form-item>
+            </el-col>
+            <el-col :span="2">
+              <el-button @click="showRawRequestData" type="primary" icon="el-icon-thumb" size="mini" circle></el-button>
+            </el-col>
+          </el-row>  
+          <el-row :gutter="25" v-if=isShowRawRequestData>
+            <el-col :span="22">
+            <el-form-item label="rawData" label-width="100px">
+              <el-input v-model="logInfo.rawRequestData" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
+            </el-form-item>
+            </el-col>
+          </el-row> 
+          <el-row :gutter="25">
+            <el-col :span="22">
+            <el-form-item label="json" label-width="100px">
+              <el-input v-model="logInfo.requestJson" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
+            </el-form-item>
+            </el-col>
+            <el-col :span="2">
+              <el-button @click="showRawRequestJson" type="primary" icon="el-icon-thumb" size="mini" circle></el-button>
+            </el-col>
+          </el-row>  
+          <el-row :gutter="25" v-if=isShowRawRequestJson>
+            <el-col :span="22">
+            <el-form-item label="rawJson" label-width="100px">
+              <el-input v-model="logInfo.rawRequestJson" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
+            </el-form-item>
+            </el-col>
+          </el-row> 
+          </el-collapse-item>
+          <el-collapse-item title="响应信息">
+          <el-form-item label="code" label-width="100px">
+            <el-input v-model="logInfo.responseCode" readonly  size='mini'></el-input>
+          </el-form-item> 
+          <el-row :gutter="25">
+            <el-col :span="24">
+            <el-form-item label="headers" label-width="100px">
+              <el-input v-model="logInfo.responseHeaders" readonly  type="textarea" size="mini" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
+            </el-form-item>
+            </el-col>
+            <el-col :span="2">
+            </el-col>
+          </el-row>
+          <el-row :gutter="25">
+            <el-col :span="24">
+            <el-form-item label="body" label-width="100px">
+              <el-input v-model="logInfo.responseBody" readonly  type="textarea" size="mini" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
+            </el-form-item>
+            </el-col>
+            <el-col :span="2">
+            </el-col>
+          </el-row>       
+          </el-collapse-item>
+          <el-collapse-item title="断言信息">
+            <el-table :data="assertInfo" stripe highlight-current-row style="width: 100%">
+              <el-table-column type="expand">
+                <template slot-scope="props">
+                  <el-form label-position="right">
+                    <el-form-item label="提取方式" label-width="100px">
+                      <el-input :value="props.row.type" readonly size="mini"></el-input>
+                    </el-form-item>
+                    <el-form-item label="提取表达式" label-width="100px">
+                      <el-input :value="props.row.expression" readonly size="mini"></el-input>
+                    </el-form-item>
+                    <el-row :gutter="25">
+                      <el-col :span="22">
+                      <el-form-item label="预期结果" label-width="100px">
+                        <el-input :value="props.row.exceptedResult" size="mini"  readonly  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
+                      </el-form-item>
+                      </el-col>
+                      <el-col :span="2">
+                        <el-button @click="showRawExceptedResult" type="primary" icon="el-icon-thumb" size="mini" circle></el-button>
+                      </el-col>
+                    </el-row>  
+                    <el-row :gutter="25" v-if=isShowRawExceptedResult>
+                      <el-col :span="22">
+                      <el-form-item label="原始预期结果" label-width="100px">
+                        <el-input :value="props.row.rawExceptedResult" size="mini"  readonly  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
+                      </el-form-item>
+                      </el-col>
+                    </el-row>  
+                    <el-form-item label="比较类型" label-width="100px">
+                      <el-input :value="props.row.operator" readonly size="mini"></el-input>
+                    </el-form-item>
+                    <el-form-item label="实际结果" label-width="100px">
+                      <el-input :value="props.row.actualResult" size="mini" readonly  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
+                    </el-form-item>
+                    <el-form-item label="错误信息" label-width="100px" v-if="props.row.errorMessage!=null">
+                      <el-input :value="props.row.errorMessage" size="mini" readonly  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
+                    </el-form-item>
+                  </el-form>
+                </template>
+              </el-table-column>
+              <el-table-column property="order" label="排序" min-width="5%"></el-table-column>
+              <el-table-column property="assertName" label="断言名称" min-width="10%"></el-table-column>
+              <el-table-column property="status" label="状态" min-width="10%">
+                <template slot-scope="scope">
+                  <el-tag
+                    effect="dark"
+                    size="mini"
+                    :type="scope.row.assertStatusStyle"
+                    disable-transitions>{{scope.row.status}}</el-tag>
+                </template>
+              </el-table-column>
+            </el-table>
+          </el-collapse-item>           
+        </el-form>
+      </el-collapse>  
+      </el-dialog>
+
+<!--执行近况-->
+      <el-dialog title="执行近况" :visible.sync="lastTenLogVisible">
+        <div class="block">
+          <el-timeline v-if="lastTenLogList!=0">
+            <el-timeline-item  v-for="log in lastTenLogList" :key="log.id" placement="top" :color="log.color">
+              <el-card>
+                <el-row>
+                  <el-col :span="21">
+                      <p>{{log.executer}} 执行于 {{log.createdTime}} 耗时 {{log.runTime}}</p>
+                  </el-col>
+                  <el-col :span="3">
+                    <el-button 
+                    plain 
+                    size="mini" 
+                    @click="handleLogDetail(log.id)"
+                    style="background-color: #FFFFFF; color: #324057; border:none;font-size: 14px;">日志
+                    </el-button>
+                  </el-col>
+                </el-row>
+              </el-card>
+            </el-timeline-item>
+          </el-timeline>
+          <el-card v-else>
+              <p align="center">暂无执行记录</p>
+          </el-card>
         </div>
       </el-dialog>
 
@@ -1306,7 +1532,7 @@
 <script>
 import headTop from "../components/headTop";
 import { baseUrl } from '../config/env';
-import {findInterfaceCaseSuiteAll, downloadTemplate, findProjectModuleList, listInterfaceCase,saveInterfaceCase,modifyInterfaceCase,removeInterfaceCase,findInterfaceCaseByCaseId,executeInterfaceCase } from "@/api/getData";
+import {findInterfaceCaseExecuteLog, findInterfaceCaseExecuteLogList, findInterfaceCaseSuiteAll, downloadTemplate, findProjectModuleList, listInterfaceCase,saveInterfaceCase,modifyInterfaceCase,removeInterfaceCase,findInterfaceCaseByCaseId,executeInterfaceCase } from "@/api/getData";
 export default {
   data() {
     return {
@@ -1543,6 +1769,21 @@ export default {
     dataInfo: {},
     editDialogFormVisible: false,
     copyDialogFormVisible: false,
+
+
+    // 近10次执行记录
+    lastTenLogList: [],
+    lastTenLogVisible: false,
+
+    // 日志相关属性
+    logInfo: {},
+    logDetailDialogFormVisible: false,
+    isShowRawExceptedResult: false,
+    isShowRawRequestHeaders: false,
+    isShowRawRequestParams: false,
+    isShowRawRequestData: false,
+    isShowRawRequestJson: false,
+    assertInfo: [],
     };
   },
   components: {
@@ -1666,7 +1907,6 @@ export default {
         type: 1,
       }
       const res = await importInterfaceCase(data, formdata)
-      console.log(res)
     },
 
     async selectInterfaceCase(queryForm) {
@@ -2565,7 +2805,150 @@ export default {
     },
     async openGenerator() {
       this.generatorDialogFormVisible = true;
-    }
+    },
+
+    // 查看近10次执行日志
+    async handleLastTenLog(row) {
+      this.lastTenLogList = [];
+      let queryObject = {}
+      queryObject["caseId"] = row.caseId;
+      queryObject["pageNum"] = 1;
+      queryObject["pageSize"] = 5;
+      const res = await findInterfaceCaseExecuteLogList(queryObject);
+      if (res.code == 200) {
+        res.data.list.forEach(element => {
+          if (element.status == 0) {
+              element.color = "#67C23A";
+          } else if (element.status == 1) {
+              element.color = "#E6A23C";
+          } else {
+              element.color = "#F56C6C";
+          }
+          element.runTime = element.runTime + 'ms';
+          this.lastTenLogList.push(element);
+        });
+      this.lastTenLogVisible = true
+      } else {
+        this.$message({
+          type: "error",
+          center: true,
+          message: res.msg
+        });
+      }
+    },
+
+    // 查看用例的日志
+    async handleLogDetail(logId) {
+      this.isShowRawExceptedResult = false
+      this.isShowRawRequestHeaders = false
+      this.isShowRawRequestParams = false
+      this.isShowRawRequestData = false
+      this.isShowRawRequestJson = false
+
+      const res = await findInterfaceCaseExecuteLog(logId)
+      if (res.code == 200) {
+          let data = res.data
+          res.data.assertList.forEach(assert => {
+            // 断言执行状态
+            if (assert.status == 0) {
+                assert.assertStatusStyle = "success"
+                assert.status = '成功'
+            } else if (assert.status == 1) {
+                assert.assertStatusStyle = "warning"
+                assert.status = '失败'
+            } else {
+                assert.assertStatusStyle = "danger"
+                assert.status = '错误'
+            }
+            // 断言提取方式
+            if (assert.type == 0) {
+                assert.type = 'json'
+            } else if (assert.type == 1) {
+                assert.type = 'html'
+            } else if (assert.type == 2) {
+                assert.type = 'header'
+            } else if (assert.type == 3) {
+                assert.type = 'code'
+            } else if (assert.type == 4) {
+                assert.type = 'time(ms)'
+            } else {
+                assert.type = 'unknow'
+            }
+            // 操作符
+            // 操作符0/=、1/< 、2/>、3/<=、4/>=、5/in、6/!=、7/re
+            if (assert.operator == 0) {
+                assert.operator = '='
+            } else if (assert.operator == 1) {
+                assert.operator = '<'
+            } else if (assert.operator == 2) {
+                assert.operator = '>'
+            } else if (assert.operator == 3) {
+                assert.operator = '<='
+            } else if (assert.operator == 4) {
+                assert.operator = '>='
+            } else if (assert.operator == 5) {
+                assert.operator = 'in'
+            } else if (assert.operator == 6) {
+                assert.operator = '!='
+            } else if (assert.operator == 7) {
+                assert.operator = 're'
+            } else if (assert.operator == 8) {
+                assert.operator = 'isNull'
+            } else if (assert.operator == 9) {
+                assert.operator = 'notNull'
+            } else {
+                assert.operator = 'unknow'
+            }            
+          });
+          this.assertInfo = res.data.assertList
+          this.logDetailDialogFormVisible = true
+          if (data.status == 0) {
+              data.status = '成功'
+              data.statusStyle = "success"
+          } else if (data.status == 1) {
+              data.status = '失败'
+              data.statusStyle = "warning"
+          } else {
+              data.status = '错误'
+              data.statusStyle = "danger"
+          }
+
+          // 失败重跑
+          if (data.isFailedRetry == 0) {
+              data.isFailedRetryStyle = 'danger'
+              data.isFailedRetryValue = "是"
+          } else if (data.isFailedRetry == 1) {
+              data.isFailedRetryStyle = 'primary'
+              data.isFailedRetryValue = "否"
+          } else {
+              data.status = 'UNKNOW'
+              data.statusStyle = "primary"
+          }
+          this.logInfo = data
+      } else {
+        this.$message({
+          type: "error",
+          center: true,
+          message: res.msg
+        })
+      }
+    },
+
+    showRawExceptedResult() {
+      this.isShowRawExceptedResult = ! this.isShowRawExceptedResult
+    },
+    showRawRequestHeaders() {
+      this.isShowRawRequestHeaders = ! this.isShowRawRequestHeaders
+    },
+    showRawRequestParams() {
+      this.isShowRawRequestParams = ! this.isShowRawRequestParams
+    },
+    showRawRequestData() {
+      this.isShowRawRequestData = ! this.isShowRawRequestData
+    },
+    showRawRequestJson() {
+      this.isShowRawRequestJson = ! this.isShowRawRequestJson
+    },
   },
 };
 </script>
