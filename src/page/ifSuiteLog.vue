@@ -52,8 +52,8 @@
       stripe highlight-current-row style="width: 100%">
         <el-table-column property="suiteName" label="套件名称" min-width="10%"></el-table-column>
         <el-table-column property="suiteLogNo" label="执行编号" min-width="20%"></el-table-column>
-        <el-table-column property="totalCase" label="用例数" min-width="7%"></el-table-column>
-        <el-table-column property="totalRunCase" label="运行数" min-width="7%"></el-table-column>
+        <el-table-column property="totalCase" label="用例" min-width="6%"></el-table-column>
+        <el-table-column property="totalRunCase" label="运行" min-width="6%"></el-table-column>
         <el-table-column property="totalSkip" label="跳过" min-width="6%"></el-table-column>
         <el-table-column property="totalSuccess" label="成功" min-width="6%"></el-table-column>
         <el-table-column property="totalFailed" label="失败" min-width="6%"></el-table-column>
@@ -78,6 +78,11 @@
               :type="scope.row.runDevStyle"
               disable-transitions>{{scope.row.runDevType}}
             </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column property="progress" label="执行进度" min-width="7%">
+          <template slot-scope="scope">
+            <el-progress :text-inside="true" :stroke-width="18" :percentage="scope.row.percentage" :status="scope.row.status"></el-progress>
           </template>
         </el-table-column>
       </el-table>
@@ -162,7 +167,9 @@ export default {
           //this.dataList = res.data.list
           res.data.list.forEach(element => {
               let runTime = element.runTime
-              if (runTime < 1000) {
+              if (runTime == null) {
+                  element.runTime = "-"
+              } else if (runTime < 1000) {
                   element.runTime = runTime + 'ms'
               } else if  ( 1000 <= runTime && runTime < 60000 ) {
                   let s = parseInt(runTime/1000)
@@ -215,6 +222,29 @@ export default {
               }
               if (element.totalRetry == null) {
                 element.totalRetry = '-'
+              }
+              if (element.totalError == null) {
+                element.totalError = '-'
+              }
+              if (element.totalFailed == null) {
+                element.totalFailed = '-'
+              }
+              if (element.totalRunCase == null) {
+                element.totalRunCase = '-'
+              }
+              if (element.totalSkip == null) {
+                element.totalSkip = '-'
+              }
+              if (element.totalSuccess == null) {
+                element.totalSuccess = '-'
+              }
+              // 0进行中1执行完成2执行失败
+              if (element.progress == 0) {
+                element['status'] = ""
+              } else if (element.progress == 1) {
+                element['status'] = "success"
+              } else {
+                element['status'] = "exception" 
               }
           });  
           this.dataList = res.data.list       
