@@ -21,7 +21,7 @@
         <el-table-column property="id" label="编号" min-width="5%"></el-table-column>
         <el-table-column property="name" label="名称" min-width="10%"></el-table-column>
         <el-table-column property="value" label="预置方法" min-width="25%"></el-table-column>
-        <el-table-column property="desc" label="描述" min-width="38%"></el-table-column>
+        <el-table-column property="desc" label="描述" min-width="38%" show-overflow-tooltip></el-table-column>
         <el-table-column property="type" label="类型" min-width="12%">
           <template slot-scope="scope">
             <el-tag
@@ -140,7 +140,7 @@
             <el-input v-model="dataInfo.dbName"  disabled size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*描述" label-width="100px">
-            <el-input v-model="dataInfo.desc" size='mini'></el-input>
+            <el-input v-model="dataInfo.desc" size='mini' type="textarea" :autosize="{ minRows: 3, maxRows: 6 }"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -176,7 +176,7 @@
             <el-input v-model="dataAdd.dbName"  disabled size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*描述" label-width="100px">
-            <el-input v-model="dataAdd.desc" size='mini'></el-input>
+            <el-input v-model="dataAdd.desc" size='mini' type="textarea" :autosize="{ minRows: 3, maxRows: 6 }"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">

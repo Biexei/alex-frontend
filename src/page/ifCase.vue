@@ -834,10 +834,11 @@
                   </el-col>
                   <el-col :span="3">
                     <el-button 
+                    v-has="'interface:case:logInfo'"
                     plain 
                     size="mini" 
                     @click="handleLogDetail(log.id)"
-                    style="background-color: #FFFFFF; color: #324057; border:none;font-size: 14px;">日志
+                    style="background-color: #FFFFFF; color: #324057; border:none;font-size: 14px;">详情
                     </el-button>
                   </el-col>
                 </el-row>

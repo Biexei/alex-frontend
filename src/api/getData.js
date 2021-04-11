@@ -372,6 +372,12 @@ export const findHttpSetting = data => HttpRequest.get('/setting', data)
 
 
 /**
+ * 查看http设置超时列表
+ */
+ export const findHttpSettingTimeout = data => HttpRequest.get('/setting/timeout', data)
+
+
+/**
  * 添加http设置
  */
 export const saveHttpSetting = data => HttpRequest.post('/setting/save', data)

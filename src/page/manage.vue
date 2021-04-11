@@ -32,9 +32,10 @@
 						<template slot="title"  class="left-color"><i class="el-icon-setting"></i><span slot="title" class="title-color">配置中心</span></template>
 						<!-- 拆分为代理和邮箱两个类目 -->
 						<!-- <el-menu-item index="httpSetting"  class="left-color"><i class="el-icon-s-tools"></i><span slot="title" class="title-color">全局配置</span></el-menu-item> -->
+						<el-menu-item v-has="'setting:task'" index="task"  class="left-color"><i class="el-icon-alarm-clock"></i><span slot="title" class="title-color">定时任务</span></el-menu-item>
 						<el-menu-item v-has="'setting:email'" index="email"  class="left-color"><i class="el-icon-folder-opened"></i><span slot="title" class="title-color">邮箱管理</span></el-menu-item>
 						<el-menu-item v-has="'setting:proxy'" index="proxy"  class="left-color"><i class="el-icon-link"></i><span slot="title" class="title-color">代理配置</span></el-menu-item>
-						<el-menu-item v-has="'setting:task'" index="task"  class="left-color"><i class="el-icon-alarm-clock"></i><span slot="title" class="title-color">定时任务</span></el-menu-item>
+						<el-menu-item v-has="'setting:timeout'" index="timeout"  class="left-color"><i class="el-icon-discover"></i><span slot="title" class="title-color">超时配置</span></el-menu-item>
 					</el-submenu>
 				</el-menu>
 			</el-col>

@@ -81,7 +81,7 @@
               disable-transitions>{{scope.row.status}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column property="isFailedRetry" label="失败重跑" min-width="8%">
+        <!-- <el-table-column property="isFailedRetry" label="失败重跑" min-width="8%">
           <template slot-scope="scope">
             <el-tag
               effect="dark"
@@ -89,7 +89,7 @@
               :type="scope.row.isFailedRetryStyle"
               disable-transitions>{{scope.row.isFailedRetryValue}}</el-tag>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column fixed="right" label="操作" min-width="10%">
           <template slot-scope="scope">
             <el-button

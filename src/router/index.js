@@ -25,6 +25,7 @@ const httpSetting = r => require.ensure([], () => r(require('@/page/httpSetting'
 const email = r => require.ensure([], () => r(require('@/page/email')), 'email');
 const proxy = r => require.ensure([], () => r(require('@/page/proxy')), 'proxy');
 const task = r => require.ensure([], () => r(require('@/page/task')), 'task');
+const timeout = r => require.ensure([], () => r(require('@/page/timeout')), 'timeout');
 const analysis = r => require.ensure([], () => r(require('@/page/analysis')), 'analysis');
 const ifSuiteLog = r => require.ensure([], () => r(require('@/page/ifSuiteLog')), 'ifSuiteLog');
 const tempEnv = r => require.ensure([], () => r(require('@/page/tempEnv')), 'tempEnv');
@@ -265,7 +266,15 @@ const router = new Router({
             path: ['配置中心','定时任务'],
             requireAuth: true
           },
-        },  
+        }, 
+        {
+          path: '/timeout',
+          component: timeout,
+          meta: {
+            path: ['配置中心','超时配置'],
+            requireAuth: true
+          },
+        }, 
         {
           path: '/dataFactory',
           component: dataFactory,

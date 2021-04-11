@@ -21,18 +21,19 @@
           <el-input v-model="queryForm.desc" placeholder="描述"  size='mini'></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button v-has="'setting:email:find'" type="primary" size="mini" @click="selectSettingList(queryForm)">查询</el-button>
-          <el-button v-has="'setting:email:find'" type="primary" size="mini" @click="resetForm">重置</el-button>
-          <el-button v-has="'setting:email:add'" type="primary" size="mini" @click="openAdd" plain>新增</el-button>
+          <el-button v-has="'setting:timeout:find'" type="primary" size="mini" @click="selectSettingList(queryForm)">查询</el-button>
+          <el-button v-has="'setting:timeout:find'" type="primary" size="mini" @click="resetForm">重置</el-button>
+          <el-button v-has="'setting:timeout:add'" type="primary" size="mini" @click="openAdd" plain>新增</el-button>
         </el-form-item>
       </el-form>
     </div>
     <div class="table_container">
       <el-table :data="dataList" stripe highlight-current-row style="width: 100%">
         <el-table-column property="settingId" label="编号" min-width="10%"></el-table-column>
-        <el-table-column property="name" label="名称" min-width="15%"></el-table-column>
-        <el-table-column property="value" label="邮箱地址" min-width="15%"></el-table-column>
-        <el-table-column property="createdTime" label="创建时间" min-width="15%"></el-table-column>
+        <el-table-column property="name" label="名称" min-width="20%"></el-table-column>
+        <el-table-column property="typeLabel" label="类型" min-width="20%"></el-table-column>
+        <el-table-column property="value" label="最大时长(ms)" min-width="15%"></el-table-column>
+        <el-table-column property="createdTime" label="创建时间" min-width="20%"></el-table-column>
         <el-table-column property="status" label="状态" min-width="10%">
           <template slot-scope="scope">
           <el-switch
@@ -47,7 +48,7 @@
           <template slot-scope="scope">
             <el-button
               @click="handleEdit(scope.row.settingId)"
-              v-has="'setting:email:modify'"
+              v-has="'setting:timeout:modify'"
               type="primary"
               size="mini"
               icon="el-icon-edit"
@@ -55,7 +56,7 @@
             ></el-button>
             <el-button
               @click="handleDelete(scope.row.settingId, scope.$index)"
-              v-has="'setting:email:remove'"
+              v-has="'setting:timeout:remove'"
               type="danger"
               size="mini"
               icon="el-icon-delete"
@@ -78,13 +79,23 @@
 
       <el-dialog title="编辑" :visible.sync="editDialogFormVisible" :close-on-click-modal=false>
         <el-form :model="dataInfo">
-          <el-form-item label="*名称" label-width="100px">
+          <el-form-item label="*名称" label-width="120px">
             <el-input v-model="dataInfo.name" size='mini'></el-input>
           </el-form-item>
-          <el-form-item label="*邮箱地址" label-width="100px">
-            <el-input v-model="dataInfo.value" size='mini'></el-input>
+          <el-form-item label="*类型" label-width="120px">
+            <el-select v-model="dataInfo.type" size='mini'>
+              <el-option
+                v-for="item in typeOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
-          <el-form-item label="*状态" label-width="100px">
+          <el-form-item label="*最大时长(ms)" label-width="120px">
+            <el-input v-model="dataInfo.value" size='mini' placeholder="默认30*1000ms"></el-input>
+          </el-form-item>
+          <el-form-item label="*状态" label-width="120px">
             <el-select v-model="dataInfo.status" size='mini'>
               <el-option
                 v-for="item in statusOptions"
@@ -94,7 +105,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="描述" label-width="100px">
+          <el-form-item label="描述" label-width="120px">
             <el-input v-model="dataInfo.desc" size='mini'></el-input>
           </el-form-item>   
         </el-form>
@@ -106,13 +117,23 @@
 
       <el-dialog title="添加" :visible.sync="addDialogFormVisible" :close-on-click-modal=false>
         <el-form :model="dataAdd" ref="dataAdd">
-          <el-form-item label="*名称" label-width="100px">
+          <el-form-item label="*名称" label-width="120px">
             <el-input v-model="dataAdd.name" size='mini'></el-input>
           </el-form-item>
-          <el-form-item label="*邮箱地址" label-width="100px">
-            <el-input v-model="dataAdd.value" size='mini'></el-input>
+          <el-form-item label="*类型" label-width="120px">
+            <el-select v-model="dataAdd.type" size='mini'>
+              <el-option
+                v-for="item in typeOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
-          <el-form-item label="描述" label-width="100px">
+          <el-form-item label="*最大时长(ms)" label-width="120px">
+            <el-input v-model="dataAdd.value" size='mini' placeholder="默认30*1000ms"></el-input>
+          </el-form-item>
+          <el-form-item label="描述" label-width="120px">
             <el-input v-model="dataAdd.desc" size='mini'></el-input>
           </el-form-item>  
         </el-form>
@@ -126,7 +147,7 @@
 </template>
 <script>
 import headTop from "../components/headTop";
-import { findHttpSettingById, findHttpSetting, saveHttpSetting, modifyHttpSetting, removeHttpSettingById} from "@/api/getData";
+import { findHttpSettingById, findHttpSettingTimeout, saveHttpSetting, modifyHttpSetting, removeHttpSettingById} from "@/api/getData";
 export default {
   data() {
     return {
@@ -135,8 +156,20 @@ export default {
       pageSize: 10,
       pageNum: 1,
       dataList: [],
-      dataInfo: {},
-      dataAdd:{},
+      dataInfo: {
+        name:"",
+        value:"",
+        desc:"",
+        status:null,
+        type:null,
+      },
+      dataAdd:{
+        name:"",
+        value:"",
+        desc:"",
+        status:null,
+        type:null,
+      },
       editDialogFormVisible: false,
       addDialogFormVisible: false,
 
@@ -148,6 +181,17 @@ export default {
         {
           value: 1,
           label: '禁用'
+        },
+      ],
+
+      typeOptions:[
+        {
+          value: 3,
+          label: 'ConnectTimeout'
+        },
+        {
+          value: 4,
+          label: 'ReadTimeout'
         },
       ],
     };
@@ -163,11 +207,18 @@ export default {
       queryForm['pageNum'] = this.pageNum
       queryForm['pageSize'] = this.pageSize
       this.dataList = []
-      queryForm['type'] = 2
-      const res = await findHttpSetting(queryForm)
+      const res = await findHttpSettingTimeout(queryForm)
       if (res.code == 200) {
           this.total = res.data.total
           this.dataList = res.data.list
+          res.data.list.map(element => {
+            if (element.type == 3) {
+              element.typeLabel = "ConnectTimeout";
+            } else {
+              element.typeLabel = "ReadTimeout";
+            }
+            return element;
+          });
       } else {
         this.$message({
           type:"error",
@@ -177,7 +228,6 @@ export default {
       }
     },
     async handleAdd() {
-        this.dataAdd['type'] = 2
         const res = await saveHttpSetting(this.dataAdd);
         if (res.code == 200) {
             this.$message({
@@ -199,7 +249,7 @@ export default {
     async handleEdit(settingId) {
       const res = await findHttpSettingById(settingId);
       if (res.code == 200) {
-        this.dataInfo = res.data;
+        this.dataInfo = res.data
         this.editDialogFormVisible = true;
       } else {
         this.$message({
@@ -234,7 +284,6 @@ export default {
       })  
     },
     async updateSetting() {
-      this.dataInfo['type'] = 2
       const res = await modifyHttpSetting(this.dataInfo);
       if (res.code == 200) {
         this.$message({
@@ -277,13 +326,11 @@ export default {
     async openAdd() {
       this.addDialogFormVisible = true;
       this.dataAdd = {};
-      this.dataAdd['type'] = 2;
     },
     async resetForm() {
       this.queryForm = {}
       this.pageSize = 10
       this.pageNum = 1
-      this.type = 2
       this.selectSettingList(this.queryForm)
     }
   }

@@ -32,7 +32,6 @@
     </div>
     <div class="table_container">
       <el-table :data="dataList" stripe highlight-current-row style="width: 100%">
-        <el-table-column property="taskId" label="编号" min-width="10%"></el-table-column>
         <el-table-column property="desc" label="名称" min-width="15%"></el-table-column>
         <el-table-column property="cron" label="Cron" min-width="15%"></el-table-column>
         <el-table-column property="suiteName" label="测试套件" min-width="15%"></el-table-column>
@@ -485,7 +484,7 @@ export default {
 <style lang="less">
 @import "../style/mixin";
 .table_container {
-  padding: 5px;
+  padding: 10px;
 }
 .query {
   padding: 5px;
