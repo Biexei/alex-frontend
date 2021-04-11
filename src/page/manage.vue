@@ -37,6 +37,11 @@
 						<el-menu-item v-has="'setting:proxy'" index="proxy"  class="left-color"><i class="el-icon-link"></i><span slot="title" class="title-color">代理配置</span></el-menu-item>
 						<el-menu-item v-has="'setting:timeout'" index="timeout"  class="left-color"><i class="el-icon-discover"></i><span slot="title" class="title-color">超时配置</span></el-menu-item>
 					</el-submenu>
+					<el-submenu v-has="'feedback'" index="4"  class="left-color">
+						<template slot="title"  class="left-color"><i class="el-icon-info"></i><span slot="title" class="title-color">反馈中心</span></template>
+						<el-menu-item v-has="'feedback:list'" index="feedbackList"  class="left-color"><i class="el-icon-link"></i><span slot="title" class="title-color">反馈列表</span></el-menu-item>
+						<el-menu-item v-has="'feedback:my'" index="myFeedback"  class="left-color"><i class="el-icon-discover"></i><span slot="title" class="title-color">我的反馈</span></el-menu-item>
+					</el-submenu>
 				</el-menu>
 			</el-col>
 			<el-col :span="20" style="height: 100%;overflow: auto;">

@@ -37,6 +37,9 @@ const reportChannel = r => require.ensure([], () => r(require('@/page/reportChan
 
 const dataFactory = r => require.ensure([], () => r(require('@/page/dataFactory')), 'dataFactory');
 
+const feedbackList = r => require.ensure([], () => r(require('@/page/feedbackList')), 'feedbackList');
+const myFeedback = r => require.ensure([], () => r(require('@/page/myFeedback')), 'myFeedback');
+
 
 
 const router = new Router({
@@ -290,7 +293,23 @@ const router = new Router({
             path: [],
             requireAuth: true
           },
-        },    
+        },
+        {
+          path: '/feedbackList',
+          component: feedbackList,
+          meta: {
+            path: ['反馈中心','反馈列表'],
+            requireAuth: true
+          },
+        }, 
+        {
+          path: '/myFeedback',
+          component: myFeedback,
+          meta: {
+            path: ['反馈中心','我的反馈'],
+            requireAuth: true
+          },
+        },     
       ],
     }  
   ],

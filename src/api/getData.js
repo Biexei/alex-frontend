@@ -638,3 +638,46 @@ export const executeDataFactory = id => HttpRequest.get('/data/factory/execute/'
   * 删除权限
   */
   export const removePermissionById = id => HttpRequest.get('/permission/remove/' + id)
+
+
+
+  
+  /**
+  * 新增反馈
+  */
+   export const saveFeedback = data => HttpRequest.post('/feedback/save', data)
+
+  /**
+  * 回复反馈消息
+  */
+   export const replyFeedback = data => HttpRequest.post('/feedback/reply', data)
+
+  /**
+  * 修改反馈消息
+  */
+   export const modifyFeedback = data => HttpRequest.post('/feedback/modify', data)
+
+  /**
+  * 查看反馈列表
+  */
+   export const findFeedback = data => HttpRequest.get('/feedback', data)
+
+  /**
+  * 查看我的反馈列表
+  */
+   export const findMyFeedback = data => HttpRequest.get('/myFeedback', data)
+ 
+   /**
+   * 查看反馈详情
+   */
+   export const findFeedbackById = id => HttpRequest.get('/feedback/' + id)
+
+   /**
+   * 查看我的反馈详情
+   */
+    export const findMyFeedbackById = id => HttpRequest.get('/myFeedback/' + id)
+
+   /**
+   * 删除反馈
+   */
+    export const removeFeedback = id => HttpRequest.get('/feedback/remove/' + id)
