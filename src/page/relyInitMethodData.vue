@@ -20,9 +20,9 @@
       <el-table :data="dataList" stripe highlight-current-row style="width: 100%">
         <el-table-column property="id" label="编号" min-width="5%"></el-table-column>
         <el-table-column property="name" label="名称" min-width="10%"></el-table-column>
-        <el-table-column property="value" label="预置方法" min-width="25%"></el-table-column>
+        <el-table-column property="value" label="预置方法" min-width="30%" show-overflow-tooltip></el-table-column>
         <el-table-column property="desc" label="描述" min-width="38%" show-overflow-tooltip></el-table-column>
-        <el-table-column property="type" label="类型" min-width="12%">
+        <el-table-column property="type" label="类型" min-width="10%">
           <template slot-scope="scope">
             <el-tag
               effect="dark"
@@ -32,7 +32,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="10%">
+        <el-table-column fixed="right" label="操作" min-width="7%">
           <template slot-scope="scope">
             <el-button
               @click="handleEdit(scope.row.id)"
@@ -41,15 +41,6 @@
               size="mini"
               icon="el-icon-edit"
               circle
-            ></el-button>
-            <el-button
-              @click="handleDelete(scope.row.id, scope.$index)"
-              v-has="'data_center:rely_init_method:remove'"
-              type="danger"
-              size="mini"
-              icon="el-icon-delete"
-              circle
-              :disabled="!scope.row.deleteable"
             ></el-button>
           </template>
         </el-table-column>

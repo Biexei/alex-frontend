@@ -28,10 +28,10 @@
     <div class="table_container">
       <el-table :data="dataList" stripe highlight-current-row style="width: 100%">
         <el-table-column property="id" label="编号" min-width="5%"></el-table-column>
-        <el-table-column property="name" label="名称" min-width="10%"></el-table-column>
-        <el-table-column property="value" label="SQL" min-width="25%" show-overflow-tooltip></el-table-column>
-        <el-table-column property="desc" label="描述" min-width="38%"></el-table-column>
-        <el-table-column property="type" label="类型" min-width="12%">
+        <el-table-column property="name" label="名称" min-width="15%"></el-table-column>
+        <el-table-column property="value" label="SQL" min-width="30%" show-overflow-tooltip></el-table-column>
+        <el-table-column property="desc" label="描述" min-width="30%"></el-table-column>
+        <el-table-column property="type" label="类型" min-width="10%">
           <template slot-scope="scope">
             <el-tag
               effect="dark"

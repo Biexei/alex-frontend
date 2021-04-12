@@ -39,8 +39,8 @@
 					</el-submenu>
 					<el-submenu v-has="'feedback'" index="4"  class="left-color">
 						<template slot="title"  class="left-color"><i class="el-icon-info"></i><span slot="title" class="title-color">反馈中心</span></template>
-						<el-menu-item v-has="'feedback:list'" index="feedbackList"  class="left-color"><i class="el-icon-s-marketing"></i><span slot="title" class="title-color">反馈列表</span></el-menu-item>
-						<el-menu-item v-has="'feedback:my'" index="myFeedback"  class="left-color"><i class="el-icon-document-add"></i><span slot="title" class="title-color">我的反馈</span></el-menu-item>
+						<el-menu-item v-has="'feedback:list'" index="feedbackList"  class="left-color"><i class="el-icon-s-platform"></i><span slot="title" class="title-color">反馈列表</span></el-menu-item>
+						<el-menu-item v-has="'feedback:my'" index="myFeedback"  class="left-color"><i class="el-icon-position"></i><span slot="title" class="title-color">我的反馈</span></el-menu-item>
 					</el-submenu>
 				</el-menu>
 			</el-col>

@@ -48,7 +48,7 @@
           <template slot-scope="scope">
                 <el-tag effect="dark" size="medium" :type="scope.row.solutionTagType">
                     <span>{{scope.row.solutionLabel}}</span>
-                    <i :class="scope.row.solutionIcon"></i>
+                    <!-- <i :class="scope.row.solutionIcon"></i> -->
                 </el-tag>
           </template>
         </el-table-column>
@@ -214,7 +214,7 @@ export default {
             }
             if (element.solution == 0) {
                 element.solutionLabel = "不予调整"
-                element.solutionIcon = "el-icon-scissors"
+                element.solutionIcon = "el-icon-close"
                 element.solutionTagType = "info"
             } else if(element.solution == 1) {
                 element.solutionLabel = "延期解决"

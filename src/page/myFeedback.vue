@@ -42,7 +42,7 @@
           <template slot-scope="scope">
                 <el-tag effect="dark" size="medium" :type="scope.row.solutionTagType">
                     <span>{{scope.row.solutionLabel}}</span>
-                    <i :class="scope.row.solutionIcon"></i>
+                    <!-- <i :class="scope.row.solutionIcon"></i> -->
                 </el-tag>
           </template>
         </el-table-column>
@@ -82,19 +82,24 @@
 
       <el-dialog title="详情" :visible.sync="editDialogFormVisible" :close-on-click-modal=false>
         <el-form :model="dataInfo">
-          <el-form-item label="*打个分" label-width="100px">
-            <el-input-number v-model="dataInfo.rate" :min="1" :max="5" size="mini" disabled></el-input-number>
+          <el-divider content-position="center">我的评价</el-divider>
+          <el-form-item label="时间" label-width="100px">
+            <el-input v-model="dataInfo.createdTime" readonly size='mini' ></el-input>
           </el-form-item>
-          <el-form-item label="*吐个槽" label-width="100px">
-            <el-input v-model="dataInfo.content" readonly size='mini' type="textarea" :autosize="{ minRows: 3, maxRows: 6 }"></el-input>
+          <el-form-item label="评分" label-width="100px">
+            <el-input v-model="dataInfo.rate" readonly size='mini' ></el-input>
           </el-form-item>
-          <el-form-item label="答复" label-width="100px">
-            <el-input v-model="dataInfo.reply" size='mini' type="textarea" readonly :autosize="{ minRows: 3, maxRows: 6 }"></el-input>
-          </el-form-item> 
-          <el-form-item label="答复时间" label-width="100px">
+          <el-form-item label="内容" label-width="100px">
+            <el-input v-model="dataInfo.content" readonly size='mini' type="textarea" :autosize="{ minRows: 1, maxRows: 6 }"></el-input>
+          </el-form-item>
+          <el-divider content-position="center">官方回复</el-divider>
+          <el-form-item label="时间" label-width="100px">
             <el-input v-model="dataInfo.replyTime" size='mini' readonly></el-input>
           </el-form-item>  
-          <el-form-item label="处理进度" label-width="100px">
+          <el-form-item label="内容" label-width="100px">
+            <el-input v-model="dataInfo.reply" size='mini' type="textarea" readonly :autosize="{ minRows: 1, maxRows: 6 }"></el-input>
+          </el-form-item> 
+          <el-form-item label="解决方案" label-width="100px">
             <el-select v-model="dataInfo.solution" disabled size='mini'>
               <el-option
                 v-for="item in solutionOptions"
@@ -107,7 +112,6 @@
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="editDialogFormVisible = false" size="mini">取 消</el-button>
-          <el-button type="primary" size="mini">确 定</el-button>
           <!-- <el-button type="primary" @click="updateFeedback" size="mini">确 定</el-button> -->
         </div>
       </el-dialog>
@@ -144,6 +148,7 @@ export default {
       dataAdd:{},
       editDialogFormVisible: false,
       addDialogFormVisible: false,
+      iconClasses: ['icon-rate-face-1', 'icon-rate-face-2', 'icon-rate-face-3'],
 
       statusOptions:[
         {
@@ -211,7 +216,7 @@ export default {
             }
             if (element.solution == 0) {
                 element.solutionLabel = "不予解决"
-                element.solutionIcon = "el-icon-scissors"
+                element.solutionIcon = "el-icon-close"
                 element.solutionTagType = "info"
             } else if(element.solution == 1) {
                 element.solutionLabel = "延期解决"
