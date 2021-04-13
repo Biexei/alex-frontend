@@ -23,10 +23,12 @@
 					</el-submenu>
 					<el-submenu v-has="'interface'" index="2"  class="left-color">
 						<template slot="title"  class="left-color"><i class="el-icon-suitcase-1"></i><span slot="title" class="title-color">接口测试</span></template>
-						<el-menu-item v-has="'interface:case'" index="ifCase"  class="left-color"><i class="el-icon-grape"></i><span slot="title" class="title-color">测试用例</span></el-menu-item>
-						<el-menu-item v-has="'interface:suite'" index="ifSuite"  class="left-color"><i class="el-icon-watermelon"></i><span slot="title" class="title-color">测试套件</span></el-menu-item>
-						<el-menu-item v-has="'interface:case_log'" index="executeLog"  class="left-color"><i class="el-icon-cherry"></i><span slot="title" class="title-color">执行日志</span></el-menu-item>
-						<el-menu-item v-has="'interface:assert_log'" index="ifAssertLog"  class="left-color"><i class="el-icon-apple"></i><span slot="title" class="title-color">断言日志</span></el-menu-item>
+						<el-menu-item v-has="'interface:case'" index="ifCase"  class="left-color"><i class="el-icon-s-opportunity"></i><span slot="title" class="title-color">测试用例</span></el-menu-item>
+						<el-menu-item v-has="'interface:suite'" index="ifSuite"  class="left-color"><i class="el-icon-folder"></i><span slot="title" class="title-color">测试套件</span></el-menu-item>
+						<el-menu-item v-has="'interface:assert_log'" index="ifReport"  class="left-color"><i class="el-icon-s-data"></i><span slot="title" class="title-color">测试报告</span></el-menu-item>
+						<el-menu-item v-has="'interface:case_log'" index="executeLog"  class="left-color"><i class="el-icon-zoom-in"></i><span slot="title" class="title-color">执行日志</span></el-menu-item>
+						<el-menu-item v-has="'interface:ifreport'" index="ifAssertLog"  class="left-color"><i class="el-icon-first-aid-kit"></i><span slot="title" class="title-color">断言日志</span></el-menu-item>
+						
 					</el-submenu>
 					<el-submenu v-has="'setting'" index="3"  class="left-color">
 						<template slot="title"  class="left-color"><i class="el-icon-setting"></i><span slot="title" class="title-color">配置中心</span></template>

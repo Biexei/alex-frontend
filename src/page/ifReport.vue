@@ -3,6 +3,9 @@
     <head-top></head-top>
     <div class="query">
       <el-form :inline="true" :model="queryForm" class="demo-form-inline" ref="queryForm">
+        <el-form-item label="名称">
+          <el-input v-model="queryForm.suiteName" placeholder="套件名称" size='mini'></el-input>
+        </el-form-item>
         <el-form-item label="执行编号">
           <el-input v-model="queryForm.suiteLogNo" placeholder="执行编号" size='mini'></el-input>
         </el-form-item>
@@ -40,8 +43,8 @@
           </el-date-picker>
         </el-form-item>  
         <el-form-item>
-          <el-button v-has="'interface:assert_log:find'" type="primary" size="mini" @click="selectSuiteLogList(queryForm)">查询</el-button>
-          <el-button v-has="'interface:assert_log:find'" type="primary" size="mini" @click="resetForm">重置</el-button>
+          <el-button v-has="'interface:ifreport:find'" type="primary" size="mini" @click="selectSuiteLogList(queryForm)">查询</el-button>
+          <el-button v-has="'interface:ifreport:find'" type="primary" size="mini" @click="resetForm">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -151,7 +154,9 @@ export default {
     headTop
   },
   mounted() {
-    this.queryForm = {}
+    this.queryForm = {
+         suiteId: this.suiteId,
+    }
     this.selectSuiteLogList(this.queryForm);
   },
   methods: {
