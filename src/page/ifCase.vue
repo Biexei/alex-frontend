@@ -1913,9 +1913,9 @@ export default {
     async selectInterfaceCase(queryForm) {
       queryForm["pageNum"] = this.pageNum;
       queryForm["pageSize"] = this.pageSize;
-      this.dataList = [];
       const res = await listInterfaceCase(queryForm);
       if (res.code == 200) {
+        this.dataList = [];
         this.total = res.data.total;
         res.data.list.forEach((element) => {
           if (element.level == 0) {

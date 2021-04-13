@@ -278,9 +278,9 @@ export default {
     async selectTaskList(queryForm){
       queryForm['pageNum'] = this.pageNum
       queryForm['pageSize'] = this.pageSize
-      this.dataList = []
       const res = await findTaskList(queryForm)
       if (res.code == 200) {
+          this.dataList = []
           this.total = res.data.total
           this.dataList = res.data.list
       } else {

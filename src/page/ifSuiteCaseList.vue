@@ -237,9 +237,9 @@ export default {
     async selectSuiteCaseList(queryForm){
       queryForm['pageNum'] = this.pageNum
       queryForm['pageSize'] = this.pageSize
-      this.dataList = []
       const res = await findSuiteCaseList(queryForm)
       if (res.code == 200) {
+          this.dataList = []
           this.total = res.data.total
           res.data.list.forEach(element => {
               if (element.level == 0) {

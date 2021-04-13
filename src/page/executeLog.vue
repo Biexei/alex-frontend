@@ -521,9 +521,9 @@ export default {
     async selectInterfaceCaseExecuteLogList(queryForm) {
       queryForm["pageNum"] = this.pageNum;
       queryForm["pageSize"] = this.pageSize;
-      this.dataList = []
       const res = await findInterfaceCaseExecuteLogList(queryForm);
       if (res.code == 200) {
+        this.dataList = []
         this.total = res.data.total;
         res.data.list.forEach(element => {
             if (element.status == 0) {
