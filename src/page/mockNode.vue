@@ -13,26 +13,49 @@
           <el-input v-model="queryForm.desc" placeholder="描述" size='mini'></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button v-has="'project:find'" type="primary" size="mini" @click="selectMockServerList(queryForm)">查询</el-button>
-          <el-button v-has="'project:find'" type="primary" size="mini" @click="resetForm">重置</el-button>
-          <el-button v-has="'project:add'" type="primary" size="mini" @click="openAdd" plain>新增</el-button>
+          <el-button v-has="'mock:node:find'" type="primary" size="mini" @click="selectMockServerList(queryForm)">查询</el-button>
+          <el-button v-has="'mock:node:find'" type="primary" size="mini" @click="resetForm">重置</el-button>
+          <el-button v-has="'mock:node:add'" type="primary" size="mini" @click="openAdd" plain>新增</el-button>
         </el-form-item>
       </el-form>
     </div>
     <div class="table_container">
       <el-table :data="dataList" stripe highlight-current-row style="width: 100%">
-        <el-table-column property="serverId" label="编号" min-width="8%"></el-table-column>
-        <el-table-column property="host" label="Host" min-width="15%"></el-table-column>
-        <el-table-column property="port" label="Port" min-width="10%"></el-table-column>
-        <el-table-column property="isForward" label="自动转发" min-width="10%"></el-table-column>
-        <el-table-column property="desc" label="项目描述" min-width="20%" show-overflow-tooltip></el-table-column>
-        <el-table-column property="creatorName" label="创建人" min-width="10%"></el-table-column>
-        <el-table-column property="createdTime" label="创建时间" min-width="15%"></el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="15%">
+        <el-table-column property="serverId" label="编号" min-width="12%"></el-table-column>
+        <el-table-column property="hostAndPort" label="Domain" min-width="20%">
+          <template slot-scope="scope">
+            <el-row :gutter="10">
+              <el-col :span="2"><el-button :type="scope.row.statusStyle" size="mini" circle  class="status"></el-button></el-col>
+              <el-col :span="22"><span>{{scope.row.hostAndPort}}</span></el-col>
+            </el-row>
+          </template>
+        </el-table-column>
+        <el-table-column property="isForward" label="自动转发" min-width="15%"></el-table-column>
+        <el-table-column property="desc" label="描述" min-width="20%" show-overflow-tooltip=""></el-table-column>
+        <el-table-column property="createdTime" label="创建时间" min-width="17%"></el-table-column>
+        <el-table-column fixed="right" label="操作" min-width="18%">
           <template slot-scope="scope">
             <el-button
+              @click="handleStart(scope.row.serverId, scope.$index)"
+              v-has="'mock:node:start'"
+              v-if="scope.row.status==1"
+              type="success"
+              size="mini"
+              icon="el-icon-caret-right"
+              circle
+            ></el-button>
+            <el-button
+              @click="handleStop(scope.row.serverId, scope.$index)"
+              v-has="'mock:node:stop'"
+              v-if="scope.row.status==0"
+              type="success"
+              size="mini"
+              icon="el-icon-video-pause"
+              circle
+            ></el-button>
+            <el-button
               @click="handleEdit(scope.row.serverId)"
-              v-has="'project:modify'"
+              v-has="'mock:node:modify'"
               type="primary"
               size="mini"
               icon="el-icon-edit"
@@ -40,7 +63,7 @@
             ></el-button>
             <el-button
               @click="handleDelete(scope.row.serverId, scope.$index)"
-              v-has="'project:remove'"
+              v-has="'mock:node:remove'"
               type="danger"
               size="mini"
               icon="el-icon-delete"
@@ -67,10 +90,10 @@
             <el-input v-model="dataInfo.port"  size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*转发地址" label-width="120px">
-            <el-input v-model="dataInfo.domain"  size='mini'></el-input>
+            <el-input v-model="dataInfo.remoteHost"  size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*转发端口" label-width="120px">
-            <el-input v-model="dataInfo.devDomain"  size='mini'></el-input>
+            <el-input v-model="dataInfo.remotePort"  size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*描述" label-width="120px">
             <el-input v-model="dataInfo.desc"  size='mini'></el-input>
@@ -88,10 +111,10 @@
             <el-input v-model="dataAdd.port"  size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*转发地址" label-width="120px">
-            <el-input v-model="dataAdd.domain"  size='mini'></el-input>
+            <el-input v-model="dataAdd.remoteHost"  size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*转发端口" label-width="120px">
-            <el-input v-model="dataAdd.devDomain"  size='mini'></el-input>
+            <el-input v-model="dataAdd.remotePort"  size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*描述" label-width="120px">
             <el-input v-model="dataAdd.desc"  size='mini'></el-input>
@@ -142,18 +165,24 @@ export default {
           result.forEach(element => {
               let split = baseUrl.split(":")
               let protocolAndHost;
-              let url;
+              let host;
               if (split.length == 1) {
                 protocolAndHost = split[0]
               } else {
                 protocolAndHost = split[1]
               }
-              url = protocolAndHost.split("//")[1]
-              element["host"] = url;
+              host = protocolAndHost.split("//")[1]
+              element["host"] = host;
               if (element.remoteHost == null || element.remoteHost == "" || element.remotePort == null) {
                 element["isForward"] = "否"
               } else {
                 element["isForward"] = "是"
+              }
+              element["hostAndPort"] = host + ":" + element.port;
+              if (element.status == 0) {
+                element["statusStyle"] = "success"
+              } else {
+                element["statusStyle"] = "danger"
               }
           })
           this.dataList = result;
@@ -197,6 +226,79 @@ export default {
         });
       }
     },
+
+    async handleStart(serverId, index) {
+      const res = await forceStartMockServer(serverId);
+      if (res.code == 200) {
+        this.selectMockServerList(this.queryForm);
+        this.$message({
+          type: "success",
+          center: true,
+          message: res.msg
+        });
+      } else {
+        this.$message({
+          type: "error",
+          center: true,
+          message: res.msg
+        });
+      }
+    },
+
+    async handleStop(serverId, index) {
+      const res = await stopMockServer(serverId);
+      if (res.code == 200) {
+        this.selectMockServerList(this.queryForm);
+        this.$message({
+          type: "success",
+          center: true,
+          message: res.msg
+        });
+      } else {
+        this.$message({
+          type: "error",
+          center: true,
+          message: res.msg
+        });
+      }
+    },
+
+    async handleStartAll() {
+      const res = await startAllMockServer(serverId);
+      if (res.code == 200) {
+        this.selectMockServerList(this.queryForm);
+        this.$message({
+          type: "success",
+          center: true,
+          message: res.msg
+        });
+      } else {
+        this.$message({
+          type: "error",
+          center: true,
+          message: res.msg
+        });
+      }
+    },
+
+    async handleStopAll() {
+      const res = await startAllMockServer(serverId);
+      if (res.code == 200) {
+        this.selectMockServerList(this.queryForm);
+        this.$message({
+          type: "success",
+          center: true,
+          message: res.msg
+        });
+      } else {
+        this.$message({
+          type: "error",
+          center: true,
+          message: res.msg
+        });
+      }
+    },
+
     async handleDelete(serverId, index) {
       this.$confirm('此操作将永久删除, 是否继续?', '提示', {
         confirmButtonText: '确定',
@@ -274,5 +376,10 @@ export default {
   display: flex;
   justify-content: flex-start;
   margin-top: 8px;
+}
+.status {
+  position: relative;
+  left: -1px;
+  top: -5px;
 }
 </style>

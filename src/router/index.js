@@ -326,7 +326,7 @@ const router = new Router({
           path: '/mockNode',
           component: mockNode,
           meta: {
-            path: ['虚拟接口','节点管理'],
+            path: ['Mock','节点管理'],
             requireAuth: true
           },
         }, 
