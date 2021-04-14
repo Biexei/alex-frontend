@@ -30,7 +30,7 @@
             </el-row>
           </template>
         </el-table-column>
-        <el-table-column property="isForward" label="自动转发" min-width="15%"></el-table-column>
+        <el-table-column property="isForward" label="自动转发请求" min-width="15%"></el-table-column>
         <el-table-column property="desc" label="描述" min-width="20%" show-overflow-tooltip=""></el-table-column>
         <el-table-column property="createdTime" label="创建时间" min-width="17%"></el-table-column>
         <el-table-column fixed="right" label="操作" min-width="18%">
@@ -48,7 +48,7 @@
               @click="handleStop(scope.row.serverId, scope.$index)"
               v-has="'mock:node:stop'"
               v-if="scope.row.status==0"
-              type="success"
+              type="warning"
               size="mini"
               icon="el-icon-video-pause"
               circle
@@ -86,16 +86,16 @@
 
       <el-dialog title="编辑" :visible.sync="editDialogFormVisible"  :close-on-click-modal=false>
         <el-form :model="dataInfo">
-          <el-form-item label="*Port" label-width="120px">
+          <el-form-item label="Port" label-width="120px">
             <el-input v-model="dataInfo.port"  size='mini'></el-input>
           </el-form-item>
-          <el-form-item label="*转发地址" label-width="120px">
+          <el-form-item label="转发地址" label-width="120px">
             <el-input v-model="dataInfo.remoteHost"  size='mini'></el-input>
           </el-form-item>
-          <el-form-item label="*转发端口" label-width="120px">
+          <el-form-item label="转发端口" label-width="120px">
             <el-input v-model="dataInfo.remotePort"  size='mini'></el-input>
           </el-form-item>
-          <el-form-item label="*描述" label-width="120px">
+          <el-form-item label="描述" label-width="120px">
             <el-input v-model="dataInfo.desc"  size='mini'></el-input>
           </el-form-item>
         </el-form>
@@ -110,13 +110,13 @@
           <el-form-item label="*Port" label-width="120px">
             <el-input v-model="dataAdd.port"  size='mini'></el-input>
           </el-form-item>
-          <el-form-item label="*转发地址" label-width="120px">
+          <el-form-item label="转发地址" label-width="120px">
             <el-input v-model="dataAdd.remoteHost"  size='mini'></el-input>
           </el-form-item>
-          <el-form-item label="*转发端口" label-width="120px">
+          <el-form-item label="转发端口" label-width="120px">
             <el-input v-model="dataAdd.remotePort"  size='mini'></el-input>
           </el-form-item>
-          <el-form-item label="*描述" label-width="120px">
+          <el-form-item label="描述" label-width="120px">
             <el-input v-model="dataAdd.desc"  size='mini'></el-input>
           </el-form-item>
         </el-form>
