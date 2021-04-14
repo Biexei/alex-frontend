@@ -681,3 +681,63 @@ export const executeDataFactory = id => HttpRequest.get('/data/factory/execute/'
    * 删除反馈
    */
     export const removeFeedback = id => HttpRequest.get('/feedback/remove/' + id)
+
+
+
+
+
+
+  /**
+  * 新增mock节点
+  */
+   export const saveMockServer = data => HttpRequest.post('/mock/server/save', data)
+
+  /**
+  * 修改mock节点
+  */
+   export const modifyMockServer = data => HttpRequest.post('/mock/server/modify', data)
+
+  /**
+  * 查询全部mock节点
+  */
+   export const findAllMockServer = data => HttpRequest.get('/mock/server/all', data)
+
+  /**
+  * 分页查询mock节点
+  */
+   export const findMockServer = data => HttpRequest.get('/mock/server', data)
+
+  /**
+  * 查询mock详情
+  */
+   export const findMockServerById = serverId => HttpRequest.get('/mock/server/' + serverId)
+
+  /**
+  * 删除mock节点
+  */
+   export const removeMockServer = serverId => HttpRequest.get('/mock/server/remove/' + serverId)
+
+  /**
+  * 停止mock节点
+  */
+   export const stopMockServer = serverId => HttpRequest.get('/mock/server/stop/' + serverId)
+
+  /**
+  * 启用mock节点
+  */
+   export const startMockServer = serverId => HttpRequest.get('/mock/server/start/' + serverId)
+
+  /**
+  * 强制启用mock节点
+  */
+   export const forceStartMockServer = serverId => HttpRequest.get('/mock/server/force/start/' + serverId)
+
+  /**
+  * 停用全部mock节点
+  */
+   export const stopAllMockServer = () => HttpRequest.get('/mock/server/stop')
+
+  /**
+  * 启用全部mock节点
+  */
+   export const startAllMockServer = () => HttpRequest.get('/mock/server/start')

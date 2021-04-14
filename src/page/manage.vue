@@ -28,9 +28,12 @@
 						<el-menu-item v-has="'interface:assert_log'" index="ifReport"  class="left-color"><i class="el-icon-s-data"></i><span slot="title" class="title-color">测试报告</span></el-menu-item>
 						<el-menu-item v-has="'interface:case_log'" index="executeLog"  class="left-color"><i class="el-icon-zoom-in"></i><span slot="title" class="title-color">执行日志</span></el-menu-item>
 						<el-menu-item v-has="'interface:ifreport'" index="ifAssertLog"  class="left-color"><i class="el-icon-first-aid-kit"></i><span slot="title" class="title-color">断言日志</span></el-menu-item>
-						
 					</el-submenu>
-					<el-submenu v-has="'setting'" index="3"  class="left-color">
+					<el-submenu v-has="'interface'" index="3"  class="left-color">
+						<template slot="title"  class="left-color"><i class="el-icon-suitcase-1"></i><span slot="title" class="title-color">虚拟接口</span></template>
+						<el-menu-item v-has="'interface:case'" index="mockNode"  class="left-color"><i class="el-icon-s-opportunity"></i><span slot="title" class="title-color">节点管理</span></el-menu-item>
+					</el-submenu>
+					<el-submenu v-has="'setting'" index="4"  class="left-color">
 						<template slot="title"  class="left-color"><i class="el-icon-setting"></i><span slot="title" class="title-color">配置中心</span></template>
 						<!-- 拆分为代理和邮箱两个类目 -->
 						<!-- <el-menu-item index="httpSetting"  class="left-color"><i class="el-icon-s-tools"></i><span slot="title" class="title-color">全局配置</span></el-menu-item> -->
@@ -39,7 +42,7 @@
 						<el-menu-item v-has="'setting:proxy'" index="proxy"  class="left-color"><i class="el-icon-link"></i><span slot="title" class="title-color">代理配置</span></el-menu-item>
 						<el-menu-item v-has="'setting:timeout'" index="timeout"  class="left-color"><i class="el-icon-discover"></i><span slot="title" class="title-color">超时配置</span></el-menu-item>
 					</el-submenu>
-					<el-submenu v-has="'feedback'" index="4"  class="left-color">
+					<el-submenu v-has="'feedback'" index="5"  class="left-color">
 						<template slot="title"  class="left-color"><i class="el-icon-info"></i><span slot="title" class="title-color">反馈中心</span></template>
 						<el-menu-item v-has="'feedback:list'" index="feedbackList"  class="left-color"><i class="el-icon-s-platform"></i><span slot="title" class="title-color">反馈列表</span></el-menu-item>
 						<el-menu-item v-has="'feedback:my'" index="myFeedback"  class="left-color"><i class="el-icon-position"></i><span slot="title" class="title-color">我的反馈</span></el-menu-item>

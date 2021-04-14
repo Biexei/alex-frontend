@@ -42,6 +42,9 @@ const feedbackList = r => require.ensure([], () => r(require('@/page/feedbackLis
 const myFeedback = r => require.ensure([], () => r(require('@/page/myFeedback')), 'myFeedback');
 
 
+const mockNode = r => require.ensure([], () => r(require('@/page/mockNode')), 'mockNode');
+
+
 
 const router = new Router({
   routes: [
@@ -318,7 +321,15 @@ const router = new Router({
             path: ['反馈中心','我的反馈'],
             requireAuth: true
           },
-        },     
+        }, 
+        {
+          path: '/mockNode',
+          component: mockNode,
+          meta: {
+            path: ['虚拟接口','节点管理'],
+            requireAuth: true
+          },
+        }, 
       ],
     }  
   ],
