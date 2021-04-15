@@ -92,7 +92,7 @@
             <el-input v-model="dataInfo.creatorName" size='mini' disabled></el-input>
           </el-form-item>
           <el-form-item label="评分" label-width="100px">
-            <el-input v-model="dataInfo.rate" size='mini' disabled></el-input>
+            <el-rate v-model="dataInfo.rate" class="rate" disabled></el-rate>
           </el-form-item>
           <el-form-item label="内容" label-width="100px">
             <el-input v-model="dataInfo.rate" size='mini' disabled type="textarea" :autosize="{ minRows: 3, maxRows: 6 }"></el-input>
@@ -328,5 +328,15 @@ export default {
   display: flex;
   justify-content: flex-start;
   margin-top: 8px;
+}
+.rate {
+  position: relative;
+  left: -1px;
+  top: 10px;
+}
+.tb_rate {
+  position: relative;
+  left: -1px;
+  top: 3px;
 }
 </style>

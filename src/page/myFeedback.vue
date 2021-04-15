@@ -34,9 +34,13 @@
     </div>
     <div class="table_container">
       <el-table :data="dataList" stripe highlight-current-row style="width: 100%">
-        <el-table-column property="id" label="编号" min-width="7%" show-overflow-tooltip></el-table-column>
-        <el-table-column property="rate" label="评分" min-width="10%"></el-table-column>
-        <el-table-column property="content" label="反馈内容" min-width="38%" show-overflow-tooltip></el-table-column>
+        <el-table-column property="id" label="编号" min-width="10%" show-overflow-tooltip></el-table-column>
+        <el-table-column property="rate" label="评分" min-width="15%">
+          <template slot-scope="scope">
+                <el-rate v-model="scope.row.rate" class="tb_rate" disabled></el-rate>
+          </template>
+        </el-table-column>
+        <el-table-column property="content" label="反馈内容" min-width="30%" show-overflow-tooltip></el-table-column>
         <el-table-column property="statusLabel" label="状态" min-width="10%"></el-table-column>
         <el-table-column property="solutionLabel" label="解决方案" min-width="10%" show-overflow-tooltip>
           <template slot-scope="scope">
@@ -87,7 +91,7 @@
             <el-input v-model="dataInfo.createdTime" readonly size='mini' ></el-input>
           </el-form-item>
           <el-form-item label="评分" label-width="100px">
-            <el-input v-model="dataInfo.rate" readonly size='mini' ></el-input>
+            <el-rate v-model="dataInfo.rate" class="rate" disabled></el-rate>
           </el-form-item>
           <el-form-item label="内容" label-width="100px">
             <el-input v-model="dataInfo.content" readonly size='mini' type="textarea" :autosize="{ minRows: 1, maxRows: 6 }"></el-input>
@@ -119,7 +123,7 @@
       <el-dialog title="添加" :visible.sync="addDialogFormVisible" :close-on-click-modal=false>
         <el-form :model="dataAdd" ref="dataAdd">
           <el-form-item label="*打个分" label-width="100px">
-            <el-input-number v-model="dataAdd.rate" :min="1" :max="5" size="mini"></el-input-number>
+            <el-rate v-model="dataAdd.rate" class="rate"></el-rate>
           </el-form-item>
           <el-form-item label="*吐个槽" label-width="100px">
             <el-input v-model="dataAdd.content" size='mini' type="textarea" :autosize="{ minRows: 3, maxRows: 6 }"></el-input>
@@ -355,5 +359,15 @@ export default {
   display: flex;
   justify-content: flex-start;
   margin-top: 8px;
+}
+.rate {
+  position: relative;
+  left: -1px;
+  top: 10px;
+}
+.tb_rate {
+  position: relative;
+  left: -1px;
+  top: 3px;
 }
 </style>
