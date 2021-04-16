@@ -741,3 +741,34 @@ export const executeDataFactory = id => HttpRequest.get('/data/factory/execute/'
   * 启用全部mock节点
   */
    export const startAllMockServer = () => HttpRequest.get('/mock/server/start')
+
+
+
+
+
+
+  /**
+  * 新增mock接口
+  */
+   export const saveMockApiAndPolicy = data => HttpRequest.post('/mock/api/save', data, true, true)
+
+  /**
+  * 修改mock接口
+  */
+   export const modifyMockApiAndPolicy = data => HttpRequest.post('/mock/api/modify', data, true, true)
+
+  /**
+  * mock接口列表
+  */
+   export const findMockApiList = data => HttpRequest.get('/mock/api/list', data)
+
+  /**
+  * mock接口详情
+  */
+   export const findMockApiById = apiId => HttpRequest.get('/mock/api/' + apiId)
+
+  /**
+  * mock接口详情
+  */
+   export const removeMockApiById = apiId => HttpRequest.get('/mock/api/remove/' + apiId)
+

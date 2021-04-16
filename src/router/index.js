@@ -43,6 +43,7 @@ const myFeedback = r => require.ensure([], () => r(require('@/page/myFeedback'))
 
 
 const mockNode = r => require.ensure([], () => r(require('@/page/mockNode')), 'mockNode');
+const mockApi = r => require.ensure([], () => r(require('@/page/mockApi')), 'mockApi');
 
 
 
@@ -327,6 +328,14 @@ const router = new Router({
           component: mockNode,
           meta: {
             path: ['Mock','节点管理'],
+            requireAuth: true
+          },
+        }, 
+        {
+          path: '/mockApi',
+          component: mockApi,
+          meta: {
+            path: ['Mock','接口管理'],
             requireAuth: true
           },
         }, 
