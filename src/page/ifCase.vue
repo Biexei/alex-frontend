@@ -300,7 +300,7 @@
           </el-collapse-item>
 
 
-        <el-collapse-item title="*基本信息">
+        <el-collapse-item title="基本信息">
           <el-form-item label="*项目名称" label-width="100px">
             <el-input readonly v-model="dataAdd.projectName" @focus='handleProjectModuleList' size="mini" disabled></el-input>
           </el-form-item>
@@ -328,7 +328,7 @@
           </el-form-item>
         </el-collapse-item>
 
-        <el-collapse-item title="*请求信息">
+        <el-collapse-item title="请求信息">
           <el-row :gutter="20">
           <el-col :span="4">
             <el-select v-model="dataAdd.method" placeholder="method"  size="mini" @change="handleChangeMethod">
@@ -887,7 +887,7 @@
           </el-collapse-item>
 
 
-        <el-collapse-item title="*基本信息">
+        <el-collapse-item title="基本信息">
           <el-form-item label="*项目名称" label-width="100px">
             <el-input readonly v-model="dataInfo.projectName" @focus='handleProjectModuleList' size="mini" disabled></el-input>
           </el-form-item>
@@ -915,7 +915,7 @@
           </el-form-item>
         </el-collapse-item>
 
-        <el-collapse-item title="*请求信息">
+        <el-collapse-item title="请求信息">
           <el-row :gutter="20">
           <el-col :span="4">
             <el-select v-model="dataInfo.method" placeholder="method"  size="mini" @change="handleChangeMethod">
@@ -1247,7 +1247,7 @@
                 </el-form-item>
           </el-collapse-item>
 
-        <el-collapse-item title="*基本信息">
+        <el-collapse-item title="基本信息">
           <el-form-item label="*项目名称" label-width="100px">
             <el-input readonly v-model="dataInfo.projectName" @focus='handleProjectModuleList' size="mini" disabled></el-input>
           </el-form-item>
@@ -1275,7 +1275,7 @@
           </el-form-item>
         </el-collapse-item>
 
-        <el-collapse-item title="*请求信息">
+        <el-collapse-item title="请求信息">
           <el-row :gutter="20">
           <el-col :span="4">
             <el-select v-model="dataInfo.method" placeholder="method"  size="mini" @change="handleChangeMethod">

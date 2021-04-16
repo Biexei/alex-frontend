@@ -4,16 +4,16 @@
     <div class="query">
       <el-form :inline="true" :model="queryForm" class="demo-form-inline" ref="queryForm">
         <el-form-item label="编号">
-          <el-input v-model="queryForm.apiId" placeholder="编号" size='mini'></el-input>
+          <el-input v-model="queryForm.apiId" placeholder="" size='mini'></el-input>
         </el-form-item>
         <el-form-item label="端口">
-          <el-input v-model="queryForm.port" placeholder="端口" size='mini'></el-input>
+          <el-input v-model="queryForm.port" placeholder="" size='mini'></el-input>
         </el-form-item>
-        <el-form-item label="Url">
-          <el-input v-model="queryForm.url" placeholder="Url" size='mini'></el-input>
+        <el-form-item label="url">
+          <el-input v-model="queryForm.url" placeholder="" size='mini'></el-input>
         </el-form-item>
         <el-form-item label="请求方式">
-          <el-input v-model="queryForm.desc" placeholder="请求方式" size='mini'></el-input>
+          <el-input v-model="queryForm.desc" placeholder="" size='mini'></el-input>
         </el-form-item>
         <el-form-item label="状态">
           <el-select v-model="queryForm.status" clearable placeholder="请选择"  size='mini'>
@@ -27,40 +27,57 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button v-has="'mock:node:find'" type="primary" size="mini" @click="selectMockApiList(queryForm)">查询</el-button>
-          <el-button v-has="'mock:node:find'" type="primary" size="mini" @click="resetForm">重置</el-button>
-          <el-button v-has="'mock:node:add'" type="primary" size="mini" @click="openAdd" plain>新增</el-button>
+          <el-button v-has="'mock:api:query'" type="primary" size="mini" @click="selectMockApiList(queryForm)">查询</el-button>
+          <el-button v-has="'mock:api:query'" type="primary" size="mini" @click="resetForm">重置</el-button>
+          <el-button v-has="'mock:api:add'" type="primary" size="mini" @click="openAdd()" plain>新增</el-button>
         </el-form-item>
       </el-form>
     </div>
     <div class="table_container">
       <el-table :data="dataList" stripe highlight-current-row style="width: 100%">
-        <el-table-column property="apiId" label="编号" min-width="12%"></el-table-column>
-        <el-table-column property="method" label="请求地址" min-width="30%" show-overflow-tooltip>
+        <el-table-column property="apiId" label="编号" min-width="10%"></el-table-column>
+        <el-table-column property="domain" label="Domain" min-width="20%">
+          <template slot-scope="scope">
+            <el-row :gutter="15">
+              <el-col :span="2"><el-button :type="scope.row.portRunning ? 'success':'danger'" size="mini" circle  class="status"></el-button></el-col>
+              <el-col :span="22"><span>{{scope.row.domain}}</span></el-col>
+            </el-row>
+          </template>
+        </el-table-column>
+        <el-table-column property="method" label="Url" min-width="20%" show-overflow-tooltip>
           <template slot-scope="scope">
             <el-row :gutter="10">
-              <el-col :span="4"><el-tag effect="dark" disable-transitions size="mini">{{scope.row.method}}</el-tag></el-col>
-              <el-col :span="20"><span>{{scope.row.url}}</span></el-col>
+              <el-col :span="5"><el-tag effect="dark" disable-transitions size="mini">{{scope.row.method}}</el-tag></el-col>
+              <el-col :span="19"><span>{{scope.row.url}}</span></el-col>
             </el-row>
           </template>
         </el-table-column>
         <el-table-column property="desc" label="描述" min-width="15%"></el-table-column>
-        <el-table-column property="status" label="状态" min-width="20%"></el-table-column>
-        <el-table-column property="creatorName" label="创建人" min-width="20%"></el-table-column>
-        <el-table-column property="createdTime" label="创建时间" min-width="17%"></el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="18%">
+        <el-table-column property="creatorName" label="创建人" min-width="10%"></el-table-column>
+        <el-table-column property="createdTime" label="创建时间" min-width="15%"></el-table-column>
+        <el-table-column property="status" label="状态" min-width="10%">
+          <template slot-scope="scope">
+            <el-tag
+              effect="dark"
+              size="small"
+              :type="scope.row.status == 0 ? 'success':'danger'"
+              disable-transitions>{{scope.row.status == 0 ? '启用':'停用'}}
+            </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column fixed="right" label="操作" min-width="10%">
           <template slot-scope="scope">
             <el-button
-              @click="handleEdit(scope.row.serverId)"
-              v-has="'mock:node:modify'"
+              @click="handleEdit(scope.row.apiId)"
+              v-has="'mock:api:modify'"
               type="primary"
               size="mini"
               icon="el-icon-edit"
               circle
             ></el-button>
             <el-button
-              @click="handleDelete(scope.row.serverId, scope.$index)"
-              v-has="'mock:node:remove'"
+              @click="handleDelete(scope.row.apiId, scope.$index)"
+              v-has="'mock:api:remove'"
               type="danger"
               size="mini"
               icon="el-icon-delete"
@@ -80,67 +97,104 @@
           :total="total"
         ></el-pagination>
       </div>
+<!--编~辑 编~辑 编~辑 -->
+      <el-dialog title="编辑" :visible.sync="editDialogFormVisible" :close-on-click-modal=false>
+        <el-form :model="dataInfo" ref="dataInfo">
+          <el-tabs value="first">
+            <el-tab-pane label="基本信息" name="first">
+                <el-form-item label="选择节点" label-width="110px">
+                  <el-select v-model="dataInfo.serverId" placeholder="请选择"  size="mini" >
+                    <el-option
+                      v-for="item in mockServerList"
+                      :key="item.serverId"
+                      :label="item.domain"
+                      :value="item.serverId">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item label="接口描述" label-width="110px">
+                  <el-input v-model="dataInfo.desc" size="mini" type="textarea" :autosize="{ minRows: 3, maxRows: 10 }"></el-input>
+                </el-form-item>
+                <el-form-item label="由谁创建" label-width="110px">
+                  <el-input v-model="dataInfo.creatorName" size="mini" disabled></el-input>
+                </el-form-item>
+            </el-tab-pane>
 
-      <el-dialog title="编辑" :visible.sync="editDialogFormVisible"  :close-on-click-modal=false>
-        <el-form :model="dataInfo">
-          <el-form-item label="Port" label-width="110px">
-            <el-input v-model="dataInfo.port"  size='mini'></el-input>
-          </el-form-item>
-          <el-form-item label="转发地址" label-width="110px">
-            <el-input v-model="dataInfo.remoteHost"  size='mini'></el-input>
-          </el-form-item>
-          <el-form-item label="转发端口" label-width="110px">
-            <el-input v-model="dataInfo.remotePort"  size='mini'></el-input>
-          </el-form-item>
-          <el-form-item label="描述" label-width="110px">
-            <el-input v-model="dataInfo.desc"  size='mini'></el-input>
-          </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="editDialogFormVisible = false" size="mini">取 消</el-button>
-          <el-button type="primary" @click="updateMockApi" size="mini">确 定</el-button>
-        </div>
-      </el-dialog>
 
-      <el-dialog title="添加" :visible.sync="addDialogFormVisible" :close-on-click-modal=false>
-        <el-form :model="dataAdd" ref="dataAdd">
-          <el-collapse>
+            <el-tab-pane label="命中策略" name="third">
+                  <el-row :gutter="20">
+                  <el-col :span="3">
+                    <el-input v-model="dataInfo.method"  size="mini" placeholder="Method"></el-input>
+                  </el-col>
+                  <el-col :span="21">
+                    <el-input v-model="dataInfo.url"  size="mini" placeholder="Enter request url"></el-input>
+                  </el-col> 
+                  </el-row> 
+                  <el-button @click.prevent="addPolicy" icon="el-icon-circle-plus-outline" circle type="primary" size="mini" style="margin-top:10px"></el-button>
+                  <el-form-item
+                      v-for="(policyItem, index) in policyList"
+                      :index="index"
+                      :key="index">
+                    <el-row :gutter="20">
+                      <el-col :span="3">
+                          <el-select v-model="policyItem.matchScope" size='mini'>
+                            <el-option
+                              v-for="item in matchScopeOptions"
+                              :key="item.value"
+                              :label="item.label"
+                              :value="item.value">
+                            </el-option>
+                          </el-select>
+                      </el-col> 
+                      <el-col :span="3">
+                          <el-select v-model="policyItem.matchType" size='mini'>
+                            <el-option
+                              v-for="item in matchTypeOptions"
+                              :key="item.value"
+                              :label="item.label"
+                              :value="item.value">
+                            </el-option>
+                          </el-select>
+                      </el-col> 
+                      <el-col :span="3" v-if="policyItem.matchScope!=1">
+                          <el-input v-model="policyItem.name" placeholder="name"  size="mini"></el-input>
+                      </el-col> 
+                      <el-col :span="11" v-if="policyItem.matchScope!=1">
+                          <el-input v-model="policyItem.value" placeholder="value"  size="mini"></el-input>
+                      </el-col> 
+                      <el-col :span="14" v-else>
+                          <el-input v-model="policyItem.value" placeholder="value"  size="mini"></el-input>
+                      </el-col> 
+                      <el-col :span="2">
+                          <el-switch
+                            v-model="policyItem.status"
+                            :active-value=0
+                            :inactive-value=1>
+                          </el-switch>
+                      </el-col> 
+                      <el-col :span="2">
+                          <el-button @click.prevent="removePolicy(policyItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                      </el-col>
+                  </el-row> 
+                </el-form-item>
+            </el-tab-pane>
 
-            <el-collapse-item title="基本信息">
-              <el-form-item label="选择节点" label-width="110px">
-                <el-select v-model="dataAdd.serverId" placeholder="请选择"  size="mini" >
-                  <el-option
-                    v-for="item in mockServerList"
-                    :key="item.serverId"
-                    :label="item.domain"
-                    :value="item.serverId">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="接口描述" label-width="110px">
-                <el-input v-model="dataAdd.desc" size="mini"></el-input>
-              </el-form-item>
-            </el-collapse-item>
 
-            <el-collapse-item title="响应信息">
-              <el-form-item label="响应延时" label-width="110px">
-                <el-input v-model="dataAdd.responseDelay" placeholder="响应延时(ms)" size="mini"></el-input>
-              </el-form-item>
-              <el-form-item label="解析依赖" label-width="110px">
-                <el-checkbox v-model="dataAdd.responseHeadersEnableRely" true-label="0" false-label="1">Header</el-checkbox>
-                <el-checkbox v-model="dataAdd.responseBodyEnableRely" true-label="0" false-label="1">Body</el-checkbox>
+            <el-tab-pane label="响应信息" name="second">
+              <el-form-item label="Delay" label-width="110px">
+                <el-input v-model="dataInfo.responseDelay" placeholder="ms" size="mini"></el-input>
               </el-form-item>
               <el-form-item label="Code" label-width="110px">
-                <el-input v-model="dataAdd.responseCode" placeholder="状态码" size="mini"></el-input>
+                <el-input v-model="dataInfo.responseCode" placeholder="" size="mini"></el-input>
               </el-form-item>
               <el-form-item label="Header" label-width="110px">
-                <el-input v-model="dataAdd.responseHeaders" placeholder="响应头" size="mini" type="textarea" :autosize="{ minRows: 3, maxRows: 10 }"></el-input>
+                <el-input v-model="dataInfo.responseHeaders" placeholder="" size="mini" type="textarea" :autosize="{ minRows: 3, maxRows: 10 }"></el-input>
               </el-form-item>
               <el-form-item label="Body" label-width="110px">
-                <el-input v-model="dataAdd.responseBody" placeholder="响应正文" size="mini"  type="textarea" :autosize="{ minRows: 3, maxRows: 10 }"></el-input>
+                <el-input v-model="dataInfo.responseBody" placeholder="" size="mini"  type="textarea" :autosize="{ minRows: 3, maxRows: 10 }"></el-input>
               </el-form-item>
               <el-form-item label="ContentType" label-width="110px">
-                <el-select v-model="dataAdd.responseBodyType" placeholder="请选择"  size="mini" >
+                <el-select v-model="dataInfo.responseBodyType" placeholder=""  size="mini" @change=forceUpate()>
                   <el-option
                     v-for="item in responseBodyTypeOptions"
                     :key="item.value"
@@ -149,64 +203,154 @@
                   </el-option>
                 </el-select>
               </el-form-item>
-            </el-collapse-item>
+            </el-tab-pane>
 
-          <el-collapse-item title="命中策略">
-                <el-row :gutter="20">
-                <el-col :span="3">
-                  <el-input v-model="dataAdd.method"  size="mini" placeholder="Method"></el-input>
-                </el-col>
-                <el-col :span="21">
-                  <el-input v-model="dataAdd.url"  size="mini" placeholder="Enter request url"></el-input>
-                </el-col> 
-                </el-row> 
-                <el-button @click.prevent="addPolicy" icon="el-icon-circle-plus-outline" circle type="primary" size="mini" style="margin-top:10px"></el-button>
-                <el-form-item
-                    v-for="(policyItem, index) in policyList"
-                    :index="index"
-                    :key="index">
-                  <el-row :gutter="20">
-                    <el-col :span="3">
-                        <el-select v-model="policyItem.matchScope" size='mini'>
-                          <el-option
-                            v-for="item in matchScopeOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                    </el-col> 
-                    <el-col :span="3">
-                        <el-select v-model="policyItem.matchType" size='mini'>
-                          <el-option
-                            v-for="item in matchTypeOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                    </el-col> 
-                    <el-col :span="3">
-                        <el-input v-model="policyItem.name" placeholder="name"  size="mini"></el-input>
-                    </el-col> 
-                    <el-col :span="11">
-                        <el-input v-model="policyItem.value" placeholder="value"  size="mini"></el-input>
-                    </el-col> 
-                    <el-col :span="2">
-                        <el-switch
-                          v-model="policyItem.status"
-                          :active-value=0
-                          :inactive-value=1>
-                        </el-switch>
-                    </el-col> 
-                    <el-col :span="2">
-                        <el-button @click.prevent="removePolicy(policyItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-                    </el-col>
-                </el-row> 
+            <el-tab-pane label="其它设置" name="fourth">
+              <!-- <el-form-item label="解析依赖" label-width="110px">
+                <el-checkbox v-model="dataInfo.responseHeadersEnableRely" :true-label="0" :false-label="1" @change=forceUpate()>Header</el-checkbox>
+                <el-checkbox v-model="dataInfo.responseBodyEnableRely" :true-label="0" :false-label="1" @change=forceUpate()>Body</el-checkbox>
+              </el-form-item> -->
+              <el-form-item label="启用" label-width="110px">
+                <el-switch v-model="dataInfo.status" :active-value="0" :inactive-value="1" @change=forceUpate()></el-switch>
+              </el-form-item>
+              <el-form-item label="解析Header" label-width="110px">
+                <el-switch v-model="dataInfo.responseHeadersEnableRely"  :active-value="0" :inactive-value="1" @change=forceUpate()></el-switch>
+              </el-form-item>
+              <el-form-item label="解析Body" label-width="110px">
+                <el-switch v-model="dataInfo.responseBodyEnableRely" :active-value="0" :inactive-value="1" @change=forceUpate()></el-switch>
+              </el-form-item>
+            </el-tab-pane>
+
+          </el-tabs>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="editDialogFormVisible = false" size="mini">取 消</el-button>
+          <el-button type="primary" @click="updateMockApi()" size="mini">确 定</el-button>
+        </div>
+      </el-dialog>
+
+
+
+<!--添~加 添~加 添~加 -->
+      <el-dialog title="添加" :visible.sync="addDialogFormVisible" :close-on-click-modal=false>
+        <el-form :model="dataAdd" ref="dataAdd">
+          <el-tabs value="first">
+            <el-tab-pane label="基本信息" name="first">
+                <el-form-item label="选择节点" label-width="110px">
+                  <el-select v-model="dataAdd.serverId" placeholder="请选择"  size="mini" >
+                    <el-option
+                      v-for="item in mockServerList"
+                      :key="item.serverId"
+                      :label="item.domain"
+                      :value="item.serverId">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
-          </el-collapse-item>
+                <el-form-item label="接口描述" label-width="110px">
+                  <el-input v-model="dataAdd.desc" size="mini" type="textarea" :autosize="{ minRows: 3, maxRows: 10 }"></el-input>
+                </el-form-item>
+            </el-tab-pane>
 
-          </el-collapse>
+
+            <el-tab-pane label="命中策略" name="third">
+                  <el-row :gutter="20">
+                  <el-col :span="3">
+                    <el-input v-model="dataAdd.method"  size="mini" placeholder="Method"></el-input>
+                  </el-col>
+                  <el-col :span="21">
+                    <el-input v-model="dataAdd.url"  size="mini" placeholder="Enter request url"></el-input>
+                  </el-col> 
+                  </el-row> 
+                  <el-button @click.prevent="addPolicy" icon="el-icon-circle-plus-outline" circle type="primary" size="mini" style="margin-top:10px"></el-button>
+                  <el-form-item
+                      v-for="(policyItem, index) in policyList"
+                      :index="index"
+                      :key="index">
+                    <el-row :gutter="20">
+                      <el-col :span="3">
+                          <el-select v-model="policyItem.matchScope" size='mini'>
+                            <el-option
+                              v-for="item in matchScopeOptions"
+                              :key="item.value"
+                              :label="item.label"
+                              :value="item.value">
+                            </el-option>
+                          </el-select>
+                      </el-col> 
+                      <el-col :span="3">
+                          <el-select v-model="policyItem.matchType" size='mini'>
+                            <el-option
+                              v-for="item in matchTypeOptions"
+                              :key="item.value"
+                              :label="item.label"
+                              :value="item.value">
+                            </el-option>
+                          </el-select>
+                      </el-col> 
+                      <el-col :span="3" v-if="policyItem.matchScope!=1">
+                          <el-input v-model="policyItem.name" placeholder="name"  size="mini"></el-input>
+                      </el-col> 
+                      <el-col :span="11" v-if="policyItem.matchScope!=1">
+                          <el-input v-model="policyItem.value" placeholder="value"  size="mini"></el-input>
+                      </el-col> 
+                      <el-col :span="14" v-else>
+                          <el-input v-model="policyItem.value" placeholder="value"  size="mini"></el-input>
+                      </el-col> 
+                      <el-col :span="2">
+                          <el-switch
+                            v-model="policyItem.status"
+                            :active-value=0
+                            :inactive-value=1>
+                          </el-switch>
+                      </el-col> 
+                      <el-col :span="2">
+                          <el-button @click.prevent="removePolicy(policyItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                      </el-col>
+                  </el-row> 
+                </el-form-item>
+            </el-tab-pane>
+
+
+            <el-tab-pane label="响应信息" name="second">
+              <el-form-item label="Delay" label-width="110px">
+                <el-input v-model="dataAdd.responseDelay" placeholder="ms" size="mini"></el-input>
+              </el-form-item>
+              <el-form-item label="Code" label-width="110px">
+                <el-input v-model="dataAdd.responseCode" placeholder="" size="mini"></el-input>
+              </el-form-item>
+              <el-form-item label="Header" label-width="110px">
+                <el-input v-model="dataAdd.responseHeaders" placeholder="" size="mini" type="textarea" :autosize="{ minRows: 3, maxRows: 10 }"></el-input>
+              </el-form-item>
+              <el-form-item label="Body" label-width="110px">
+                <el-input v-model="dataAdd.responseBody" placeholder="" size="mini"  type="textarea" :autosize="{ minRows: 3, maxRows: 10 }"></el-input>
+              </el-form-item>
+              <el-form-item label="ContentType" label-width="110px">
+                <el-select v-model="dataAdd.responseBodyType" placeholder=""  size="mini" @change=forceUpate()>
+                  <el-option
+                    v-for="item in responseBodyTypeOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-tab-pane>
+
+            <el-tab-pane label="其它设置" name="fourth">
+              <!-- <el-form-item label="解析依赖" label-width="110px">
+                <el-checkbox v-model="dataAdd.responseHeadersEnableRely" :true-label="0" :false-label="1" @change=forceUpate()>Header</el-checkbox>
+                <el-checkbox v-model="dataAdd.responseBodyEnableRely" :true-label="0" :false-label="1" @change=forceUpate()>Body</el-checkbox>
+              </el-form-item> -->
+              
+              <el-form-item label="解析Header" label-width="110px">
+                <el-switch v-model="dataAdd.responseHeadersEnableRely"  :active-value="0" :inactive-value="1" @change=forceUpate()></el-switch>
+              </el-form-item>
+              <el-form-item label="解析Body" label-width="110px">
+                <el-switch v-model="dataAdd.responseBodyEnableRely" :active-value="0" :inactive-value="1" @change=forceUpate()></el-switch>
+              </el-form-item>
+            </el-tab-pane>
+
+          </el-tabs>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="addDialogFormVisible = false" size="mini">取 消</el-button>
@@ -247,19 +391,19 @@ export default {
       responseBodyTypeOptions:[
         {
           value: 0,
-          label: '文本'
+          label: '*/*;utf-8'
         },
         {
           value: 1,
-          label: 'json'
+          label: 'application/json;utf-8'
         },
         {
           value: 2,
-          label: 'xml'
+          label: 'application/xml;utf-8'
         },
         {
           value: 3,
-          label: 'html'
+          label: 'application/xhtml+xml;utf-8'
         },
       ],
 
@@ -270,38 +414,42 @@ export default {
         },
         {
           value: 1,
-          label: 'Params'
+          label: 'Body'
         },
         {
           value: 2,
-          label: 'Body'
+          label: 'PathParam'
+        },
+        {
+          value: 3,
+          label: 'QueryParam'
         },
       ],
 
       matchTypeOptions:[
         {
           value: 0,
-          label: '全量匹配'
+          label: '等于'
         },
         {
           value: 1,
-          label: '正则表达式'
+          label: '包含'
         },
         {
           value: 2,
-          label: 'JsonChema'
+          label: 'Regex'
         },
         {
           value: 3,
-          label: 'Xpath'
+          label: 'JsonSchema'
         },
         {
           value: 4,
-          label: 'JsonPath'
+          label: 'Xpath'
         },
         {
           value: 5,
-          label: '包含'
+          label: 'JsonPath'
         },
       ],
       mockServerList:[],
@@ -322,6 +470,18 @@ export default {
       if (res.code == 200) {
           this.total = res.data.total
           let result = res.data.list
+          result.map(element => {
+            let split = baseUrl.split(":")
+            let protocolAndHost;
+            let host;
+            if (split.length == 1) {
+              protocolAndHost = split[0]
+            } else {
+              protocolAndHost = split[1]
+            }
+            host = protocolAndHost.split("//")[1]
+            element["domain"] = host + ":" + element.port
+          });
           this.dataList = result;
       } else {
         this.$message({
@@ -358,6 +518,7 @@ export default {
         this.policyList = []
         this.selectAllMockServer();
         this.dataInfo = res.data;
+        this.policyList = this.dataInfo.policies
         this.editDialogFormVisible = true;
       } else {
         this.$message({
@@ -463,6 +624,9 @@ export default {
 
     initAddForm() {
       this.dataAdd = {}
+      this.dataAdd.responseHeadersEnableRely = 0
+      this.dataAdd.responseBodyEnableRely = 0
+      this.dataAdd.responseBodyType = 1
     },
 
     addPolicy() {
@@ -473,6 +637,10 @@ export default {
           value: '',
           status: 0,
       })
+    },
+
+    forceUpate() {
+      this.$forceUpdate()
     },
 
     removePolicy(item) {

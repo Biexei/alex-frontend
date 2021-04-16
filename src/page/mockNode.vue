@@ -31,9 +31,9 @@
           </template>
         </el-table-column>
         <el-table-column property="isForward" label="自动转发请求" min-width="15%"></el-table-column>
-        <el-table-column property="desc" label="描述" min-width="20%" show-overflow-tooltip=""></el-table-column>
-        <el-table-column property="createdTime" label="创建时间" min-width="17%"></el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="18%">
+        <el-table-column property="desc" label="描述" min-width="25%" show-overflow-tooltip=""></el-table-column>
+        <el-table-column property="createdTime" label="创建时间" min-width="15%"></el-table-column>
+        <el-table-column fixed="right" label="操作" min-width="15%">
           <template slot-scope="scope">
             <el-button
               @click="handleStart(scope.row.serverId, scope.$index)"
@@ -104,8 +104,8 @@
           <el-button type="primary" @click="updateMockServer" size="mini">确 定</el-button>
         </div>
       </el-dialog>
-
       <el-dialog title="添加" :visible.sync="addDialogFormVisible" :close-on-click-modal=false>
+
         <el-form :model="dataAdd" ref="dataAdd">
           <el-form-item label="*Port" label-width="120px">
             <el-input v-model="dataAdd.port"  size='mini'></el-input>
