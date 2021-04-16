@@ -30,7 +30,7 @@
 						<el-menu-item v-has="'interface:ifreport'" index="ifAssertLog"  class="left-color"><i class="el-icon-first-aid-kit"></i><span slot="title" class="title-color">断言日志</span></el-menu-item>
 					</el-submenu>
 					<el-submenu v-has="'mock'" index="3"  class="left-color">
-						<template slot="title"  class="left-color"><i class="el-icon-odometer"></i><span slot="title" class="title-color">Mock</span></template>
+						<template slot="title"  class="left-color"><i class="el-icon-odometer"></i><span slot="title" class="title-color">HttpMock</span></template>
 						<el-menu-item v-has="'mock:node'" index="mockNode"  class="left-color"><i class="el-icon-s-opportunity"></i><span slot="title" class="title-color">节点管理</span></el-menu-item>
 						<el-menu-item v-has="'mock:api'" index="mockApi"  class="left-color"><i class="el-icon-data-board"></i><span slot="title" class="title-color">接口管理</span></el-menu-item>
 					</el-submenu>
