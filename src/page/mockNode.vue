@@ -25,8 +25,8 @@
         <el-table-column property="hostAndPort" label="Domain" min-width="20%">
           <template slot-scope="scope">
             <el-row :gutter="10">
-              <el-col :span="2"><el-button :type="scope.row.statusStyle" size="mini" circle  class="status"></el-button></el-col>
-              <el-col :span="22"><span>{{scope.row.hostAndPort}}</span></el-col>
+              <el-col :span="3"><el-button :type="scope.row.statusStyle" size="mini" circle  class="status"></el-button></el-col>
+              <el-col :span="21"><span>{{scope.row.hostAndPort}}</span></el-col>
             </el-row>
           </template>
         </el-table-column>
@@ -39,7 +39,7 @@
               @click="handleStart(scope.row.serverId, scope.$index)"
               v-has="'mock:node:start'"
               v-if="scope.row.status==1"
-              type="success"
+              type="info"
               size="mini"
               icon="el-icon-caret-right"
               circle
@@ -48,9 +48,17 @@
               @click="handleStop(scope.row.serverId, scope.$index)"
               v-has="'mock:node:stop'"
               v-if="scope.row.status==0"
-              type="warning"
+              type="success"
               size="mini"
               icon="el-icon-video-pause"
+              circle
+            ></el-button>
+            <el-button
+              @click="handleReport(scope.row)"
+              v-has="'mock:node:start'"
+              type="warning"
+              size="mini"
+              icon="el-icon-s-promotion"
               circle
             ></el-button>
             <el-button
@@ -231,11 +239,6 @@ export default {
       const res = await forceStartMockServer(serverId);
       if (res.code == 200) {
         this.selectMockServerList(this.queryForm);
-        this.$message({
-          type: "success",
-          center: true,
-          message: res.msg
-        });
       } else {
         this.$message({
           type: "error",
@@ -249,11 +252,6 @@ export default {
       const res = await stopMockServer(serverId);
       if (res.code == 200) {
         this.selectMockServerList(this.queryForm);
-        this.$message({
-          type: "success",
-          center: true,
-          message: res.msg
-        });
       } else {
         this.$message({
           type: "error",
@@ -359,6 +357,10 @@ export default {
       this.pageSize = 10
       this.pageNum = 1
       this.selectMockServerList(this.queryForm)
+    },
+    handleReport(row) {
+      let domain = "http://" + row.hostAndPort + "/mockserver/dashboard"
+      window.open(domain, '_blank');
     }
   }
 }

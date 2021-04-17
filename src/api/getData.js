@@ -772,3 +772,13 @@ export const executeDataFactory = id => HttpRequest.get('/data/factory/execute/'
   */
    export const removeMockApiById = apiId => HttpRequest.get('/mock/api/remove/' + apiId)
 
+  /**
+  * 停用mock api
+  */
+   export const stopApi = apiId => HttpRequest.get('/mock/api/stop/' + apiId)
+
+  /**
+  * 重启mock api
+  */
+   export const restartApi = apiId => HttpRequest.get('/mock/api/restart/' + apiId)
+

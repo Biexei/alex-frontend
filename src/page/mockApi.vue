@@ -15,17 +15,6 @@
         <el-form-item label="请求方式">
           <el-input v-model="queryForm.desc" placeholder="" size='mini'></el-input>
         </el-form-item>
-        <el-form-item label="状态">
-          <el-select v-model="queryForm.status" clearable placeholder="请选择"  size='mini'>
-            <el-option
-              v-for="item in statusOptions"
-              :key="item.value"
-              size='mini'
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item>
           <el-button v-has="'mock:api:query'" type="primary" size="mini" @click="selectMockApiList(queryForm)">查询</el-button>
           <el-button v-has="'mock:api:query'" type="primary" size="mini" @click="resetForm">重置</el-button>
@@ -35,38 +24,52 @@
     </div>
     <div class="table_container">
       <el-table :data="dataList" stripe highlight-current-row style="width: 100%">
-        <el-table-column property="apiId" label="编号" min-width="10%"></el-table-column>
-        <el-table-column property="domain" label="Domain" min-width="20%">
+        <el-table-column property="apiId" label="编号" min-width="10%">
           <template slot-scope="scope">
             <el-row :gutter="15">
-              <el-col :span="2"><el-button :type="scope.row.portRunning ? 'success':'danger'" size="mini" circle  class="status"></el-button></el-col>
-              <el-col :span="22"><span>{{scope.row.domain}}</span></el-col>
+              <el-col :span="4"><el-button :type="scope.row.apiRunning ? 'success':'danger'" size="mini" circle  class="status"></el-button></el-col>
+              <el-col :span="20"><span>{{scope.row.apiId}}</span></el-col>
+            </el-row>
+          </template>
+        </el-table-column>
+        <el-table-column property="domain" label="Domain" min-width="15%">
+          <template slot-scope="scope">
+            <el-row :gutter="15">
+              <el-col :span="4"><el-button :type="scope.row.portRunning ? 'success':'danger'" size="mini" circle  class="status"></el-button></el-col>
+              <el-col :span="20"><span>{{scope.row.domain}}</span></el-col>
             </el-row>
           </template>
         </el-table-column>
         <el-table-column property="method" label="Url" min-width="20%" show-overflow-tooltip>
           <template slot-scope="scope">
             <el-row :gutter="10">
-              <el-col :span="5"><el-tag effect="dark" disable-transitions size="mini">{{scope.row.method}}</el-tag></el-col>
-              <el-col :span="19"><span>{{scope.row.url}}</span></el-col>
+              <el-col :span="4"><el-tag effect="dark" disable-transitions size="mini">{{scope.row.method}}</el-tag></el-col>
+              <el-col :span="20"><span>{{scope.row.url}}</span></el-col>
             </el-row>
           </template>
         </el-table-column>
         <el-table-column property="desc" label="描述" min-width="15%"></el-table-column>
         <el-table-column property="creatorName" label="创建人" min-width="10%"></el-table-column>
         <el-table-column property="createdTime" label="创建时间" min-width="15%"></el-table-column>
-        <el-table-column property="status" label="状态" min-width="10%">
+        <el-table-column fixed="right" label="操作" min-width="15%">
           <template slot-scope="scope">
-            <el-tag
-              effect="dark"
-              size="small"
-              :type="scope.row.status == 0 ? 'success':'danger'"
-              disable-transitions>{{scope.row.status == 0 ? '启用':'停用'}}
-            </el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="10%">
-          <template slot-scope="scope">
+            <el-button
+              @click="handleRestart(scope.row.apiId)"
+              v-has="'mock:api:restart'"
+              type="success"
+              size="mini"
+              icon="el-icon-refresh"
+              circle
+            ></el-button>
+            <el-button
+              @click="handleStop(scope.row.apiId)"
+              :disabled="!scope.row.portRunning || !scope.row.apiRunning"
+              v-has="'mock:api:stop'"
+              type="warning"
+              size="mini"
+              icon="el-icon-close"
+              circle
+            ></el-button>
             <el-button
               @click="handleEdit(scope.row.apiId)"
               v-has="'mock:api:modify'"
@@ -137,7 +140,7 @@
                       :key="index">
                     <el-row :gutter="20">
                       <el-col :span="3">
-                          <el-select v-model="policyItem.matchScope" size='mini'>
+                          <el-select v-model="policyItem.matchScope" size='mini' @change="clearMatchType(policyItem)">
                             <el-option
                               v-for="item in matchScopeOptions"
                               :key="item.value"
@@ -147,9 +150,17 @@
                           </el-select>
                       </el-col> 
                       <el-col :span="3">
-                          <el-select v-model="policyItem.matchType" size='mini'>
+                          <el-select v-model="policyItem.matchType" size='mini' v-if="policyItem.matchScope==1">
                             <el-option
-                              v-for="item in matchTypeOptions"
+                              v-for="item in matchBodyTypeOptions"
+                              :key="item.value"
+                              :label="item.label"
+                              :value="item.value">
+                            </el-option>
+                          </el-select>
+                          <el-select v-model="policyItem.matchType" size='mini' v-else>
+                            <el-option
+                              v-for="item in matchOtherTypeOptions"
                               :key="item.value"
                               :label="item.label"
                               :value="item.value">
@@ -181,14 +192,14 @@
 
 
             <el-tab-pane label="响应信息" name="second">
-              <el-form-item label="Delay" label-width="110px">
+              <el-form-item label="Delay(ms)" label-width="110px">
                 <el-input v-model="dataInfo.responseDelay" placeholder="ms" size="mini"></el-input>
               </el-form-item>
               <el-form-item label="Code" label-width="110px">
                 <el-input v-model="dataInfo.responseCode" placeholder="" size="mini"></el-input>
               </el-form-item>
               <el-form-item label="Header" label-width="110px">
-                <el-input v-model="dataInfo.responseHeaders" placeholder="" size="mini" type="textarea" :autosize="{ minRows: 3, maxRows: 10 }"></el-input>
+                <el-input v-model="dataInfo.responseHeaders" placeholder="json object string" size="mini" type="textarea" :autosize="{ minRows: 3, maxRows: 10 }"></el-input>
               </el-form-item>
               <el-form-item label="Body" label-width="110px">
                 <el-input v-model="dataInfo.responseBody" placeholder="" size="mini"  type="textarea" :autosize="{ minRows: 3, maxRows: 10 }"></el-input>
@@ -210,9 +221,6 @@
                 <el-checkbox v-model="dataInfo.responseHeadersEnableRely" :true-label="0" :false-label="1" @change=forceUpate()>Header</el-checkbox>
                 <el-checkbox v-model="dataInfo.responseBodyEnableRely" :true-label="0" :false-label="1" @change=forceUpate()>Body</el-checkbox>
               </el-form-item> -->
-              <el-form-item label="启用" label-width="110px">
-                <el-switch v-model="dataInfo.status" :active-value="0" :inactive-value="1" @change=forceUpate()></el-switch>
-              </el-form-item>
               <el-form-item label="解析Header" label-width="110px">
                 <el-switch v-model="dataInfo.responseHeadersEnableRely"  :active-value="0" :inactive-value="1" @change=forceUpate()></el-switch>
               </el-form-item>
@@ -268,7 +276,7 @@
                       :key="index">
                     <el-row :gutter="20">
                       <el-col :span="3">
-                          <el-select v-model="policyItem.matchScope" size='mini'>
+                          <el-select v-model="policyItem.matchScope" size='mini' @change="clearMatchType(policyItem)">
                             <el-option
                               v-for="item in matchScopeOptions"
                               :key="item.value"
@@ -278,9 +286,17 @@
                           </el-select>
                       </el-col> 
                       <el-col :span="3">
-                          <el-select v-model="policyItem.matchType" size='mini'>
+                          <el-select v-model="policyItem.matchType" size='mini' v-if="policyItem.matchScope==1">
                             <el-option
-                              v-for="item in matchTypeOptions"
+                              v-for="item in matchBodyTypeOptions"
+                              :key="item.value"
+                              :label="item.label"
+                              :value="item.value">
+                            </el-option>
+                          </el-select>
+                          <el-select v-model="policyItem.matchType" size='mini' v-else>
+                            <el-option
+                              v-for="item in matchOtherTypeOptions"
                               :key="item.value"
                               :label="item.label"
                               :value="item.value">
@@ -312,14 +328,14 @@
 
 
             <el-tab-pane label="响应信息" name="second">
-              <el-form-item label="Delay" label-width="110px">
+              <el-form-item label="Delay(ms)" label-width="110px">
                 <el-input v-model="dataAdd.responseDelay" placeholder="ms" size="mini"></el-input>
               </el-form-item>
               <el-form-item label="Code" label-width="110px">
                 <el-input v-model="dataAdd.responseCode" placeholder="" size="mini"></el-input>
               </el-form-item>
               <el-form-item label="Header" label-width="110px">
-                <el-input v-model="dataAdd.responseHeaders" placeholder="" size="mini" type="textarea" :autosize="{ minRows: 3, maxRows: 10 }"></el-input>
+                <el-input v-model="dataAdd.responseHeaders" placeholder="json object string" size="mini" type="textarea" :autosize="{ minRows: 3, maxRows: 10 }"></el-input>
               </el-form-item>
               <el-form-item label="Body" label-width="110px">
                 <el-input v-model="dataAdd.responseBody" placeholder="" size="mini"  type="textarea" :autosize="{ minRows: 3, maxRows: 10 }"></el-input>
@@ -363,7 +379,7 @@
 <script>
 import headTop from "../components/headTop";
 import { baseUrl } from '../config/env';
-import { saveMockApiAndPolicy,modifyMockApiAndPolicy,findMockApiList,findMockApiById,removeMockApiById,findAllMockServer} from "@/api/getData";
+import {restartApi,stopApi,saveMockApiAndPolicy,modifyMockApiAndPolicy,findMockApiList,findMockApiById,removeMockApiById,findAllMockServer} from "@/api/getData";
 
 export default {
   data() {
@@ -378,16 +394,6 @@ export default {
       },
       editDialogFormVisible: false,
       addDialogFormVisible: false,
-      statusOptions:[
-        {
-          value: 0,
-          label: '启用'
-        },
-        {
-          value: 1,
-          label: '禁用'
-        },
-      ],
       responseBodyTypeOptions:[
         {
           value: 0,
@@ -426,7 +432,7 @@ export default {
         },
       ],
 
-      matchTypeOptions:[
+      matchBodyTypeOptions:[
         {
           value: 0,
           label: '等于'
@@ -450,8 +456,24 @@ export default {
         {
           value: 5,
           label: 'JsonPath'
+        },    
+      ],
+
+      matchOtherTypeOptions:[
+        {
+          value: 0,
+          label: '等于'
+        },
+        {
+          value: 2,
+          label: 'Regex'
+        },
+        {
+          value: 3,
+          label: 'JsonSchema'
         },
       ],
+
       mockServerList:[],
       policyList:[],
     };
@@ -492,7 +514,6 @@ export default {
       }
     },
     async handleAdd() {
-        this.dataAdd["status"] = 0
         this.dataAdd["policies"] = this.policyList
         const res = await saveMockApiAndPolicy(this.dataAdd);
         if (res.code == 200) {
@@ -520,6 +541,42 @@ export default {
         this.dataInfo = res.data;
         this.policyList = this.dataInfo.policies
         this.editDialogFormVisible = true;
+      } else {
+        this.$message({
+          type: "error",
+          center: true,
+          message: res.msg
+        });
+      }
+    },
+
+    async handleStop(apiId) {
+      const res = await stopApi(apiId);
+      if (res.code == 200) {
+        this.selectMockApiList({});
+        this.$message({
+          type: "success",
+          center: true,
+          message: res.msg
+        });
+      } else {
+        this.$message({
+          type: "error",
+          center: true,
+          message: res.msg
+        });
+      }
+    },
+
+    async handleRestart(apiId) {
+      const res = await restartApi(apiId);
+      if (res.code == 200) {
+        this.selectMockApiList({});
+        this.$message({
+          type: "success",
+          center: true,
+          message: res.msg
+        });
       } else {
         this.$message({
           type: "error",
@@ -624,15 +681,17 @@ export default {
 
     initAddForm() {
       this.dataAdd = {}
-      this.dataAdd.responseHeadersEnableRely = 0
-      this.dataAdd.responseBodyEnableRely = 0
+      this.dataAdd.responseHeadersEnableRely = 1
+      this.dataAdd.responseBodyEnableRely = 1
       this.dataAdd.responseBodyType = 1
+      this.dataAdd.responseDelay = 0
+      this.dataAdd.responseCode = 200
     },
 
     addPolicy() {
       this.policyList.push({
-          matchScope: 2,
-          matchType: 0,
+          matchScope: 1,
+          matchType: 1,
           name: '',
           value: '',
           status: 0,
@@ -647,6 +706,10 @@ export default {
       var index = this.policyList.indexOf(item)
       this.policyList.splice(index, 1)
     },
+
+    clearMatchType(policyItem) {
+      policyItem.matchType = null
+    }
 
     },
 };
