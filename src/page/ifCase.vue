@@ -626,9 +626,9 @@
 
 
       <el-dialog title="日志详情" :visible.sync="logDetailDialogFormVisible">
-        <el-collapse>
         <el-form :model="logInfo">
-          <el-collapse-item title="基本信息">
+          <el-tabs value="first">
+          <el-tab-pane label="基本信息" name="first">
           <el-form-item label="用例编号" label-width="100px">
             <el-input v-model="logInfo.caseId" readonly size='mini'></el-input>
           </el-form-item>
@@ -668,8 +668,8 @@
                 disable-transitions>{{logInfo.isFailedRetryValue}}</el-tag>
             </template>
           </el-form-item> 
-          </el-collapse-item>
-          <el-collapse-item title="请求信息">
+          </el-tab-pane>
+          <el-tab-pane label="请求信息" name="second">
           <el-form-item label="url" label-width="100px">
             <el-input v-model="logInfo.caseUrl" readonly size="mini"></el-input>
           </el-form-item>          
@@ -741,8 +741,8 @@
             </el-form-item>
             </el-col>
           </el-row> 
-          </el-collapse-item>
-          <el-collapse-item title="响应信息">
+          </el-tab-pane>
+          <el-tab-pane label="响应信息" name="third">
           <el-form-item label="code" label-width="100px">
             <el-input v-model="logInfo.responseCode" readonly  size='mini'></el-input>
           </el-form-item> 
@@ -764,8 +764,8 @@
             <el-col :span="2">
             </el-col>
           </el-row>       
-          </el-collapse-item>
-          <el-collapse-item title="断言信息">
+          </el-tab-pane>
+          <el-tab-pane label="断言信息" name="fourth">
             <el-table :data="assertInfo" stripe highlight-current-row style="width: 100%">
               <el-table-column type="expand">
                 <template slot-scope="props">
@@ -817,9 +817,9 @@
                 </template>
               </el-table-column>
             </el-table>
-          </el-collapse-item>           
+          </el-tab-pane>
+          </el-tabs>        
         </el-form>
-      </el-collapse>  
       </el-dialog>
 
 <!--执行近况-->

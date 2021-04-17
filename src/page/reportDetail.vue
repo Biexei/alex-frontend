@@ -127,9 +127,9 @@
         ></el-pagination>
       </div>
       <el-dialog title="详情" :visible.sync="detailDialogFormVisible">
-        <el-collapse>
         <el-form :model="dataInfo">
-          <el-collapse-item title="基本信息">
+        <el-tabs value="first">
+          <el-tab-pane label="基本信息" name="first">
           <el-form-item label="用例编号" label-width="100px">
             <el-input v-model="dataInfo.caseId" readonly size='mini'></el-input>
           </el-form-item>
@@ -169,8 +169,8 @@
                 disable-transitions>{{dataInfo.isFailedRetryValue}}</el-tag>
             </template>
           </el-form-item> 
-          </el-collapse-item>
-          <el-collapse-item title="请求信息">
+          </el-tab-pane>
+          <el-tab-pane label="请求信息" name="second">
           <el-form-item label="url" label-width="100px">
             <el-input v-model="dataInfo.caseUrl" readonly size="mini"></el-input>
           </el-form-item>          
@@ -250,8 +250,8 @@
             </el-form-item>
             </el-col>
           </el-row> 
-          </el-collapse-item>
-          <el-collapse-item title="响应信息">
+          </el-tab-pane>
+          <el-tab-pane label="响应信息" name="third">
           <el-form-item label="code" label-width="100px">
             <el-input v-model="dataInfo.responseCode" readonly  size='mini'></el-input>
           </el-form-item> 
@@ -277,8 +277,8 @@
               <el-button @click="clickResBody" type="danger" icon="el-icon-magic-stick" size="mini" circle></el-button>
             </el-col> -->
           </el-row>       
-          </el-collapse-item>
-          <el-collapse-item title="断言信息">
+          </el-tab-pane>
+          <el-tab-pane label="断言信息" name="fourth">
             <el-table :data="assertInfo" stripe highlight-current-row style="width: 100%">
               <el-table-column type="expand">
                 <template slot-scope="props">
@@ -331,9 +331,9 @@
               </el-table-column>
               <!-- <el-table-column property="errorMessage" label="备注" min-width="10%"></el-table-column> -->
             </el-table>
-          </el-collapse-item>           
+            </el-tab-pane> 
+          </el-tabs>        
         </el-form>
-      </el-collapse>  
       </el-dialog>
       <el-dialog title="链路跟踪" :visible.sync="chainDialogFormVisible">
         <div class="block">

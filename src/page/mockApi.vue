@@ -43,8 +43,8 @@
         <el-table-column property="method" label="Url" min-width="20%" show-overflow-tooltip>
           <template slot-scope="scope">
             <el-row :gutter="10">
-              <el-col :span="4"><el-tag effect="dark" disable-transitions size="mini">{{scope.row.method}}</el-tag></el-col>
-              <el-col :span="20"><span>{{scope.row.url}}</span></el-col>
+              <el-col :span="6"><el-tag effect="dark" disable-transitions size="mini">{{scope.row.method}}</el-tag></el-col>
+              <el-col :span="18"><span>{{scope.row.url}}</span></el-col>
             </el-row>
           </template>
         </el-table-column>
@@ -126,10 +126,16 @@
 
             <el-tab-pane label="命中策略" name="third">
                   <el-row :gutter="20">
-                  <el-col :span="3">
-                    <el-input v-model="dataInfo.method"  size="mini" placeholder="Method"></el-input>
+                  <el-col :span="4">
+                    <el-autocomplete
+                      size="mini"
+                      class="inline-input"
+                      v-model="dataInfo.method"
+                      :fetch-suggestions="methodSearch"
+                      placeholder="Method"
+                    ></el-autocomplete>
                   </el-col>
-                  <el-col :span="21">
+                  <el-col :span="20">
                     <el-input v-model="dataInfo.url"  size="mini" placeholder="Enter request url"></el-input>
                   </el-col> 
                   </el-row> 
@@ -262,10 +268,16 @@
 
             <el-tab-pane label="命中策略" name="third">
                   <el-row :gutter="20">
-                  <el-col :span="3">
-                    <el-input v-model="dataAdd.method"  size="mini" placeholder="Method"></el-input>
+                  <el-col :span="4">
+                    <el-autocomplete
+                      size="mini"
+                      class="inline-input"
+                      v-model="dataAdd.method"
+                      :fetch-suggestions="methodSearch"
+                      placeholder="Method"
+                    ></el-autocomplete>
                   </el-col>
-                  <el-col :span="21">
+                  <el-col :span="20">
                     <el-input v-model="dataAdd.url"  size="mini" placeholder="Enter request url"></el-input>
                   </el-col> 
                   </el-row> 
@@ -411,6 +423,14 @@ export default {
           value: 3,
           label: 'application/xhtml+xml;utf-8'
         },
+      ],
+
+      methodArray: [
+        {"value":"GET"},
+        {"value":"POST"},
+        {"value":"PUT"},
+        {"value":"DELETE"},
+        {"value":"PATCH"},
       ],
 
       matchScopeOptions:[
@@ -709,9 +729,19 @@ export default {
 
     clearMatchType(policyItem) {
       policyItem.matchType = null
-    }
-
     },
+
+    methodSearch(queryString, cb) {
+      var methodArray = this.methodArray;
+      var results = queryString ? methodArray.filter(this.createFilter(queryString)) : methodArray;
+      cb(results);
+    },
+    createFilter(queryString) {
+      return (method) => {
+        return (method.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+      };
+    },
+  },
 };
 </script>
 

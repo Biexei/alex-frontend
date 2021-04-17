@@ -94,7 +94,7 @@
 
       <el-dialog title="编辑" :visible.sync="editDialogFormVisible"  :close-on-click-modal=false>
         <el-form :model="dataInfo">
-          <el-form-item label="Port" label-width="120px">
+          <el-form-item label="*Port" label-width="120px">
             <el-input v-model="dataInfo.port"  size='mini'></el-input>
           </el-form-item>
           <el-form-item label="转发地址" label-width="120px">
