@@ -6,12 +6,12 @@
         <el-form-item label="用例编号">
           <el-input v-model="queryForm.caseId" placeholder="用例编号"  size='mini'></el-input>
         </el-form-item>
-        <el-form-item label="项目编号">
+        <!-- <el-form-item label="项目编号">
           <el-input v-model="queryForm.projectId" placeholder="项目编号"  size='mini'></el-input>
         </el-form-item>
         <el-form-item label="模块编号">
           <el-input v-model="queryForm.moduleId" placeholder="模块编号"  size='mini'></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="项目名称">
           <el-input v-model="queryForm.projectName" placeholder="项目名称"  size='mini'></el-input>
         </el-form-item>

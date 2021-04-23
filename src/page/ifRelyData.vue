@@ -23,8 +23,8 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <br/>    
-        <el-form-item label="起始时间">
+        <!-- <br/>     -->
+        <!-- <el-form-item label="起始时间">
           <el-date-picker
             size='mini'
             v-model="queryForm.createdStartTime"
@@ -45,7 +45,7 @@
             placeholder="选择截止时间"
             align="right">
           </el-date-picker>
-        </el-form-item>         
+        </el-form-item>          -->
         <el-form-item>
           <el-button v-has="'data_center:if_rely:find'" type="primary" size="mini" @click="selectIfRelyDataList(queryForm)">查询</el-button>
           <el-button v-has="'data_center:if_rely:find'" type="primary" size="mini" @click="resetForm">重置</el-button>
@@ -494,6 +494,6 @@ export default {
   margin-top: 8px;
 }
 .input{
-  padding-left:50px;
+  padding-left:0px;
 }
 </style>
