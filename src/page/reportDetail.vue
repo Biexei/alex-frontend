@@ -653,9 +653,15 @@ export default {
                 assert.operator = '!='
             } else if (assert.operator == 7) {
                 assert.operator = 're'
+            } else if (assert.operator == 8) {
+                assert.operator = 'isNull'
+            } else if (assert.operator == 9) {
+                assert.operator = 'notNull'
+            } else if (assert.operator == 10) {
+                assert.operator = 'contains'
             } else {
                 assert.operator = 'unknow'
-            }            
+            }             
           });
           this.assertInfo = res.data.assertList
           this.detailDialogFormVisible = true

@@ -1705,7 +1705,11 @@ export default {
         {
           value: 9,
           label: "notNull",
-        },          
+        },    
+        {
+          value: 10,
+          label: "contains",
+        },       
       ],
     assertTypeOptions: [
         {
@@ -2897,6 +2901,8 @@ export default {
                 assert.operator = 'isNull'
             } else if (assert.operator == 9) {
                 assert.operator = 'notNull'
+            } else if (assert.operator == 10) {
+                assert.operator = 'contains'
             } else {
                 assert.operator = 'unknow'
             }            

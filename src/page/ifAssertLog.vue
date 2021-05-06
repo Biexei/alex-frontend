@@ -207,7 +207,11 @@ export default {
         {
           value: 9,
           label: "notNull",
-        },        
+        },   
+        {
+          value: 10,
+          label: "contains",
+        },      
       ],
     };
   },
