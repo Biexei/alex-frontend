@@ -2203,6 +2203,7 @@ export default {
             } else if (this.bodyTypeFlag == 2) {
                 this.dataInfo.data = null
                 this.dataInfo.json = this.dataAddJsonStr
+                console.log(this.dataInfo.json)
             } else {
                 this.dataInfo.json = null
                 let kv = this.dataAddFormRaw.split("&")
@@ -2217,7 +2218,11 @@ export default {
                   this.dataInfo.data = dataStr
                 }
             }
-        } 
+        } else { // 为get请求时
+          // 将data json清空
+          this.dataInfo.data = null
+          this.dataInfo.json = null
+        }
         this.dataInfo.asserts = this.assertList
         this.dataInfo.preCases = this.preCaseList
         this.dataInfo.postProcessors = this.preProcessorList.concat(this.postProcessorList)
