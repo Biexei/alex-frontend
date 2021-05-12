@@ -28,9 +28,6 @@
 					<el-form-item prop="password">
 						<el-input type="password" placeholder="密码"  size='small' v-model="loginForm.password"></el-input>
 					</el-form-item>
-					<el-form-item prop="realName" v-if="formFlag == 1">
-						<el-input placeholder="真实姓名"  size='small' v-model="loginForm.realName"></el-input>
-					</el-form-item>
 					<el-form-item v-if="formFlag == 0">
 				    	<el-button type="primary" @click="submitForm('loginForm')" class="submit_btn">Go</el-button>
 				  	</el-form-item>
@@ -69,9 +66,6 @@
 			        ],
 					password: [
 						{ required: true, message: '请输入密码', trigger: 'blur' }
-					],
-					realName: [
-						{ required: true, message: '请输入真实姓名', trigger: 'blur' }
 					],
 				},
 			}
