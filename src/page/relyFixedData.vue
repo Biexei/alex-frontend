@@ -6,8 +6,8 @@
         <el-form-item label="依赖名称">
           <el-input v-model="queryForm.name" placeholder="依赖名称" size='mini'></el-input>
         </el-form-item>
-        <el-form-item label="固定字符">
-          <el-input v-model="queryForm.value" placeholder="固定字符" size='mini'></el-input>
+        <el-form-item label="环境变量">
+          <el-input v-model="queryForm.value" placeholder="环境变量" size='mini'></el-input>
         </el-form-item>                
         <el-form-item>
           <el-button v-has="'data_center:rely_fixed_data:find'" type="primary" size="mini" @click="selectRelyDataList(queryForm)">查询</el-button>
@@ -20,7 +20,7 @@
       <el-table :data="dataList" stripe highlight-current-row style="width: 100%">
         <el-table-column property="id" label="编号" min-width="5%"></el-table-column>
         <el-table-column property="name" label="名称" min-width="10%"></el-table-column>
-        <el-table-column property="value" label="固定字符" min-width="25%"></el-table-column>
+        <el-table-column property="value" label="环境变量" min-width="25%"></el-table-column>
         <el-table-column property="desc" label="描述" min-width="38%"></el-table-column>
         <el-table-column property="type" label="类型" min-width="12%">
           <template slot-scope="scope">
@@ -115,10 +115,10 @@
 
       <el-dialog title="编辑" :visible.sync="editDialogFormVisible" :close-on-click-modal=false>
         <el-form :model="dataInfo">
-          <el-form-item label="*名称" label-width="100px">
+          <el-form-item label="*名称" label-width="120px">
             <el-input v-model="dataInfo.name" :disabled="disableModifyName" size='mini'></el-input>
           </el-form-item>
-          <el-form-item label="*类型" label-width="100px">
+          <el-form-item label="*类型" label-width="120px">
             <el-select v-model="dataInfo.type" @change="handleChangeType" :disabled="disableModifyType" size='mini'>
               <el-option
                 v-for="item in writeTypeOptions"
@@ -130,16 +130,22 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="*固定值" label-width="100px" v-if="showValue"> 
+          <el-form-item label="*固定值" label-width="120px" v-if="showValue"> 
             <el-input v-model="dataInfo.value" size='mini'></el-input>
           </el-form-item>
-          <el-form-item label="*数据源编号" label-width="100px" v-if="showDbId">
+          <el-form-item label="*数据源编号" label-width="120px" v-if="showDbId">
             <el-input v-model="dataInfo.datasourceId"  @focus='handleDbList' size='mini'></el-input>
           </el-form-item>
-          <el-form-item label="*数据源名称" label-width="100px" v-if="showDbName">
+          <el-form-item label="*数据源名称" label-width="120px" v-if="showDbName">
             <el-input v-model="dataInfo.dbName"  disabled size='mini'></el-input>
           </el-form-item>
-          <el-form-item label="*描述" label-width="100px">
+          <el-form-item label="*是否解析依赖" label-width="120px" v-if="dataInfo.type!=1 && showValue"> 
+            <el-radio-group v-model="dataInfo.analysisRely" size='mini'>
+              <el-radio :label="0">是</el-radio>
+              <el-radio :label="1">否</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="*描述" label-width="120px">
             <el-input v-model="dataInfo.desc" size='mini'></el-input>
           </el-form-item>
         </el-form>
@@ -151,10 +157,10 @@
 
       <el-dialog title="添加" :visible.sync="addDialogFormVisible" :close-on-click-modal=false>
         <el-form :model="dataAdd">
-          <el-form-item label="*名称" label-width="100px">
+          <el-form-item label="*名称" label-width="120px">
             <el-input v-model="dataAdd.name" :disabled="disableModifyName" size='mini'></el-input>
           </el-form-item>
-          <el-form-item label="*类型" label-width="100px">
+          <el-form-item label="*类型" label-width="120px">
             <el-select v-model="dataAdd.type" @change="handleChangeType" :disabled="disableModifyType" size='mini'>
               <el-option
                 v-for="item in writeTypeOptions"
@@ -166,16 +172,22 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="*固定值" label-width="100px" v-if="showValue"> 
+          <el-form-item label="*固定值" label-width="120px" v-if="showValue"> 
             <el-input v-model="dataAdd.value" size='mini'></el-input>
           </el-form-item>
-          <el-form-item label="*数据源编号" label-width="100px" v-if="showDbId">
+          <el-form-item label="*数据源编号" label-width="120px" v-if="showDbId">
             <el-input v-model="dataAdd.datasourceId"  @focus='handleDbList' size='mini'></el-input>
           </el-form-item>
-          <el-form-item label="*数据源名称" label-width="100px" v-if="showDbName">
+          <el-form-item label="*数据源名称" label-width="120px" v-if="showDbName">
             <el-input v-model="dataAdd.dbName"  disabled size='mini'></el-input>
           </el-form-item>
-          <el-form-item label="*描述" label-width="100px">
+          <el-form-item label="*是否解析依赖" label-width="120px" v-if="dataInfo.type!=1 && showValue"> 
+            <el-radio-group v-model="dataAdd.analysisRely" size='mini'>
+              <el-radio :label="0">是</el-radio>
+              <el-radio :label="1">否</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="*描述" label-width="120px">
             <el-input v-model="dataAdd.desc" size='mini'></el-input>
           </el-form-item>
         </el-form>
@@ -206,7 +218,7 @@ export default {
       typeOptions:[
         {
           value: 0,
-          label: '固定字符'
+          label: '环境变量'
         },
         // {
         //   value: 1,
@@ -220,7 +232,7 @@ export default {
       writeTypeOptions:[
         {
           value: 0,
-          label: '固定字符',
+          label: '环境变量',
           isDisable: false,
         },
         // {
@@ -279,7 +291,7 @@ export default {
           this.total = res.data.total
           res.data.list.forEach(element => {
             if (element.type == 0) {
-              element.type = '固定字符'
+              element.type = '环境变量'
               element.style = ""
               element['deleteable'] = true
             } else if (element.type == 1) {

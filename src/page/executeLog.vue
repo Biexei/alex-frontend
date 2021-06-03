@@ -69,18 +69,16 @@
         <el-table-column property="id" label="编号" min-width="7%"></el-table-column>
         <el-table-column property="projectName" label="项目名称" min-width="13%" show-overflow-tooltip></el-table-column>
         <el-table-column property="moduleName" label="模块名称" min-width="13%" show-overflow-tooltip></el-table-column>
-        <el-table-column property="caseDesc" label="用例描述" min-width="25%" show-overflow-tooltip></el-table-column>
-        <el-table-column property="executer" label="执行人" min-width="10%"></el-table-column>
-        <el-table-column property="runTime" label="执行用时" min-width="8%"></el-table-column>
-        <el-table-column property="status" label="执行状态" min-width="8%">
+        <el-table-column property="caseDesc" label="用例描述" min-width="33%" show-overflow-tooltip>
           <template slot-scope="scope">
-            <el-tag
-              effect="dark"
-              size="small"
-              :type="scope.row.style"
-              disable-transitions>{{scope.row.status}}</el-tag>
+            <el-row :gutter="10">
+              <el-col :span="2"><el-button :type="scope.row.style" size="mini" circle  class="status"></el-button></el-col>
+              <el-col :span="22"><span>{{scope.row.caseDesc}}</span></el-col>
+            </el-row>
           </template>
         </el-table-column>
+        <el-table-column property="executer" label="执行人" min-width="10%"></el-table-column>
+        <el-table-column property="runTime" label="执行用时" min-width="8%"></el-table-column>
         <!-- <el-table-column property="isFailedRetry" label="失败重跑" min-width="8%">
           <template slot-scope="scope">
             <el-tag
@@ -763,6 +761,11 @@ export default {
   margin-right: 0;
   margin-bottom: 0;
   width: 50%;
+}
+.status {
+  position: relative;
+  left: -1px;
+  top: -5px;
 }
 }
 </style>

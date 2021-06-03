@@ -19,7 +19,7 @@
 						<el-menu-item v-has="'data_center:rely_data'" index="relyData"  class="left-color"><i class="el-icon-ice-cream-round"></i><span slot="title" class="title-color">其它依赖</span></el-menu-item>
 						<el-menu-item v-has="'data_center:rely_sql_data'" index="relySqlData"  class="left-color"><i class="el-icon-cloudy"></i><span slot="title" class="title-color">SQL语句</span></el-menu-item>
 						<el-menu-item v-has="'data_center:rely_init_method'" index="relyInitMethodData"  class="left-color"><i class="el-icon-partly-cloudy"></i><span slot="title" class="title-color">预置方法</span></el-menu-item>
-						<el-menu-item v-has="'data_center:rely_fixed_data'" index="relyFixedData"  class="left-color"><i class="el-icon-cloudy-and-sunny"></i><span slot="title" class="title-color">固定字符</span></el-menu-item>
+						<el-menu-item v-has="'data_center:rely_fixed_data'" index="relyFixedData"  class="left-color"><i class="el-icon-cloudy-and-sunny"></i><span slot="title" class="title-color">环境变量</span></el-menu-item>
 					</el-submenu>
 					<el-submenu v-has="'interface'" index="2"  class="left-color">
 						<template slot="title"  class="left-color"><i class="el-icon-suitcase-1"></i><span slot="title" class="title-color">接口测试</span></template>

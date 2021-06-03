@@ -181,7 +181,7 @@ const router = new Router({
           path: '/relyFixedData',
           component: relyFixedData,
           meta: {
-            path: ['数据中心','其他依赖','固定字符'],
+            path: ['数据中心','其他依赖','环境变量'],
             requireAuth: true
           },
         }, 
