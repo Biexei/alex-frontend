@@ -130,7 +130,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="*固定值" label-width="120px" v-if="showValue"> 
+          <el-form-item label="*值" label-width="120px" v-if="showValue"> 
             <el-input v-model="dataInfo.value" size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*数据源编号" label-width="120px" v-if="showDbId">
@@ -139,14 +139,31 @@
           <el-form-item label="*数据源名称" label-width="120px" v-if="showDbName">
             <el-input v-model="dataInfo.dbName"  disabled size='mini'></el-input>
           </el-form-item>
-          <el-form-item label="*是否解析依赖" label-width="120px" v-if="dataInfo.type!=1 && showValue"> 
-            <el-radio-group v-model="dataInfo.analysisRely" size='mini'>
-              <el-radio :label="0">是</el-radio>
-              <el-radio :label="1">否</el-radio>
-            </el-radio-group>
+          <el-form-item label="*设置" label-width="120px"> 
+            <el-row :gutter="20">
+                <el-col :span="4">
+                    <el-checkbox v-model="dataInfo.analysisRely" true-label=0 false-label=1 v-if="dataInfo.type!=1 && showValue">解析依赖</el-checkbox>
+                </el-col>
+                <el-col :span="5">
+                    <el-checkbox v-model="dataInfo.othersModifiable" true-label=0 false-label=1>允许他人修改</el-checkbox>
+                </el-col>
+                <el-col :span="5">
+                  <el-checkbox v-model="dataInfo.othersDeletable" true-label=0 false-label=1>允许他人删除</el-checkbox>
+                </el-col>
+            </el-row> 
           </el-form-item>
           <el-form-item label="*描述" label-width="120px">
             <el-input v-model="dataInfo.desc" size='mini'></el-input>
+          </el-form-item>
+          <el-form-item label="创建人" label-width="120px">
+            <el-row :gutter="10">
+                <el-col :span="3">
+                   <el-input v-model="dataInfo.creatorId" size="mini" disabled></el-input>
+                </el-col>
+                <el-col :span="20">
+                   <el-input v-model="dataInfo.creatorName" size="mini" disabled></el-input>
+                </el-col>
+            </el-row> 
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -172,7 +189,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="*固定值" label-width="120px" v-if="showValue"> 
+          <el-form-item label="*值" label-width="120px" v-if="showValue"> 
             <el-input v-model="dataAdd.value" size='mini'></el-input>
           </el-form-item>
           <el-form-item label="*数据源编号" label-width="120px" v-if="showDbId">
@@ -181,11 +198,18 @@
           <el-form-item label="*数据源名称" label-width="120px" v-if="showDbName">
             <el-input v-model="dataAdd.dbName"  disabled size='mini'></el-input>
           </el-form-item>
-          <el-form-item label="*是否解析依赖" label-width="120px" v-if="dataInfo.type!=1 && showValue"> 
-            <el-radio-group v-model="dataAdd.analysisRely" size='mini'>
-              <el-radio :label="0">是</el-radio>
-              <el-radio :label="1">否</el-radio>
-            </el-radio-group>
+          <el-form-item label="*设置" label-width="120px"> 
+            <el-row :gutter="20">
+                <el-col :span="4">
+                    <el-checkbox v-model="dataAdd.analysisRely" true-label=0 false-label=1 v-if="dataAdd.type!=1 && showValue">解析依赖</el-checkbox>
+                </el-col>
+                <el-col :span="5">
+                    <el-checkbox v-model="dataAdd.othersModifiable" true-label=0 false-label=1 :disabled="userId!=dataInfo.creatorId">允许他人修改</el-checkbox>
+                </el-col>
+                <el-col :span="5">
+                    <el-checkbox v-model="dataAdd.othersDeletable" true-label=0 false-label=1 :disabled="userId!=dataInfo.creatorId">允许他人删除</el-checkbox>
+                </el-col>
+            </el-row> 
           </el-form-item>
           <el-form-item label="*描述" label-width="120px">
             <el-input v-model="dataAdd.desc" size='mini'></el-input>
@@ -205,6 +229,7 @@ import { saveRelyData, modifyRelyData, findRelyDataById, findRelyDataList, remov
 export default {
   data() {
     return {
+      userId: null,
       queryForm: {},
       total: 0,
       pageSize: 10,
@@ -246,7 +271,7 @@ export default {
         //   isDisable: false,
         // },
       ],
-      showValue:true, //展示固定值/SQL
+      showValue:true, //展示值/SQL
       showDbId:true, //展示数据源编号
       showDbName:true, //展示数据源名称
       disableModifyName:false, //能否修改名称
@@ -279,6 +304,7 @@ export default {
   },
   mounted() {
     this.selectRelyDataList(this.queryForm);
+    this.getUserId();
   },
   methods: {
     async selectRelyDataList(queryForm){
@@ -332,7 +358,7 @@ export default {
       this.dataAdd.dbName = row.name;
     },
     async setTypeOption (value) {
-      if (value == 0) { // 固定值
+      if (value == 0) { // 值
         this.showValue = true;
         this.showDbId = false;
         this.showDbName = false;
@@ -519,6 +545,11 @@ export default {
       this.dbPageNum = 1
       this.selectDbList(this.dbQueryForm)
     },
+    // 获取用户ID
+    getUserId() {
+      let userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
+      this.userId = userInfo.userId
+    }, 
   }
 }
 </script>

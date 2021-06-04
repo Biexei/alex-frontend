@@ -123,30 +123,60 @@
 
       <el-dialog title="编辑" :visible.sync="editDialogFormVisible" :close-on-click-modal=false>
         <el-form :model="dataInfo">
-          <el-form-item label="*依赖名称" label-width="100px">
-            <el-input v-model="dataInfo.relyName" size='mini'></el-input>
+          <el-form-item label="*依赖名称" label-width="115px">
+            <el-row :gutter="10">
+              <el-col :span="23"><el-input v-model="dataInfo.relyName" size="mini"></el-input></el-col>
+            </el-row> 
           </el-form-item>
-          <el-form-item label="*提取类型" label-width="100px">
-            <el-select v-model="dataInfo.contentType" size='mini'>
-              <el-option
-                v-for="item in typeOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
+          <el-form-item label="*提取配置" label-width="115px">
+            <el-row :gutter="10">
+              <el-col :span="3">
+                <el-select v-model="dataInfo.contentType" placeholder="请选择" size="mini">
+                  <el-option
+                    v-for="item in typeOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-col>
+              <el-col :span="20">
+                  <el-input v-model="dataInfo.extractExpression" size="mini"  placeholder="请输入提取表达式"></el-input>
+              </el-col>
+            </el-row> 
           </el-form-item>
-          <el-form-item label="*提取表达式" label-width="100px">
-            <el-input v-model="dataInfo.extractExpression" size='mini'></el-input>
+          <el-form-item label="*依赖用例" label-width="115px">
+            <el-row :gutter="10">
+              <el-col :span="3"><el-input readonly v-model="dataInfo.relyCaseId" @focus='handleCaseList' size="mini" placeholder="请选择"></el-input></el-col>
+              <el-col :span="20"><el-input disabled v-model="dataInfo.caseDesc" size="mini"></el-input></el-col>
+            </el-row> 
           </el-form-item>
-          <el-form-item label="依赖描述" label-width="100px">
-            <el-input v-model="dataInfo.relyDesc" size='mini'></el-input>
-          </el-form-item>  
-          <el-form-item label="*用例编号" label-width="100px">
-            <el-input readonly v-model="dataInfo.relyCaseId" @focus='handleCaseList' size='mini'></el-input>
+          <el-form-item label="*权限设置" label-width="115px"> 
+            <el-row :gutter="20">
+                <el-col :span="5">
+                    <el-checkbox v-model="dataInfo.othersModifiable" :true-label=0 :false-label=1 :disabled="userId!=dataInfo.creatorId">允许他人修改</el-checkbox>
+                </el-col>
+                <el-col :span="5">
+                  <el-checkbox v-model="dataInfo.othersDeletable" :true-label=0 :false-label=1 :disabled="userId!=dataInfo.creatorId">允许他人删除</el-checkbox>
+                </el-col>
+            </el-row> 
           </el-form-item>
-          <el-form-item label="*用例名称" label-width="100px">
-            <el-input disabled v-model="dataInfo.caseDesc" size='mini'></el-input>
+          <el-form-item label="依赖描述" label-width="115px">
+            <el-row :gutter="10">
+                <el-col :span="23">
+                   <el-input v-model="dataInfo.relyDesc" size="mini"></el-input>
+                </el-col>
+            </el-row> 
+          </el-form-item>
+          <el-form-item label="创建人" label-width="115px">
+            <el-row :gutter="10">
+                <el-col :span="3">
+                   <el-input v-model="dataInfo.creatorId" size="mini" disabled></el-input>
+                </el-col>
+                <el-col :span="20">
+                   <el-input v-model="dataInfo.creatorName" size="mini" disabled></el-input>
+                </el-col>
+            </el-row> 
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -197,30 +227,50 @@
 
       <el-dialog title="添加" :visible.sync="addDialogFormVisible" :close-on-click-modal=false>
         <el-form :model="dataAdd">
-          <el-form-item label="*依赖名称" label-width="100px">
-            <el-input v-model="dataAdd.relyName" size="mini"></el-input>
+          <el-form-item label="*依赖名称" label-width="115px">
+            <el-row :gutter="10">
+              <el-col :span="23"><el-input v-model="dataAdd.relyName" size="mini"></el-input></el-col>
+            </el-row> 
           </el-form-item>
-          <el-form-item label="*提取类型" label-width="100px">
-            <el-select v-model="dataAdd.contentType" placeholder="请选择" size="mini">
-              <el-option
-                v-for="item in typeOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
+          <el-form-item label="*提取配置" label-width="115px">
+            <el-row :gutter="10">
+              <el-col :span="3">
+                <el-select v-model="dataAdd.contentType" placeholder="请选择" size="mini">
+                  <el-option
+                    v-for="item in typeOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-col>
+              <el-col :span="20">
+                  <el-input v-model="dataAdd.extractExpression" size="mini"  placeholder="请输入提取表达式"></el-input>
+              </el-col>
+            </el-row> 
           </el-form-item>
-          <el-form-item label="*提取表达式" label-width="100px">
-            <el-input v-model="dataAdd.extractExpression" size="mini"></el-input>
+          <el-form-item label="*依赖用例" label-width="115px">
+            <el-row :gutter="10">
+              <el-col :span="3"><el-input readonly v-model="dataAdd.relyCaseId" @focus='handleCaseList' size="mini" placeholder="请选择"></el-input></el-col>
+              <el-col :span="20"><el-input disabled v-model="dataAdd.caseDesc" size="mini"></el-input></el-col>
+            </el-row> 
           </el-form-item>
-          <el-form-item label="依赖描述" label-width="100px">
-            <el-input v-model="dataAdd.relyDesc" size="mini"></el-input>
-          </el-form-item>  
-          <el-form-item label="*用例编号" label-width="100px">
-            <el-input readonly v-model="dataAdd.relyCaseId" @focus='handleCaseList' size="mini"></el-input>
+          <el-form-item label="*权限设置" label-width="115px"> 
+            <el-row :gutter="20">
+                <el-col :span="5">
+                    <el-checkbox v-model="dataAdd.othersModifiable" :true-label=0 :false-label=1>允许他人修改</el-checkbox>
+                </el-col>
+                <el-col :span="5">
+                  <el-checkbox v-model="dataAdd.othersDeletable" :true-label=0 :false-label=1>允许他人删除</el-checkbox>
+                </el-col>
+            </el-row> 
           </el-form-item>
-          <el-form-item label="*用例名称" label-width="100px">
-            <el-input disabled v-model="dataAdd.caseDesc" size="mini"></el-input>
+          <el-form-item label="依赖描述" label-width="115px">
+            <el-row :gutter="10">
+                <el-col :span="23">
+                   <el-input v-model="dataAdd.relyDesc" size="mini"></el-input>
+                </el-col>
+            </el-row> 
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -237,6 +287,7 @@ import { saveIfRelyData, modifyIfRelyData, findIfRelyData, findIfRelyDataList, r
 export default {
   data() {
     return {
+      userId: null,
       queryForm: {},
       total: 0,
       pageSize: 10,
@@ -274,6 +325,7 @@ export default {
   },
   mounted() {
     this.selectIfRelyDataList(this.queryForm);
+    this.getUserId();
   },
   methods: {
     async selectIfRelyDataList(queryForm){
@@ -423,6 +475,8 @@ export default {
         relyDesc:this.dataInfo.relyDesc,
         contentType:this.dataInfo.contentType,
         extractExpression:this.dataInfo.extractExpression,
+        othersDeletable:this.dataInfo.othersDeletable,
+        othersModifiable:this.dataInfo.othersModifiable,
       }
       const res = await modifyIfRelyData(modifyData);
       if (res.code == 200) {
@@ -475,7 +529,12 @@ export default {
       this.casePageSize = 5
       this.casePageNum = 1
       this.getCaseList(this.caseQueryForm)
-    }    
+    },
+    // 获取用户ID
+    getUserId() {
+      let userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
+      this.userId = userInfo.userId
+    },   
   }
 }
 </script>

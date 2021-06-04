@@ -5,6 +5,9 @@
 			<el-breadcrumb-item v-for="(item, index) in $route.meta.path" :key="index">{{item}}</el-breadcrumb-item>
 		</el-breadcrumb>
 		<div class="btn-div">
+			<span class="name">
+				{{userRealName}}
+			</span>
 			<el-dropdown @command="handleCommand">
 			<span>
 				<el-avatar src="../../static/avatar.png" size="small"></el-avatar>
@@ -202,4 +205,13 @@
     .el-drawer{
     	overflow: scroll
     }
+	.name {
+		position: relative;
+		left: -1px;
+		top: -8px;
+		font-family: "Microsoft Yahei", sans-serif;
+		color: #606266;
+		font-size: 14px;
+		margin-right: 5px;
+	}
 </style>

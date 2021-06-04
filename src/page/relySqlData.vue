@@ -124,44 +124,74 @@
 
       <el-dialog title="编辑" :visible.sync="editDialogFormVisible"  :close-on-click-modal=false>
         <el-form :model="dataInfo">
-          <el-form-item label="*名称" label-width="120px">
-            <el-input v-model="dataInfo.name" :disabled="disableModifyName" size='mini'></el-input>
+          <el-form-item label="*类型/名称" label-width="120px">
+            <el-row :gutter="10">
+                <el-col :span="3">
+                  <el-select v-model="dataInfo.type" @change="handleChangeType" :disabled="disableModifyType" size='mini'>
+                    <el-option
+                      v-for="item in writeTypeOptions"
+                      :key="item.value"
+                      :label="item.label"
+                      :disabled="item.isDisable"
+                      size='mini'
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+                </el-col>
+                <el-col :span="20">
+                   <el-input v-model="dataInfo.name" :disabled="disableModifyName" size='mini'></el-input>
+                </el-col>
+            </el-row> 
           </el-form-item>
-          <el-form-item label="*类型" label-width="120px">
-            <el-select v-model="dataInfo.type" @change="handleChangeType" :disabled="disableModifyType" size='mini'>
-              <el-option
-                v-for="item in writeTypeOptions"
-                :key="item.value"
-                :label="item.label"
-                :disabled="item.isDisable"
-                size='mini'
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="*返回自增主键" label-width="120px" v-if="dataInfo.type==3 && showValue"> 
-            <el-radio-group v-model="dataInfo.enableReturn" size='mini'>
-              <el-radio :label="0">是</el-radio>
-              <el-radio :label="1">否</el-radio>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item label="*是否解析依赖" label-width="120px" v-if="dataInfo.type!=1 && showValue"> 
-            <el-radio-group v-model="dataInfo.analysisRely" size='mini'>
-              <el-radio :label="0">是</el-radio>
-              <el-radio :label="1">否</el-radio>
-            </el-radio-group>
+          <el-form-item label="*数据源" label-width="120px">
+            <el-row :gutter="10">
+                <el-col :span="3">
+                   <el-input v-model="dataInfo.datasourceId" readonly @focus='handleDbList' size='mini' placeholder="请选择"></el-input>
+                </el-col>
+                <el-col :span="20">
+                   <el-input v-model="dataInfo.dbName"  disabled size='mini'></el-input>
+                </el-col>
+            </el-row> 
           </el-form-item>
           <el-form-item label="*SQL" label-width="120px" v-if="showValue"> 
-            <el-input v-model="dataInfo.value" size="mini" type="textarea" :rows="6" placeholder="如需运行多条语句，请回车换行"></el-input>
+            <el-row :gutter="10">
+                <el-col :span="23">
+                   <el-input v-model="dataInfo.value" size="mini" type="textarea" :rows="6" placeholder="如需运行多条语句，请回车换行"></el-input>
+                </el-col>
+            </el-row> 
           </el-form-item>
-          <el-form-item label="*数据源编号" label-width="120px" v-if="showDbId">
-            <el-input v-model="dataInfo.datasourceId" readonly @focus='handleDbList' size='mini'></el-input>
-          </el-form-item>
-          <el-form-item label="*数据源名称" label-width="120px" v-if="showDbName">
-            <el-input v-model="dataInfo.dbName"  disabled size='mini'></el-input>
+          <el-form-item label="*设置" label-width="120px"> 
+            <el-row :gutter="20">
+                <el-col :span="5">
+                    <el-checkbox v-model="dataInfo.enableReturn" :true-label=0 :false-label=1  v-if="dataInfo.type==3 && showValue">返回自增主键</el-checkbox>
+                </el-col>
+                <el-col :span="4">
+                    <el-checkbox v-model="dataInfo.analysisRely" :true-label=0 :false-label=1>解析依赖</el-checkbox>
+                </el-col>
+                <el-col :span="5">
+                    <el-checkbox v-model="dataInfo.othersModifiable" :true-label=0 :false-label=1 :disabled="userId!=dataInfo.creatorId">允许他人修改</el-checkbox>
+                </el-col>
+                <el-col :span="5">
+                    <el-checkbox v-model="dataInfo.othersDeletable" :true-label=0 :false-label=1 :disabled="userId!=dataInfo.creatorId">允许他人删除</el-checkbox>
+                </el-col>
+            </el-row> 
           </el-form-item>
           <el-form-item label="*描述" label-width="120px">
-            <el-input v-model="dataInfo.desc" size='mini'></el-input>
+            <el-row :gutter="10">
+                <el-col :span="23">
+                   <el-input v-model="dataInfo.desc" size='mini'></el-input>
+                </el-col>
+            </el-row> 
+          </el-form-item>
+          <el-form-item label="创建人" label-width="120px">
+            <el-row :gutter="10">
+                <el-col :span="3">
+                   <el-input v-model="dataInfo.creatorId" size="mini" disabled></el-input>
+                </el-col>
+                <el-col :span="20">
+                   <el-input v-model="dataInfo.creatorName" size="mini" disabled></el-input>
+                </el-col>
+            </el-row> 
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -172,44 +202,64 @@
 
       <el-dialog title="添加" :visible.sync="addDialogFormVisible"  :close-on-click-modal=false>
         <el-form :model="dataAdd">
-          <el-form-item label="*名称" label-width="120px">
-            <el-input v-model="dataAdd.name" :disabled="disableModifyName" size='mini'></el-input>
+          <el-form-item label="*类型/名称" label-width="120px">
+            <el-row :gutter="10">
+                <el-col :span="3">
+                  <el-select v-model="dataAdd.type" @change="handleChangeType" :disabled="disableModifyType" size='mini'>
+                    <el-option
+                      v-for="item in writeTypeOptions"
+                      :key="item.value"
+                      :label="item.label"
+                      :disabled="item.isDisable"
+                      size='mini'
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+                </el-col>
+                <el-col :span="20">
+                   <el-input v-model="dataAdd.name" :disabled="disableModifyName" size='mini'></el-input>
+                </el-col>
+            </el-row> 
           </el-form-item>
-          <el-form-item label="*类型" label-width="120px">
-            <el-select v-model="dataAdd.type" @change="handleChangeType" :disabled="disableModifyType" size='mini'>
-              <el-option
-                v-for="item in writeTypeOptions"
-                :key="item.value"
-                :label="item.label"
-                size='mini'
-                :disabled="item.isDisable"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="*返回自增主键" label-width="120px" v-if="dataAdd.type==3 && showValue"> 
-            <el-radio-group v-model="dataAdd.enableReturn" size='mini'>
-              <el-radio :label="0">是</el-radio>
-              <el-radio :label="1">否</el-radio>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item label="*是否解析依赖" label-width="120px" v-if="dataAdd.type!=1 && showValue"> 
-            <el-radio-group v-model="dataAdd.analysisRely" size='mini'>
-              <el-radio :label="0">是</el-radio>
-              <el-radio :label="1">否</el-radio>
-            </el-radio-group>
+          <el-form-item label="*数据源" label-width="120px">
+            <el-row :gutter="10">
+                <el-col :span="3">
+                   <el-input v-model="dataAdd.datasourceId" readonly @focus='handleDbList' size='mini' placeholder="请选择"></el-input>
+                </el-col>
+                <el-col :span="20">
+                   <el-input v-model="dataAdd.dbName"  disabled size='mini'></el-input>
+                </el-col>
+            </el-row> 
           </el-form-item>
           <el-form-item label="*SQL" label-width="120px" v-if="showValue"> 
-            <el-input v-model="dataAdd.value" size="mini" type="textarea" :rows="6" placeholder="如需运行多条语句，请回车换行"></el-input>
+            <el-row :gutter="10">
+                <el-col :span="23">
+                   <el-input v-model="dataAdd.value" size="mini" type="textarea" :rows="6" placeholder="如需运行多条语句，请回车换行"></el-input>
+                </el-col>
+            </el-row> 
           </el-form-item>
-          <el-form-item label="*数据源编号" label-width="120px" v-if="showDbId">
-            <el-input v-model="dataAdd.datasourceId" readonly @focus='handleDbList' size='mini'></el-input>
-          </el-form-item>
-          <el-form-item label="*数据源名称" label-width="120px" v-if="showDbName">
-            <el-input v-model="dataAdd.dbName"  disabled size='mini'></el-input>
+          <el-form-item label="*设置" label-width="120px"> 
+            <el-row :gutter="20">
+                <el-col :span="5">
+                    <el-checkbox v-model="dataAdd.enableReturn" true-label=0 false-label=1  v-if="dataAdd.type==3 && showValue">返回自增主键</el-checkbox>
+                </el-col>
+                <el-col :span="4">
+                    <el-checkbox v-model="dataAdd.analysisRely" true-label=0 false-label=1>解析依赖</el-checkbox>
+                </el-col>
+                <el-col :span="5">
+                    <el-checkbox v-model="dataAdd.othersModifiable" true-label=0 false-label=1>允许他人修改</el-checkbox>
+                </el-col>
+                <el-col :span="5">
+                  <el-checkbox v-model="dataAdd.othersDeletable" true-label=0 false-label=1>允许他人删除</el-checkbox>
+                </el-col>
+            </el-row> 
           </el-form-item>
           <el-form-item label="*描述" label-width="120px">
-            <el-input v-model="dataAdd.desc" size='mini'></el-input>
+            <el-row :gutter="10">
+                <el-col :span="23">
+                   <el-input v-model="dataAdd.desc" size='mini'></el-input>
+                </el-col>
+            </el-row> 
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -226,6 +276,7 @@ import { saveRelyData, modifyRelyData, findRelyDataById, findRelyDataList, remov
 export default {
   data() {
     return {
+      userId: null,
       queryForm: {},
       total: 0,
       pageSize: 10,
@@ -336,6 +387,7 @@ export default {
   },
   mounted() {
     this.selectRelyDataList(this.queryForm);
+    this.getUserId();
   },
   methods: {
     async selectRelyDataList(queryForm){
@@ -591,6 +643,11 @@ export default {
       this.dbPageNum = 1
       this.selectDbList(this.dbQueryForm)
     },
+    // 获取用户ID
+    getUserId() {
+      let userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
+      this.userId = userInfo.userId
+    }, 
   }
 }
 </script>
