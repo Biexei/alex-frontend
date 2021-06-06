@@ -72,7 +72,7 @@
         <el-table-column property="caseDesc" label="用例描述" min-width="33%" show-overflow-tooltip>
           <template slot-scope="scope">
             <el-row :gutter="10">
-              <el-col :span="2"><el-button :type="scope.row.style" size="mini" circle  class="status"></el-button></el-col>
+              <el-col :span="2"><el-button :type="scope.row.style" size="mini" circle  class="case-run-status"></el-button></el-col>
               <el-col :span="22"><span>{{scope.row.caseDesc}}</span></el-col>
             </el-row>
           </template>
@@ -750,6 +750,7 @@ export default {
   display: flex;
   justify-content: flex-start;
   margin-top: 8px;
+}
 .demo-table-expand {
   font-size: 0;
 }
@@ -762,10 +763,9 @@ export default {
   margin-bottom: 0;
   width: 50%;
 }
-.status {
+.case-run-status {
   position: relative;
   left: -1px;
   top: -5px;
-}
 }
 </style>
