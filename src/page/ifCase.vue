@@ -252,9 +252,16 @@
           <el-form-item label="*生成策略" label-width="100px">
             <el-checkbox  disabled checked>等价类</el-checkbox>
             <el-checkbox  disabled checked>边界值</el-checkbox>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <el-radio-group v-model="caseGenerator.type" size='mini'>
-              <el-radio :label="1">正交法</el-radio>
-              <el-radio :label="2">穷举法</el-radio>
+            <el-radio-group v-model="caseGenerator.genRule" size='mini'>
+              <el-radio :label="1">正交试验</el-radio>
+              <el-radio :label="2">笛卡尔积</el-radio>
+              <el-radio :label="3">仅单属性</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="*数据类型" label-width="100px">
+            <el-radio-group v-model="caseGenerator.dataType" size='mini'>
+              <el-radio :label="1">静态数据</el-radio>
+              <el-radio :label="2">动态数据</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-form>
@@ -1570,7 +1577,8 @@ export default {
       ],
 
       caseGenerator:{
-        type: 1,
+        genRule: 1,
+        dataType: 2,
       },
       generatorUrl: baseUrl + "/interface/case/generator",
       generatorDialogFormVisible: false,
@@ -2762,7 +2770,8 @@ export default {
       });
       // 初始化
       this.caseGenerator = {
-        type: 1
+        genRule: 1,
+        dataType: 2
       }
       this.$refs.uploadGenerator.clearFiles();
     },
@@ -2778,7 +2787,8 @@ export default {
         this.generatorDialogFormVisible = false
         // 初始化
         this.caseGenerator = {
-          type: 1
+          genRule: 1,
+          dataType: 2
         }
         this.$refs.uploadGenerator.clearFiles();
 
