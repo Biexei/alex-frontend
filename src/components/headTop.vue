@@ -134,6 +134,7 @@
 					const res = await logout()
 					if (res.code == 200) {
 						this.$router.push('/');
+						sessionStorage.clear();
 					} else {
 						this.$message({
 						type: "error",
