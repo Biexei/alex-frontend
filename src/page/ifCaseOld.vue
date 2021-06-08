@@ -338,7 +338,7 @@
         <el-collapse-item title="请求信息">
           <el-row :gutter="20">
           <el-col :span="4">
-            <el-select v-model="dataAdd.method" placeholder="method"  size="mini">
+            <el-select v-model="dataAdd.method" placeholder="method"  size="mini" @change="handleChangeMethod">
               <el-option
                 v-for="item in requestMethodOptions"
                 :key="item.value"
@@ -355,68 +355,95 @@
         <el-tabs >
             <!-- header -->
             <el-tab-pane label="Headers">
+                <el-radio v-model="headerTypeFlag" :label="0" @change="handleChangeHeaderType">key-value</el-radio>
+                <el-radio v-model="headerTypeFlag" :label="1" @change="handleChangeHeaderType">object</el-radio> 
+                <el-button v-if="headerTypeFlag==0" @click.prevent="addHeader" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
+                <div v-if="headerTypeFlag==0">
                 <el-form-item
                     v-for="(headerItem, index) in dataAddHeaders"
                     :index="index"
                     :key="headerItem.key">
-                  <el-row :gutter="20">
-                      <el-col :span="7">
-                          <el-input v-model="headerItem.name" placeholder="name" size='mini' @blur=addHeader(headerItem)></el-input>
-                      </el-col>
-                      <el-col :span="15">
-                          <el-input v-model="headerItem.value" placeholder="value" size='mini'></el-input>
-                      </el-col> 
-                      <el-col :span="2">
-                          <el-button @click.prevent="removeHeader(headerItem)" type="danger" icon="el-icon-delete" circle size="mini" :disabled="dataAddHeaders.length==1"></el-button>
-                      </el-col>
-                  </el-row>
-                </el-form-item> 
+                <el-row :gutter="20">
+                    <el-col :span="7">
+                        <el-input v-model="headerItem.name" placeholder="name" size='mini'></el-input>
+                    </el-col>
+                    <el-col :span="15">
+                        <el-input v-model="headerItem.value" placeholder="value" size='mini'></el-input>
+                    </el-col> 
+                    <el-col :span="2">
+                        <el-button @click.prevent="removeHeader(headerItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                    </el-col>
+                </el-row> 
+                </el-form-item>
+                </div>
+                <div v-if="headerTypeFlag==1">
+                    <el-input v-model="dataAddHeadersStr" size="mini" type="textarea" :rows="6" placeholder="header json string"></el-input>
+                </div>  
             </el-tab-pane>
 
             <!-- params -->
             <el-tab-pane label="Params">
+                <el-radio v-model="paramsTypeFlag" :label="0" @change="handleChangeParamsType">key-value</el-radio>
+                <el-radio v-model="paramsTypeFlag" :label="1" @change="handleChangeParamsType">object</el-radio> 
+                <el-button v-if="paramsTypeFlag==0" @click.prevent="addParams" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
+                <div v-if="paramsTypeFlag==0">
                 <el-form-item
                     v-for="(paramsItem, index) in dataAddParams"
                     :index="index"
                     :key="paramsItem.key">
-                  <el-row :gutter="20">
-                      <el-col :span="7">
-                          <el-input v-model="paramsItem.name" placeholder="name" size='mini' @blur=addParams(paramsItem)></el-input>
-                      </el-col>
-                      <el-col :span="15">
-                          <el-input v-model="paramsItem.value" placeholder="value" size='mini'></el-input>
-                      </el-col> 
-                      <el-col :span="2">
-                          <el-button @click.prevent="removeParams(paramsItem)" type="danger" icon="el-icon-delete" circle size="mini" :disabled="dataAddParams.length==1"></el-button>
-                      </el-col>
-                  </el-row>
-                </el-form-item>         
+                <el-row :gutter="20">
+                    <el-col :span="7">
+                        <el-input v-model="paramsItem.name" placeholder="name" size='mini'></el-input>
+                    </el-col>
+                    <el-col :span="15">
+                        <el-input v-model="paramsItem.value" placeholder="value" size='mini'></el-input>
+                    </el-col> 
+                    <el-col :span="2">
+                        <el-button @click.prevent="removeParams(paramsItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                    </el-col>
+                </el-row> 
+                </el-form-item>
+                </div>
+                <div v-if="paramsTypeFlag==1">
+                    <el-input v-model="dataAddParamsStr" size="mini" type="textarea" :rows="6" placeholder="params json string"></el-input>
+                </div>            
             </el-tab-pane>
 
             <!-- body -->
             <el-tab-pane label="Body">
-                <el-radio v-model="bodyTypeFlag" :label="0" >form-data</el-radio>
-                <el-radio v-model="bodyTypeFlag" :label="2" >json</el-radio>
+                <el-radio v-model="bodyTypeFlag" :label="0" @change="handleChangeBodyType">form-data</el-radio>
+                <el-radio v-model="bodyTypeFlag" :label="3" @change="handleChangeBodyType">raw</el-radio>
+                <el-radio v-model="bodyTypeFlag" :label="1" @change="handleChangeBodyType">form-object</el-radio>
+                <el-radio v-model="bodyTypeFlag" :label="2" @change="handleChangeBodyType">json</el-radio>
+                <el-button v-if="bodyTypeFlag==0" @click.prevent="addDataForm" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
+
                 <div v-if="bodyTypeFlag==0">
-                  <el-form-item
-                      v-for="(dataItem, index) in dataAddFormData"
-                      :index="index"
-                      :key="dataItem.key">
-                    <el-row :gutter="20">
-                        <el-col :span="7">
-                            <el-input v-model="dataItem.name" placeholder="name" size='mini' @blur=addDataForm(dataItem)></el-input>
-                        </el-col>
-                        <el-col :span="15">
-                            <el-input v-model="dataItem.value" placeholder="value" size='mini'></el-input>
-                        </el-col> 
-                        <el-col :span="2">
-                            <el-button @click.prevent="removeParams(dataItem)" type="danger" icon="el-icon-delete" circle size="mini" :disabled="dataAddFormData.length==1"></el-button>
-                        </el-col>
-                    </el-row>
-                  </el-form-item>    
-                </div> 
+                <el-form-item
+                    v-for="(dataItem, index) in dataAddFormData"
+                    :index="index"
+                    :key="dataItem.key">
+                <el-row :gutter="20">
+                    <el-col :span="7">
+                        <el-input v-model="dataItem.name" placeholder="name" size='mini'></el-input>
+                    </el-col>
+                    <el-col :span="15">
+                        <el-input v-model="dataItem.value" placeholder="value" size='mini'></el-input>
+                    </el-col> 
+                    <el-col :span="2">
+                        <el-button @click.prevent="removeDataForm(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                    </el-col>
+                </el-row> 
+                </el-form-item>
+                </div>
+
+                <div v-if="bodyTypeFlag==1">
+                    <el-input v-model="dataAddFormStr" size="mini" type="textarea" :rows="6" placeholder="form-data json string"></el-input>
+                </div>   
                 <div v-if="bodyTypeFlag==2">
                     <el-input v-model="dataAddJsonStr" size="mini" type="textarea" :rows="6" placeholder="json string"></el-input>
+                </div>   
+                <div v-if="bodyTypeFlag==3">
+                    <el-input v-model="dataAddFormRaw" size="mini" type="textarea" :rows="6" placeholder="form-data raw"></el-input>
                 </div>   
             </el-tab-pane>
         </el-tabs>
@@ -898,7 +925,7 @@
         <el-collapse-item title="请求信息">
           <el-row :gutter="20">
           <el-col :span="4">
-            <el-select v-model="dataInfo.method" placeholder="method"  size="mini">
+            <el-select v-model="dataInfo.method" placeholder="method"  size="mini" @change="handleChangeMethod">
               <el-option
                 v-for="item in requestMethodOptions"
                 :key="item.value"
@@ -913,69 +940,97 @@
           </el-row>  
 
         <el-tabs >
+            <!-- header -->
             <el-tab-pane label="Headers">
+                <el-radio v-model="headerTypeFlag" :label="0" @change="handleChangeHeaderType">key-value</el-radio>
+                <el-radio v-model="headerTypeFlag" :label="1" @change="handleChangeHeaderType">object</el-radio> 
+                <el-button v-if="headerTypeFlag==0" @click.prevent="addHeader" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
+                <div v-if="headerTypeFlag==0">
                 <el-form-item
                     v-for="(headerItem, index) in dataAddHeaders"
                     :index="index"
                     :key="headerItem.key">
                 <el-row :gutter="20">
                     <el-col :span="7">
-                        <el-input v-model="headerItem.name" placeholder="name" size='mini'  @blur=addHeader(headerItem)></el-input>
+                        <el-input v-model="headerItem.name" placeholder="name" size='mini'></el-input>
                     </el-col>
                     <el-col :span="15">
                         <el-input v-model="headerItem.value" placeholder="value" size='mini'></el-input>
                     </el-col> 
                     <el-col :span="2">
-                        <el-button @click.prevent="removeHeader(headerItem)" type="danger" icon="el-icon-delete" circle size="mini"  :disabled="dataAddHeaders.length==1"></el-button>
+                        <el-button @click.prevent="removeHeader(headerItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
                     </el-col>
                 </el-row> 
-                </el-form-item> 
+                </el-form-item>
+                </div>
+                <div v-if="headerTypeFlag==1">
+                    <el-input v-model="dataAddHeadersStr" size="mini" type="textarea" :rows="6" placeholder="header json string"></el-input>
+                </div>  
             </el-tab-pane>
 
-            
+            <!-- params -->
             <el-tab-pane label="Params">
+                <el-radio v-model="paramsTypeFlag" :label="0" @change="handleChangeParamsType">key-value</el-radio>
+                <el-radio v-model="paramsTypeFlag" :label="1" @change="handleChangeParamsType">object</el-radio> 
+                <el-button v-if="paramsTypeFlag==0" @click.prevent="addParams" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
+                <div v-if="paramsTypeFlag==0">
                 <el-form-item
                     v-for="(paramsItem, index) in dataAddParams"
                     :index="index"
                     :key="paramsItem.key">
-                  <el-row :gutter="20">
-                      <el-col :span="7">
-                          <el-input v-model="paramsItem.name" placeholder="name" size='mini' @blur=addParams(paramsItem)></el-input>
-                      </el-col>
-                      <el-col :span="15">
-                          <el-input v-model="paramsItem.value" placeholder="value" size='mini'></el-input>
-                      </el-col> 
-                      <el-col :span="2">
-                          <el-button @click.prevent="removeParams(paramsItem)" type="danger" icon="el-icon-delete" circle size="mini" :disabled="dataAddParams.length==1"></el-button>
-                      </el-col>
-                  </el-row>
-                </el-form-item>     
+                <el-row :gutter="20">
+                    <el-col :span="7">
+                        <el-input v-model="paramsItem.name" placeholder="name" size='mini'></el-input>
+                    </el-col>
+                    <el-col :span="15">
+                        <el-input v-model="paramsItem.value" placeholder="value" size='mini'></el-input>
+                    </el-col> 
+                    <el-col :span="2">
+                        <el-button @click.prevent="removeParams(paramsItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                    </el-col>
+                </el-row> 
+                </el-form-item>
+                </div>
+                <div v-if="paramsTypeFlag==1">
+                    <el-input v-model="dataAddParamsStr" size="mini" type="textarea" :rows="6" placeholder="params json string"></el-input>
+                </div>            
             </el-tab-pane>
 
-
+            <!-- body -->
             <el-tab-pane label="Body">
-                <el-radio v-model="bodyTypeFlag" :label="0" >form-data</el-radio>
-                <el-radio v-model="bodyTypeFlag" :label="2" >json</el-radio>
+                <el-radio v-model="bodyTypeFlag" :label="0" @change="handleChangeBodyType">form-data</el-radio>
+                <el-radio v-model="bodyTypeFlag" :label="3" @change="handleChangeBodyType">raw</el-radio>
+                <el-radio v-model="bodyTypeFlag" :label="1" @change="handleChangeBodyType">form-object</el-radio>
+                <el-radio v-model="bodyTypeFlag" :label="2" @change="handleChangeBodyType">json</el-radio>
+                <el-button v-if="bodyTypeFlag==0" @click.prevent="addDataForm" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
+
                 <div v-if="bodyTypeFlag==0">
-                  <el-form-item
-                      v-for="(dataItem, index) in dataAddFormData"
-                      :index="index"
-                      :key="dataItem.key">
-                    <el-row :gutter="20">
-                        <el-col :span="7">
-                            <el-input v-model="dataItem.name" placeholder="name" size='mini' @blur=addDataForm(dataItem)></el-input>
-                        </el-col>
-                        <el-col :span="15">
-                            <el-input v-model="dataItem.value" placeholder="value" size='mini'></el-input>
-                        </el-col> 
-                        <el-col :span="2">
-                            <el-button @click.prevent="removeParams(dataItem)" type="danger" icon="el-icon-delete" circle size="mini" :disabled="dataAddFormData.length==1"></el-button>
-                        </el-col>
-                    </el-row>
-                  </el-form-item>    
-                </div> 
+                <el-form-item
+                    v-for="(dataItem, index) in dataAddFormData"
+                    :index="index"
+                    :key="dataItem.key">
+                <el-row :gutter="20">
+                    <el-col :span="7">
+                        <el-input v-model="dataItem.name" placeholder="name" size='mini'></el-input>
+                    </el-col>
+                    <el-col :span="15">
+                        <el-input v-model="dataItem.value" placeholder="value" size='mini'></el-input>
+                    </el-col> 
+                    <el-col :span="2">
+                        <el-button @click.prevent="removeDataForm(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                    </el-col>
+                </el-row> 
+                </el-form-item>
+                </div>
+
+                <div v-if="bodyTypeFlag==1">
+                    <el-input v-model="dataAddFormStr" size="mini" type="textarea" :rows="6" placeholder="form-data json string"></el-input>
+                </div>   
                 <div v-if="bodyTypeFlag==2">
                     <el-input v-model="dataAddJsonStr" size="mini" type="textarea" :rows="6" placeholder="json string"></el-input>
+                </div>   
+                <div v-if="bodyTypeFlag==3">
+                    <el-input v-model="dataAddFormRaw" size="mini" type="textarea" :rows="6" placeholder="form-data raw"></el-input>
                 </div>   
             </el-tab-pane>
         </el-tabs>
@@ -1230,7 +1285,7 @@
         <el-collapse-item title="请求信息">
           <el-row :gutter="20">
           <el-col :span="4">
-            <el-select v-model="dataInfo.method" placeholder="method"  size="mini">
+            <el-select v-model="dataInfo.method" placeholder="method"  size="mini" @change="handleChangeMethod">
               <el-option
                 v-for="item in requestMethodOptions"
                 :key="item.value"
@@ -1245,69 +1300,97 @@
           </el-row>  
 
         <el-tabs >
+            <!-- header -->
             <el-tab-pane label="Headers">
+                <el-radio v-model="headerTypeFlag" :label="0" @change="handleChangeHeaderType">key-value</el-radio>
+                <el-radio v-model="headerTypeFlag" :label="1" @change="handleChangeHeaderType">object</el-radio> 
+                <el-button v-if="headerTypeFlag==0" @click.prevent="addHeader" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
+                <div v-if="headerTypeFlag==0">
                 <el-form-item
                     v-for="(headerItem, index) in dataAddHeaders"
                     :index="index"
                     :key="headerItem.key">
-                  <el-row :gutter="20">
-                      <el-col :span="7">
-                          <el-input v-model="headerItem.name" placeholder="name" size='mini' @blur=addHeader(headerItem)></el-input>
-                      </el-col>
-                      <el-col :span="15">
-                          <el-input v-model="headerItem.value" placeholder="value" size='mini'></el-input>
-                      </el-col> 
-                      <el-col :span="2">
-                          <el-button @click.prevent="removeHeader(headerItem)" type="danger" icon="el-icon-delete" circle size="mini" :disabled="dataAddHeaders.length==1"></el-button>
-                      </el-col>
-                  </el-row>
-                </el-form-item> 
+                <el-row :gutter="20">
+                    <el-col :span="7">
+                        <el-input v-model="headerItem.name" placeholder="name" size='mini'></el-input>
+                    </el-col>
+                    <el-col :span="15">
+                        <el-input v-model="headerItem.value" placeholder="value" size='mini'></el-input>
+                    </el-col> 
+                    <el-col :span="2">
+                        <el-button @click.prevent="removeHeader(headerItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                    </el-col>
+                </el-row> 
+                </el-form-item>
+                </div>
+                <div v-if="headerTypeFlag==1">
+                    <el-input v-model="dataAddHeadersStr" size="mini" type="textarea" :rows="6" placeholder="header json string"></el-input>
+                </div>  
             </el-tab-pane>
 
             <!-- params -->
             <el-tab-pane label="Params">
+                <el-radio v-model="paramsTypeFlag" :label="0" @change="handleChangeParamsType">key-value</el-radio>
+                <el-radio v-model="paramsTypeFlag" :label="1" @change="handleChangeParamsType">object</el-radio> 
+                <el-button v-if="paramsTypeFlag==0" @click.prevent="addParams" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
+                <div v-if="paramsTypeFlag==0">
                 <el-form-item
                     v-for="(paramsItem, index) in dataAddParams"
                     :index="index"
                     :key="paramsItem.key">
-                  <el-row :gutter="20">
-                      <el-col :span="7">
-                          <el-input v-model="paramsItem.name" placeholder="name" size='mini' @blur=addParams(paramsItem)></el-input>
-                      </el-col>
-                      <el-col :span="15">
-                          <el-input v-model="paramsItem.value" placeholder="value" size='mini'></el-input>
-                      </el-col> 
-                      <el-col :span="2">
-                          <el-button @click.prevent="removeParams(paramsItem)" type="danger" icon="el-icon-delete" circle size="mini" :disabled="dataAddParams.length==1"></el-button>
-                      </el-col>
-                  </el-row>
-                </el-form-item>         
+                <el-row :gutter="20">
+                    <el-col :span="7">
+                        <el-input v-model="paramsItem.name" placeholder="name" size='mini'></el-input>
+                    </el-col>
+                    <el-col :span="15">
+                        <el-input v-model="paramsItem.value" placeholder="value" size='mini'></el-input>
+                    </el-col> 
+                    <el-col :span="2">
+                        <el-button @click.prevent="removeParams(paramsItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                    </el-col>
+                </el-row> 
+                </el-form-item>
+                </div>
+                <div v-if="paramsTypeFlag==1">
+                    <el-input v-model="dataAddParamsStr" size="mini" type="textarea" :rows="6" placeholder="params json string"></el-input>
+                </div>            
             </el-tab-pane>
 
             <!-- body -->
             <el-tab-pane label="Body">
-                <el-radio v-model="bodyTypeFlag" :label="0" >form-data</el-radio>
-                <el-radio v-model="bodyTypeFlag" :label="2" >json</el-radio>
+                <el-radio v-model="bodyTypeFlag" :label="0" @change="handleChangeBodyType">form-data</el-radio>
+                <el-radio v-model="bodyTypeFlag" :label="3" @change="handleChangeBodyType">raw</el-radio>
+                <el-radio v-model="bodyTypeFlag" :label="1" @change="handleChangeBodyType">form-object</el-radio>
+                <el-radio v-model="bodyTypeFlag" :label="2" @change="handleChangeBodyType">json</el-radio>
+                <el-button v-if="bodyTypeFlag==0" @click.prevent="addDataForm" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
+
                 <div v-if="bodyTypeFlag==0">
-                  <el-form-item
-                      v-for="(dataItem, index) in dataAddFormData"
-                      :index="index"
-                      :key="dataItem.key">
-                    <el-row :gutter="20">
-                        <el-col :span="7">
-                            <el-input v-model="dataItem.name" placeholder="name" size='mini' @blur=addDataForm(dataItem)></el-input>
-                        </el-col>
-                        <el-col :span="15">
-                            <el-input v-model="dataItem.value" placeholder="value" size='mini'></el-input>
-                        </el-col> 
-                        <el-col :span="2">
-                            <el-button @click.prevent="removeParams(dataItem)" type="danger" icon="el-icon-delete" circle size="mini" :disabled="dataAddFormData.length==1"></el-button>
-                        </el-col>
-                    </el-row>
-                  </el-form-item>    
-                </div> 
+                <el-form-item
+                    v-for="(dataItem, index) in dataAddFormData"
+                    :index="index"
+                    :key="dataItem.key">
+                <el-row :gutter="20">
+                    <el-col :span="7">
+                        <el-input v-model="dataItem.name" placeholder="name" size='mini'></el-input>
+                    </el-col>
+                    <el-col :span="15">
+                        <el-input v-model="dataItem.value" placeholder="value" size='mini'></el-input>
+                    </el-col> 
+                    <el-col :span="2">
+                        <el-button @click.prevent="removeDataForm(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                    </el-col>
+                </el-row> 
+                </el-form-item>
+                </div>
+
+                <div v-if="bodyTypeFlag==1">
+                    <el-input v-model="dataAddFormStr" size="mini" type="textarea" :rows="6" placeholder="form-data json string"></el-input>
+                </div>   
                 <div v-if="bodyTypeFlag==2">
                     <el-input v-model="dataAddJsonStr" size="mini" type="textarea" :rows="6" placeholder="json string"></el-input>
+                </div>   
+                <div v-if="bodyTypeFlag==3">
+                    <el-input v-model="dataAddFormRaw" size="mini" type="textarea" :rows="6" placeholder="form-data raw"></el-input>
                 </div>   
             </el-tab-pane>
         </el-tabs>
@@ -1561,35 +1644,32 @@ export default {
       // 用来确定选择前置用例后填充至哪个数组
       preCaseIndex:null,
 
-      //header
-      dataAddHeaders: [
-        {
-          name: null,
-          value: null,
-          key: Date.now()
-        }
-      ], 
+      headerMerge:false,
+      paramsMerge:false,
+      dataMerge:false,
+      showParams:false,
+      showData:false,
+      showJson:false,
+      headerSwitch:false,
+      paramsSwitch:false,
+      dataSwitch:false,
+      jsonSwitch:false,
 
-      //params
-      dataAddParams: [
-        {
-          name: null,
-          value: null,
-          key: Date.now()
-        }
-      ], 
+      dataAddHeaders: [], // key-value形式头数组
+      dataAddHeadersStr: "", // json字符串形式header
 
-      //form-data
-      dataAddFormData: [
-        {
-          name: null,
-          value: null,
-          key: Date.now()
-        }
-      ],
-      //json
+      dataAddParams: [], // key-value形式params数组
+      dataAddParamsStr: "", // json字符串形式params
+
+      dataAddFormData: [], // key-value形式data数组
+      dataAddFormStr: "", // json字符串形式params
       dataAddJsonStr:"",// json字符串
-      bodyTypeFlag:0, // 0:form-data  2:json
+      dataAddFormRaw:"", //key=value&key=value格式
+
+
+      headerTypeFlag:0, // 0:key-value 1:object
+      paramsTypeFlag:0, // 0:key-value 1:object
+      bodyTypeFlag:0, // 0:form-data  1:form-raw 2:json 3：key=value&key=value格式
 
       assertList:[],
       assertIndex:0,
@@ -1733,15 +1813,12 @@ export default {
         this.dataAddHeaders.splice(index, 1)
     }
     },
-    addHeader(item) {
-      var index = this.dataAddHeaders.indexOf(item)
-      if (index == this.dataAddHeaders.length - 1) {
-        this.dataAddHeaders.push({
-          name:null,
-          value:null,
-          key:Date.now()
-        })
-      }
+    addHeader() {
+    this.dataAddHeaders.push({
+        name: '',
+        value: '',
+        key: Date.now()
+    });
     },
     removeParams(item) {
     var index = this.dataAddParams.indexOf(item)
@@ -1749,15 +1826,12 @@ export default {
         this.dataAddParams.splice(index, 1)
     }
     },
-    addParams(item) {
-    var index = this.dataAddParams.indexOf(item)
-    if (index == this.dataAddParams.length - 1) {
-      this.dataAddParams.push({
-        name:null,
-        value:null,
-        key:Date.now()
-      })
-    }  
+    addParams() {
+    this.dataAddParams.push({
+        name: '',
+        value: '',
+        key: Date.now()
+    });
     },
     removeDataForm(item) {
     var index = this.dataAddFormData.indexOf(item)
@@ -1766,14 +1840,11 @@ export default {
     }
     },
     addDataForm() {
-    var index = this.dataAddFormData.indexOf(item)
-    if (index == this.dataAddFormData.length - 1) {
-      this.dataAddFormData.push({
-        name:null,
-        value:null,
-        key:Date.now()
-      })
-    }  
+    this.dataAddFormData.push({
+        name: '',
+        value: '',
+        key: Date.now()
+    });
     },
     addAssert() {
     this.assertList.push({
@@ -1899,6 +1970,36 @@ export default {
         });
       }
     },
+    handleChangeMethod(method) {
+        if(method == 0) { // get
+            this.showParams = true
+            this.showData = false
+            this.showJson = false
+            this.dataAdd.data = null
+            this.dataSwitch = false
+            this.jsonSwitch = false
+        } else if (method == 1) { //post
+            this.showParams = true
+            this.showData = true
+            this.showJson = true            
+        } else if (method == 2) { //patch
+            this.showParams = true
+            this.showData = true
+            this.showJson = true              
+        } else if (method == 3) { //put
+            this.showParams = true
+            this.showData = true
+            this.showJson = true              
+        } else if (method == 4) { //delete
+            this.showParams = true
+            this.showData = true
+            this.showJson = true              
+        } else { // 默认状态
+            this.showParams = false
+            this.showData = false
+            this.showJson = false
+        }
+    },
     async handleCheck(caseId) {
         const res = await executeInterfaceCase(caseId)
         if (res.code == 200) {
@@ -1953,41 +2054,70 @@ export default {
         let headers = {}
         let params = {}
         let data = {}
-        // 处理header
-        this.dataAddHeaders.forEach(element => {
-          if (element.name != null || element.name == '') {
-            headers[element.name] = element.value
-          }
-        });
-        let headerStr = JSON.stringify(headers)
-        if (headerStr == '{}' || headerStr == '') {
-          this.dataAdd.headers = ''
+        let json = {}
+        // 对请求头进行处理  headerTypeFlag 0:key-value 1:object
+        if (this.headerTypeFlag == 0) {
+            this.dataAddHeaders.forEach(element => {
+                headers[element.name] = element.value
+            });
+            let headerStr = JSON.stringify(headers)
+            if (headerStr == '{}' || headerStr == '') {
+              this.dataAdd.headers = ''
+            } else {
+              this.dataAdd.headers = headerStr
+            }
+
         } else {
-          this.dataAdd.headers = headerStr
+            headers = this.dataAddHeadersStr
+            if (headers == '{}' || headers == '') {
+              this.dataAdd.headers = headers
+            } else {
+              this.dataAdd.headers = headers
+            }
         }
-
-        // 处理params
-        this.dataAddParams.forEach(element => {
-          if (element.name != null || element.name == '') {
-            params[element.name] = element.value
-          }
-        });
-        let paramsStr = JSON.stringify(params)
-        if (paramsStr == '{}' || paramsStr == '') {
-          this.dataAdd.params = ''
+        // 对params 统一处理 所有请求都可能存在params
+        if (this.paramsTypeFlag == 0) { // 对params进行处理 paramsTypeFlag 0:key-value 1:object
+            this.dataAddParams.forEach(element => {
+                params[element.name] = element.value
+            });
+            let paramsStr = JSON.stringify(params)
+            if (paramsStr == '{}' || paramsStr == '') {
+              this.dataAdd.params = ''
+            } else {
+              this.dataAdd.params = paramsStr
+            }
         } else {
-          this.dataAdd.params = paramsStr
+            params = this.dataAddParamsStr
+            if (params == '{}' || params == '') {
+              this.dataAdd.params = params
+            } else {
+              this.dataAdd.params = params
+            }
         }
-
-        // 处理data
-        if (method != 0) { //非get请求不考虑data
-            if (this.bodyTypeFlag == 0) { // 对body进行处理 0:form-data 2:json
-                this.dataAdd.json = null
-
+        if (method != 0) { //非get请求目前统一考虑成为post请求
+            if (this.bodyTypeFlag == 0) { // 对body进行处理 0:form-data  1:form-raw 2:json 3：key=value&key=value格式
                 this.dataAddFormData.forEach(element => {
-                  if (element.name != null || element.name == '') {
                     data[element.name] = element.value
-                  }
+                });
+                this.dataAdd.json = null
+                let dataStr = JSON.stringify(data)
+                if (dataStr == '{}' || dataStr == '') {
+                  this.dataAdd.data = ''
+                } else {
+                  this.dataAdd.data = dataStr
+                }
+            } else if (this.bodyTypeFlag == 1) {
+                this.dataAdd.json = null
+                this.dataAdd.data = this.dataAddFormStr
+            } else if (this.bodyTypeFlag == 2) {
+                this.dataAdd.data = null
+                this.dataAdd.json = this.dataAddJsonStr
+            } else {
+                this.dataAdd.json = null
+                let kv = this.dataAddFormRaw.split("&")
+                kv.forEach(item => {
+                    let keyValue = item.split("=")
+                    data[keyValue[0]] = keyValue[1]
                 });
                 let dataStr = JSON.stringify(data)
                 if (dataStr == '{}' || dataStr == '') {
@@ -1995,14 +2125,6 @@ export default {
                 } else {
                   this.dataAdd.data = dataStr
                 }
-            } else if (this.bodyTypeFlag == 2) {
-                this.dataAdd.data = null
-
-                this.dataAdd.json = this.dataAddJsonStr
-            } else {
-                this.dataAdd.data = null
-
-                this.dataAdd.json = this.dataAddJsonStr
             }
         } 
         // 添加断言
@@ -2032,42 +2154,70 @@ export default {
         let headers = {}
         let params = {}
         let data = {}
-
-        // 处理header
-        this.dataAddHeaders.forEach(element => {
-          if (element.name != null || element.name == '') {
-            headers[element.name] = element.value
-          }
-        });
-        let headerStr = JSON.stringify(headers)
-        if (headerStr == '{}' || headerStr == '') {
-          this.dataInfo.headers = ''
+        let json = {}
+        // 对请求头进行处理  headerTypeFlag 0:key-value 1:object
+        if (this.headerTypeFlag == 0) {
+            this.dataAddHeaders.forEach(element => {
+                headers[element.name] = element.value
+            });
+            let headerStr = JSON.stringify(headers)
+            if (headerStr == '{}' || headerStr == '') {
+              this.dataInfo.headers = ''
+            } else {
+              this.dataInfo.headers = headerStr
+            }
         } else {
-          this.dataInfo.headers = headerStr
+            headers = this.dataAddHeadersStr
+            if (headers == '{}' || headers == '') {
+              this.dataInfo.headers = headers
+            } else {
+              this.dataInfo.headers = headers
+            }
         }
-
-        // 处理params
-        this.dataAddParams.forEach(element => {
-          if (element.name != null || element.name == '') {
-            params[element.name] = element.value
-          }
-        });
-        let paramsStr = JSON.stringify(params)
-        if (paramsStr == '{}' || paramsStr == '') {
-          this.dataInfo.params = ''
+        // 对params 统一处理 所有请求都可能存在params
+        if (this.paramsTypeFlag == 0) { // 对params进行处理 paramsTypeFlag 0:key-value 1:object
+            this.dataAddParams.forEach(element => {
+                params[element.name] = element.value
+            });
+            let paramsStr = JSON.stringify(params)
+            if (paramsStr == '{}' || paramsStr == '') {
+              this.dataInfo.params = ''
+            } else {
+              this.dataInfo.params = paramsStr
+            }
         } else {
-          this.dataInfo.params = paramsStr
+            params = this.dataAddParamsStr
+            if (params == '{}' || params == '') {
+              this.dataInfo.params = params
+            } else {
+              this.dataInfo.params = params
+            }
         }
-
-        // 处理data
-        if (method != 0) { //非get请求不考虑data
-            if (this.bodyTypeFlag == 0) { // 对body进行处理 0:form-data 2:json
-                this.dataInfo.json = null
-
+        if (method != 0) { //非get请求目前统一考虑成为post请求
+            if (this.bodyTypeFlag == 0) { // 对body进行处理 0:form-data  1:form-raw 2:json 3：key=value&key=value格式
                 this.dataAddFormData.forEach(element => {
-                  if (element.name != null || element.name == '') {
                     data[element.name] = element.value
-                  }
+                });
+                this.dataInfo.json = null
+                let dataStr = JSON.stringify(data)
+                if (dataStr == '{}' || dataStr == '') {
+                  this.dataInfo.data = ''
+                } else {
+                  this.dataInfo.data = dataStr
+                }
+            } else if (this.bodyTypeFlag == 1) {
+                this.dataInfo.json = null
+                this.dataInfo.data = this.dataAddFormStr
+            } else if (this.bodyTypeFlag == 2) {
+                this.dataInfo.data = null
+                this.dataInfo.json = this.dataAddJsonStr
+                console.log(this.dataInfo.json)
+            } else {
+                this.dataInfo.json = null
+                let kv = this.dataAddFormRaw.split("&")
+                kv.forEach(item => {
+                    let keyValue = item.split("=")
+                    data[keyValue[0]] = keyValue[1]
                 });
                 let dataStr = JSON.stringify(data)
                 if (dataStr == '{}' || dataStr == '') {
@@ -2075,17 +2225,12 @@ export default {
                 } else {
                   this.dataInfo.data = dataStr
                 }
-            } else if (this.bodyTypeFlag == 2) {
-                this.dataInfo.data = null
-
-                this.dataInfo.json = this.dataAddJsonStr
-            } else {
-                this.dataInfo.data = null
-
-                this.dataInfo.json = this.dataAddJsonStr
             }
-        } 
-
+        } else { // 为get请求时
+          // 将data json清空
+          this.dataInfo.data = null
+          this.dataInfo.json = null
+        }
         this.dataInfo.asserts = this.assertList
         this.dataInfo.preCases = this.preCaseList
         this.dataInfo.postProcessors = this.preProcessorList.concat(this.postProcessorList)
@@ -2112,42 +2257,69 @@ export default {
         let headers = {}
         let params = {}
         let data = {}
-
-        // 处理header
-        this.dataAddHeaders.forEach(element => {
-          if (element.name != null || element.name == '') {
-            headers[element.name] = element.value
-          }
-        });
-        let headerStr = JSON.stringify(headers)
-        if (headerStr == '{}' || headerStr == '') {
-          this.dataInfo.headers = ''
+        let json = {}
+        // 对请求头进行处理  headerTypeFlag 0:key-value 1:object
+        if (this.headerTypeFlag == 0) {
+            this.dataAddHeaders.forEach(element => {
+                headers[element.name] = element.value
+            });
+            let headerStr = JSON.stringify(headers)
+            if (headerStr == '{}' || headerStr == '') {
+              this.dataInfo.headers = ''
+            } else {
+              this.dataInfo.headers = headerStr
+            }
         } else {
-          this.dataInfo.headers = headerStr
+            headers = this.dataAddHeadersStr
+            if (headers == '{}' || headers == '') {
+              this.dataInfo.headers = headers
+            } else {
+              this.dataInfo.headers = headers
+            }
         }
-
-        // 处理params
-        this.dataAddParams.forEach(element => {
-          if (element.name != null || element.name == '') {
-            params[element.name] = element.value
-          }
-        });
-        let paramsStr = JSON.stringify(params)
-        if (paramsStr == '{}' || paramsStr == '') {
-          this.dataInfo.params = ''
+        // 对params 统一处理 所有请求都可能存在params
+        if (this.paramsTypeFlag == 0) { // 对params进行处理 paramsTypeFlag 0:key-value 1:object
+            this.dataAddParams.forEach(element => {
+                params[element.name] = element.value
+            });
+            let paramsStr = JSON.stringify(params)
+            if (paramsStr == '{}' || paramsStr == '') {
+              this.dataInfo.params = ''
+            } else {
+              this.dataInfo.params = paramsStr
+            }
         } else {
-          this.dataInfo.params = paramsStr
+            params = this.dataAddParamsStr
+            if (params == '{}' || params == '') {
+              this.dataInfo.params = params
+            } else {
+              this.dataInfo.params = params
+            }
         }
-
-        // 处理data
-        if (method != 0) { //非get请求不考虑data
-            if (this.bodyTypeFlag == 0) { // 对body进行处理 0:form-data 2:json
-                this.dataInfo.json = null
-
+        if (method != 0) { //非get请求目前统一考虑成为post请求
+            if (this.bodyTypeFlag == 0) { // 对body进行处理 0:form-data  1:form-raw 2:json 3：key=value&key=value格式
                 this.dataAddFormData.forEach(element => {
-                  if (element.name != null || element.name == '') {
                     data[element.name] = element.value
-                  }
+                });
+                this.dataInfo.json = null
+                let dataStr = JSON.stringify(data)
+                if (dataStr == '{}' || dataStr == '') {
+                  this.dataInfo.data = ''
+                } else {
+                  this.dataInfo.data = dataStr
+                }
+            } else if (this.bodyTypeFlag == 1) {
+                this.dataInfo.json = null
+                this.dataInfo.data = this.dataAddFormStr
+            } else if (this.bodyTypeFlag == 2) {
+                this.dataInfo.data = null
+                this.dataInfo.json = this.dataAddJsonStr
+            } else {
+                this.dataInfo.json = null
+                let kv = this.dataAddFormRaw.split("&")
+                kv.forEach(item => {
+                    let keyValue = item.split("=")
+                    data[keyValue[0]] = keyValue[1]
                 });
                 let dataStr = JSON.stringify(data)
                 if (dataStr == '{}' || dataStr == '') {
@@ -2155,14 +2327,6 @@ export default {
                 } else {
                   this.dataInfo.data = dataStr
                 }
-            } else if (this.bodyTypeFlag == 2) {
-                this.dataInfo.data = null
-
-                this.dataInfo.json = this.dataAddJsonStr
-            } else {
-                this.dataInfo.data = null
-
-                this.dataInfo.json = this.dataAddJsonStr
             }
         } 
         this.dataInfo.asserts = this.assertList
@@ -2245,34 +2409,30 @@ export default {
       let userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
       this.dataAdd.creater = userInfo.realName
       this.dataAdd.createrRealName = userInfo.realName
-      // 初始化header
-      this.dataAddHeaders = [
-        {
-          name: null,
-          value: null,
-          key: Date.now()
-        }
-      ], 
-
-      // 初始化params
-      this.dataAddParams = [
-        {
-          name: null,
-          value: null,
-          key: Date.now()
-        }
-      ], 
-
+      // 头置空
+      this.headerTypeFlag = 0
+      this.dataAddHeaders = []
+      this.dataAddHeadersStr = ""
+      // 初始化params 方式
+      this.paramsTypeFlag = 0
+      this.dataAddParams = []
+      this.dataAddParamsStr = ""
       // 初始化body
       this.bodyTypeFlag = 0
-      this.dataAddFormData = [
-        {
-          name: null,
-          value: null,
-          key: Date.now()
-        }
-      ]
-      this.dataAddJsonStr = null     
+      this.dataAddFormData = []
+      this.dataAddFormStr = ""
+      this.dataAddJsonStr = ""      
+      
+      this.headerMerge = false
+      this.paramsMerge = false
+      this.dataMerge = false
+      this.showParams = false
+      this.showData = false
+      this.showJson = false
+      this.headerSwitch = false
+      this.paramsSwitch = false
+      this.dataSwitch = false
+      this.jsonSwitch = false
 
       // 初始化断言
       this.assertList = []
@@ -2290,72 +2450,43 @@ export default {
       let moduleName = row.moduleName
       const res = await findInterfaceCaseByCaseId(caseId)
       if (res.code == 200) {
-        // headers置空并处理
+        // 头置空
+        this.headerTypeFlag = 0
         this.dataAddHeaders = []
-        let headers = JSON.parse(res.data.headers)
-        for(let key in headers) {
-          this.dataAddHeaders.push({
-            "name":key,
-            "value":headers[key],
-            "key":Date.now()
-          })
-        }
-        if (this.dataAddHeaders.length == 0) {
-          this.dataAddHeaders.push({
-            "name":null,
-            "value":null,
-            "key":Date.now()
-          })
-        }
-        this.dataAddHeadersStr = JSON.stringify(this.dataAddHeaders)
-        
-
-        // params置空并处理
+        this.dataAddHeadersStr = ""
+        // 初始化params 方式
+        this.paramsTypeFlag = 0
         this.dataAddParams = []
-        let params = JSON.parse(res.data.params)
-        for(let key in params) {
-          this.dataAddParams.push({
-            "name":key,
-            "value":params[key],
-            "key":Date.now()
-          })
-        }
-        if (this.dataAddParams.length == 0) {
-          this.dataAddParams.push({
-            "name":null,
-            "value":null,
-            "key":Date.now()
-          })
-        }
-        this.dataAddParamsStr = JSON.stringify(this.dataAddParams)
-
-        // data置空并处理
+        this.dataAddParamsStr = ""
+        // 初始化body
+        this.bodyTypeFlag = 0
         this.dataAddFormData = []
-        let data = JSON.parse(res.data.data)
-        for(let key in data) {
-          this.dataAddFormData.push({
-            "name":key,
-            "value":data[key],
-            "key":Date.now()
-          })
-        }
-        if (this.dataAddFormData.length == 0) {
-          this.dataAddFormData.push({
-            "name":null,
-            "value":null,
-            "key":Date.now()
-          })
-        }
-        this.dataAddFormStr = JSON.stringify(this.dataAddFormData)
-
-        // json置空并处理
-        this.dataAddJsonStr = res.data.json     
+        this.dataAddFormStr = ""
+        this.dataAddJsonStr = ""     
 
         this.editDialogFormVisible = true;
         this.dataInfo = res.data
         this.dataInfo.projectName = projectName
         this.dataInfo.moduleName = moduleName
-
+        // 获取请求头
+        this.headerTypeFlag = 1
+        this.dataAddHeadersStr = res.data.headers
+        // 获取params
+        this.paramsTypeFlag = 1
+        this.dataAddParamsStr = res.data.params
+        // 是json还是data
+        if (res.method != 0) { // get不用考虑
+          if (res.data.data != null) {
+            this.bodyTypeFlag = 1
+            this.dataAddFormStr = res.data.data
+          } else if (res.data.json != null) {
+            this.bodyTypeFlag = 2
+            this.dataAddJsonStr = res.data.json
+          } else {
+            this.bodyTypeFlag = 1
+            this.dataAddFormData = res.data.data
+          }
+        }
         this.assertList = res.data.asserts
         this.preCaseList = res.data.preCases
         if (res.data.asserts.length != 0) {
@@ -2391,67 +2522,19 @@ export default {
         let userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
         res.data.creater = userInfo.realName
         res.data.createrRealName = userInfo.realName
-
-        // headers置空并处理
+        // 头置空
+        this.headerTypeFlag = 0
         this.dataAddHeaders = []
-        let headers = JSON.parse(res.data.headers)
-        for(let key in headers) {
-          this.dataAddHeaders.push({
-            "name":key,
-            "value":headers[key],
-            "key":Date.now()
-          })
-        }
-        if (this.dataAddHeaders.length == 0) {
-          this.dataAddHeaders.push({
-            "name":null,
-            "value":null,
-            "key":Date.now()
-          })
-        }
-        this.dataAddHeadersStr = JSON.stringify(this.dataAddHeaders)
-        
-
-        // params置空并处理
+        this.dataAddHeadersStr = ""
+        // 初始化params 方式
+        this.paramsTypeFlag = 0
         this.dataAddParams = []
-        let params = JSON.parse(res.data.params)
-        for(let key in params) {
-          this.dataAddParams.push({
-            "name":key,
-            "value":params[key],
-            "key":Date.now()
-          })
-        }
-        if (this.dataAddParams.length == 0) {
-          this.dataAddParams.push({
-            "name":null,
-            "value":null,
-            "key":Date.now()
-          })
-        }
-        this.dataAddParamsStr = JSON.stringify(this.dataAddParams)
-
-        // data置空并处理
+        this.dataAddParamsStr = ""
+        // 初始化body
+        this.bodyTypeFlag = 0
         this.dataAddFormData = []
-        let data = JSON.parse(res.data.data)
-        for(let key in data) {
-          this.dataAddFormData.push({
-            "name":key,
-            "value":data[key],
-            "key":Date.now()
-          })
-        }
-        if (this.dataAddFormData.length == 0) {
-          this.dataAddFormData.push({
-            "name":null,
-            "value":null,
-            "key":Date.now()
-          })
-        }
-        this.dataAddFormStr = JSON.stringify(this.dataAddFormData)
-
-        // json置空并处理
-        this.dataAddJsonStr = res.data.json     
+        this.dataAddFormStr = ""
+        this.dataAddJsonStr = ""     
 
         this.copyDialogFormVisible = true;
         this.dataInfo = res.data
@@ -2514,6 +2597,45 @@ export default {
       this.projectModulePageNum = 1
       this.projectModuleQuery = {}
       this.selectProjetModule(this.projectModuleQuery)
+    },
+    // 切换header radio时将之前的清空
+    async handleChangeHeaderType() {
+        if (this.headerTypeFlag == 0) {
+            this.dataAddHeaders = []
+        } else {
+            this.dataAddHeadersStr = ""
+        }
+    },
+    // 切换params radio时将之前的清空
+    async handleChangeParamsType() {
+        if (this.paramsTypeFlag == 0) {
+            this.dataAddParams = []
+        } else {
+            this.dataAddParamsStr = ""
+        }
+    },
+    // 切换body radio时将之前的情况
+    async handleChangeBodyType() {
+        if (this.bodyTypeFlag == 0) {
+           if (this.dataAddFormData == null) {
+             this.dataAddFormData = []
+           }
+           this.dataAddFormStr = ""
+           this.dataAddJsonStr = ""
+           this.dataAddFormRaw = ""
+        } else if (this.bodyTypeFlag == 1) {
+           this.dataAddFormData = []
+           this.dataAddJsonStr = ""
+           this.dataAddFormStr = ""
+        } else if (this.bodyTypeFlag == 2) {
+           this.dataAddFormStr = ""
+           this.dataAddFormData = []
+           this.dataAddFormRaw = ""
+        } else {
+           this.dataAddFormData = []
+           this.dataAddFormStr = ""
+           this.dataAddJsonStr = ""
+        }
     },
     // 前置用例
     async selectPreCase(preCaseQuery) {
