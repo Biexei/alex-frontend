@@ -367,7 +367,7 @@
                           <el-input v-model="headerItem.value" placeholder="value" size='mini'></el-input>
                       </el-col> 
                       <el-col :span="2">
-                          <el-button @click.prevent="removeHeader(headerItem)" type="danger" icon="el-icon-delete" circle size="mini" :disabled="dataAddHeaders.length==1"></el-button>
+                          <el-button @click.prevent="removeHeader(headerItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
                       </el-col>
                   </el-row>
                 </el-form-item> 
@@ -387,7 +387,7 @@
                           <el-input v-model="paramsItem.value" placeholder="value" size='mini'></el-input>
                       </el-col> 
                       <el-col :span="2">
-                          <el-button @click.prevent="removeParams(paramsItem)" type="danger" icon="el-icon-delete" circle size="mini" :disabled="dataAddParams.length==1"></el-button>
+                          <el-button @click.prevent="removeParams(paramsItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
                       </el-col>
                   </el-row>
                 </el-form-item>         
@@ -410,7 +410,7 @@
                             <el-input v-model="dataItem.value" placeholder="value" size='mini'></el-input>
                         </el-col> 
                         <el-col :span="2">
-                            <el-button @click.prevent="removeParams(dataItem)" type="danger" icon="el-icon-delete" circle size="mini" :disabled="dataAddFormData.length==1"></el-button>
+                            <el-button @click.prevent="removeDataForm(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
                         </el-col>
                     </el-row>
                   </el-form-item>    
@@ -926,7 +926,7 @@
                         <el-input v-model="headerItem.value" placeholder="value" size='mini'></el-input>
                     </el-col> 
                     <el-col :span="2">
-                        <el-button @click.prevent="removeHeader(headerItem)" type="danger" icon="el-icon-delete" circle size="mini"  :disabled="dataAddHeaders.length==1"></el-button>
+                        <el-button @click.prevent="removeHeader(headerItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
                     </el-col>
                 </el-row> 
                 </el-form-item> 
@@ -946,7 +946,7 @@
                           <el-input v-model="paramsItem.value" placeholder="value" size='mini'></el-input>
                       </el-col> 
                       <el-col :span="2">
-                          <el-button @click.prevent="removeParams(paramsItem)" type="danger" icon="el-icon-delete" circle size="mini" :disabled="dataAddParams.length==1"></el-button>
+                          <el-button @click.prevent="removeParams(paramsItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
                       </el-col>
                   </el-row>
                 </el-form-item>     
@@ -969,7 +969,7 @@
                             <el-input v-model="dataItem.value" placeholder="value" size='mini'></el-input>
                         </el-col> 
                         <el-col :span="2">
-                            <el-button @click.prevent="removeParams(dataItem)" type="danger" icon="el-icon-delete" circle size="mini" :disabled="dataAddFormData.length==1"></el-button>
+                            <el-button @click.prevent="removeDataForm(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
                         </el-col>
                     </el-row>
                   </el-form-item>    
@@ -1258,7 +1258,7 @@
                           <el-input v-model="headerItem.value" placeholder="value" size='mini'></el-input>
                       </el-col> 
                       <el-col :span="2">
-                          <el-button @click.prevent="removeHeader(headerItem)" type="danger" icon="el-icon-delete" circle size="mini" :disabled="dataAddHeaders.length==1"></el-button>
+                          <el-button @click.prevent="removeHeader(headerItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
                       </el-col>
                   </el-row>
                 </el-form-item> 
@@ -1278,7 +1278,7 @@
                           <el-input v-model="paramsItem.value" placeholder="value" size='mini'></el-input>
                       </el-col> 
                       <el-col :span="2">
-                          <el-button @click.prevent="removeParams(paramsItem)" type="danger" icon="el-icon-delete" circle size="mini" :disabled="dataAddParams.length==1"></el-button>
+                          <el-button @click.prevent="removeParams(paramsItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
                       </el-col>
                   </el-row>
                 </el-form-item>         
@@ -1301,7 +1301,7 @@
                             <el-input v-model="dataItem.value" placeholder="value" size='mini'></el-input>
                         </el-col> 
                         <el-col :span="2">
-                            <el-button @click.prevent="removeParams(dataItem)" type="danger" icon="el-icon-delete" circle size="mini" :disabled="dataAddFormData.length==1"></el-button>
+                            <el-button @click.prevent="removeDataForm(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
                         </el-col>
                     </el-row>
                   </el-form-item>    
@@ -1728,10 +1728,19 @@ export default {
   },
   methods: {
     removeHeader(item) {
-    var index = this.dataAddHeaders.indexOf(item)
-    if (index !== -1) {
-        this.dataAddHeaders.splice(index, 1)
-    }
+      if (this.dataAddHeaders.length == 1) {
+        this.dataAddHeaders = []
+        this.dataAddHeaders.push({
+          name:null,
+          value:null,
+          key:Date.now()
+        })
+      } else {
+        var index = this.dataAddHeaders.indexOf(item)
+        if (index !== -1) {
+            this.dataAddHeaders.splice(index, 1)
+        }
+      }
     },
     addHeader(item) {
       var index = this.dataAddHeaders.indexOf(item)
@@ -1744,76 +1753,94 @@ export default {
       }
     },
     removeParams(item) {
-    var index = this.dataAddParams.indexOf(item)
-    if (index !== -1) {
-        this.dataAddParams.splice(index, 1)
-    }
+      if (this.dataAddParams.length == 1) {
+        this.dataAddParams = []
+        this.dataAddParams.push({
+          name:null,
+          value:null,
+          key:Date.now()
+        })
+      } else {
+        var index = this.dataAddParams.indexOf(item)
+        if (index !== -1) {
+            this.dataAddParams.splice(index, 1)
+        }
+      }
     },
     addParams(item) {
-    var index = this.dataAddParams.indexOf(item)
-    if (index == this.dataAddParams.length - 1) {
-      this.dataAddParams.push({
-        name:null,
-        value:null,
-        key:Date.now()
-      })
-    }  
+      var index = this.dataAddParams.indexOf(item)
+      if (index == this.dataAddParams.length - 1) {
+        this.dataAddParams.push({
+          name:null,
+          value:null,
+          key:Date.now()
+        })
+      }  
     },
     removeDataForm(item) {
-    var index = this.dataAddFormData.indexOf(item)
-    if (index !== -1) {
-        this.dataAddFormData.splice(index, 1)
-    }
+      if (this.dataAddFormData.length == 1) {
+        this.dataAddFormData = []
+        this.dataAddFormData.push({
+          name:null,
+          value:null,
+          key:Date.now()
+        })
+      } else {
+        var index = this.dataAddFormData.indexOf(item)
+        if (index !== -1) {
+            this.dataAddFormData.splice(index, 1)
+        }
+      }
     },
-    addDataForm() {
-    var index = this.dataAddFormData.indexOf(item)
-    if (index == this.dataAddFormData.length - 1) {
-      this.dataAddFormData.push({
-        name:null,
-        value:null,
-        key:Date.now()
-      })
-    }  
+    addDataForm(item) {
+      var index = this.dataAddFormData.indexOf(item)
+      if (index == this.dataAddFormData.length - 1) {
+        this.dataAddFormData.push({
+          name:null,
+          value:null,
+          key:Date.now()
+        })
+      }  
     },
     addAssert() {
-    this.assertList.push({
-        assertName: '',
-        type: 0,
-        expression: '',
-        operator: 0,
-        exceptedResult: '',
-        order:this.assertIndex++
-    });
+      this.assertList.push({
+          assertName: '',
+          type: 0,
+          expression: '',
+          operator: 0,
+          exceptedResult: '',
+          order:this.assertIndex++
+      });
     },
     addPreCase() {
-    this.preCaseList.push({
-        order: 1,
-        preCaseId: null,
-        preCaseDesc: '',
-        status: 0,
-    });
+      this.preCaseList.push({
+          order: 1,
+          preCaseId: null,
+          preCaseDesc: '',
+          status: 0,
+      });
     },
     removePreCase(item) {
       var index = this.preCaseList.indexOf(item)
       this.preCaseList.splice(index, 1)
     },
     removeAssert(item) {
-    var index = this.assertList.indexOf(item)
-    let maxIndex = 0
-    let assertInfo = []
-    if (index !== -1) {
-        this.assertList.splice(index, 1)
-        this.assertIndex -- 
-    }
-    this.assertList.forEach(element => {
-      if (this.assertIndex < element.order) {
-        element.order --
+      var index = this.assertList.indexOf(item)
+      let maxIndex = 0
+      let assertInfo = []
+      if (index !== -1) {
+          this.assertList.splice(index, 1)
+          this.assertIndex -- 
       }
-      maxIndex = element.order
-      assertInfo.push(element)
-      this.assertIndex = maxIndex + 1
-      this.assertList = assertInfo
-    });
+      this.assertList.forEach(element => {
+        if (this.assertIndex < element.order) {
+          element.order --
+        }
+        maxIndex = element.order
+        assertInfo.push(element)
+        this.assertIndex = maxIndex + 1
+        this.assertList = assertInfo
+      });
     },
 
     addPostProcessor() {
@@ -1955,26 +1982,26 @@ export default {
         let data = {}
         // 处理header
         this.dataAddHeaders.forEach(element => {
-          if (element.name != null || element.name == '') {
+          if (element.name != null && element.name != '') {
             headers[element.name] = element.value
           }
         });
         let headerStr = JSON.stringify(headers)
         if (headerStr == '{}' || headerStr == '') {
-          this.dataAdd.headers = ''
+          this.dataAdd.headers = null
         } else {
           this.dataAdd.headers = headerStr
         }
 
         // 处理params
         this.dataAddParams.forEach(element => {
-          if (element.name != null || element.name == '') {
+          if (element.name != null && element.name != '') {
             params[element.name] = element.value
           }
         });
         let paramsStr = JSON.stringify(params)
         if (paramsStr == '{}' || paramsStr == '') {
-          this.dataAdd.params = ''
+          this.dataAdd.params = null
         } else {
           this.dataAdd.params = paramsStr
         }
@@ -1985,13 +2012,13 @@ export default {
                 this.dataAdd.json = null
 
                 this.dataAddFormData.forEach(element => {
-                  if (element.name != null || element.name == '') {
+                  if (element.name != null && element.name != '') {
                     data[element.name] = element.value
                   }
                 });
                 let dataStr = JSON.stringify(data)
                 if (dataStr == '{}' || dataStr == '') {
-                  this.dataAdd.data = ''
+                  this.dataAdd.data = null
                 } else {
                   this.dataAdd.data = dataStr
                 }
@@ -2035,26 +2062,26 @@ export default {
 
         // 处理header
         this.dataAddHeaders.forEach(element => {
-          if (element.name != null || element.name == '') {
+          if (element.name != null && element.name != '') {
             headers[element.name] = element.value
           }
         });
         let headerStr = JSON.stringify(headers)
         if (headerStr == '{}' || headerStr == '') {
-          this.dataInfo.headers = ''
+          this.dataInfo.headers = null
         } else {
           this.dataInfo.headers = headerStr
         }
 
         // 处理params
         this.dataAddParams.forEach(element => {
-          if (element.name != null || element.name == '') {
+          if (element.name != null && element.name != '') {
             params[element.name] = element.value
           }
         });
         let paramsStr = JSON.stringify(params)
         if (paramsStr == '{}' || paramsStr == '') {
-          this.dataInfo.params = ''
+          this.dataInfo.params = null
         } else {
           this.dataInfo.params = paramsStr
         }
@@ -2065,13 +2092,13 @@ export default {
                 this.dataInfo.json = null
 
                 this.dataAddFormData.forEach(element => {
-                  if (element.name != null || element.name == '') {
+                  if (element.name != null && element.name != '') {
                     data[element.name] = element.value
                   }
                 });
                 let dataStr = JSON.stringify(data)
                 if (dataStr == '{}' || dataStr == '') {
-                  this.dataInfo.data = ''
+                  this.dataInfo.data = null
                 } else {
                   this.dataInfo.data = dataStr
                 }
@@ -2115,26 +2142,26 @@ export default {
 
         // 处理header
         this.dataAddHeaders.forEach(element => {
-          if (element.name != null || element.name == '') {
+          if (element.name != null && element.name != '') {
             headers[element.name] = element.value
           }
         });
         let headerStr = JSON.stringify(headers)
         if (headerStr == '{}' || headerStr == '') {
-          this.dataInfo.headers = ''
+          this.dataInfo.headers = null
         } else {
           this.dataInfo.headers = headerStr
         }
 
         // 处理params
         this.dataAddParams.forEach(element => {
-          if (element.name != null || element.name == '') {
+          if (element.name != null && element.name != '') {
             params[element.name] = element.value
           }
         });
         let paramsStr = JSON.stringify(params)
         if (paramsStr == '{}' || paramsStr == '') {
-          this.dataInfo.params = ''
+          this.dataInfo.params = null
         } else {
           this.dataInfo.params = paramsStr
         }
@@ -2145,13 +2172,13 @@ export default {
                 this.dataInfo.json = null
 
                 this.dataAddFormData.forEach(element => {
-                  if (element.name != null || element.name == '') {
+                  if (element.name != null && element.name != '') {
                     data[element.name] = element.value
                   }
                 });
                 let dataStr = JSON.stringify(data)
                 if (dataStr == '{}' || dataStr == '') {
-                  this.dataInfo.data = ''
+                  this.dataInfo.data = null
                 } else {
                   this.dataInfo.data = dataStr
                 }
@@ -2292,7 +2319,12 @@ export default {
       if (res.code == 200) {
         // headers置空并处理
         this.dataAddHeaders = []
-        let headers = JSON.parse(res.data.headers)
+        let headers = {}
+        try {
+          headers = JSON.parse(res.data.headers)
+        } catch (error) {
+          headers = {}
+        }
         for(let key in headers) {
           this.dataAddHeaders.push({
             "name":key,
@@ -2312,7 +2344,12 @@ export default {
 
         // params置空并处理
         this.dataAddParams = []
-        let params = JSON.parse(res.data.params)
+        let params = {}
+        try {
+          params = JSON.parse(res.data.params)
+        } catch (error) {
+          params = {}
+        }
         for(let key in params) {
           this.dataAddParams.push({
             "name":key,
@@ -2331,7 +2368,12 @@ export default {
 
         // data置空并处理
         this.dataAddFormData = []
-        let data = JSON.parse(res.data.data)
+        let data = {}
+        try {
+          data = JSON.parse(res.data.data)
+        } catch (error) {
+          data = {}
+        }
         for(let key in data) {
           this.dataAddFormData.push({
             "name":key,
@@ -2394,7 +2436,12 @@ export default {
 
         // headers置空并处理
         this.dataAddHeaders = []
-        let headers = JSON.parse(res.data.headers)
+        let headers = {}
+        try {
+          headers = JSON.parse(res.data.headers)
+        } catch (error) {
+          headers = {}
+        }
         for(let key in headers) {
           this.dataAddHeaders.push({
             "name":key,
@@ -2414,7 +2461,12 @@ export default {
 
         // params置空并处理
         this.dataAddParams = []
-        let params = JSON.parse(res.data.params)
+        let params = {}
+        try {
+          params = JSON.parse(res.data.params)
+        } catch (error) {
+          params = {}
+        }
         for(let key in params) {
           this.dataAddParams.push({
             "name":key,
@@ -2433,7 +2485,12 @@ export default {
 
         // data置空并处理
         this.dataAddFormData = []
-        let data = JSON.parse(res.data.data)
+        let data = {}
+        try {
+          data = JSON.parse(res.data.data)
+        } catch (error) {
+          data = {}
+        }
         for(let key in data) {
           this.dataAddFormData.push({
             "name":key,
@@ -2457,25 +2514,7 @@ export default {
         this.dataInfo = res.data
         this.dataInfo.projectName = projectName
         this.dataInfo.moduleName = moduleName
-        // 获取请求头
-        this.headerTypeFlag = 1
-        this.dataAddHeadersStr = res.data.headers
-        // 获取params
-        this.paramsTypeFlag = 1
-        this.dataAddParamsStr = res.data.params
-        // 是json还是data
-        if (res.method != 0) { // get不用考虑
-          if (res.data.data != null) {
-            this.bodyTypeFlag = 1
-            this.dataAddFormStr = res.data.data
-          } else if (res.data.json != null) {
-            this.bodyTypeFlag = 2
-            this.dataAddJsonStr = res.data.json
-          } else {
-            this.bodyTypeFlag = 1
-            this.dataAddFormData = res.data.data
-          }
-        }
+
         this.assertList = res.data.asserts
         this.preCaseList = res.data.preCases
         if (res.data.asserts.length != 0) {

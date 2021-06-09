@@ -516,7 +516,10 @@ export default {
 
     async openAdd() {
       this.addDialogFormVisible = true;
-      this.dataAdd = {};
+      this.dataAdd = {
+        othersDeletable:0,
+        othersModifiable:0
+      };
     },
     async resetForm() {
       this.queryForm = {}
