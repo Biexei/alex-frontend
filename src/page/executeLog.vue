@@ -165,6 +165,12 @@
           </el-form-item> 
           </el-tab-pane>
           <el-tab-pane label="请求信息" name="second">
+          <el-form-item label="body-type" label-width="100px">
+            <el-input v-if="dataInfo.bodyType==0" value="form-data" readonly size="mini"></el-input>
+            <el-input v-else-if="dataInfo.bodyType==1" value="x-www-form-encoded" readonly size="mini"></el-input>
+            <el-input v-else-if="dataInfo.bodyType==2" value="raw" readonly size="mini"></el-input>
+            <el-input v-else-if="dataInfo.bodyType==3" value="none" readonly size="mini"></el-input>
+          </el-form-item> 
           <el-form-item label="url" label-width="100px">
             <el-input v-model="dataInfo.caseUrl" readonly size="mini"></el-input>
           </el-form-item>          
@@ -208,39 +214,20 @@
           </el-row> 
           <el-row :gutter="25">
             <el-col :span="22">
-            <el-form-item label="data" label-width="100px">
-              <el-input v-model="dataInfo.requestData" readonly  type="textarea" size="mini" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isReqDataBeauty"></el-input>
-              <!-- <json-viewer :value="dataInfo.requestData" :expand-depth=5 copyable v-show="isReqDataBeauty"/> -->
+            <el-form-item label="body" label-width="100px">
+              <el-input v-model="dataInfo.requestBody" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isReqRawBeauty"></el-input>
+              <!-- <json-viewer :value="dataInfo.requestBody" :expand-depth=5 copyable v-show="isReqRawBeauty"/> -->
             </el-form-item>
             </el-col>
             <el-col :span="2">
-              <el-button @click="showRawRequestData" type="primary" icon="el-icon-thumb" size="mini" circle></el-button>
-              <!-- <el-button @click="clickReqData" type="danger" icon="el-icon-magic-stick" size="mini" circle></el-button> -->
+              <el-button @click="showRawRequestBody" type="primary" icon="el-icon-thumb" size="mini" circle></el-button>
+              <!-- <el-button @click="clickReqBody" type="danger" icon="el-icon-magic-stick" size="mini" circle></el-button> -->
             </el-col>
           </el-row>  
-          <el-row :gutter="25" v-if=isShowRawRequestData>
+          <el-row :gutter="25" v-if=isShowRawRequestBody>
             <el-col :span="22">
-            <el-form-item label="rawData" label-width="100px">
-              <el-input v-model="dataInfo.rawRequestData" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
-            </el-form-item>
-            </el-col>
-          </el-row> 
-          <el-row :gutter="25">
-            <el-col :span="22">
-            <el-form-item label="json" label-width="100px">
-              <el-input v-model="dataInfo.requestJson" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }" v-show="!isReqJsonBeauty"></el-input>
-              <!-- <json-viewer :value="dataInfo.requestJson" :expand-depth=5 copyable v-show="isReqJsonBeauty"/> -->
-            </el-form-item>
-            </el-col>
-            <el-col :span="2">
-              <el-button @click="showRawRequestJson" type="primary" icon="el-icon-thumb" size="mini" circle></el-button>
-              <!-- <el-button @click="clickReqJson" type="danger" icon="el-icon-magic-stick" size="mini" circle></el-button> -->
-            </el-col>
-          </el-row>  
-          <el-row :gutter="25" v-if=isShowRawRequestJson>
-            <el-col :span="22">
-            <el-form-item label="rawJson" label-width="100px">
-              <el-input v-model="dataInfo.rawRequestJson" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
+            <el-form-item label="rawBody" label-width="100px">
+              <el-input v-model="dataInfo.rawRequestBody" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
             </el-form-item>
             </el-col>
           </el-row> 
@@ -388,7 +375,7 @@ export default {
       isReqHeadersBeauty: false,
       isReqParamsBeauty: false,
       isReqDataBeauty: false,
-      isReqJsonBeauty: false,
+      isReqRawBeauty: false,
 
       chainDialogFormVisible: false,
       chainActive: 0,
@@ -421,7 +408,7 @@ export default {
       isShowRawRequestHeaders: false,
       isShowRawRequestParams: false,
       isShowRawRequestData: false,
-      isShowRawRequestJson: false,
+      isShowRawRequestBody: false,
     };
   },
   components: {
@@ -502,10 +489,10 @@ export default {
         }
       }
     },
-    async clickReqJson() {
-      this.isReqJsonBeauty = !this.isReqJsonBeauty
+    async clickReqBody() {
+      this.isReqRawBeauty = !this.isReqRawBeauty
       if (this.JsonInfo.requestJson != null) {
-        if (this.isReqJsonBeauty) {
+        if (this.isReqRawBeauty) {
           if (typeof(this.JsonInfo.requestJson) == 'string') {
             this.JsonInfo.requestJson = JSON.parse(this.JsonInfo.requestJson)
           }
@@ -559,16 +546,14 @@ export default {
       this.isShowRawExceptedResult = false
       this.isShowRawRequestHeaders = false
       this.isShowRawRequestParams = false
-      this.isShowRawRequestData = false
-      this.isShowRawRequestJson = false
+      this.isShowRawRequestBody = false
 
       this.isResHeadersBeauty = false
       this.isResBodyBeauty = false
 
       this.isReqHeadersBeauty = false
       this.isReqParamsBeauty = false
-      this.isReqDataBeauty = false
-      this.isReqJsonBeauty = false
+      this.isReqRawBeauty = false
 
       const res = await findInterfaceCaseExecuteLog(relyId)
       if (res.code == 200) {
@@ -678,7 +663,7 @@ export default {
       this.isShowRawRequestHeaders = false
       this.isShowRawRequestParams = false
       this.isShowRawRequestData = false
-      this.isShowRawRequestJson = false
+      this.isShowRawRequestBody = false
     },
     async handleChain(id) {
       this.active = 0
@@ -722,8 +707,8 @@ export default {
     showRawRequestData() {
       this.isShowRawRequestData = ! this.isShowRawRequestData
     },
-    showRawRequestJson() {
-      this.isShowRawRequestJson = ! this.isShowRawRequestJson
+    showRawRequestBody() {
+      this.isShowRawRequestBody = ! this.isShowRawRequestBody
     },
     isJsonString(str) {
         try {

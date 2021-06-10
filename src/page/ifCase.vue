@@ -338,7 +338,7 @@
         <el-collapse-item title="请求信息">
           <el-row :gutter="20">
           <el-col :span="4">
-            <el-select v-model="dataAdd.method" placeholder="method"  size="mini">
+            <el-select v-model="dataAdd.method" placeholder="method"  size="mini" @change="changeMethod">
               <el-option
                 v-for="item in requestMethodOptions"
                 :key="item.value"
@@ -395,9 +395,21 @@
 
             <!-- body -->
             <el-tab-pane label="Body">
-                <el-radio v-model="bodyTypeFlag" :label="0" >form-data</el-radio>
-                <el-radio v-model="bodyTypeFlag" :label="2" >json</el-radio>
-                <div v-if="bodyTypeFlag==0">
+                <el-radio-group v-model="dataAdd.bodyType" @change="forceUpdate">
+                  <el-radio :label="9" >none</el-radio>
+                  <el-radio :label="0" >form-data</el-radio>
+                  <el-radio :label="1" >x-www-form-encoded</el-radio>
+                  <el-radio :label="2" >raw</el-radio>
+                </el-radio-group>
+                <el-select v-model="dataAdd.rawType" placeholder="请选择" v-if="dataAdd.bodyType == 2" size="mini" style="width:10%" @change="forceUpdate">
+                  <el-option
+                    v-for="item in rawTypeOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+                <div v-if="dataAdd.bodyType==0">
                   <el-form-item
                       v-for="(dataItem, index) in dataAddFormData"
                       :index="index"
@@ -415,8 +427,26 @@
                     </el-row>
                   </el-form-item>    
                 </div> 
-                <div v-if="bodyTypeFlag==2">
-                    <el-input v-model="dataAddJsonStr" size="mini" type="textarea" :rows="6" placeholder="json string"></el-input>
+                <div v-else-if="dataAdd.bodyType==1">
+                  <el-form-item
+                      v-for="(dataItem, index) in dataAddFormDataEncoded"
+                      :index="index"
+                      :key="dataItem.key">
+                    <el-row :gutter="20">
+                        <el-col :span="7">
+                            <el-input v-model="dataItem.name" placeholder="name" size='mini' @blur=addDataFormEncoded(dataItem)></el-input>
+                        </el-col>
+                        <el-col :span="15">
+                            <el-input v-model="dataItem.value" placeholder="value" size='mini'></el-input>
+                        </el-col> 
+                        <el-col :span="2">
+                            <el-button @click.prevent="removeDataFormEncoded(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                        </el-col>
+                    </el-row>
+                  </el-form-item>    
+                </div> 
+                <div v-else-if="dataAdd.bodyType==2">
+                    <el-input v-model="dataAdd.raw" size="mini" type="textarea" :rows="6" @input="forceUpdate"></el-input>
                 </div>   
             </el-tab-pane>
         </el-tabs>
@@ -650,6 +680,12 @@
           </el-form-item> 
           </el-tab-pane>
           <el-tab-pane label="请求信息" name="second">
+          <el-form-item label="body-type" label-width="100px">
+            <el-input v-if="logInfo.bodyType==0" value="form-data" readonly size="mini"></el-input>
+            <el-input v-else-if="logInfo.bodyType==1" value="x-www-form-encoded" readonly size="mini"></el-input>
+            <el-input v-else-if="logInfo.bodyType==2" value="raw" readonly size="mini"></el-input>
+            <el-input v-else-if="logInfo.bodyType==3" value="none" readonly size="mini"></el-input>
+          </el-form-item> 
           <el-form-item label="url" label-width="100px">
             <el-input v-model="logInfo.caseUrl" readonly size="mini"></el-input>
           </el-form-item>          
@@ -689,35 +725,18 @@
           </el-row> 
           <el-row :gutter="25">
             <el-col :span="22">
-            <el-form-item label="data" label-width="100px">
-              <el-input v-model="logInfo.requestData" readonly  type="textarea" size="mini" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
+            <el-form-item label="body" label-width="100px">
+              <el-input v-model="logInfo.requestBody" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
             </el-form-item>
             </el-col>
             <el-col :span="2">
-              <el-button @click="showRawRequestData" type="primary" icon="el-icon-thumb" size="mini" circle></el-button>
+              <el-button @click="showRawRequestBody" type="primary" icon="el-icon-thumb" size="mini" circle></el-button>
             </el-col>
           </el-row>  
-          <el-row :gutter="25" v-if=isShowRawRequestData>
+          <el-row :gutter="25" v-if=isShowRawRequestBody>
             <el-col :span="22">
-            <el-form-item label="rawData" label-width="100px">
-              <el-input v-model="logInfo.rawRequestData" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
-            </el-form-item>
-            </el-col>
-          </el-row> 
-          <el-row :gutter="25">
-            <el-col :span="22">
-            <el-form-item label="json" label-width="100px">
-              <el-input v-model="logInfo.requestJson" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
-            </el-form-item>
-            </el-col>
-            <el-col :span="2">
-              <el-button @click="showRawRequestJson" type="primary" icon="el-icon-thumb" size="mini" circle></el-button>
-            </el-col>
-          </el-row>  
-          <el-row :gutter="25" v-if=isShowRawRequestJson>
-            <el-col :span="22">
-            <el-form-item label="rawJson" label-width="100px">
-              <el-input v-model="logInfo.rawRequestJson" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
+            <el-form-item label="rawBody" label-width="100px">
+              <el-input v-model="logInfo.rawRequestBody" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
             </el-form-item>
             </el-col>
           </el-row> 
@@ -898,7 +917,7 @@
         <el-collapse-item title="请求信息">
           <el-row :gutter="20">
           <el-col :span="4">
-            <el-select v-model="dataInfo.method" placeholder="method"  size="mini">
+            <el-select v-model="dataInfo.method" placeholder="method"  size="mini" @change="changeMethod">
               <el-option
                 v-for="item in requestMethodOptions"
                 :key="item.value"
@@ -952,11 +971,22 @@
                 </el-form-item>     
             </el-tab-pane>
 
-
             <el-tab-pane label="Body">
-                <el-radio v-model="bodyTypeFlag" :label="0" >form-data</el-radio>
-                <el-radio v-model="bodyTypeFlag" :label="2" >json</el-radio>
-                <div v-if="bodyTypeFlag==0">
+                <el-radio-group v-model="dataInfo.bodyType" @change="forceUpdate">
+                  <el-radio :label="9" >none</el-radio>
+                  <el-radio :label="0" >form-data</el-radio>
+                  <el-radio :label="1" >x-www-form-encoded</el-radio>
+                  <el-radio :label="2" >raw</el-radio>
+                </el-radio-group>
+                <el-select v-model="dataInfo.rawType" placeholder="请选择" v-if="dataInfo.bodyType == 2" size="mini" style="width:10%" @change="forceUpdate">
+                  <el-option
+                    v-for="item in rawTypeOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+                <div v-if="dataInfo.bodyType==0">
                   <el-form-item
                       v-for="(dataItem, index) in dataAddFormData"
                       :index="index"
@@ -974,8 +1004,26 @@
                     </el-row>
                   </el-form-item>    
                 </div> 
-                <div v-if="bodyTypeFlag==2">
-                    <el-input v-model="dataAddJsonStr" size="mini" type="textarea" :rows="6" placeholder="json string"></el-input>
+                <div v-else-if="dataInfo.bodyType==1">
+                  <el-form-item
+                      v-for="(dataItem, index) in dataAddFormDataEncoded"
+                      :index="index"
+                      :key="dataItem.key">
+                    <el-row :gutter="20">
+                        <el-col :span="7">
+                            <el-input v-model="dataItem.name" placeholder="name" size='mini' @blur=addDataFormEncoded(dataItem)></el-input>
+                        </el-col>
+                        <el-col :span="15">
+                            <el-input v-model="dataItem.value" placeholder="value" size='mini'></el-input>
+                        </el-col> 
+                        <el-col :span="2">
+                            <el-button @click.prevent="removeDataFormEncoded(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                        </el-col>
+                    </el-row>
+                  </el-form-item>    
+                </div> 
+                <div v-else-if="dataInfo.bodyType==2">
+                    <el-input v-model="dataInfo.raw" size="mini" type="textarea" :rows="6" @input="forceUpdate"></el-input>
                 </div>   
             </el-tab-pane>
         </el-tabs>
@@ -1230,7 +1278,7 @@
         <el-collapse-item title="请求信息">
           <el-row :gutter="20">
           <el-col :span="4">
-            <el-select v-model="dataInfo.method" placeholder="method"  size="mini">
+            <el-select v-model="dataInfo.method" placeholder="method"  size="mini"  @change="changeMethod">
               <el-option
                 v-for="item in requestMethodOptions"
                 :key="item.value"
@@ -1284,11 +1332,22 @@
                 </el-form-item>         
             </el-tab-pane>
 
-            <!-- body -->
             <el-tab-pane label="Body">
-                <el-radio v-model="bodyTypeFlag" :label="0" >form-data</el-radio>
-                <el-radio v-model="bodyTypeFlag" :label="2" >json</el-radio>
-                <div v-if="bodyTypeFlag==0">
+                <el-radio-group v-model="dataInfo.bodyType" @change="forceUpdate">
+                  <el-radio :label="9" >none</el-radio>
+                  <el-radio :label="0" >form-data</el-radio>
+                  <el-radio :label="1" >x-www-form-encoded</el-radio>
+                  <el-radio :label="2" >raw</el-radio>
+                </el-radio-group>
+                <el-select v-model="dataInfo.rawType" placeholder="请选择" v-if="dataInfo.bodyType == 2" size="mini" style="width:10%" @change="forceUpdate">
+                  <el-option
+                    v-for="item in rawTypeOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+                <div v-if="dataInfo.bodyType==0">
                   <el-form-item
                       v-for="(dataItem, index) in dataAddFormData"
                       :index="index"
@@ -1306,8 +1365,26 @@
                     </el-row>
                   </el-form-item>    
                 </div> 
-                <div v-if="bodyTypeFlag==2">
-                    <el-input v-model="dataAddJsonStr" size="mini" type="textarea" :rows="6" placeholder="json string"></el-input>
+                <div v-else-if="dataInfo.bodyType==1">
+                  <el-form-item
+                      v-for="(dataItem, index) in dataAddFormDataEncoded"
+                      :index="index"
+                      :key="dataItem.key">
+                    <el-row :gutter="20">
+                        <el-col :span="7">
+                            <el-input v-model="dataItem.name" placeholder="name" size='mini' @blur=addDataFormEncoded(dataItem)></el-input>
+                        </el-col>
+                        <el-col :span="15">
+                            <el-input v-model="dataItem.value" placeholder="value" size='mini'></el-input>
+                        </el-col> 
+                        <el-col :span="2">
+                            <el-button @click.prevent="removeDataFormEncoded(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                        </el-col>
+                    </el-row>
+                  </el-form-item>    
+                </div> 
+                <div v-else-if="dataInfo.bodyType==2">
+                    <el-input v-model="dataInfo.raw" size="mini" type="textarea" :rows="6" @input="forceUpdate"></el-input>
                 </div>   
             </el-tab-pane>
         </el-tabs>
@@ -1514,10 +1591,11 @@ export default {
           value: 1,
           label: "POST",
         },
-        {
-          value: 2,
-          label: "PATCH",
-        },
+        // 后端不支持此请求方式
+        // {
+        //   value: 2,
+        //   label: "PATCH",
+        // },
         {
           value: 3,
           label: "PUT",
@@ -1587,9 +1665,15 @@ export default {
           key: Date.now()
         }
       ],
-      //json
-      dataAddJsonStr:"",// json字符串
-      bodyTypeFlag:0, // 0:form-data  2:json
+
+      //form-data-Encoded
+      dataAddFormDataEncoded: [
+        {
+          name: null,
+          value: null,
+          key: Date.now()
+        }
+      ],
 
       assertList:[],
       assertIndex:0,
@@ -1697,6 +1781,25 @@ export default {
         },
     ],
 
+    rawTypeOptions: [
+        {
+          value: "Text",
+          label: "Text",
+        },
+        {
+          value: "JSON",
+          label: "JSON",
+        },
+        {
+          value: "HTML",
+          label: "HTML",
+        },
+        {
+          value: "XML",
+          label: "XML",
+        },
+    ],
+
     preCaseList: [], 
 
     dataInfo: {},
@@ -1714,8 +1817,7 @@ export default {
     isShowRawExceptedResult: false,
     isShowRawRequestHeaders: false,
     isShowRawRequestParams: false,
-    isShowRawRequestData: false,
-    isShowRawRequestJson: false,
+    isShowRawRequestBody: false,
     assertInfo: [],
     };
   },
@@ -1802,6 +1904,33 @@ export default {
         })
       }  
     },
+
+    removeDataFormEncoded(item) {
+      if (this.dataAddFormDataEncoded.length == 1) {
+        this.dataAddFormDataEncoded = []
+        this.dataAddFormDataEncoded.push({
+          name:null,
+          value:null,
+          key:Date.now()
+        })
+      } else {
+        var index = this.dataAddFormDataEncoded.indexOf(item)
+        if (index !== -1) {
+            this.dataAddFormDataEncoded.splice(index, 1)
+        }
+      }
+    },
+    addDataFormEncoded(item) {
+      var index = this.dataAddFormDataEncoded.indexOf(item)
+      if (index == this.dataAddFormDataEncoded.length - 1) {
+        this.dataAddFormDataEncoded.push({
+          name:null,
+          value:null,
+          key:Date.now()
+        })
+      }  
+    },
+
     addAssert() {
       this.assertList.push({
           assertName: '',
@@ -1979,7 +2108,8 @@ export default {
         let method = this.dataAdd.method
         let headers = {}
         let params = {}
-        let data = {}
+        let formData = {}
+        let formDataEncoded = {}
         // 处理header
         this.dataAddHeaders.forEach(element => {
           if (element.name != null && element.name != '') {
@@ -2006,32 +2136,34 @@ export default {
           this.dataAdd.params = paramsStr
         }
 
-        // 处理data
-        if (method != 0) { //非get请求不考虑data
-            if (this.bodyTypeFlag == 0) { // 对body进行处理 0:form-data 2:json
-                this.dataAdd.json = null
+        // 处理form-data
+        this.dataAddFormData.forEach(element => {
+          if (element.name != null && element.name != '') {
+            formData[element.name] = element.value
+          }
+        });
+        let dataStr = JSON.stringify(formData)
+        if (dataStr == '{}' || dataStr == '') {
+          this.dataAdd.formData = null
+        } else {
+          this.dataAdd.formData = dataStr
+        }
 
-                this.dataAddFormData.forEach(element => {
-                  if (element.name != null && element.name != '') {
-                    data[element.name] = element.value
-                  }
-                });
-                let dataStr = JSON.stringify(data)
-                if (dataStr == '{}' || dataStr == '') {
-                  this.dataAdd.data = null
-                } else {
-                  this.dataAdd.data = dataStr
-                }
-            } else if (this.bodyTypeFlag == 2) {
-                this.dataAdd.data = null
+        // 处理x-www-form-encoded
+        this.dataAddFormDataEncoded.forEach(element => {
+          if (element.name != null && element.name != '') {
+            formDataEncoded[element.name] = element.value
+          }
+        });
+        let dataEncodedStr = JSON.stringify(formDataEncoded)
+        if (dataEncodedStr == '{}' || dataEncodedStr == '') {
+          this.dataAdd.formDataEncoded = null
+        } else {
+          this.dataAdd.formDataEncoded = dataEncodedStr
+        }
 
-                this.dataAdd.json = this.dataAddJsonStr
-            } else {
-                this.dataAdd.data = null
+        // raw无需特别处理
 
-                this.dataAdd.json = this.dataAddJsonStr
-            }
-        } 
         // 添加断言
         this.dataAdd.asserts = this.assertList
         this.dataAdd.preCases = this.preCaseList
@@ -2058,7 +2190,8 @@ export default {
         let method = this.dataInfo.method
         let headers = {}
         let params = {}
-        let data = {}
+        let formData = {}
+        let formDataEncoded = {}
 
         // 处理header
         this.dataAddHeaders.forEach(element => {
@@ -2086,32 +2219,33 @@ export default {
           this.dataInfo.params = paramsStr
         }
 
-        // 处理data
-        if (method != 0) { //非get请求不考虑data
-            if (this.bodyTypeFlag == 0) { // 对body进行处理 0:form-data 2:json
-                this.dataInfo.json = null
+        // 处理form-data
+        this.dataAddFormData.forEach(element => {
+          if (element.name != null && element.name != '') {
+            formData[element.name] = element.value
+          }
+        });
+        let dataStr = JSON.stringify(formData)
+        if (dataStr == '{}' || dataStr == '') {
+          this.dataInfo.formData = null
+        } else {
+          this.dataInfo.formData = dataStr
+        }
 
-                this.dataAddFormData.forEach(element => {
-                  if (element.name != null && element.name != '') {
-                    data[element.name] = element.value
-                  }
-                });
-                let dataStr = JSON.stringify(data)
-                if (dataStr == '{}' || dataStr == '') {
-                  this.dataInfo.data = null
-                } else {
-                  this.dataInfo.data = dataStr
-                }
-            } else if (this.bodyTypeFlag == 2) {
-                this.dataInfo.data = null
+        // 处理x-www-form-encoded
+        this.dataAddFormDataEncoded.forEach(element => {
+          if (element.name != null && element.name != '') {
+            formDataEncoded[element.name] = element.value
+          }
+        });
+        let dataEncodedStr = JSON.stringify(formDataEncoded)
+        if (dataEncodedStr == '{}' || dataEncodedStr == '') {
+          this.dataInfo.formDataEncoded = null
+        } else {
+          this.dataInfo.formDataEncoded = dataEncodedStr
+        }
 
-                this.dataInfo.json = this.dataAddJsonStr
-            } else {
-                this.dataInfo.data = null
-
-                this.dataInfo.json = this.dataAddJsonStr
-            }
-        } 
+        // raw无需特别处理
 
         this.dataInfo.asserts = this.assertList
         this.dataInfo.preCases = this.preCaseList
@@ -2138,7 +2272,8 @@ export default {
         let method = this.dataInfo.method
         let headers = {}
         let params = {}
-        let data = {}
+        let formData = {}
+        let formDataEncoded = {}
 
         // 处理header
         this.dataAddHeaders.forEach(element => {
@@ -2166,32 +2301,34 @@ export default {
           this.dataInfo.params = paramsStr
         }
 
-        // 处理data
-        if (method != 0) { //非get请求不考虑data
-            if (this.bodyTypeFlag == 0) { // 对body进行处理 0:form-data 2:json
-                this.dataInfo.json = null
+        // 处理form-data
+        this.dataAddFormData.forEach(element => {
+          if (element.name != null && element.name != '') {
+            formData[element.name] = element.value
+          }
+        });
+        let dataStr = JSON.stringify(formData)
+        if (dataStr == '{}' || dataStr == '') {
+          this.dataInfo.formData = null
+        } else {
+          this.dataInfo.formData = dataStr
+        }
 
-                this.dataAddFormData.forEach(element => {
-                  if (element.name != null && element.name != '') {
-                    data[element.name] = element.value
-                  }
-                });
-                let dataStr = JSON.stringify(data)
-                if (dataStr == '{}' || dataStr == '') {
-                  this.dataInfo.data = null
-                } else {
-                  this.dataInfo.data = dataStr
-                }
-            } else if (this.bodyTypeFlag == 2) {
-                this.dataInfo.data = null
+        // 处理x-www-form-encoded
+        this.dataAddFormDataEncoded.forEach(element => {
+          if (element.name != null && element.name != '') {
+            formDataEncoded[element.name] = element.value
+          }
+        });
+        let dataEncodedStr = JSON.stringify(formDataEncoded)
+        if (dataEncodedStr == '{}' || dataEncodedStr == '') {
+          this.dataInfo.formDataEncoded = null
+        } else {
+          this.dataInfo.formDataEncoded = dataEncodedStr
+        }
 
-                this.dataInfo.json = this.dataAddJsonStr
-            } else {
-                this.dataInfo.data = null
+        // raw无需特别处理
 
-                this.dataInfo.json = this.dataAddJsonStr
-            }
-        } 
         this.dataInfo.asserts = this.assertList
         this.dataInfo.preCases = this.preCaseList
         this.dataInfo.postProcessors = this.preProcessorList.concat(this.postProcessorList)
@@ -2290,16 +2427,26 @@ export default {
         }
       ], 
 
-      // 初始化body
-      this.bodyTypeFlag = 0
       this.dataAddFormData = [
         {
           name: null,
           value: null,
           key: Date.now()
         }
+      ],
+
+      this.dataAddFormDataEncoded = [
+        {
+          name: null,
+          value: null,
+          key: Date.now()
+        }
       ]
-      this.dataAddJsonStr = null     
+
+      // 初始化body
+      this.dataAdd.bodyType = 9 // none
+      this.dataAdd.rawType = null
+      this.dataAdd.raw = null     
 
       // 初始化断言
       this.assertList = []
@@ -2370,7 +2517,7 @@ export default {
         this.dataAddFormData = []
         let data = {}
         try {
-          data = JSON.parse(res.data.data)
+          data = JSON.parse(res.data.formData)
         } catch (error) {
           data = {}
         }
@@ -2390,8 +2537,33 @@ export default {
         }
         this.dataAddFormStr = JSON.stringify(this.dataAddFormData)
 
-        // json置空并处理
-        this.dataAddJsonStr = res.data.json     
+        // dataEncoded置空并处理
+        this.dataAddFormDataEncoded = []
+        let dataEncoded = {}
+        try {
+          dataEncoded = JSON.parse(res.data.formDataEncoded)
+        } catch (error) {
+          console.log(error)
+          dataEncoded = {}
+        }
+        for(let key in dataEncoded) {
+          this.dataAddFormDataEncoded.push({
+            "name":key,
+            "value":dataEncoded[key],
+            "key":Date.now()
+          })
+        }
+        if (this.dataAddFormDataEncoded.length == 0) {
+          this.dataAddFormDataEncoded.push({
+            "name":null,
+            "value":null,
+            "key":Date.now()
+          })
+        }
+        this.dataAddFormEncodedStr = JSON.stringify(this.dataAddFormDataEncoded)
+
+        // raw置空并处理
+
 
         this.editDialogFormVisible = true;
         this.dataInfo = res.data
@@ -2487,7 +2659,7 @@ export default {
         this.dataAddFormData = []
         let data = {}
         try {
-          data = JSON.parse(res.data.data)
+          data = JSON.parse(res.data.formData)
         } catch (error) {
           data = {}
         }
@@ -2507,8 +2679,31 @@ export default {
         }
         this.dataAddFormStr = JSON.stringify(this.dataAddFormData)
 
-        // json置空并处理
-        this.dataAddJsonStr = res.data.json     
+        // dataEncoded置空并处理
+        this.dataAddFormDataEncoded = []
+        let dataEncoded = {}
+        try {
+          dataEncoded = JSON.parse(res.data.formDataEncoded)
+        } catch (error) {
+          dataEncoded = {}
+        }
+        for(let key in dataEncoded) {
+          this.dataAddFormDataEncoded.push({
+            "name":key,
+            "value":dataEncoded[key],
+            "key":Date.now()
+          })
+        }
+        if (this.dataAddFormDataEncoded.length == 0) {
+          this.dataAddFormDataEncoded.push({
+            "name":null,
+            "value":null,
+            "key":Date.now()
+          })
+        }
+        this.dataAddFormEncodedStr = JSON.stringify(this.dataAddFormDataEncoded)
+
+        // raw置空并处理    
 
         this.copyDialogFormVisible = true;
         this.dataInfo = res.data
@@ -2779,8 +2974,7 @@ export default {
       this.isShowRawExceptedResult = false
       this.isShowRawRequestHeaders = false
       this.isShowRawRequestParams = false
-      this.isShowRawRequestData = false
-      this.isShowRawRequestJson = false
+      this.isShowRawRequestBody = false
 
       const res = await findInterfaceCaseExecuteLog(logId)
       if (res.code == 200) {
@@ -2882,11 +3076,17 @@ export default {
     showRawRequestParams() {
       this.isShowRawRequestParams = ! this.isShowRawRequestParams
     },
-    showRawRequestData() {
-      this.isShowRawRequestData = ! this.isShowRawRequestData
+    showRawRequestBody() {
+      this.isShowRawRequestBody = ! this.isShowRawRequestBody
     },
-    showRawRequestJson() {
-      this.isShowRawRequestJson = ! this.isShowRawRequestJson
+    forceUpdate() {
+      this.$forceUpdate()
+    },
+    changeMethod(method) {
+      if (method == 0) {
+        this.dataAdd.bodyType = 9
+        this.dataInfo.bodyType = 9
+      }
     },
   },
 };
