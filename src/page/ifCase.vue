@@ -358,14 +358,20 @@
                 <el-form-item
                     v-for="(headerItem, index) in dataAddHeaders"
                     :index="index"
-                    :key="headerItem.key">
-                  <el-row :gutter="20">
-                      <el-col :span="7">
-                          <el-input v-model="headerItem.name" placeholder="name" size='mini' @blur=addHeader(headerItem)></el-input>
+                    :key="index">
+                  <el-row :gutter="10">
+                      <el-col :span="1">
+                          <el-checkbox v-model="headerItem.checked"></el-checkbox>
                       </el-col>
-                      <el-col :span="15">
-                          <el-input v-model="headerItem.value" placeholder="value" size='mini'></el-input>
+                      <el-col :span="5">
+                          <el-input v-model="headerItem.name" placeholder="Key" size='mini' @blur=addHeader(headerItem)></el-input>
+                      </el-col>
+                      <el-col :span="10">
+                          <el-input v-model="headerItem.value" placeholder="Value" size='mini'></el-input>
                       </el-col> 
+                      <el-col :span="6">
+                         <el-input v-model="headerItem.desc" placeholder="Description" size='mini'></el-input>
+                      </el-col>
                       <el-col :span="2">
                           <el-button @click.prevent="removeHeader(headerItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
                       </el-col>
@@ -378,14 +384,20 @@
                 <el-form-item
                     v-for="(paramsItem, index) in dataAddParams"
                     :index="index"
-                    :key="paramsItem.key">
-                  <el-row :gutter="20">
-                      <el-col :span="7">
-                          <el-input v-model="paramsItem.name" placeholder="name" size='mini' @blur=addParams(paramsItem)></el-input>
+                    :key="index">
+                  <el-row :gutter="10">
+                      <el-col :span="1">
+                          <el-checkbox v-model="paramsItem.checked"></el-checkbox>
                       </el-col>
-                      <el-col :span="15">
-                          <el-input v-model="paramsItem.value" placeholder="value" size='mini'></el-input>
+                      <el-col :span="5">
+                          <el-input v-model="paramsItem.name" placeholder="Key" size='mini' @blur=addParams(paramsItem)></el-input>
+                      </el-col>
+                      <el-col :span="10">
+                          <el-input v-model="paramsItem.value" placeholder="Value" size='mini'></el-input>
                       </el-col> 
+                      <el-col :span="6">
+                         <el-input v-model="paramsItem.desc" placeholder="Description" size='mini'></el-input>
+                      </el-col>
                       <el-col :span="2">
                           <el-button @click.prevent="removeParams(paramsItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
                       </el-col>
@@ -413,17 +425,23 @@
                   <el-form-item
                       v-for="(dataItem, index) in dataAddFormData"
                       :index="index"
-                      :key="dataItem.key">
-                    <el-row :gutter="20">
-                        <el-col :span="7">
-                            <el-input v-model="dataItem.name" placeholder="name" size='mini' @blur=addDataForm(dataItem)></el-input>
-                        </el-col>
-                        <el-col :span="15">
-                            <el-input v-model="dataItem.value" placeholder="value" size='mini'></el-input>
-                        </el-col> 
-                        <el-col :span="2">
-                            <el-button @click.prevent="removeDataForm(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-                        </el-col>
+                      :key="index">
+                    <el-row :gutter="10">
+                      <el-col :span="1">
+                          <el-checkbox v-model="dataItem.checked"></el-checkbox>
+                      </el-col>
+                      <el-col :span="5">
+                          <el-input v-model="dataItem.name" placeholder="Key" size='mini' @blur=addDataForm(dataItem)></el-input>
+                      </el-col>
+                      <el-col :span="10">
+                          <el-input v-model="dataItem.value" placeholder="Value" size='mini'></el-input>
+                      </el-col> 
+                      <el-col :span="6">
+                         <el-input v-model="dataItem.desc" placeholder="Description" size='mini'></el-input>
+                      </el-col>
+                      <el-col :span="2">
+                          <el-button @click.prevent="removeDataForm(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                      </el-col>
                     </el-row>
                   </el-form-item>    
                 </div> 
@@ -431,17 +449,23 @@
                   <el-form-item
                       v-for="(dataItem, index) in dataAddFormDataEncoded"
                       :index="index"
-                      :key="dataItem.key">
-                    <el-row :gutter="20">
-                        <el-col :span="7">
-                            <el-input v-model="dataItem.name" placeholder="name" size='mini' @blur=addDataFormEncoded(dataItem)></el-input>
-                        </el-col>
-                        <el-col :span="15">
-                            <el-input v-model="dataItem.value" placeholder="value" size='mini'></el-input>
-                        </el-col> 
-                        <el-col :span="2">
-                            <el-button @click.prevent="removeDataFormEncoded(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-                        </el-col>
+                      :key="index">
+                    <el-row :gutter="10">
+                      <el-col :span="1">
+                          <el-checkbox v-model="dataItem.checked"></el-checkbox>
+                      </el-col>
+                      <el-col :span="5">
+                          <el-input v-model="dataItem.name" placeholder="Key" size='mini' @blur=addDataFormEncoded(dataItem)></el-input>
+                      </el-col>
+                      <el-col :span="10">
+                          <el-input v-model="dataItem.value" placeholder="Value" size='mini'></el-input>
+                      </el-col> 
+                      <el-col :span="6">
+                         <el-input v-model="dataItem.desc" placeholder="Description" size='mini'></el-input>
+                      </el-col>
+                      <el-col :span="2">
+                          <el-button @click.prevent="removeDataFormEncoded(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                      </el-col>
                     </el-row>
                   </el-form-item>    
                 </div> 
@@ -937,17 +961,23 @@
                     v-for="(headerItem, index) in dataAddHeaders"
                     :index="index"
                     :key="headerItem.key">
-                <el-row :gutter="20">
-                    <el-col :span="7">
-                        <el-input v-model="headerItem.name" placeholder="name" size='mini'  @blur=addHeader(headerItem)></el-input>
+                <el-row :gutter="10">
+                    <el-col :span="1">
+                        <el-checkbox v-model="headerItem.checked"></el-checkbox>
                     </el-col>
-                    <el-col :span="15">
-                        <el-input v-model="headerItem.value" placeholder="value" size='mini'></el-input>
+                    <el-col :span="5">
+                        <el-input v-model="headerItem.name" placeholder="Key" size='mini' @blur=addHeader(headerItem)></el-input>
+                    </el-col>
+                    <el-col :span="10">
+                        <el-input v-model="headerItem.value" placeholder="Value" size='mini'></el-input>
                     </el-col> 
+                    <el-col :span="6">
+                        <el-input v-model="headerItem.desc" placeholder="Description" size='mini'></el-input>
+                    </el-col>
                     <el-col :span="2">
                         <el-button @click.prevent="removeHeader(headerItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
                     </el-col>
-                </el-row> 
+                </el-row>
                 </el-form-item> 
             </el-tab-pane>
 
@@ -956,14 +986,20 @@
                 <el-form-item
                     v-for="(paramsItem, index) in dataAddParams"
                     :index="index"
-                    :key="paramsItem.key">
-                  <el-row :gutter="20">
-                      <el-col :span="7">
-                          <el-input v-model="paramsItem.name" placeholder="name" size='mini' @blur=addParams(paramsItem)></el-input>
+                    :key="index">
+                  <el-row :gutter="10">
+                      <el-col :span="1">
+                          <el-checkbox v-model="paramsItem.checked"></el-checkbox>
                       </el-col>
-                      <el-col :span="15">
-                          <el-input v-model="paramsItem.value" placeholder="value" size='mini'></el-input>
+                      <el-col :span="5">
+                          <el-input v-model="paramsItem.name" placeholder="Key" size='mini' @blur=addParams(paramsItem)></el-input>
+                      </el-col>
+                      <el-col :span="10">
+                          <el-input v-model="paramsItem.value" placeholder="Value" size='mini'></el-input>
                       </el-col> 
+                      <el-col :span="6">
+                         <el-input v-model="paramsItem.desc" placeholder="Description" size='mini'></el-input>
+                      </el-col>
                       <el-col :span="2">
                           <el-button @click.prevent="removeParams(paramsItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
                       </el-col>
@@ -990,17 +1026,23 @@
                   <el-form-item
                       v-for="(dataItem, index) in dataAddFormData"
                       :index="index"
-                      :key="dataItem.key">
-                    <el-row :gutter="20">
-                        <el-col :span="7">
-                            <el-input v-model="dataItem.name" placeholder="name" size='mini' @blur=addDataForm(dataItem)></el-input>
-                        </el-col>
-                        <el-col :span="15">
-                            <el-input v-model="dataItem.value" placeholder="value" size='mini'></el-input>
-                        </el-col> 
-                        <el-col :span="2">
-                            <el-button @click.prevent="removeDataForm(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-                        </el-col>
+                      :key="index">
+                    <el-row :gutter="10">
+                      <el-col :span="1">
+                          <el-checkbox v-model="dataItem.checked"></el-checkbox>
+                      </el-col>
+                      <el-col :span="5">
+                          <el-input v-model="dataItem.name" placeholder="Key" size='mini' @blur=addDataForm(dataItem)></el-input>
+                      </el-col>
+                      <el-col :span="10">
+                          <el-input v-model="dataItem.value" placeholder="Value" size='mini'></el-input>
+                      </el-col> 
+                      <el-col :span="6">
+                         <el-input v-model="dataItem.desc" placeholder="Description" size='mini'></el-input>
+                      </el-col>
+                      <el-col :span="2">
+                          <el-button @click.prevent="removeDataForm(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                      </el-col>
                     </el-row>
                   </el-form-item>    
                 </div> 
@@ -1008,14 +1050,20 @@
                   <el-form-item
                       v-for="(dataItem, index) in dataAddFormDataEncoded"
                       :index="index"
-                      :key="dataItem.key">
-                    <el-row :gutter="20">
-                        <el-col :span="7">
-                            <el-input v-model="dataItem.name" placeholder="name" size='mini' @blur=addDataFormEncoded(dataItem)></el-input>
+                      :key="index">
+                    <el-row :gutter="10">
+                        <el-col :span="1">
+                            <el-checkbox v-model="dataItem.checked"></el-checkbox>
                         </el-col>
-                        <el-col :span="15">
-                            <el-input v-model="dataItem.value" placeholder="value" size='mini'></el-input>
+                        <el-col :span="5">
+                            <el-input v-model="dataItem.name" placeholder="Key" size='mini' @blur=addDataFormEncoded(dataItem)></el-input>
+                        </el-col>
+                        <el-col :span="10">
+                            <el-input v-model="dataItem.value" placeholder="Value" size='mini'></el-input>
                         </el-col> 
+                        <el-col :span="6">
+                          <el-input v-model="dataItem.desc" placeholder="Description" size='mini'></el-input>
+                        </el-col>
                         <el-col :span="2">
                             <el-button @click.prevent="removeDataFormEncoded(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
                         </el-col>
@@ -1298,17 +1346,23 @@
                     v-for="(headerItem, index) in dataAddHeaders"
                     :index="index"
                     :key="headerItem.key">
-                  <el-row :gutter="20">
-                      <el-col :span="7">
-                          <el-input v-model="headerItem.name" placeholder="name" size='mini' @blur=addHeader(headerItem)></el-input>
-                      </el-col>
-                      <el-col :span="15">
-                          <el-input v-model="headerItem.value" placeholder="value" size='mini'></el-input>
-                      </el-col> 
-                      <el-col :span="2">
-                          <el-button @click.prevent="removeHeader(headerItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-                      </el-col>
-                  </el-row>
+                    <el-row :gutter="10">
+                        <el-col :span="1">
+                            <el-checkbox v-model="headerItem.checked"></el-checkbox>
+                        </el-col>
+                        <el-col :span="5">
+                            <el-input v-model="headerItem.name" placeholder="Key" size='mini' @blur=addHeader(headerItem)></el-input>
+                        </el-col>
+                        <el-col :span="10">
+                            <el-input v-model="headerItem.value" placeholder="Value" size='mini'></el-input>
+                        </el-col> 
+                        <el-col :span="6">
+                          <el-input v-model="headerItem.desc" placeholder="Description" size='mini'></el-input>
+                        </el-col>
+                        <el-col :span="2">
+                            <el-button @click.prevent="removeHeader(headerItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                        </el-col>
+                    </el-row>
                 </el-form-item> 
             </el-tab-pane>
 
@@ -1317,18 +1371,24 @@
                 <el-form-item
                     v-for="(paramsItem, index) in dataAddParams"
                     :index="index"
-                    :key="paramsItem.key">
-                  <el-row :gutter="20">
-                      <el-col :span="7">
-                          <el-input v-model="paramsItem.name" placeholder="name" size='mini' @blur=addParams(paramsItem)></el-input>
-                      </el-col>
-                      <el-col :span="15">
-                          <el-input v-model="paramsItem.value" placeholder="value" size='mini'></el-input>
-                      </el-col> 
-                      <el-col :span="2">
-                          <el-button @click.prevent="removeParams(paramsItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-                      </el-col>
-                  </el-row>
+                    :key="index">
+                    <el-row :gutter="10">
+                        <el-col :span="1">
+                            <el-checkbox v-model="paramsItem.checked"></el-checkbox>
+                        </el-col>
+                        <el-col :span="5">
+                            <el-input v-model="paramsItem.name" placeholder="Key" size='mini' @blur=addParams(paramsItem)></el-input>
+                        </el-col>
+                        <el-col :span="10">
+                            <el-input v-model="paramsItem.value" placeholder="Value" size='mini'></el-input>
+                        </el-col> 
+                        <el-col :span="6">
+                          <el-input v-model="paramsItem.desc" placeholder="Description" size='mini'></el-input>
+                        </el-col>
+                        <el-col :span="2">
+                            <el-button @click.prevent="removeParams(paramsItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                        </el-col>
+                    </el-row> 
                 </el-form-item>         
             </el-tab-pane>
 
@@ -1351,14 +1411,20 @@
                   <el-form-item
                       v-for="(dataItem, index) in dataAddFormData"
                       :index="index"
-                      :key="dataItem.key">
+                      :key="index">
                     <el-row :gutter="20">
-                        <el-col :span="7">
-                            <el-input v-model="dataItem.name" placeholder="name" size='mini' @blur=addDataForm(dataItem)></el-input>
+                        <el-col :span="1">
+                            <el-checkbox v-model="dataItem.checked"></el-checkbox>
                         </el-col>
-                        <el-col :span="15">
-                            <el-input v-model="dataItem.value" placeholder="value" size='mini'></el-input>
+                        <el-col :span="5">
+                            <el-input v-model="dataItem.name" placeholder="Key" size='mini' @blur=addDataForm(dataItem)></el-input>
+                        </el-col>
+                        <el-col :span="10">
+                            <el-input v-model="dataItem.value" placeholder="Value" size='mini'></el-input>
                         </el-col> 
+                        <el-col :span="6">
+                          <el-input v-model="dataItem.desc" placeholder="Description" size='mini'></el-input>
+                        </el-col>
                         <el-col :span="2">
                             <el-button @click.prevent="removeDataForm(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
                         </el-col>
@@ -1369,17 +1435,23 @@
                   <el-form-item
                       v-for="(dataItem, index) in dataAddFormDataEncoded"
                       :index="index"
-                      :key="dataItem.key">
-                    <el-row :gutter="20">
-                        <el-col :span="7">
-                            <el-input v-model="dataItem.name" placeholder="name" size='mini' @blur=addDataFormEncoded(dataItem)></el-input>
-                        </el-col>
-                        <el-col :span="15">
-                            <el-input v-model="dataItem.value" placeholder="value" size='mini'></el-input>
-                        </el-col> 
-                        <el-col :span="2">
-                            <el-button @click.prevent="removeDataFormEncoded(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-                        </el-col>
+                      :key="index">
+                    <el-row :gutter="10">
+                      <el-col :span="1">
+                          <el-checkbox v-model="dataItem.checked"></el-checkbox>
+                      </el-col>
+                      <el-col :span="5">
+                          <el-input v-model="dataItem.name" placeholder="Key" size='mini' @blur=addDataFormEncoded(dataItem)></el-input>
+                      </el-col>
+                      <el-col :span="10">
+                          <el-input v-model="dataItem.value" placeholder="Value" size='mini'></el-input>
+                      </el-col> 
+                      <el-col :span="6">
+                         <el-input v-model="dataItem.desc" placeholder="Description" size='mini'></el-input>
+                      </el-col>
+                      <el-col :span="2">
+                          <el-button @click.prevent="removeDataFormEncoded(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                      </el-col>
                     </el-row>
                   </el-form-item>    
                 </div> 
@@ -1642,36 +1714,40 @@ export default {
       //header
       dataAddHeaders: [
         {
+          checked:true,
+          desc:null,
           name: null,
           value: null,
-          key: Date.now()
         }
       ], 
 
       //params
       dataAddParams: [
         {
+          checked:true,
+          desc:null,
           name: null,
           value: null,
-          key: Date.now()
         }
       ], 
 
       //form-data
       dataAddFormData: [
         {
+          checked:true,
+          desc:null,
           name: null,
           value: null,
-          key: Date.now()
         }
       ],
 
       //form-data-Encoded
       dataAddFormDataEncoded: [
         {
+          checked:true,
+          desc:null,
           name: null,
           value: null,
-          key: Date.now()
         }
       ],
 
@@ -1833,9 +1909,11 @@ export default {
       if (this.dataAddHeaders.length == 1) {
         this.dataAddHeaders = []
         this.dataAddHeaders.push({
-          name:null,
-          value:null,
-          key:Date.now()
+          checked:true,
+          desc:null,
+          name: null,
+          value: null,
+          
         })
       } else {
         var index = this.dataAddHeaders.indexOf(item)
@@ -1848,9 +1926,11 @@ export default {
       var index = this.dataAddHeaders.indexOf(item)
       if (index == this.dataAddHeaders.length - 1) {
         this.dataAddHeaders.push({
-          name:null,
-          value:null,
-          key:Date.now()
+          checked:true,
+          desc:null,
+          name: null,
+          value: null,
+          
         })
       }
     },
@@ -1858,9 +1938,11 @@ export default {
       if (this.dataAddParams.length == 1) {
         this.dataAddParams = []
         this.dataAddParams.push({
-          name:null,
-          value:null,
-          key:Date.now()
+          checked:true,
+          desc:null,
+          name: null,
+          value: null,
+          
         })
       } else {
         var index = this.dataAddParams.indexOf(item)
@@ -1873,9 +1955,11 @@ export default {
       var index = this.dataAddParams.indexOf(item)
       if (index == this.dataAddParams.length - 1) {
         this.dataAddParams.push({
-          name:null,
-          value:null,
-          key:Date.now()
+          checked:true,
+          desc:null,
+          name: null,
+          value: null,
+          
         })
       }  
     },
@@ -1883,9 +1967,11 @@ export default {
       if (this.dataAddFormData.length == 1) {
         this.dataAddFormData = []
         this.dataAddFormData.push({
-          name:null,
-          value:null,
-          key:Date.now()
+          checked:true,
+          desc:null,
+          name: null,
+          value: null,
+          
         })
       } else {
         var index = this.dataAddFormData.indexOf(item)
@@ -1898,9 +1984,11 @@ export default {
       var index = this.dataAddFormData.indexOf(item)
       if (index == this.dataAddFormData.length - 1) {
         this.dataAddFormData.push({
-          name:null,
-          value:null,
-          key:Date.now()
+          checked:true,
+          desc:null,
+          name: null,
+          value: null,
+          
         })
       }  
     },
@@ -1909,9 +1997,11 @@ export default {
       if (this.dataAddFormDataEncoded.length == 1) {
         this.dataAddFormDataEncoded = []
         this.dataAddFormDataEncoded.push({
-          name:null,
-          value:null,
-          key:Date.now()
+          checked:true,
+          desc:null,
+          name: null,
+          value: null,
+          
         })
       } else {
         var index = this.dataAddFormDataEncoded.indexOf(item)
@@ -1924,9 +2014,11 @@ export default {
       var index = this.dataAddFormDataEncoded.indexOf(item)
       if (index == this.dataAddFormDataEncoded.length - 1) {
         this.dataAddFormDataEncoded.push({
-          name:null,
-          value:null,
-          key:Date.now()
+          checked:true,
+          desc:null,
+          name: null,
+          value: null,
+          
         })
       }  
     },
@@ -2111,57 +2203,49 @@ export default {
         let formData = {}
         let formDataEncoded = {}
         // 处理header
-        this.dataAddHeaders.forEach(element => {
-          if (element.name != null && element.name != '') {
-            headers[element.name] = element.value
-          }
-        });
-        let headerStr = JSON.stringify(headers)
-        if (headerStr == '{}' || headerStr == '') {
+        let headerStr = JSON.stringify(
+          this.dataAddHeaders.filter((item) => {
+            return item.name != null && item.name != ""
+          })
+        )
+        if (headerStr == '[]' || headerStr == '') {
           this.dataAdd.headers = null
         } else {
           this.dataAdd.headers = headerStr
         }
-
         // 处理params
-        this.dataAddParams.forEach(element => {
-          if (element.name != null && element.name != '') {
-            params[element.name] = element.value
-          }
-        });
-        let paramsStr = JSON.stringify(params)
-        if (paramsStr == '{}' || paramsStr == '') {
+        let paramsStr = JSON.stringify(
+          this.dataAddParams.filter((item) => {
+            return item.name != null && item.name != ""
+          })
+        )
+        if (paramsStr == '[]' || paramsStr == '') {
           this.dataAdd.params = null
         } else {
           this.dataAdd.params = paramsStr
         }
-
         // 处理form-data
-        this.dataAddFormData.forEach(element => {
-          if (element.name != null && element.name != '') {
-            formData[element.name] = element.value
-          }
-        });
-        let dataStr = JSON.stringify(formData)
-        if (dataStr == '{}' || dataStr == '') {
+        let dataStr = JSON.stringify(
+          this.dataAddFormData.filter((item) => {
+            return item.name != null && item.name != ""
+          })
+        )
+        if (dataStr == '[]' || dataStr == '') {
           this.dataAdd.formData = null
         } else {
           this.dataAdd.formData = dataStr
         }
-
         // 处理x-www-form-encoded
-        this.dataAddFormDataEncoded.forEach(element => {
-          if (element.name != null && element.name != '') {
-            formDataEncoded[element.name] = element.value
-          }
-        });
-        let dataEncodedStr = JSON.stringify(formDataEncoded)
-        if (dataEncodedStr == '{}' || dataEncodedStr == '') {
+        let dataEncodedStr = JSON.stringify(
+          this.dataAddFormDataEncoded.filter((item) => {
+            return item.name != null && item.name != ""
+          })
+        )
+        if (dataEncodedStr == '[]' || dataEncodedStr == '') {
           this.dataAdd.formDataEncoded = null
         } else {
           this.dataAdd.formDataEncoded = dataEncodedStr
         }
-
         // raw无需特别处理
 
         // 添加断言
@@ -2194,52 +2278,48 @@ export default {
         let formDataEncoded = {}
 
         // 处理header
-        this.dataAddHeaders.forEach(element => {
-          if (element.name != null && element.name != '') {
-            headers[element.name] = element.value
-          }
-        });
-        let headerStr = JSON.stringify(headers)
-        if (headerStr == '{}' || headerStr == '') {
+        let headerStr = JSON.stringify(
+          this.dataAddHeaders.filter((item) => {
+            return item.name != null && item.name != ""
+          })
+        )
+        if (headerStr == '[]' || headerStr == '') {
           this.dataInfo.headers = null
         } else {
           this.dataInfo.headers = headerStr
         }
 
         // 处理params
-        this.dataAddParams.forEach(element => {
-          if (element.name != null && element.name != '') {
-            params[element.name] = element.value
-          }
-        });
-        let paramsStr = JSON.stringify(params)
-        if (paramsStr == '{}' || paramsStr == '') {
+        let paramsStr = JSON.stringify(
+          this.dataAddParams.filter((item) => {
+            return item.name != null && item.name != ""
+          })
+        )
+        if (paramsStr == '[]' || paramsStr == '') {
           this.dataInfo.params = null
         } else {
           this.dataInfo.params = paramsStr
         }
 
         // 处理form-data
-        this.dataAddFormData.forEach(element => {
-          if (element.name != null && element.name != '') {
-            formData[element.name] = element.value
-          }
-        });
-        let dataStr = JSON.stringify(formData)
-        if (dataStr == '{}' || dataStr == '') {
+        let dataStr = JSON.stringify(
+          this.dataAddFormData.filter((item) => {
+            return item.name != null && item.name != ""
+          })
+        )
+        if (dataStr == '[]' || dataStr == '') {
           this.dataInfo.formData = null
         } else {
           this.dataInfo.formData = dataStr
         }
 
         // 处理x-www-form-encoded
-        this.dataAddFormDataEncoded.forEach(element => {
-          if (element.name != null && element.name != '') {
-            formDataEncoded[element.name] = element.value
-          }
-        });
-        let dataEncodedStr = JSON.stringify(formDataEncoded)
-        if (dataEncodedStr == '{}' || dataEncodedStr == '') {
+        let dataEncodedStr = JSON.stringify(
+          this.dataAddFormDataEncoded.filter((item) => {
+            return item.name != null && item.name != ""
+          })
+        )
+        if (dataEncodedStr == '[]' || dataEncodedStr == '') {
           this.dataInfo.formDataEncoded = null
         } else {
           this.dataInfo.formDataEncoded = dataEncodedStr
@@ -2276,52 +2356,48 @@ export default {
         let formDataEncoded = {}
 
         // 处理header
-        this.dataAddHeaders.forEach(element => {
-          if (element.name != null && element.name != '') {
-            headers[element.name] = element.value
-          }
-        });
-        let headerStr = JSON.stringify(headers)
-        if (headerStr == '{}' || headerStr == '') {
+        let headerStr = JSON.stringify(
+          this.dataAddHeaders.filter((item) => {
+            return item.name != null && item.name != ""
+          })
+        )
+        if (headerStr == '[]' || headerStr == '') {
           this.dataInfo.headers = null
         } else {
           this.dataInfo.headers = headerStr
         }
 
         // 处理params
-        this.dataAddParams.forEach(element => {
-          if (element.name != null && element.name != '') {
-            params[element.name] = element.value
-          }
-        });
-        let paramsStr = JSON.stringify(params)
-        if (paramsStr == '{}' || paramsStr == '') {
+        let paramsStr = JSON.stringify(
+          this.dataAddParams.filter((item) => {
+            return item.name != null && item.name != ""
+          })
+        )
+        if (paramsStr == '[]' || paramsStr == '') {
           this.dataInfo.params = null
         } else {
           this.dataInfo.params = paramsStr
         }
 
         // 处理form-data
-        this.dataAddFormData.forEach(element => {
-          if (element.name != null && element.name != '') {
-            formData[element.name] = element.value
-          }
-        });
-        let dataStr = JSON.stringify(formData)
-        if (dataStr == '{}' || dataStr == '') {
+        let dataStr = JSON.stringify(
+          this.dataAddFormData.filter((item) => {
+            return item.name != null && item.name != ""
+          })
+        )
+        if (dataStr == '[]' || dataStr == '') {
           this.dataInfo.formData = null
         } else {
           this.dataInfo.formData = dataStr
         }
 
         // 处理x-www-form-encoded
-        this.dataAddFormDataEncoded.forEach(element => {
-          if (element.name != null && element.name != '') {
-            formDataEncoded[element.name] = element.value
-          }
-        });
-        let dataEncodedStr = JSON.stringify(formDataEncoded)
-        if (dataEncodedStr == '{}' || dataEncodedStr == '') {
+        let dataEncodedStr = JSON.stringify(
+          this.dataAddFormDataEncoded.filter((item) => {
+            return item.name != null && item.name != ""
+          })
+        )
+        if (dataEncodedStr == '[]' || dataEncodedStr == '') {
           this.dataInfo.formDataEncoded = null
         } else {
           this.dataInfo.formDataEncoded = dataEncodedStr
@@ -2412,34 +2488,38 @@ export default {
       // 初始化header
       this.dataAddHeaders = [
         {
+          checked: true,
+          desc: null,
           name: null,
           value: null,
-          key: Date.now()
         }
       ], 
 
       // 初始化params
       this.dataAddParams = [
         {
+          checked: true,
+          desc: null,
           name: null,
           value: null,
-          key: Date.now()
         }
       ], 
 
       this.dataAddFormData = [
         {
+          checked: true,
+          desc: null,
           name: null,
           value: null,
-          key: Date.now()
         }
       ],
 
       this.dataAddFormDataEncoded = [
         {
+          checked: true,
+          desc: null,
           name: null,
           value: null,
-          key: Date.now()
         }
       ]
 
@@ -2466,24 +2546,31 @@ export default {
       if (res.code == 200) {
         // headers置空并处理
         this.dataAddHeaders = []
-        let headers = {}
+        let headers = []
         try {
           headers = JSON.parse(res.data.headers)
+          if (headers == null) {
+            headers = []
+          }
         } catch (error) {
-          headers = {}
+          headers = []
         }
-        for(let key in headers) {
+        for(let key of headers) {
           this.dataAddHeaders.push({
-            "name":key,
-            "value":headers[key],
-            "key":Date.now()
+            "name":key["name"],
+            "value":key["value"],
+            "checked":key["checked"],
+            "desc":key["desc"],
+            
           })
         }
         if (this.dataAddHeaders.length == 0) {
           this.dataAddHeaders.push({
+            "checked":true,
+            "desc":null,
             "name":null,
             "value":null,
-            "key":Date.now()
+            
           })
         }
         this.dataAddHeadersStr = JSON.stringify(this.dataAddHeaders)
@@ -2491,73 +2578,96 @@ export default {
 
         // params置空并处理
         this.dataAddParams = []
-        let params = {}
+        let params = []
         try {
           params = JSON.parse(res.data.params)
+          if (params == null) {
+            params = []
+          }
         } catch (error) {
-          params = {}
+          params = []
         }
-        for(let key in params) {
+        for(let key of params) {
           this.dataAddParams.push({
-            "name":key,
-            "value":params[key],
-            "key":Date.now()
+            "name":key["name"],
+            "value":key["value"],
+            "checked":key["checked"],
+            "desc":key["desc"],
+            
           })
         }
         if (this.dataAddParams.length == 0) {
           this.dataAddParams.push({
+            "checked":true,
+            "desc":null,
             "name":null,
             "value":null,
-            "key":Date.now()
+            
           })
         }
         this.dataAddParamsStr = JSON.stringify(this.dataAddParams)
 
         // data置空并处理
         this.dataAddFormData = []
-        let data = {}
+        let data = []
         try {
           data = JSON.parse(res.data.formData)
+          if (data == null) {
+            data = []
+          }
         } catch (error) {
-          data = {}
+          data = []
         }
-        for(let key in data) {
+        for(let key of data) {
           this.dataAddFormData.push({
-            "name":key,
-            "value":data[key],
-            "key":Date.now()
+            "name":key["name"],
+            "value":key["value"],
+            "checked":key["checked"],
+            "desc":key["desc"],
+            
           })
         }
         if (this.dataAddFormData.length == 0) {
           this.dataAddFormData.push({
+            "checked":true,
+            "desc":null,
             "name":null,
             "value":null,
-            "key":Date.now()
+            
           })
         }
         this.dataAddFormStr = JSON.stringify(this.dataAddFormData)
 
         // dataEncoded置空并处理
         this.dataAddFormDataEncoded = []
-        let dataEncoded = {}
+        let dataEncoded = []
         try {
           dataEncoded = JSON.parse(res.data.formDataEncoded)
+          if (dataEncoded == null) {
+            dataEncoded = []
+          }
+          if (dataEncoded == null) {
+            dataEncoded = []
+          }
         } catch (error) {
-          console.log(error)
-          dataEncoded = {}
+          dataEncoded = []
         }
-        for(let key in dataEncoded) {
+        for(let key of dataEncoded) {
           this.dataAddFormDataEncoded.push({
-            "name":key,
-            "value":dataEncoded[key],
-            "key":Date.now()
+            "name":key["name"],
+            "value":key["value"],
+            "checked":key["checked"],
+            "desc":key["desc"],
+            
           })
         }
         if (this.dataAddFormDataEncoded.length == 0) {
           this.dataAddFormDataEncoded.push({
+            "checked":true,
+            "desc":null,
             "name":null,
             "value":null,
-            "key":Date.now()
+            
           })
         }
         this.dataAddFormEncodedStr = JSON.stringify(this.dataAddFormDataEncoded)
@@ -2608,24 +2718,31 @@ export default {
 
         // headers置空并处理
         this.dataAddHeaders = []
-        let headers = {}
+        let headers = []
         try {
           headers = JSON.parse(res.data.headers)
+          if (headers == null) {
+            headers = []
+          }
         } catch (error) {
-          headers = {}
+          headers = []
         }
-        for(let key in headers) {
+        for(let key of headers) {
           this.dataAddHeaders.push({
-            "name":key,
-            "value":headers[key],
-            "key":Date.now()
+            "name":key["name"],
+            "value":key["value"],
+            "checked":key["checked"],
+            "desc":key["desc"],
+            
           })
         }
         if (this.dataAddHeaders.length == 0) {
           this.dataAddHeaders.push({
+            "checked":true,
+            "desc":null,
             "name":null,
             "value":null,
-            "key":Date.now()
+            
           })
         }
         this.dataAddHeadersStr = JSON.stringify(this.dataAddHeaders)
@@ -2633,72 +2750,93 @@ export default {
 
         // params置空并处理
         this.dataAddParams = []
-        let params = {}
+        let params = []
         try {
           params = JSON.parse(res.data.params)
+          if (params == null) {
+            params = []
+          }
         } catch (error) {
-          params = {}
+          params = []
         }
-        for(let key in params) {
+        for(let key of params) {
           this.dataAddParams.push({
-            "name":key,
-            "value":params[key],
-            "key":Date.now()
+            "name":key["name"],
+            "value":key["value"],
+            "checked":key["checked"],
+            "desc":key["desc"],
+            
           })
         }
         if (this.dataAddParams.length == 0) {
           this.dataAddParams.push({
+            "checked":true,
+            "desc":null,
             "name":null,
             "value":null,
-            "key":Date.now()
+            
           })
         }
         this.dataAddParamsStr = JSON.stringify(this.dataAddParams)
 
         // data置空并处理
         this.dataAddFormData = []
-        let data = {}
+        let data = []
         try {
           data = JSON.parse(res.data.formData)
+          if (data == null) {
+            data = []
+          }
         } catch (error) {
-          data = {}
+          data = []
         }
-        for(let key in data) {
+        for(let key of data) {
           this.dataAddFormData.push({
-            "name":key,
-            "value":data[key],
-            "key":Date.now()
+            "name":key["name"],
+            "value":key["value"],
+            "checked":key["checked"],
+            "desc":key["desc"],
+            
           })
         }
         if (this.dataAddFormData.length == 0) {
           this.dataAddFormData.push({
+            "checked":true,
+            "desc":null,
             "name":null,
             "value":null,
-            "key":Date.now()
+            
           })
         }
         this.dataAddFormStr = JSON.stringify(this.dataAddFormData)
 
         // dataEncoded置空并处理
         this.dataAddFormDataEncoded = []
-        let dataEncoded = {}
+        let dataEncoded = []
         try {
           dataEncoded = JSON.parse(res.data.formDataEncoded)
+          if (dataEncoded == null) {
+            dataEncoded = []
+          }
         } catch (error) {
-          dataEncoded = {}
+          dataEncoded = []
         }
-        for(let key in dataEncoded) {
+        for(let key of dataEncoded) {
           this.dataAddFormDataEncoded.push({
-            "name":key,
-            "value":dataEncoded[key],
-            "key":Date.now()
+            "name":key["name"],
+            "value":key["value"],
+            "checked":key["checked"],
+            "desc":key["desc"],
+            
           })
         }
         if (this.dataAddFormDataEncoded.length == 0) {
           this.dataAddFormDataEncoded.push({
+            "checked":true,
+            "desc":null,
             "name":null,
             "value":null,
-            "key":Date.now()
+            
           })
         }
         this.dataAddFormEncodedStr = JSON.stringify(this.dataAddFormDataEncoded)
