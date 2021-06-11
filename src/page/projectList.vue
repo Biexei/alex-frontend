@@ -18,31 +18,9 @@
     </div>
     <div class="table_container">
       <el-table :data="dataList" stripe highlight-current-row style="width: 100%">
-        <el-table-column type="expand">
-        <template slot-scope="props">
-            <el-form label-position="left" inline class="demo-table-expand">
-              <el-form-item label="开发环境域名:">
-                  <el-input  :value="props.row.devDomain" readonly size="mini"></el-input>
-              </el-form-item>
-              <br/>
-              <el-form-item label="测试环境域名:">
-                  <el-input  :value="props.row.testDomain" readonly size="mini"></el-input>
-              </el-form-item>
-              <br/>
-              <el-form-item label="预发环境域名:">
-                  <el-input  :value="props.row.stgDomain" readonly size="mini"></el-input>
-              </el-form-item>
-              <br/>
-              <el-form-item label="生产环境域名:">
-                  <el-input  :value="props.row.prodDomain" readonly size="mini"></el-input>
-              </el-form-item>
-            </el-form>
-        </template>
-        </el-table-column>
         <el-table-column property="projectId" label="项目编号" min-width="21%"></el-table-column>
         <el-table-column property="name" label="项目名称" min-width="21%"></el-table-column>
-        <el-table-column property="domain" label="调试域名" min-width="22%"></el-table-column>
-        <el-table-column property="desc" label="项目描述" min-width="21%" show-overflow-tooltip></el-table-column>
+        <el-table-column property="desc" label="项目描述" min-width="43%" show-overflow-tooltip></el-table-column>
         <el-table-column fixed="right" label="操作" min-width="15%">
           <template slot-scope="scope">
             <el-button
@@ -81,20 +59,85 @@
           <el-form-item label="*项目名称" label-width="120px">
             <el-input v-model="dataInfo.name"  size='mini'></el-input>
           </el-form-item>
-          <el-form-item label="*调试域名" label-width="120px">
-            <el-input v-model="dataInfo.domain"  size='mini'></el-input>
+          <el-form-item label="*调试环境" label-width="120px">
+            <el-row>
+              <el-col :span="4">
+                <el-select v-model="dataInfo.protocol" size='mini'>
+                  <el-option
+                    v-for="item in protocolTypeOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-col>
+              <el-col :span="16"><el-input v-model="dataInfo.domain" size='mini' placeholder="Host"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataInfo.port" size='mini' placeholder="Port"></el-input></el-col>
+            </el-row>
           </el-form-item>
-          <el-form-item label="*开发环境域名" label-width="120px">
-            <el-input v-model="dataInfo.devDomain"  size='mini'></el-input>
+          <el-form-item label="*开发环境" label-width="120px">
+            <el-row>
+              <el-col :span="4">
+                <el-select v-model="dataInfo.devProtocol" size='mini'>
+                  <el-option
+                    v-for="item in protocolTypeOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-col>
+              <el-col :span="16"><el-input v-model="dataInfo.devDomain" size='mini' placeholder="Host"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataInfo.devPort" size='mini' placeholder="Port"></el-input></el-col>
+            </el-row>
           </el-form-item>
-          <el-form-item label="*测试环境域名" label-width="120px">
-            <el-input v-model="dataInfo.testDomain"  size='mini'></el-input>
+          <el-form-item label="*测试环境" label-width="120px">
+            <el-row>
+              <el-col :span="4">
+                <el-select v-model="dataInfo.testProtocol" size='mini'>
+                  <el-option
+                    v-for="item in protocolTypeOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-col>
+              <el-col :span="16"><el-input v-model="dataInfo.testDomain" size='mini' placeholder="Host"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataInfo.testPort" size='mini' placeholder="Port"></el-input></el-col>
+            </el-row>
           </el-form-item>
-          <el-form-item label="*预发环境域名" label-width="120px">
-            <el-input v-model="dataInfo.stgDomain"  size='mini'></el-input>
+          <el-form-item label="*预发环境" label-width="120px">
+            <el-row>
+              <el-col :span="4">
+                <el-select v-model="dataInfo.stgProtocol" size='mini'>
+                  <el-option
+                    v-for="item in protocolTypeOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-col>
+              <el-col :span="16"><el-input v-model="dataInfo.stgDomain" size='mini' placeholder="Host"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataInfo.stgPort" size='mini' placeholder="Port"></el-input></el-col>
+            </el-row>
           </el-form-item>
-          <el-form-item label="*生产环境域名" label-width="120px">
-            <el-input v-model="dataInfo.prodDomain"  size='mini'></el-input>
+          <el-form-item label="*生产环境" label-width="120px">
+            <el-row>
+              <el-col :span="4">
+                <el-select v-model="dataInfo.prodProtocol" size='mini'>
+                  <el-option
+                    v-for="item in protocolTypeOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-col>
+              <el-col :span="16"><el-input v-model="dataInfo.prodDomain" size='mini' placeholder="Host"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataInfo.prodPort" size='mini' placeholder="Port"></el-input></el-col>
+            </el-row>
           </el-form-item>
           <el-form-item label="项目描述" label-width="120px">
             <el-input v-model="dataInfo.desc" size="mini" type="textarea" :rows="3"></el-input>
@@ -108,23 +151,88 @@
 
       <el-dialog title="添加" :visible.sync="addDialogFormVisible" :close-on-click-modal=false>
         <el-form :model="dataAdd" ref="dataAdd">
-          <el-form-item label="*项目名称" label-width="120px" prop="name">
+          <el-form-item label="*项目名称" label-width="120px">
             <el-input v-model="dataAdd.name" auto-complete="off"  size='mini'></el-input>
           </el-form-item>
-          <el-form-item label="*调试域名" label-width="120px" prop="domain">
-            <el-input v-model="dataAdd.domain"  size='mini'></el-input>
+          <el-form-item label="*调试环境" label-width="120px">
+            <el-row>
+              <el-col :span="4">
+                <el-select v-model="dataAdd.protocol" size='mini'>
+                  <el-option
+                    v-for="item in protocolTypeOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-col>
+              <el-col :span="16"><el-input v-model="dataAdd.domain" size='mini' placeholder="Host"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataAdd.port" size='mini' placeholder="Port"></el-input></el-col>
+            </el-row>
           </el-form-item>
-          <el-form-item label="*开发环境域名" label-width="120px">
-            <el-input v-model="dataAdd.devDomain"  size='mini'></el-input>
+          <el-form-item label="*开发环境" label-width="120px">
+            <el-row>
+              <el-col :span="4">
+                <el-select v-model="dataAdd.devProtocol" size='mini'>
+                  <el-option
+                    v-for="item in protocolTypeOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-col>
+              <el-col :span="16"><el-input v-model="dataAdd.devDomain" size='mini' placeholder="Host"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataAdd.devPort" size='mini' placeholder="Port"></el-input></el-col>
+            </el-row>
           </el-form-item>
-          <el-form-item label="*测试环境域名" label-width="120px">
-            <el-input v-model="dataAdd.testDomain"  size='mini'></el-input>
+          <el-form-item label="*测试环境" label-width="120px">
+            <el-row>
+              <el-col :span="4">
+                <el-select v-model="dataAdd.testProtocol" size='mini'>
+                  <el-option
+                    v-for="item in protocolTypeOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-col>
+              <el-col :span="16"><el-input v-model="dataAdd.testDomain" size='mini' placeholder="Host"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataAdd.testPort" size='mini' placeholder="Port"></el-input></el-col>
+            </el-row>
           </el-form-item>
-          <el-form-item label="*预发环境域名" label-width="120px">
-            <el-input v-model="dataAdd.stgDomain"  size='mini'></el-input>
+          <el-form-item label="*预发环境" label-width="120px">
+            <el-row>
+              <el-col :span="4">
+                <el-select v-model="dataAdd.stgProtocol" size='mini'>
+                  <el-option
+                    v-for="item in protocolTypeOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-col>
+              <el-col :span="16"><el-input v-model="dataAdd.stgDomain" size='mini' placeholder="Host"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataAdd.stgPort" size='mini' placeholder="Port"></el-input></el-col>
+            </el-row>
           </el-form-item>
-          <el-form-item label="*生产环境域名" label-width="120px">
-            <el-input v-model="dataAdd.prodDomain"  size='mini'></el-input>
+          <el-form-item label="*生产环境" label-width="120px">
+            <el-row>
+              <el-col :span="4">
+                <el-select v-model="dataAdd.prodProtocol" size='mini'>
+                  <el-option
+                    v-for="item in protocolTypeOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-col>
+              <el-col :span="16"><el-input v-model="dataAdd.prodDomain" size='mini' placeholder="Host"></el-input></el-col>
+              <el-col :span="4"><el-input v-model="dataAdd.prodPort" size='mini' placeholder="Port"></el-input></el-col>
+            </el-row>
           </el-form-item>
           <el-form-item label="项目描述" label-width="120px" prop="desc">
             <el-input v-model="dataAdd.desc" size="mini" type="textarea" :rows="3"></el-input>
@@ -153,6 +261,28 @@ export default {
       dataAdd:{},
       editDialogFormVisible: false,
       addDialogFormVisible: false,
+      protocolTypeOptions:[
+        {
+          value: 'http',
+          label: 'http'
+        },
+        {
+          value: 'https',
+          label: 'https'
+        },
+        {
+          value: 'ws',
+          label: 'ws'
+        },
+        {
+          value: 'wss',
+          label: 'wss'
+        },
+        {
+          value: 'dubbo',
+          label: 'dubbo'
+        },
+      ],
     };
   },
   components: {
