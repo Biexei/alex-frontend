@@ -12,11 +12,11 @@ let baseImgPath;
 
 if (process.env.NODE_ENV == 'development') {
 	baseUrl = 'http://localhost:7777';
-	//baseUrl = 'http://192.168.3.174:7777';
+	//baseUrl = 'http://192.168.124.6:7777';
     baseImgPath = '/img';
 }else{
 	baseUrl = 'http://localhost:7777';
-	//baseUrl = 'http://192.168.3.174:7777';
+	//baseUrl = 'http://192.168.124.6:7777';
     baseImgPath = '/img';
 }
 

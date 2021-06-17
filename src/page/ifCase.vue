@@ -283,6 +283,9 @@
                     :index="index"
                     :key="index">
                 <el-row :gutter="10">
+                    <el-col :span="1">
+                        <el-checkbox v-model="preCaseItem.status" :true-label=0 :false-label=1></el-checkbox>
+                    </el-col>
                     <el-col :span="2">
                         <el-input v-model="preCaseItem.order" placeholder="排序" size="mini"></el-input>
                     </el-col>
@@ -292,14 +295,10 @@
                     <el-col :span="14">
                         <el-input v-model="preCaseItem.preCaseDesc" readonly placeholder="前置用例描述，请点击选择" @focus='handlePreCaseList(index)' size="mini"></el-input>
                     </el-col> 
-                    <el-col :span="2">
-                        <el-switch
-                          v-model="preCaseItem.status"
-                          :active-value=0
-                          :inactive-value=1>
-                        </el-switch>
-                    </el-col> 
-                    <el-col :span="2">
+                    <el-col :span="1">
+                        <el-button @click.prevent="openViewProcessor(preCaseItem.preCaseId)" type="primary" icon="el-icon-more" circle size="mini"></el-button>
+                    </el-col>
+                    <el-col :span="1">
                         <el-button @click.prevent="removePreCase(preCaseItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
                     </el-col>
                 </el-row> 
@@ -886,6 +885,9 @@
                     :index="index"
                     :key="index">
                 <el-row :gutter="10">
+                    <el-col :span="1">
+                        <el-checkbox v-model="preCaseItem.status" :true-label=0 :false-label=1></el-checkbox>
+                    </el-col>
                     <el-col :span="2">
                         <el-input v-model="preCaseItem.order" placeholder="排序" size="mini"></el-input>
                     </el-col>
@@ -895,14 +897,10 @@
                     <el-col :span="14">
                         <el-input v-model="preCaseItem.preCaseDesc" readonly placeholder="前置用例描述，请点击选择" @focus='handlePreCaseList(index)'  size="mini"></el-input>
                     </el-col> 
-                    <el-col :span="2">
-                        <el-switch
-                          v-model="preCaseItem.status"
-                          :active-value=0
-                          :inactive-value=1>
-                        </el-switch>
-                    </el-col> 
-                    <el-col :span="2">
+                    <el-col :span="1">
+                        <el-button @click.prevent="openViewProcessor(preCaseItem.preCaseId)" type="primary" icon="el-icon-more" circle size="mini"></el-button>
+                    </el-col>
+                    <el-col :span="1">
                         <el-button @click.prevent="removePreCase(preCaseItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
                     </el-col>
                 </el-row> 
@@ -1206,7 +1204,6 @@
                 </el-form-item>
           </el-collapse-item>
 
-
       </el-collapse>
       </el-form>
         <div slot="footer" class="dialog-footer">
@@ -1272,6 +1269,9 @@
                     :index="index"
                     :key="index">
                 <el-row :gutter="10">
+                    <el-col :span="1">
+                        <el-checkbox v-model="preCaseItem.status" :true-label=0 :false-label=1></el-checkbox>
+                    </el-col>
                     <el-col :span="2">
                         <el-input v-model="preCaseItem.order" placeholder="排序" size="mini"></el-input>
                     </el-col>
@@ -1281,14 +1281,10 @@
                     <el-col :span="14">
                         <el-input v-model="preCaseItem.preCaseDesc" placeholder="前置用例描述,请点击选择" @focus='handlePreCaseList(index)' size="mini"></el-input>
                     </el-col> 
-                    <el-col :span="2">
-                        <el-switch
-                          v-model="preCaseItem.status"
-                          :active-value=0
-                          :inactive-value=1>
-                        </el-switch>
-                    </el-col> 
-                    <el-col :span="2">
+                    <el-col :span="1">
+                        <el-button @click.prevent="openViewProcessor(preCaseItem.preCaseId)" type="primary" icon="el-icon-more" circle size="mini"></el-button>
+                    </el-col>
+                    <el-col :span="1">
                         <el-button @click.prevent="removePreCase(preCaseItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
                     </el-col>
                 </el-row> 
@@ -1464,7 +1460,7 @@
 
 
         <el-collapse-item title="请求参数缓存">
-                <el-button @click.prevent="addPostProcessor" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
+                <el-button @click.prevent="addPreProcessor" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
                 <el-form-item
                     v-for="(preProcessorItem, index) in preProcessorList"
                     :index="index"
@@ -1601,6 +1597,72 @@
       </el-dialog>
 
     </div>
+
+    <!-- 查看处理器 -->
+    <el-drawer
+      title="查看"
+      :visible.sync="viewProcessorDialogFormVisible"
+      direction="rtl"
+      size="30%">
+      <el-form :model="dataInfo" ref="dataInfo">
+        <el-divider content-position="center">请求参数缓存</el-divider>
+            <el-form-item
+                v-for="(preProcessorItem, index) in preProcessorList"
+                :index="index"
+                :key="index">
+            <el-row :gutter="20">
+                <el-col :span="4">
+                    <el-input v-model="preProcessorItem.name" placeholder="名称" size="mini" readonly></el-input>
+                </el-col>
+                <el-col :span="5">
+                    <el-select v-model="preProcessorItem.type" size='mini' disabled>
+                      <el-option
+                        v-for="item in preProcessorTypeOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                      </el-option>
+                    </el-select>
+                </el-col> 
+                <el-col :span="10">
+                    <el-input v-model="preProcessorItem.expression" placeholder="提取表达式"  size="mini" readonly></el-input>
+                </el-col> 
+                <el-col :span="5">
+                    <el-input v-model="preProcessorItem.defaultValue" placeholder="默认值"  size="mini" v-if="preProcessorItem.haveDefaultValue==0" readonly></el-input>
+                </el-col> 
+            </el-row> 
+            </el-form-item>
+
+        <el-divider content-position="center">响应参数缓存</el-divider>
+            <el-form-item
+                v-for="(postProcessorItem, index) in postProcessorList"
+                :index="index"
+                :key="index">
+            <el-row :gutter="20">
+                <el-col :span="4">
+                    <el-input v-model="postProcessorItem.name" placeholder="名称" size="mini" readonly></el-input>
+                </el-col>
+                <el-col :span="5">
+                    <el-select v-model="postProcessorItem.type" size='mini'>
+                      <el-option
+                        v-for="item in postProcessorTypeOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                      </el-option>
+                    </el-select>
+                </el-col> 
+                <el-col :span="10">
+                    <el-input v-model="postProcessorItem.expression" placeholder="提取表达式"  size="mini" readonly></el-input>
+                </el-col> 
+                <el-col :span="5">
+                    <el-input v-model="postProcessorItem.defaultValue" placeholder="默认值"  size="mini" v-if="postProcessorItem.haveDefaultValue==0" readonly></el-input>
+                </el-col> 
+            </el-row> 
+            </el-form-item>
+      </el-form>
+    </el-drawer>
+
   </div>
 </template>
 <script>
@@ -1895,6 +1957,9 @@ export default {
     isShowRawRequestParams: false,
     isShowRawRequestBody: false,
     assertInfo: [],
+
+    // 查看前置用例的处理器列表
+    viewProcessorDialogFormVisible:false,
     };
   },
   components: {
@@ -3226,6 +3291,39 @@ export default {
         this.dataInfo.bodyType = 9
       }
     },
+    // 查看前置用例的处理器
+    async openViewProcessor(caseId) {
+      if(caseId != null) {
+        const res = await findInterfaceCaseByCaseId(caseId)
+        if (res.code == 200) {
+          this.viewProcessorDialogFormVisible = true;
+          this.dataInfo = res.data
+      
+          this.preCaseList = res.data.preCases
+          if (res.data.asserts.length != 0) {
+              this.assertIndex = this.assertList[this.assertList.length-1].order + 1
+          } else {
+              this.assertIndex = 1
+          }
+          
+          this.preProcessorList = []
+          this.postProcessorList = []
+          res.data.postProcessors.forEach(element => {
+            if (element.type <= 2) {
+              this.postProcessorList.push(element)
+            } else {
+              this.preProcessorList.push(element)
+            }
+          });
+        } else {
+          this.$message({
+            type: "error",
+            center: true,
+            message: res.msg
+          });       
+        }
+      }
+      },
   },
 };
 </script>
