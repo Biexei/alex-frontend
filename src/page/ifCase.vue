@@ -2,9 +2,18 @@
   <div class="fillcontain">
     <head-top></head-top>
     <div class="query">
-      <el-form :inline="true" :model="queryForm" class="demo-form-inline" ref="queryForm">
+      <el-form
+        :inline="true"
+        :model="queryForm"
+        class="demo-form-inline"
+        ref="queryForm"
+      >
         <el-form-item label="用例编号">
-          <el-input v-model="queryForm.caseId" placeholder="用例编号"  size='mini'></el-input>
+          <el-input
+            v-model="queryForm.caseId"
+            placeholder="用例编号"
+            size="mini"
+          ></el-input>
         </el-form-item>
         <!-- <el-form-item label="项目编号">
           <el-input v-model="queryForm.projectId" placeholder="项目编号"  size='mini'></el-input>
@@ -13,43 +22,59 @@
           <el-input v-model="queryForm.moduleId" placeholder="模块编号"  size='mini'></el-input>
         </el-form-item> -->
         <el-form-item label="项目名称">
-          <el-input v-model="queryForm.projectName" placeholder="项目名称"  size='mini'></el-input>
+          <el-input
+            v-model="queryForm.projectName"
+            placeholder="项目名称"
+            size="mini"
+          ></el-input>
         </el-form-item>
         <el-form-item label="模块名称">
-          <el-input v-model="queryForm.moduleName" placeholder="模块名称"  size='mini'></el-input>
+          <el-input
+            v-model="queryForm.moduleName"
+            placeholder="模块名称"
+            size="mini"
+          ></el-input>
         </el-form-item>
         <el-form-item label="用例名称">
-          <el-input v-model="queryForm.desc" placeholder="用例名称"  size='mini'></el-input>
-        </el-form-item>      
+          <el-input
+            v-model="queryForm.desc"
+            placeholder="用例名称"
+            size="mini"
+          ></el-input>
+        </el-form-item>
         <el-form-item label="请求方式">
-          <el-select v-model="queryForm.method" placeholder="请求方式"  size='mini'>
+          <el-select
+            v-model="queryForm.method"
+            placeholder="请求方式"
+            size="mini"
+          >
             <el-option
               v-for="item in requestMethodOptions"
               :key="item.label"
-              size='mini'
+              size="mini"
               :label="item.label"
               :value="item.value"
             ></el-option>
-          </el-select>          
+          </el-select>
         </el-form-item>
         <el-form-item label="级别">
-          <el-select v-model="queryForm.level" placeholder="级别"  size='mini'>
+          <el-select v-model="queryForm.level" placeholder="级别" size="mini">
             <el-option
               v-for="item in levelOptions"
-              size='mini'
+              size="mini"
               :key="item.label"
               :label="item.label"
               :value="item.value"
             ></el-option>
-          </el-select>          
-        </el-form-item>        
+          </el-select>
+        </el-form-item>
         <el-form-item label="起始时间">
           <el-date-picker
             v-model="queryForm.createdStartTime"
             format="yyyy-MM-dd HH:mm:ss"
             value-format="yyyy-MM-dd HH:mm:ss"
             type="datetime"
-            size='mini'
+            size="mini"
             placeholder="选择起始时间"
             align="right"
           ></el-date-picker>
@@ -60,111 +85,242 @@
             format="yyyy-MM-dd HH:mm:ss"
             value-format="yyyy-MM-dd HH:mm:ss"
             type="datetime"
-            size='mini'
+            size="mini"
             placeholder="选择截止时间"
             align="right"
           ></el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button v-has="'interface:case:find'" type="primary" size="mini" @click="selectInterfaceCase(queryForm)">查询</el-button>
-          <el-button v-has="'interface:case:find'" type="primary" size="mini" @click="resetForm">重置</el-button>
-          <el-button v-has="'interface:case:add'" type="primary" size="mini" @click="openAdd" plain>新增</el-button>
-          <el-button v-has="'interface:case:generate'" type="primary" size="mini" @click="openGenerator" plain>生成</el-button>
-          <el-button v-has="'interface:case:import'" type="primary" size="mini" @click="openImport" plain>导入</el-button>
+          <el-button
+            v-has="'interface:case:find'"
+            type="primary"
+            size="mini"
+            @click="selectInterfaceCase(queryForm)"
+            >查询</el-button
+          >
+          <el-button
+            v-has="'interface:case:find'"
+            type="primary"
+            size="mini"
+            @click="resetForm"
+            >重置</el-button
+          >
+          <el-button
+            v-has="'interface:case:add'"
+            type="primary"
+            size="mini"
+            @click="openAdd"
+            plain
+            >新增</el-button
+          >
+          <el-button
+            v-has="'interface:case:generate'"
+            type="primary"
+            size="mini"
+            @click="openGenerator"
+            plain
+            >生成</el-button
+          >
+          <el-button
+            v-has="'interface:case:import'"
+            type="primary"
+            size="mini"
+            @click="openImport"
+            plain
+            >导入</el-button
+          >
         </el-form-item>
       </el-form>
     </div>
     <div class="table_container">
-      <el-table @row-dblclick="handleLastTenLog" :data="dataList" stripe highlight-current-row style="width: 100%">
-
+      <el-table
+        @row-dblclick="handleLastTenLog"
+        :data="dataList"
+        stripe
+        highlight-current-row
+        style="width: 100%"
+      >
         <el-table-column type="expand">
-        <template slot-scope="props">
+          <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand">
-            <el-form-item label="用例来源">
-                <el-input v-if="props.row.source==0" value="新增" readonly size="mini"></el-input>
-                <el-input v-else-if="props.row.source==1" value="excel" readonly size="mini"></el-input>
-                <el-input v-else-if="props.row.source==2" value="csv" readonly size="mini"></el-input>
-                <el-input v-else-if="props.row.source==3" value="json" readonly size="mini"></el-input>
-                <el-input v-else-if="props.row.source==4" value="yaml" readonly size="mini"></el-input>
-            </el-form-item>
-            <el-form-item label="导入批次">
-                <el-input  :value="props.row.importNo" readonly size="mini"></el-input>
-            </el-form-item>
-             <el-form-item label="由谁创建">
-                <el-input  :value="props.row.creater" readonly size="mini"></el-input>
-            </el-form-item>
-             <el-form-item label="创建时间">
-                <el-input  :value="props.row.createdTime" readonly size="mini"></el-input>
-            </el-form-item>
-            <br />
-            <el-form-item label="项目编号">
-                <el-input  :value="props.row.projectId" readonly size="mini"></el-input>
-            </el-form-item>
-            <el-form-item label="项目名称">
-                <el-input  :value="props.row.projectName" readonly size="mini"></el-input>
-            </el-form-item>
-            <el-form-item label="模块编号">
-                <el-input  :value="props.row.moduleId" readonly size="mini"></el-input>
-            </el-form-item>
-            <el-form-item label="模块名称">
-                <el-input  :value="props.row.moduleName" readonly size="mini"></el-input>
-            </el-form-item>
+              <el-form-item label="用例来源">
+                <el-input
+                  v-if="props.row.source == 0"
+                  value="新增"
+                  readonly
+                  size="mini"
+                ></el-input>
+                <el-input
+                  v-else-if="props.row.source == 1"
+                  value="excel"
+                  readonly
+                  size="mini"
+                ></el-input>
+                <el-input
+                  v-else-if="props.row.source == 2"
+                  value="csv"
+                  readonly
+                  size="mini"
+                ></el-input>
+                <el-input
+                  v-else-if="props.row.source == 3"
+                  value="json"
+                  readonly
+                  size="mini"
+                ></el-input>
+                <el-input
+                  v-else-if="props.row.source == 4"
+                  value="yaml"
+                  readonly
+                  size="mini"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="导入批次">
+                <el-input
+                  :value="props.row.importNo"
+                  readonly
+                  size="mini"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="由谁创建">
+                <el-input
+                  :value="props.row.creater"
+                  readonly
+                  size="mini"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="创建时间">
+                <el-input
+                  :value="props.row.createdTime"
+                  readonly
+                  size="mini"
+                ></el-input>
+              </el-form-item>
+              <br />
+              <el-form-item label="项目编号">
+                <el-input
+                  :value="props.row.projectId"
+                  readonly
+                  size="mini"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="项目名称">
+                <el-input
+                  :value="props.row.projectName"
+                  readonly
+                  size="mini"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="模块编号">
+                <el-input
+                  :value="props.row.moduleId"
+                  readonly
+                  size="mini"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="模块名称">
+                <el-input
+                  :value="props.row.moduleName"
+                  readonly
+                  size="mini"
+                ></el-input>
+              </el-form-item>
             </el-form>
-        </template>
+          </template>
         </el-table-column>
-        <el-table-column property="caseId" label="用例编号" min-width="10%"></el-table-column>
-        <el-table-column property="projectName" label="项目名称" min-width="15%" show-overflow-tooltip></el-table-column>
-        <el-table-column property="desc" label="用例名称" min-width="30%" show-overflow-tooltip>
+        <el-table-column
+          property="caseId"
+          label="用例编号"
+          min-width="10%"
+        ></el-table-column>
+        <el-table-column
+          property="projectName"
+          label="项目名称"
+          min-width="15%"
+          show-overflow-tooltip
+        ></el-table-column>
+        <el-table-column
+          property="desc"
+          label="用例名称"
+          min-width="30%"
+          show-overflow-tooltip
+        >
           <template slot-scope="scope">
             <el-row>
-              <el-col :span="3"><el-tag effect="dark" :type="scope.row.levelStyle" disable-transitions size="mini">{{scope.row.level}}</el-tag></el-col>
-              <el-col :span="21"><span>{{scope.row.desc}}</span></el-col>
+              <el-col :span="3"
+                ><el-tag
+                  effect="dark"
+                  :type="scope.row.levelStyle"
+                  disable-transitions
+                  size="mini"
+                  >{{ scope.row.level }}</el-tag
+                ></el-col
+              >
+              <el-col :span="21"
+                ><span>{{ scope.row.desc }}</span></el-col
+              >
             </el-row>
           </template>
         </el-table-column>
-        <el-table-column property="method" label="请求地址" min-width="30%" show-overflow-tooltip>
+        <el-table-column
+          property="method"
+          label="请求地址"
+          min-width="30%"
+          show-overflow-tooltip
+        >
           <template slot-scope="scope">
             <el-row :gutter="10">
-              <el-col :span="4"><el-tag effect="dark" :type="scope.row.methodStyle" disable-transitions size="mini">{{scope.row.method}}</el-tag></el-col>
-              <el-col :span="20"><span>{{scope.row.url}}</span></el-col>
+              <el-col :span="4"
+                ><el-tag
+                  effect="dark"
+                  :type="scope.row.methodStyle"
+                  disable-transitions
+                  size="mini"
+                  >{{ scope.row.method }}</el-tag
+                ></el-col
+              >
+              <el-col :span="20"
+                ><span>{{ scope.row.url }}</span></el-col
+              >
             </el-row>
           </template>
         </el-table-column>
         <el-table-column fixed="right" label="操作" min-width="15%">
-            <template slot-scope="scope">
-                <el-button 
-                @click="handleCheck(scope.row.caseId)"
-                v-has="'interface:case:execute'"
-                type="success"
-                size="mini" 
-                icon="el-icon-check" 
-                circle>
-                </el-button>
-                <el-button
-                @click="openEdit(scope.row)"
-                v-has="'interface:case:modify'"
-                type="primary"
-                size="mini"
-                icon="el-icon-edit"
-                circle
-                ></el-button>
-                <el-button
-                @click="openCopy(scope.row)"
-                v-has="'interface:case:copy'"
-                type="warning"
-                size="mini"
-                icon="el-icon-copy-document"
-                circle
-                ></el-button>                
-                <el-button
-                @click="handleDelete(scope.row.caseId, scope.$index)"
-                v-has="'interface:case:remove'"
-                type="danger"
-                size="mini"
-                icon="el-icon-delete"
-                circle
-                ></el-button>
-            </template>
+          <template slot-scope="scope">
+            <el-button
+              @click="handleCheck(scope.row.caseId)"
+              v-has="'interface:case:execute'"
+              type="success"
+              size="mini"
+              icon="el-icon-check"
+              circle
+            >
+            </el-button>
+            <el-button
+              @click="openEdit(scope.row)"
+              v-has="'interface:case:modify'"
+              type="primary"
+              size="mini"
+              icon="el-icon-edit"
+              circle
+            ></el-button>
+            <el-button
+              @click="openCopy(scope.row)"
+              v-has="'interface:case:copy'"
+              type="warning"
+              size="mini"
+              icon="el-icon-copy-document"
+              circle
+            ></el-button>
+            <el-button
+              @click="handleDelete(scope.row.caseId, scope.$index)"
+              v-has="'interface:case:remove'"
+              type="danger"
+              size="mini"
+              icon="el-icon-delete"
+              circle
+            ></el-button>
+          </template>
         </el-table-column>
       </el-table>
       <div class="pagination" style="text-align: left;margin-top: 10px;">
@@ -179,470 +335,825 @@
         ></el-pagination>
       </div>
 
-      <el-dialog @close="closeImportDialog" title="导入" :visible.sync="importDialogFormVisible" :close-on-click-modal="false" @open="selectSuiteList">
+      <el-dialog
+        @close="closeImportDialog"
+        title="导入"
+        :visible.sync="importDialogFormVisible"
+        :close-on-click-modal="false"
+        @open="selectSuiteList"
+      >
         <el-form :model="dataImport" ref="dataImport">
           <el-form-item label="*类型" label-width="100px">
-            <el-select v-model="dataImport.type" size='mini'>
+            <el-select v-model="dataImport.type" size="mini">
               <el-option
                 v-for="item in importTypeOptions"
                 :key="item.value"
                 :label="item.label"
-                :value="item.value">
+                :value="item.value"
+              >
               </el-option>
             </el-select>
-            <el-link :href="downloadUrl + dataImport.type" type="primary" target="_blank" icon="el-icon-download" :underline="false">下载模版</el-link>
+            <el-link
+              :href="downloadUrl + dataImport.type"
+              type="primary"
+              target="_blank"
+              icon="el-icon-download"
+              :underline="false"
+              >下载模版</el-link
+            >
           </el-form-item>
           <el-form-item label="*选择文件" label-width="100px">
             <el-upload
               ref="upload"
-              :action=importUrl
-              :data=dataImport
+              :action="importUrl"
+              :data="dataImport"
               multiple
-              :headers=importHeader
-              :auto-upload=false
+              :headers="importHeader"
+              :auto-upload="false"
               :on-success="handleUploadSuccess"
               :on-error="handleUploadError"
               accept=".xls,.xlsx,.csv,.json,.yaml"
-              :limit="1">
+              :limit="1"
+            >
               <el-button size="mini" type="primary">立即上传</el-button>
             </el-upload>
           </el-form-item>
           <el-form-item label="并导入" label-width="100px" prop="name">
-            <el-select v-model="dataImport.suiteId" @change="handleSelectSuite"  size='mini'>
+            <el-select
+              v-model="dataImport.suiteId"
+              @change="handleSelectSuite"
+              size="mini"
+            >
               <el-option
-              size='mini'
-              v-for="item in suiteOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+                size="mini"
+                v-for="item in suiteOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
               </el-option>
             </el-select>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-            <el-button @click="importDialogFormVisible = false" size="mini">取 消</el-button>
-            <el-button type="primary" @click="handleImport" size="mini">确 定</el-button>
+          <el-button @click="importDialogFormVisible = false" size="mini"
+            >取 消</el-button
+          >
+          <el-button type="primary" @click="handleImport" size="mini"
+            >确 定</el-button
+          >
         </div>
       </el-dialog>
 
       <!--自动生成用例-->
-      <el-dialog @close="closeGeneratorDialog" title="生成" :visible.sync="generatorDialogFormVisible" :close-on-click-modal="false">
+      <el-dialog
+        @close="closeGeneratorDialog"
+        title="生成"
+        :visible.sync="generatorDialogFormVisible"
+        :close-on-click-modal="false"
+      >
         <el-form :model="caseGenerator" ref="caseGenerator">
           <el-form-item label="约束示例" label-width="100px">
-            <el-link :href="downloadUrl + 5" type="primary" target="_blank" icon="el-icon-download" :underline="false">约束示例</el-link>
+            <el-link
+              :href="downloadUrl + 5"
+              type="primary"
+              target="_blank"
+              icon="el-icon-download"
+              :underline="false"
+              >约束示例</el-link
+            >
           </el-form-item>
           <el-form-item label="介绍文档" label-width="100px">
-            <el-link :href="downloadUrl + 6" type="primary" target="_blank" icon="el-icon-download" :underline="false">介绍文档</el-link>
+            <el-link
+              :href="downloadUrl + 6"
+              type="primary"
+              target="_blank"
+              icon="el-icon-download"
+              :underline="false"
+              >介绍文档</el-link
+            >
           </el-form-item>
           <el-form-item label="*选择文件" label-width="100px">
             <el-upload
               ref="uploadGenerator"
-              :action=generatorUrl
-              :data=caseGenerator
+              :action="generatorUrl"
+              :data="caseGenerator"
               multiple
-              :headers=importHeader
-              :auto-upload=false
+              :headers="importHeader"
+              :auto-upload="false"
               :on-success="handleGeneratorUploadSuccess"
               :on-error="handleGeneratorUploadError"
               accept=".json"
-              :limit="1">
+              :limit="1"
+            >
               <el-button size="mini" type="primary">上传约束</el-button>
             </el-upload>
           </el-form-item>
           <el-form-item label="*生成策略" label-width="100px">
-            <el-checkbox  disabled checked>等价类</el-checkbox>
-            <el-checkbox  disabled checked>边界值</el-checkbox>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <el-radio-group v-model="caseGenerator.genRule" size='mini'>
+            <el-checkbox disabled checked>等价类</el-checkbox>
+            <el-checkbox disabled checked>边界值</el-checkbox
+            >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <el-radio-group v-model="caseGenerator.genRule" size="mini">
               <el-radio :label="1">正交试验</el-radio>
               <el-radio :label="2">笛卡尔积</el-radio>
               <el-radio :label="3">仅单属性</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="*数据类型" label-width="100px">
-            <el-radio-group v-model="caseGenerator.dataType" size='mini'>
+            <el-radio-group v-model="caseGenerator.dataType" size="mini">
               <el-radio :label="1">静态数据</el-radio>
               <el-radio :label="2">动态数据</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-            <el-button @click="generatorDialogFormVisible = false" size="mini">取 消</el-button>
-            <el-button type="primary" @click="handleGenerator" size="mini">确 定</el-button>
+          <el-button @click="generatorDialogFormVisible = false" size="mini"
+            >取 消</el-button
+          >
+          <el-button type="primary" @click="handleGenerator" size="mini"
+            >确 定</el-button
+          >
         </div>
       </el-dialog>
 
-
-      <el-dialog title="添加" :visible.sync="addDialogFormVisible" :close-on-click-modal="false">
+      <el-dialog
+        title="添加"
+        :visible.sync="addDialogFormVisible"
+        :close-on-click-modal="false"
+      >
         <el-form :model="dataAdd" ref="dataAdd">
-        <el-collapse>
-
-          <el-collapse-item title="前置用例">
-                <el-button @click.prevent="addPreCase" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
-                <el-form-item
-                    v-for="(preCaseItem, index) in preCaseList"
-                    :index="index"
-                    :key="index">
+          <el-tabs v-model="defaultTab">
+            <el-tab-pane label="前置用例" name="前置用例">
+              <el-button
+                @click.prevent="addPreCase"
+                icon="el-icon-circle-plus-outline"
+                circle
+                type="primary"
+                size="mini"
+              ></el-button>
+              <el-form-item
+                v-for="(preCaseItem, index) in preCaseList"
+                :index="index"
+                :key="index"
+              >
                 <el-row :gutter="10">
-                    <el-col :span="1">
-                        <el-checkbox v-model="preCaseItem.status" :true-label=0 :false-label=1></el-checkbox>
-                    </el-col>
-                    <el-col :span="2">
-                        <el-input v-model="preCaseItem.order" placeholder="排序" size="mini"></el-input>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-input v-model="preCaseItem.preCaseId" placeholder="前置用例编号" disabled size="mini"></el-input>
-                    </el-col>
-                    <el-col :span="14">
-                        <el-input v-model="preCaseItem.preCaseDesc" readonly placeholder="前置用例描述，请点击选择" @focus='handlePreCaseList(index)' size="mini"></el-input>
-                    </el-col> 
-                    <el-col :span="1">
-                        <el-button @click.prevent="openViewProcessor(preCaseItem.preCaseId)" type="primary" icon="el-icon-more" circle size="mini"></el-button>
-                    </el-col>
-                    <el-col :span="1">
-                        <el-button @click.prevent="removePreCase(preCaseItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-                    </el-col>
-                </el-row> 
-                </el-form-item>
-          </el-collapse-item>
-
-
-        <el-collapse-item title="基本信息">
-          <el-form-item label="*项目名称" label-width="100px">
-            <el-input readonly v-model="dataAdd.projectName" @focus='handleProjectModuleList' size="mini" disabled></el-input>
-          </el-form-item>
-          <el-form-item label="*模块名称" label-width="100px">
-            <el-input readonly v-model="dataAdd.moduleName" @focus='handleProjectModuleList' size="mini" placeholder="请点击选择"></el-input>
-          </el-form-item>
-          <el-form-item label="*用例名称" label-width="100px">
-            <el-input v-model="dataAdd.desc" size="mini"></el-input>
-          </el-form-item>
-          <el-form-item label="接口文档地址" label-width="100px">
-            <el-input v-model="dataAdd.doc" size="mini"></el-input>
-          </el-form-item>
-          <el-form-item label="*用例等级" label-width="100px">
-            <el-select v-model="dataAdd.level" placeholder="请选择"  size="mini" >
-              <el-option
-                v-for="item in levelOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="*创建人" label-width="100px">
-            <el-input v-model="dataAdd.createrRealName"  size="mini" disabled></el-input>
-          </el-form-item>
-        </el-collapse-item>
-
-        <el-collapse-item title="请求信息">
-          <el-row :gutter="20">
-          <el-col :span="4">
-            <el-select v-model="dataAdd.method" placeholder="method"  size="mini" @change="changeMethod">
-              <el-option
-                v-for="item in requestMethodOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-col>
-          <el-col :span="20">
-            <el-input v-model="dataAdd.url"  size="mini" placeholder="Enter request url"></el-input>
-          </el-col> 
-          </el-row>  
-
-        <el-tabs >
-            <!-- header -->
-            <el-tab-pane label="Headers">
-                <el-form-item
-                    v-for="(headerItem, index) in dataAddHeaders"
-                    :index="index"
-                    :key="index">
-                  <el-row :gutter="10">
-                      <el-col :span="1">
-                          <el-checkbox v-model="headerItem.checked"></el-checkbox>
-                      </el-col>
-                      <el-col :span="5">
-                          <el-input v-model="headerItem.name" placeholder="Key" size='mini' @blur=addHeader(headerItem)></el-input>
-                      </el-col>
-                      <el-col :span="10">
-                          <el-input v-model="headerItem.value" placeholder="Value" size='mini'></el-input>
-                      </el-col> 
-                      <el-col :span="6">
-                         <el-input v-model="headerItem.desc" placeholder="Description" size='mini'></el-input>
-                      </el-col>
-                      <el-col :span="2">
-                          <el-button @click.prevent="removeHeader(headerItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-                      </el-col>
-                  </el-row>
-                </el-form-item> 
+                  <el-col :span="1">
+                    <el-checkbox
+                      v-model="preCaseItem.status"
+                      :true-label="0"
+                      :false-label="1"
+                    ></el-checkbox>
+                  </el-col>
+                  <el-col :span="2">
+                    <el-input
+                      v-model="preCaseItem.order"
+                      placeholder="排序"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="4">
+                    <el-input
+                      v-model="preCaseItem.preCaseId"
+                      placeholder="前置用例编号"
+                      disabled
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="14">
+                    <el-input
+                      v-model="preCaseItem.preCaseDesc"
+                      readonly
+                      placeholder="请选择"
+                      @focus="handlePreCaseList(index)"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="1">
+                    <el-button
+                      @click.prevent="openViewProcessor(preCaseItem.preCaseId)"
+                      type="primary"
+                      icon="el-icon-more"
+                      circle
+                      size="mini"
+                    ></el-button>
+                  </el-col>
+                  <el-col :span="1">
+                    <el-button
+                      @click.prevent="removePreCase(preCaseItem)"
+                      type="danger"
+                      icon="el-icon-delete"
+                      circle
+                      size="mini"
+                    ></el-button>
+                  </el-col>
+                </el-row>
+              </el-form-item>
             </el-tab-pane>
 
-            <!-- params -->
-            <el-tab-pane label="Params">
-                <el-form-item
-                    v-for="(paramsItem, index) in dataAddParams"
-                    :index="index"
-                    :key="index">
-                  <el-row :gutter="10">
-                      <el-col :span="1">
-                          <el-checkbox v-model="paramsItem.checked"></el-checkbox>
-                      </el-col>
-                      <el-col :span="5">
-                          <el-input v-model="paramsItem.name" placeholder="Key" size='mini' @blur=addParams(paramsItem)></el-input>
-                      </el-col>
-                      <el-col :span="10">
-                          <el-input v-model="paramsItem.value" placeholder="Value" size='mini'></el-input>
-                      </el-col> 
-                      <el-col :span="6">
-                         <el-input v-model="paramsItem.desc" placeholder="Description" size='mini'></el-input>
-                      </el-col>
-                      <el-col :span="2">
-                          <el-button @click.prevent="removeParams(paramsItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-                      </el-col>
-                  </el-row>
-                </el-form-item>         
-            </el-tab-pane>
-
-            <!-- body -->
-            <el-tab-pane label="Body">
-                <el-radio-group v-model="dataAdd.bodyType" @change="forceUpdate">
-                  <el-radio :label="9" >none</el-radio>
-                  <el-radio :label="0" >form-data</el-radio>
-                  <el-radio :label="1" >x-www-form-encoded</el-radio>
-                  <el-radio :label="2" >raw</el-radio>
-                </el-radio-group>
-                <el-select v-model="dataAdd.rawType" placeholder="请选择" v-if="dataAdd.bodyType == 2" size="mini" style="width:10%" @change="forceUpdate">
+            <el-tab-pane label="基本信息" name="基本信息">
+              <el-form-item label="*项目名称" label-width="100px">
+                <el-input
+                  readonly
+                  v-model="dataAdd.projectName"
+                  @focus="handleProjectModuleList"
+                  size="mini"
+                  disabled
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="*模块名称" label-width="100px">
+                <el-input
+                  readonly
+                  v-model="dataAdd.moduleName"
+                  @focus="handleProjectModuleList"
+                  size="mini"
+                  placeholder="请点击选择"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="*用例名称" label-width="100px">
+                <el-input v-model="dataAdd.desc" size="mini"></el-input>
+              </el-form-item>
+              <el-form-item label="接口文档地址" label-width="100px">
+                <el-input v-model="dataAdd.doc" size="mini"></el-input>
+              </el-form-item>
+              <el-form-item label="*用例等级" label-width="100px">
+                <el-select
+                  v-model="dataAdd.level"
+                  placeholder="请选择"
+                  size="mini"
+                >
                   <el-option
-                    v-for="item in rawTypeOptions"
+                    v-for="item in levelOptions"
                     :key="item.value"
                     :label="item.label"
-                    :value="item.value">
+                    :value="item.value"
+                  >
                   </el-option>
                 </el-select>
-                <div v-if="dataAdd.bodyType==0">
+              </el-form-item>
+              <el-form-item label="*创建人" label-width="100px">
+                <el-input
+                  v-model="dataAdd.createrRealName"
+                  size="mini"
+                  disabled
+                ></el-input>
+              </el-form-item>
+            </el-tab-pane>
+
+            <el-tab-pane label="请求信息" name="请求信息">
+              <el-row :gutter="20">
+                <el-col :span="4">
+                  <el-select
+                    v-model="dataAdd.method"
+                    placeholder="Method"
+                    size="mini"
+                    @change="changeMethod"
+                  >
+                    <el-option
+                      v-for="item in requestMethodOptions"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    >
+                    </el-option>
+                  </el-select>
+                </el-col>
+                <el-col :span="20">
+                  <el-input
+                    v-model="dataAdd.url"
+                    size="mini"
+                    placeholder="Enter request url"
+                  ></el-input>
+                </el-col>
+              </el-row>
+
+              <el-tabs>
+                <!-- header -->
+                <el-tab-pane label="Headers">
                   <el-form-item
+                    v-for="(headerItem, index) in dataAddHeaders"
+                    :index="index"
+                    :key="index"
+                  >
+                    <el-row :gutter="10">
+                      <el-col :span="1">
+                        <el-checkbox v-model="headerItem.checked"></el-checkbox>
+                      </el-col>
+                      <el-col :span="5">
+                        <el-input
+                          v-model="headerItem.name"
+                          placeholder="Key"
+                          size="mini"
+                          @blur="addHeader(headerItem)"
+                        ></el-input>
+                      </el-col>
+                      <el-col :span="10">
+                        <el-input
+                          v-model="headerItem.value"
+                          placeholder="Value"
+                          size="mini"
+                        ></el-input>
+                      </el-col>
+                      <el-col :span="6">
+                        <el-input
+                          v-model="headerItem.desc"
+                          placeholder="Description"
+                          size="mini"
+                        ></el-input>
+                      </el-col>
+                      <el-col :span="2">
+                        <el-button
+                          @click.prevent="removeHeader(headerItem)"
+                          type="danger"
+                          icon="el-icon-delete"
+                          circle
+                          size="mini"
+                        ></el-button>
+                      </el-col>
+                    </el-row>
+                  </el-form-item>
+                </el-tab-pane>
+
+                <!-- params -->
+                <el-tab-pane label="Params">
+                  <el-form-item
+                    v-for="(paramsItem, index) in dataAddParams"
+                    :index="index"
+                    :key="index"
+                  >
+                    <el-row :gutter="10">
+                      <el-col :span="1">
+                        <el-checkbox v-model="paramsItem.checked"></el-checkbox>
+                      </el-col>
+                      <el-col :span="5">
+                        <el-input
+                          v-model="paramsItem.name"
+                          placeholder="Key"
+                          size="mini"
+                          @blur="addParams(paramsItem)"
+                        ></el-input>
+                      </el-col>
+                      <el-col :span="10">
+                        <el-input
+                          v-model="paramsItem.value"
+                          placeholder="Value"
+                          size="mini"
+                        ></el-input>
+                      </el-col>
+                      <el-col :span="6">
+                        <el-input
+                          v-model="paramsItem.desc"
+                          placeholder="Description"
+                          size="mini"
+                        ></el-input>
+                      </el-col>
+                      <el-col :span="2">
+                        <el-button
+                          @click.prevent="removeParams(paramsItem)"
+                          type="danger"
+                          icon="el-icon-delete"
+                          circle
+                          size="mini"
+                        ></el-button>
+                      </el-col>
+                    </el-row>
+                  </el-form-item>
+                </el-tab-pane>
+
+                <!-- body -->
+                <el-tab-pane label="Body">
+                  <el-radio-group
+                    v-model="dataAdd.bodyType"
+                    @change="forceUpdate"
+                  >
+                    <el-radio :label="9">none</el-radio>
+                    <el-radio :label="0">form-data</el-radio>
+                    <el-radio :label="1">x-www-form-encoded</el-radio>
+                    <el-radio :label="2">raw</el-radio>
+                  </el-radio-group>
+                  <el-select
+                    v-model="dataAdd.rawType"
+                    placeholder="请选择"
+                    v-if="dataAdd.bodyType == 2"
+                    size="mini"
+                    style="width:10%"
+                    @change="forceUpdate"
+                  >
+                    <el-option
+                      v-for="item in rawTypeOptions"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    >
+                    </el-option>
+                  </el-select>
+                  <div v-if="dataAdd.bodyType == 0">
+                    <el-form-item
                       v-for="(dataItem, index) in dataAddFormData"
                       :index="index"
-                      :key="index">
-                    <el-row :gutter="10">
-                      <el-col :span="1">
+                      :key="index"
+                    >
+                      <el-row :gutter="10">
+                        <el-col :span="1">
                           <el-checkbox v-model="dataItem.checked"></el-checkbox>
-                      </el-col>
-                      <el-col :span="5">
-                          <el-input v-model="dataItem.name" placeholder="Key" size='mini' @blur=addDataForm(dataItem)></el-input>
-                      </el-col>
-                      <el-col :span="10">
-                          <el-input v-model="dataItem.value" placeholder="Value" size='mini'></el-input>
-                      </el-col> 
-                      <el-col :span="6">
-                         <el-input v-model="dataItem.desc" placeholder="Description" size='mini'></el-input>
-                      </el-col>
-                      <el-col :span="2">
-                          <el-button @click.prevent="removeDataForm(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-                      </el-col>
-                    </el-row>
-                  </el-form-item>    
-                </div> 
-                <div v-else-if="dataAdd.bodyType==1">
-                  <el-form-item
+                        </el-col>
+                        <el-col :span="5">
+                          <el-input
+                            v-model="dataItem.name"
+                            placeholder="Key"
+                            size="mini"
+                            @blur="addDataForm(dataItem)"
+                          ></el-input>
+                        </el-col>
+                        <el-col :span="10">
+                          <el-input
+                            v-model="dataItem.value"
+                            placeholder="Value"
+                            size="mini"
+                          ></el-input>
+                        </el-col>
+                        <el-col :span="6">
+                          <el-input
+                            v-model="dataItem.desc"
+                            placeholder="Description"
+                            size="mini"
+                          ></el-input>
+                        </el-col>
+                        <el-col :span="2">
+                          <el-button
+                            @click.prevent="removeDataForm(dataItem)"
+                            type="danger"
+                            icon="el-icon-delete"
+                            circle
+                            size="mini"
+                          ></el-button>
+                        </el-col>
+                      </el-row>
+                    </el-form-item>
+                  </div>
+                  <div v-else-if="dataAdd.bodyType == 1">
+                    <el-form-item
                       v-for="(dataItem, index) in dataAddFormDataEncoded"
                       :index="index"
-                      :key="index">
-                    <el-row :gutter="10">
-                      <el-col :span="1">
+                      :key="index"
+                    >
+                      <el-row :gutter="10">
+                        <el-col :span="1">
                           <el-checkbox v-model="dataItem.checked"></el-checkbox>
-                      </el-col>
-                      <el-col :span="5">
-                          <el-input v-model="dataItem.name" placeholder="Key" size='mini' @blur=addDataFormEncoded(dataItem)></el-input>
-                      </el-col>
-                      <el-col :span="10">
-                          <el-input v-model="dataItem.value" placeholder="Value" size='mini'></el-input>
-                      </el-col> 
-                      <el-col :span="6">
-                         <el-input v-model="dataItem.desc" placeholder="Description" size='mini'></el-input>
-                      </el-col>
-                      <el-col :span="2">
-                          <el-button @click.prevent="removeDataFormEncoded(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-                      </el-col>
-                    </el-row>
-                  </el-form-item>    
-                </div> 
-                <div v-else-if="dataAdd.bodyType==2">
-                    <el-input v-model="dataAdd.raw" size="mini" type="textarea" :rows="6" @input="forceUpdate"></el-input>
-                </div>   
+                        </el-col>
+                        <el-col :span="5">
+                          <el-input
+                            v-model="dataItem.name"
+                            placeholder="Key"
+                            size="mini"
+                            @blur="addDataFormEncoded(dataItem)"
+                          ></el-input>
+                        </el-col>
+                        <el-col :span="10">
+                          <el-input
+                            v-model="dataItem.value"
+                            placeholder="Value"
+                            size="mini"
+                          ></el-input>
+                        </el-col>
+                        <el-col :span="6">
+                          <el-input
+                            v-model="dataItem.desc"
+                            placeholder="Description"
+                            size="mini"
+                          ></el-input>
+                        </el-col>
+                        <el-col :span="2">
+                          <el-button
+                            @click.prevent="removeDataFormEncoded(dataItem)"
+                            type="danger"
+                            icon="el-icon-delete"
+                            circle
+                            size="mini"
+                          ></el-button>
+                        </el-col>
+                      </el-row>
+                    </el-form-item>
+                  </div>
+                  <div v-else-if="dataAdd.bodyType == 2">
+                    <el-input
+                      v-model="dataAdd.raw"
+                      size="mini"
+                      type="textarea"
+                      :rows="6"
+                      @input="forceUpdate"
+                    ></el-input>
+                  </div>
+                </el-tab-pane>
+              </el-tabs>
             </el-tab-pane>
-        </el-tabs>
-          </el-collapse-item>
 
-
-
-        <el-collapse-item title="请求参数缓存">
-                <el-button @click.prevent="addPreProcessor" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
-                <el-form-item
-                    v-for="(preProcessorItem, index) in preProcessorList"
-                    :index="index"
-                    :key="index">
+            <el-tab-pane label="请求参数缓存" name="请求参数缓存">
+              <el-button
+                @click.prevent="addPreProcessor"
+                icon="el-icon-circle-plus-outline"
+                circle
+                type="primary"
+                size="mini"
+              ></el-button>
+              <el-form-item
+                v-for="(preProcessorItem, index) in preProcessorList"
+                :index="index"
+                :key="index"
+              >
                 <el-row :gutter="20">
-                    <el-col :span="4">
-                        <el-input v-model="preProcessorItem.name" placeholder="名称" size="mini" ></el-input>
-                    </el-col>
-                     <el-col :span="5">
-                        <el-select v-model="preProcessorItem.type" size='mini'>
-                          <el-option
-                            v-for="item in preProcessorTypeOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                    </el-col> 
-                    <el-col :span="6">
-                        <el-input v-model="preProcessorItem.expression" placeholder="提取表达式"  size="mini"></el-input>
-                    </el-col> 
-                    <el-col :span="2">
-                        <el-switch
-                          v-model="preProcessorItem.haveDefaultValue"
-                          :active-value=0
-                          :inactive-value=1>
-                        </el-switch>
-                    </el-col> 
-                    <el-col :span="5">
-                        <el-input v-model="preProcessorItem.defaultValue" placeholder="默认值"  size="mini" v-if="preProcessorItem.haveDefaultValue==0"></el-input>
-                    </el-col> 
-                    <el-col :span="2">
-                        <el-button @click.prevent="removePreProcessor(preProcessorItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-                    </el-col>
-                </el-row> 
-                </el-form-item>
-          </el-collapse-item>
+                  <el-col :span="4">
+                    <el-input
+                      v-model="preProcessorItem.name"
+                      placeholder="名称"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="5">
+                    <el-select v-model="preProcessorItem.type" size="mini">
+                      <el-option
+                        v-for="item in preProcessorTypeOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      >
+                      </el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="6">
+                    <el-input
+                      v-model="preProcessorItem.expression"
+                      placeholder="提取表达式"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="5">
+                    <el-input
+                      v-model="preProcessorItem.defaultValue"
+                      placeholder="默认值"
+                      size="mini"
+                      v-if="preProcessorItem.haveDefaultValue == 0"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="2">
+                    <el-switch
+                      v-model="preProcessorItem.haveDefaultValue"
+                      :active-value="0"
+                      :inactive-value="1"
+                    >
+                    </el-switch>
+                  </el-col>
+                  <el-col :span="2">
+                    <el-button
+                      @click.prevent="removePreProcessor(preProcessorItem)"
+                      type="danger"
+                      icon="el-icon-delete"
+                      circle
+                      size="mini"
+                    ></el-button>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+            </el-tab-pane>
 
-
-
-          <el-collapse-item title="断言信息">
-                <el-button @click.prevent="addAssert" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
-                <el-form-item
-                    v-for="(assertItem, index) in assertList"
-                    :index="index"
-                    :key="index">
+            <el-tab-pane label="断言信息" name="断言信息">
+              <el-button
+                @click.prevent="addAssert"
+                icon="el-icon-circle-plus-outline"
+                circle
+                type="primary"
+                size="mini"
+              ></el-button>
+              <el-form-item
+                v-for="(assertItem, index) in assertList"
+                :index="index"
+                :key="index"
+              >
                 <el-row :gutter="20">
-                    <el-col :span="2">
-                        <el-input v-model="assertItem.order" placeholder="排序" size="mini"></el-input>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-input v-model="assertItem.assertName" placeholder="描述"  size="mini"></el-input>
-                    </el-col> 
-                    <el-col :span="3">
-                        <el-select v-model="assertItem.type" size='mini'>
-                          <el-option
-                            v-for="item in assertTypeOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                    </el-col> 
-                    <el-col :span="5">
-                        <el-input v-model="assertItem.expression" placeholder="提取表达式"  size="mini"></el-input>
-                    </el-col> 
-                    <el-col :span="3">
-                        <el-select v-model="assertItem.operator" size='mini'>
-                          <el-option
-                            v-for="item in assertOperatorOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                    </el-col> 
-                    <el-col :span="5">
-                        <el-input v-model="assertItem.exceptedResult" placeholder="预期结果"  size="mini"></el-input>
-                    </el-col> 
-                    <el-col :span="2">
-                        <el-button @click.prevent="removeAssert(assertItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-                    </el-col>
-                </el-row> 
-                </el-form-item>
-          </el-collapse-item>
+                  <el-col :span="2">
+                    <el-input
+                      v-model="assertItem.order"
+                      placeholder="排序"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="4">
+                    <el-input
+                      v-model="assertItem.assertName"
+                      placeholder="描述"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="3">
+                    <el-select v-model="assertItem.type" size="mini">
+                      <el-option
+                        v-for="item in assertTypeOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      >
+                      </el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="5">
+                    <el-input
+                      v-model="assertItem.expression"
+                      placeholder="提取表达式"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="3">
+                    <el-select v-model="assertItem.operator" size="mini">
+                      <el-option
+                        v-for="item in assertOperatorOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      >
+                      </el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="5">
+                    <el-input
+                      v-model="assertItem.exceptedResult"
+                      placeholder="预期结果"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="2">
+                    <el-button
+                      @click.prevent="removeAssert(assertItem)"
+                      type="danger"
+                      icon="el-icon-delete"
+                      circle
+                      size="mini"
+                    ></el-button>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+            </el-tab-pane>
 
-        <el-collapse-item title="响应数据缓存">
-                <el-button @click.prevent="addPostProcessor" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
-                <el-form-item
-                    v-for="(postProcessorItem, index) in postProcessorList"
-                    :index="index"
-                    :key="index">
+            <el-tab-pane label="响应数据缓存" name="响应数据缓存">
+              <el-button
+                @click.prevent="addPostProcessor"
+                icon="el-icon-circle-plus-outline"
+                circle
+                type="primary"
+                size="mini"
+              ></el-button>
+              <el-form-item
+                v-for="(postProcessorItem, index) in postProcessorList"
+                :index="index"
+                :key="index"
+              >
                 <el-row :gutter="20">
-                    <el-col :span="4">
-                        <el-input v-model="postProcessorItem.name" placeholder="名称" size="mini" ></el-input>
-                    </el-col>
-                     <el-col :span="5">
-                        <el-select v-model="postProcessorItem.type" size='mini'>
-                          <el-option
-                            v-for="item in postProcessorTypeOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                    </el-col> 
-                    <el-col :span="6">
-                        <el-input v-model="postProcessorItem.expression" placeholder="提取表达式"  size="mini"></el-input>
-                    </el-col> 
-                    <el-col :span="2">
-                        <el-switch
-                          v-model="postProcessorItem.haveDefaultValue"
-                          :active-value=0
-                          :inactive-value=1>
-                        </el-switch>
-                    </el-col> 
-                    <el-col :span="5">
-                        <el-input v-model="postProcessorItem.defaultValue" placeholder="默认值"  size="mini" v-if="postProcessorItem.haveDefaultValue==0"></el-input>
-                    </el-col> 
-                    <el-col :span="2">
-                        <el-button @click.prevent="removePostProcessor(postProcessorItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-                    </el-col>
-                </el-row> 
-                </el-form-item>
-          </el-collapse-item>
-
-
-      </el-collapse>
-      </el-form>
+                  <el-col :span="4">
+                    <el-input
+                      v-model="postProcessorItem.name"
+                      placeholder="名称"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="5">
+                    <el-select v-model="postProcessorItem.type" size="mini">
+                      <el-option
+                        v-for="item in postProcessorTypeOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      >
+                      </el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="6">
+                    <el-input
+                      v-model="postProcessorItem.expression"
+                      placeholder="提取表达式"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="5">
+                    <el-input
+                      v-model="postProcessorItem.defaultValue"
+                      placeholder="默认值"
+                      size="mini"
+                      v-if="postProcessorItem.haveDefaultValue == 0"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="2">
+                    <el-switch
+                      v-model="postProcessorItem.haveDefaultValue"
+                      :active-value="0"
+                      :inactive-value="1"
+                    >
+                    </el-switch>
+                  </el-col>
+                  <el-col :span="2">
+                    <el-button
+                      @click.prevent="removePostProcessor(postProcessorItem)"
+                      type="danger"
+                      icon="el-icon-delete"
+                      circle
+                      size="mini"
+                    ></el-button>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+            </el-tab-pane>
+          </el-tabs>
+        </el-form>
         <div slot="footer" class="dialog-footer">
-            <el-button @click="addDialogFormVisible = false" size="mini">取 消</el-button>
-            <el-button type="primary" @click="handleAdd()" size="mini">确 定</el-button>
+          <el-button @click="addDialogFormVisible = false" size="mini"
+            >取 消</el-button
+          >
+          <el-button type="primary" @click="handleAdd()" size="mini"
+            >确 定</el-button
+          >
         </div>
       </el-dialog>
 
-      <el-dialog title="选择" :visible.sync="selectProjectModuleDialogFormVisible" append-to-body>
-        <el-form :inline="true" :model="projectModuleQuery" class="demo-form-inline" ref="queryForm">
+      <el-dialog
+        title="选择"
+        :visible.sync="selectProjectModuleDialogFormVisible"
+        append-to-body
+      >
+        <el-form
+          :inline="true"
+          :model="projectModuleQuery"
+          class="demo-form-inline"
+          ref="queryForm"
+        >
           <el-form-item label="项目编号">
-            <el-input v-model="projectModuleQuery.projectId" placeholder="项目名称" size="mini"></el-input>
+            <el-input
+              v-model="projectModuleQuery.projectId"
+              placeholder="项目名称"
+              size="mini"
+            ></el-input>
           </el-form-item>
           <el-form-item label="项目名称">
-            <el-input v-model="projectModuleQuery.projectName" placeholder="项目名称" size="mini"></el-input>
+            <el-input
+              v-model="projectModuleQuery.projectName"
+              placeholder="项目名称"
+              size="mini"
+            ></el-input>
           </el-form-item>
           <el-form-item label="模块编号">
-            <el-input v-model="projectModuleQuery.moduleId" placeholder="模块编号" size="mini"></el-input>
+            <el-input
+              v-model="projectModuleQuery.moduleId"
+              placeholder="模块编号"
+              size="mini"
+            ></el-input>
           </el-form-item>
           <el-form-item label="模块名称">
-            <el-input v-model="projectModuleQuery.moduleName" placeholder="模块名称"  size="mini"></el-input>
+            <el-input
+              v-model="projectModuleQuery.moduleName"
+              placeholder="模块名称"
+              size="mini"
+            ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" icon="el-icon-search" circle @click="selectProjetModule" size="mini"></el-button>
-            <el-button type="primary" icon="el-icon-refresh" circle @click="resetProjectModuleQuery" size="mini"></el-button>
+            <el-button
+              type="primary"
+              icon="el-icon-search"
+              circle
+              @click="selectProjetModule"
+              size="mini"
+            ></el-button>
+            <el-button
+              type="primary"
+              icon="el-icon-refresh"
+              circle
+              @click="resetProjectModuleQuery"
+              size="mini"
+            ></el-button>
           </el-form-item>
         </el-form>
-        <el-table 
-        :data="projectModuleTable" 
-        stripe 
-        highlight-current-row 
-        @row-click="handleSelectProjetModule"
-        style="width: 100%">
-          <el-table-column property="projectId" label="项目编号" min-width="50%"></el-table-column>
-          <el-table-column property="projectName" label="项目名称" min-width="50%"></el-table-column>
-          <el-table-column property="moduleId" label="模块编号" min-width="50%"></el-table-column>
-          <el-table-column property="moduleName" label="模块名称" min-width="50%"></el-table-column>
+        <el-table
+          :data="projectModuleTable"
+          stripe
+          highlight-current-row
+          @row-click="handleSelectProjetModule"
+          style="width: 100%"
+        >
+          <el-table-column
+            property="projectId"
+            label="项目编号"
+            min-width="50%"
+          ></el-table-column>
+          <el-table-column
+            property="projectName"
+            label="项目名称"
+            min-width="50%"
+          ></el-table-column>
+          <el-table-column
+            property="moduleId"
+            label="模块编号"
+            min-width="50%"
+          ></el-table-column>
+          <el-table-column
+            property="moduleName"
+            label="模块名称"
+            min-width="50%"
+          ></el-table-column>
         </el-table>
         <div class="pagination" style="text-align: left;margin-top: 10px;">
           <el-pagination
@@ -657,210 +1168,412 @@
         </div>
       </el-dialog>
 
-
       <el-dialog title="日志详情" :visible.sync="logDetailDialogFormVisible">
         <el-form :model="logInfo">
           <el-tabs value="first">
-          <el-tab-pane label="基本信息" name="first">
-          <el-form-item label="用例编号" label-width="100px">
-            <el-input v-model="logInfo.caseId" readonly size='mini'></el-input>
-          </el-form-item>
-          <el-form-item label="用例描述" label-width="100px">
-            <el-input v-model="logInfo.caseDesc" readonly size='mini'></el-input>
-          </el-form-item>
-          <el-form-item label="执行用时(ms)" label-width="100px">
-            <el-input v-model="logInfo.runTime" readonly size='mini'></el-input>
-          </el-form-item> 
-          <el-form-item label="执行人" label-width="100px">
-            <el-input v-model="logInfo.executer" readonly size='mini'></el-input>
-          </el-form-item> 
-          <el-form-item label="执行时间" label-width="100px">
-            <el-input v-model="logInfo.createdTime" readonly size='mini'></el-input>
-          </el-form-item> 
-          <el-form-item label="执行编号" label-width="100px">
-            <el-input v-model="logInfo.suiteLogNo" readonly size='mini'></el-input>
-          </el-form-item> 
-          <el-form-item label="异常信息" label-width="100px" v-if="logInfo.status=='错误'">
-            <el-input v-model="logInfo.errorMessage" readonly size="mini" type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
-          </el-form-item> 
-          <el-form-item label="执行状态" label-width="100px">
-            <template>
-              <el-tag
-                effect="dark"
-                size="mini"
-                :type="logInfo.statusStyle"
-                disable-transitions>{{logInfo.status}}</el-tag>
-            </template>
-          </el-form-item> 
-          <el-form-item label="失败重跑" label-width="100px">
-            <template>
-              <el-tag
-                effect="dark"
-                size="mini"
-                :type="logInfo.isFailedRetryStyle"
-                disable-transitions>{{logInfo.isFailedRetryValue}}</el-tag>
-            </template>
-          </el-form-item> 
-          </el-tab-pane>
-          <el-tab-pane label="请求信息" name="second">
-          <el-form-item label="body-type" label-width="100px">
-            <el-input v-if="logInfo.bodyType==0" value="form-data" readonly size="mini"></el-input>
-            <el-input v-else-if="logInfo.bodyType==1" value="x-www-form-encoded" readonly size="mini"></el-input>
-            <el-input v-else-if="logInfo.bodyType==2" value="raw" readonly size="mini"></el-input>
-            <el-input v-else-if="logInfo.bodyType==3" value="none" readonly size="mini"></el-input>
-          </el-form-item> 
-          <el-form-item label="url" label-width="100px">
-            <el-input v-model="logInfo.caseUrl" readonly size="mini"></el-input>
-          </el-form-item>          
-          <el-row :gutter="25">
-            <el-col :span="22">
-            <el-form-item label="headers" label-width="100px">
-              <el-input v-model="logInfo.requestHeaders" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
-            </el-form-item>
-            </el-col>
-            <el-col :span="2">
-              <el-button @click="showRawRequestHeaders" type="primary" icon="el-icon-thumb" size="mini" circle></el-button>
-            </el-col>
-          </el-row>  
-          <el-row :gutter="25" v-if=isShowRawRequestHeaders>
-            <el-col :span="22">
-            <el-form-item label="rawHeaders" label-width="100px">
-              <el-input v-model="logInfo.rawRequestHeaders" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
-            </el-form-item>
-            </el-col>
-          </el-row> 
-          <el-row :gutter="25">
-            <el-col :span="22">
-            <el-form-item label="params" label-width="100px">
-              <el-input v-model="logInfo.requestParams" readonly  type="textarea" size="mini" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
-            </el-form-item>
-            </el-col>
-            <el-col :span="2">
-              <el-button @click="showRawRequestParams" type="primary" icon="el-icon-thumb" size="mini" circle></el-button>
-            </el-col>
-          </el-row>  
-          <el-row :gutter="25" v-if=isShowRawRequestParams>
-            <el-col :span="22">
-            <el-form-item label="rawParams" label-width="100px">
-              <el-input v-model="logInfo.rawRequestParams" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
-            </el-form-item>
-            </el-col>
-          </el-row> 
-          <el-row :gutter="25">
-            <el-col :span="22">
-            <el-form-item label="body" label-width="100px">
-              <el-input v-model="logInfo.requestBody" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
-            </el-form-item>
-            </el-col>
-            <el-col :span="2">
-              <el-button @click="showRawRequestBody" type="primary" icon="el-icon-thumb" size="mini" circle></el-button>
-            </el-col>
-          </el-row>  
-          <el-row :gutter="25" v-if=isShowRawRequestBody>
-            <el-col :span="22">
-            <el-form-item label="rawBody" label-width="100px">
-              <el-input v-model="logInfo.rawRequestBody" readonly size="mini"  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
-            </el-form-item>
-            </el-col>
-          </el-row> 
-          </el-tab-pane>
-          <el-tab-pane label="响应信息" name="third">
-          <el-form-item label="code" label-width="100px">
-            <el-input v-model="logInfo.responseCode" readonly  size='mini'></el-input>
-          </el-form-item> 
-          <el-row :gutter="25">
-            <el-col :span="24">
-            <el-form-item label="headers" label-width="100px">
-              <el-input v-model="logInfo.responseHeaders" readonly  type="textarea" size="mini" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
-            </el-form-item>
-            </el-col>
-            <el-col :span="2">
-            </el-col>
-          </el-row>
-          <el-row :gutter="25">
-            <el-col :span="24">
-            <el-form-item label="body" label-width="100px">
-              <el-input v-model="logInfo.responseBody" readonly  type="textarea" size="mini" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
-            </el-form-item>
-            </el-col>
-            <el-col :span="2">
-            </el-col>
-          </el-row>       
-          </el-tab-pane>
-          <el-tab-pane label="断言信息" name="fourth">
-            <el-table :data="assertInfo" stripe highlight-current-row style="width: 100%">
-              <el-table-column type="expand">
-                <template slot-scope="props">
-                  <el-form label-position="right">
-                    <el-form-item label="提取方式" label-width="100px">
-                      <el-input :value="props.row.type" readonly size="mini"></el-input>
-                    </el-form-item>
-                    <el-form-item label="提取表达式" label-width="100px">
-                      <el-input :value="props.row.expression" readonly size="mini"></el-input>
-                    </el-form-item>
-                    <el-row :gutter="25">
-                      <el-col :span="22">
-                      <el-form-item label="预期结果" label-width="100px">
-                        <el-input :value="props.row.exceptedResult" size="mini"  readonly  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
-                      </el-form-item>
-                      </el-col>
-                      <el-col :span="2">
-                        <el-button @click="showRawExceptedResult" type="primary" icon="el-icon-thumb" size="mini" circle></el-button>
-                      </el-col>
-                    </el-row>  
-                    <el-row :gutter="25" v-if=isShowRawExceptedResult>
-                      <el-col :span="22">
-                      <el-form-item label="原始预期结果" label-width="100px">
-                        <el-input :value="props.row.rawExceptedResult" size="mini"  readonly  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
-                      </el-form-item>
-                      </el-col>
-                    </el-row>  
-                    <el-form-item label="比较类型" label-width="100px">
-                      <el-input :value="props.row.operator" readonly size="mini"></el-input>
-                    </el-form-item>
-                    <el-form-item label="实际结果" label-width="100px">
-                      <el-input :value="props.row.actualResult" size="mini" readonly  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
-                    </el-form-item>
-                    <el-form-item label="错误信息" label-width="100px" v-if="props.row.errorMessage!=null">
-                      <el-input :value="props.row.errorMessage" size="mini" readonly  type="textarea" :autosize="{ minRows: 2, maxRows: 6 }"></el-input>
-                    </el-form-item>
-                  </el-form>
-                </template>
-              </el-table-column>
-              <el-table-column property="order" label="排序" min-width="5%"></el-table-column>
-              <el-table-column property="assertName" label="断言名称" min-width="10%"></el-table-column>
-              <el-table-column property="status" label="状态" min-width="10%">
-                <template slot-scope="scope">
+            <el-tab-pane label="基本信息" name="first">
+              <el-form-item label="用例编号" label-width="100px">
+                <el-input
+                  v-model="logInfo.caseId"
+                  readonly
+                  size="mini"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="用例描述" label-width="100px">
+                <el-input
+                  v-model="logInfo.caseDesc"
+                  readonly
+                  size="mini"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="执行用时(ms)" label-width="100px">
+                <el-input
+                  v-model="logInfo.runTime"
+                  readonly
+                  size="mini"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="执行人" label-width="100px">
+                <el-input
+                  v-model="logInfo.executer"
+                  readonly
+                  size="mini"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="执行时间" label-width="100px">
+                <el-input
+                  v-model="logInfo.createdTime"
+                  readonly
+                  size="mini"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="执行编号" label-width="100px">
+                <el-input
+                  v-model="logInfo.suiteLogNo"
+                  readonly
+                  size="mini"
+                ></el-input>
+              </el-form-item>
+              <el-form-item
+                label="异常信息"
+                label-width="100px"
+                v-if="logInfo.status == '错误'"
+              >
+                <el-input
+                  v-model="logInfo.errorMessage"
+                  readonly
+                  size="mini"
+                  type="textarea"
+                  :autosize="{ minRows: 2, maxRows: 6 }"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="执行状态" label-width="100px">
+                <template>
                   <el-tag
                     effect="dark"
                     size="mini"
-                    :type="scope.row.assertStatusStyle"
-                    disable-transitions>{{scope.row.status}}</el-tag>
+                    :type="logInfo.statusStyle"
+                    disable-transitions
+                    >{{ logInfo.status }}</el-tag
+                  >
                 </template>
-              </el-table-column>
-            </el-table>
-          </el-tab-pane>
-          </el-tabs>        
+              </el-form-item>
+              <el-form-item label="失败重跑" label-width="100px">
+                <template>
+                  <el-tag
+                    effect="dark"
+                    size="mini"
+                    :type="logInfo.isFailedRetryStyle"
+                    disable-transitions
+                    >{{ logInfo.isFailedRetryValue }}</el-tag
+                  >
+                </template>
+              </el-form-item>
+            </el-tab-pane>
+            <el-tab-pane label="请求信息" name="second">
+              <el-form-item label="body-type" label-width="100px">
+                <el-input
+                  v-if="logInfo.bodyType == 0"
+                  value="form-data"
+                  readonly
+                  size="mini"
+                ></el-input>
+                <el-input
+                  v-else-if="logInfo.bodyType == 1"
+                  value="x-www-form-encoded"
+                  readonly
+                  size="mini"
+                ></el-input>
+                <el-input
+                  v-else-if="logInfo.bodyType == 2"
+                  value="raw"
+                  readonly
+                  size="mini"
+                ></el-input>
+                <el-input
+                  v-else-if="logInfo.bodyType == 3"
+                  value="none"
+                  readonly
+                  size="mini"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="url" label-width="100px">
+                <el-input
+                  v-model="logInfo.caseUrl"
+                  readonly
+                  size="mini"
+                ></el-input>
+              </el-form-item>
+              <el-row :gutter="25">
+                <el-col :span="22">
+                  <el-form-item label="headers" label-width="100px">
+                    <el-input
+                      v-model="logInfo.requestHeaders"
+                      readonly
+                      size="mini"
+                      type="textarea"
+                      :autosize="{ minRows: 2, maxRows: 6 }"
+                    ></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="2">
+                  <el-button
+                    @click="showRawRequestHeaders"
+                    type="primary"
+                    icon="el-icon-thumb"
+                    size="mini"
+                    circle
+                  ></el-button>
+                </el-col>
+              </el-row>
+              <el-row :gutter="25" v-if="isShowRawRequestHeaders">
+                <el-col :span="22">
+                  <el-form-item label="rawHeaders" label-width="100px">
+                    <el-input
+                      v-model="logInfo.rawRequestHeaders"
+                      readonly
+                      size="mini"
+                      type="textarea"
+                      :autosize="{ minRows: 2, maxRows: 6 }"
+                    ></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row :gutter="25">
+                <el-col :span="22">
+                  <el-form-item label="params" label-width="100px">
+                    <el-input
+                      v-model="logInfo.requestParams"
+                      readonly
+                      type="textarea"
+                      size="mini"
+                      :autosize="{ minRows: 2, maxRows: 6 }"
+                    ></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="2">
+                  <el-button
+                    @click="showRawRequestParams"
+                    type="primary"
+                    icon="el-icon-thumb"
+                    size="mini"
+                    circle
+                  ></el-button>
+                </el-col>
+              </el-row>
+              <el-row :gutter="25" v-if="isShowRawRequestParams">
+                <el-col :span="22">
+                  <el-form-item label="rawParams" label-width="100px">
+                    <el-input
+                      v-model="logInfo.rawRequestParams"
+                      readonly
+                      size="mini"
+                      type="textarea"
+                      :autosize="{ minRows: 2, maxRows: 6 }"
+                    ></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row :gutter="25">
+                <el-col :span="22">
+                  <el-form-item label="body" label-width="100px">
+                    <el-input
+                      v-model="logInfo.requestBody"
+                      readonly
+                      size="mini"
+                      type="textarea"
+                      :autosize="{ minRows: 2, maxRows: 6 }"
+                    ></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="2">
+                  <el-button
+                    @click="showRawRequestBody"
+                    type="primary"
+                    icon="el-icon-thumb"
+                    size="mini"
+                    circle
+                  ></el-button>
+                </el-col>
+              </el-row>
+              <el-row :gutter="25" v-if="isShowRawRequestBody">
+                <el-col :span="22">
+                  <el-form-item label="rawBody" label-width="100px">
+                    <el-input
+                      v-model="logInfo.rawRequestBody"
+                      readonly
+                      size="mini"
+                      type="textarea"
+                      :autosize="{ minRows: 2, maxRows: 6 }"
+                    ></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-tab-pane>
+            <el-tab-pane label="响应信息" name="third">
+              <el-form-item label="code" label-width="100px">
+                <el-input
+                  v-model="logInfo.responseCode"
+                  readonly
+                  size="mini"
+                ></el-input>
+              </el-form-item>
+              <el-row :gutter="25">
+                <el-col :span="24">
+                  <el-form-item label="headers" label-width="100px">
+                    <el-input
+                      v-model="logInfo.responseHeaders"
+                      readonly
+                      type="textarea"
+                      size="mini"
+                      :autosize="{ minRows: 2, maxRows: 6 }"
+                    ></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="2"> </el-col>
+              </el-row>
+              <el-row :gutter="25">
+                <el-col :span="24">
+                  <el-form-item label="body" label-width="100px">
+                    <el-input
+                      v-model="logInfo.responseBody"
+                      readonly
+                      type="textarea"
+                      size="mini"
+                      :autosize="{ minRows: 2, maxRows: 6 }"
+                    ></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="2"> </el-col>
+              </el-row>
+            </el-tab-pane>
+            <el-tab-pane label="断言信息" name="fourth">
+              <el-table
+                :data="assertInfo"
+                stripe
+                highlight-current-row
+                style="width: 100%"
+              >
+                <el-table-column type="expand">
+                  <template slot-scope="props">
+                    <el-form label-position="right">
+                      <el-form-item label="提取方式" label-width="100px">
+                        <el-input
+                          :value="props.row.type"
+                          readonly
+                          size="mini"
+                        ></el-input>
+                      </el-form-item>
+                      <el-form-item label="提取表达式" label-width="100px">
+                        <el-input
+                          :value="props.row.expression"
+                          readonly
+                          size="mini"
+                        ></el-input>
+                      </el-form-item>
+                      <el-row :gutter="25">
+                        <el-col :span="22">
+                          <el-form-item label="预期结果" label-width="100px">
+                            <el-input
+                              :value="props.row.exceptedResult"
+                              size="mini"
+                              readonly
+                              type="textarea"
+                              :autosize="{ minRows: 2, maxRows: 6 }"
+                            ></el-input>
+                          </el-form-item>
+                        </el-col>
+                        <el-col :span="2">
+                          <el-button
+                            @click="showRawExceptedResult"
+                            type="primary"
+                            icon="el-icon-thumb"
+                            size="mini"
+                            circle
+                          ></el-button>
+                        </el-col>
+                      </el-row>
+                      <el-row :gutter="25" v-if="isShowRawExceptedResult">
+                        <el-col :span="22">
+                          <el-form-item
+                            label="原始预期结果"
+                            label-width="100px"
+                          >
+                            <el-input
+                              :value="props.row.rawExceptedResult"
+                              size="mini"
+                              readonly
+                              type="textarea"
+                              :autosize="{ minRows: 2, maxRows: 6 }"
+                            ></el-input>
+                          </el-form-item>
+                        </el-col>
+                      </el-row>
+                      <el-form-item label="比较类型" label-width="100px">
+                        <el-input
+                          :value="props.row.operator"
+                          readonly
+                          size="mini"
+                        ></el-input>
+                      </el-form-item>
+                      <el-form-item label="实际结果" label-width="100px">
+                        <el-input
+                          :value="props.row.actualResult"
+                          size="mini"
+                          readonly
+                          type="textarea"
+                          :autosize="{ minRows: 2, maxRows: 6 }"
+                        ></el-input>
+                      </el-form-item>
+                      <el-form-item
+                        label="错误信息"
+                        label-width="100px"
+                        v-if="props.row.errorMessage != null"
+                      >
+                        <el-input
+                          :value="props.row.errorMessage"
+                          size="mini"
+                          readonly
+                          type="textarea"
+                          :autosize="{ minRows: 2, maxRows: 6 }"
+                        ></el-input>
+                      </el-form-item>
+                    </el-form>
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  property="order"
+                  label="排序"
+                  min-width="5%"
+                ></el-table-column>
+                <el-table-column
+                  property="assertName"
+                  label="断言名称"
+                  min-width="10%"
+                ></el-table-column>
+                <el-table-column property="status" label="状态" min-width="10%">
+                  <template slot-scope="scope">
+                    <el-tag
+                      effect="dark"
+                      size="mini"
+                      :type="scope.row.assertStatusStyle"
+                      disable-transitions
+                      >{{ scope.row.status }}</el-tag
+                    >
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-tab-pane>
+          </el-tabs>
         </el-form>
       </el-dialog>
 
-<!--执行近况-->
+      <!--执行近况-->
       <el-dialog title="执行近况" :visible.sync="lastTenLogVisible">
         <div class="block">
-          <el-timeline v-if="lastTenLogList!=0">
-            <el-timeline-item  v-for="log in lastTenLogList" :key="log.id" placement="top" :color="log.color">
+          <el-timeline v-if="lastTenLogList != 0">
+            <el-timeline-item
+              v-for="log in lastTenLogList"
+              :key="log.id"
+              placement="top"
+              :color="log.color"
+            >
               <el-card>
                 <el-row>
                   <el-col :span="21">
-                      <p>{{log.executer}} 执行于 {{log.createdTime}} 耗时 {{log.runTime}}</p>
+                    <p>
+                      {{ log.executer }} 执行于 {{ log.createdTime }} 耗时
+                      {{ log.runTime }}
+                    </p>
                   </el-col>
                   <el-col :span="3">
-                    <el-button 
-                    v-has="'interface:case:logInfo'"
-                    plain 
-                    size="mini" 
-                    @click="handleLogDetail(log.id)"
-                    style="background-color: #FFFFFF; color: #324057; border:none;font-size: 14px;">详情
+                    <el-button
+                      v-has="'interface:case:logInfo'"
+                      plain
+                      size="mini"
+                      @click="handleLogDetail(log.id)"
+                      style="background-color: #FFFFFF; color: #324057; border:none;font-size: 14px;"
+                      >详情
                     </el-button>
                   </el-col>
                 </el-row>
@@ -868,378 +1581,690 @@
             </el-timeline-item>
           </el-timeline>
           <el-card v-else>
-              <p align="center">暂无执行记录</p>
+            <p align="center">暂无执行记录</p>
           </el-card>
         </div>
       </el-dialog>
 
-<!-- 1111111111 -->
-      <el-dialog title="编辑" :visible.sync="editDialogFormVisible" :close-on-click-modal="false">
+      <!-- 1111111111 -->
+      <el-dialog
+        title="编辑"
+        :visible.sync="editDialogFormVisible"
+        :close-on-click-modal="false"
+      >
         <el-form :model="dataInfo" ref="dataInfo">
-        <el-collapse>
-
-          <el-collapse-item title="前置用例">
-                <el-button @click.prevent="addPreCase" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
-                <el-form-item
-                    v-for="(preCaseItem, index) in preCaseList"
-                    :index="index"
-                    :key="index">
+          <el-tabs v-model="defaultTab">
+            <el-tab-pane label="前置用例" name="前置用例">
+              <el-button
+                @click.prevent="addPreCase"
+                icon="el-icon-circle-plus-outline"
+                circle
+                type="primary"
+                size="mini"
+              ></el-button>
+              <el-form-item
+                v-for="(preCaseItem, index) in preCaseList"
+                :index="index"
+                :key="index"
+              >
                 <el-row :gutter="10">
-                    <el-col :span="1">
-                        <el-checkbox v-model="preCaseItem.status" :true-label=0 :false-label=1></el-checkbox>
-                    </el-col>
-                    <el-col :span="2">
-                        <el-input v-model="preCaseItem.order" placeholder="排序" size="mini"></el-input>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-input v-model="preCaseItem.preCaseId" placeholder="前置用例编号" disabled size="mini"></el-input>
-                    </el-col>
-                    <el-col :span="14">
-                        <el-input v-model="preCaseItem.preCaseDesc" readonly placeholder="前置用例描述，请点击选择" @focus='handlePreCaseList(index)'  size="mini"></el-input>
-                    </el-col> 
-                    <el-col :span="1">
-                        <el-button @click.prevent="openViewProcessor(preCaseItem.preCaseId)" type="primary" icon="el-icon-more" circle size="mini"></el-button>
-                    </el-col>
-                    <el-col :span="1">
-                        <el-button @click.prevent="removePreCase(preCaseItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-                    </el-col>
-                </el-row> 
-                </el-form-item>
-          </el-collapse-item>
-
-
-        <el-collapse-item title="基本信息">
-          <el-form-item label="*项目名称" label-width="100px">
-            <el-input readonly v-model="dataInfo.projectName" @focus='handleProjectModuleList' size="mini" disabled></el-input>
-          </el-form-item>
-          <el-form-item label="*模块名称" label-width="100px">
-            <el-input readonly v-model="dataInfo.moduleName" @focus='handleProjectModuleList' size="mini"  placeholder="请点击选择"></el-input>
-          </el-form-item>
-          <el-form-item label="*用例名称" label-width="100px">
-            <el-input v-model="dataInfo.desc" size="mini"></el-input>
-          </el-form-item>
-          <el-form-item label="接口文档地址" label-width="100px">
-            <el-input v-model="dataInfo.doc" size="mini"></el-input>
-          </el-form-item>
-          <el-form-item label="*用例等级" label-width="100px">
-            <el-select v-model="dataInfo.level" placeholder="请选择"  size="mini">
-              <el-option
-                v-for="item in levelOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="*创建人" label-width="100px">
-            <el-input v-model="dataInfo.creater"  size="mini" disabled></el-input>
-          </el-form-item>
-        </el-collapse-item>
-
-        <el-collapse-item title="请求信息">
-          <el-row :gutter="20">
-          <el-col :span="4">
-            <el-select v-model="dataInfo.method" placeholder="method"  size="mini" @change="changeMethod">
-              <el-option
-                v-for="item in requestMethodOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-col>
-          <el-col :span="20">
-            <el-input v-model="dataInfo.url"  size="mini" placeholder="Enter request url"></el-input>
-          </el-col> 
-          </el-row>  
-
-        <el-tabs >
-            <el-tab-pane label="Headers">
-                <el-form-item
-                    v-for="(headerItem, index) in dataAddHeaders"
-                    :index="index"
-                    :key="headerItem.key">
-                <el-row :gutter="10">
-                    <el-col :span="1">
-                        <el-checkbox v-model="headerItem.checked"></el-checkbox>
-                    </el-col>
-                    <el-col :span="5">
-                        <el-input v-model="headerItem.name" placeholder="Key" size='mini' @blur=addHeader(headerItem)></el-input>
-                    </el-col>
-                    <el-col :span="10">
-                        <el-input v-model="headerItem.value" placeholder="Value" size='mini'></el-input>
-                    </el-col> 
-                    <el-col :span="6">
-                        <el-input v-model="headerItem.desc" placeholder="Description" size='mini'></el-input>
-                    </el-col>
-                    <el-col :span="2">
-                        <el-button @click.prevent="removeHeader(headerItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-                    </el-col>
+                  <el-col :span="1">
+                    <el-checkbox
+                      v-model="preCaseItem.status"
+                      :true-label="0"
+                      :false-label="1"
+                    ></el-checkbox>
+                  </el-col>
+                  <el-col :span="2">
+                    <el-input
+                      v-model="preCaseItem.order"
+                      placeholder="排序"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="4">
+                    <el-input
+                      v-model="preCaseItem.preCaseId"
+                      placeholder="前置用例编号"
+                      disabled
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="14">
+                    <el-input
+                      v-model="preCaseItem.preCaseDesc"
+                      readonly
+                      placeholder="请选择"
+                      @focus="handlePreCaseList(index)"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="1">
+                    <el-button
+                      @click.prevent="openViewProcessor(preCaseItem.preCaseId)"
+                      type="primary"
+                      icon="el-icon-more"
+                      circle
+                      size="mini"
+                    ></el-button>
+                  </el-col>
+                  <el-col :span="1">
+                    <el-button
+                      @click.prevent="removePreCase(preCaseItem)"
+                      type="danger"
+                      icon="el-icon-delete"
+                      circle
+                      size="mini"
+                    ></el-button>
+                  </el-col>
                 </el-row>
-                </el-form-item> 
+              </el-form-item>
             </el-tab-pane>
 
-            
-            <el-tab-pane label="Params">
-                <el-form-item
-                    v-for="(paramsItem, index) in dataAddParams"
-                    :index="index"
-                    :key="index">
-                  <el-row :gutter="10">
-                      <el-col :span="1">
-                          <el-checkbox v-model="paramsItem.checked"></el-checkbox>
-                      </el-col>
-                      <el-col :span="5">
-                          <el-input v-model="paramsItem.name" placeholder="Key" size='mini' @blur=addParams(paramsItem)></el-input>
-                      </el-col>
-                      <el-col :span="10">
-                          <el-input v-model="paramsItem.value" placeholder="Value" size='mini'></el-input>
-                      </el-col> 
-                      <el-col :span="6">
-                         <el-input v-model="paramsItem.desc" placeholder="Description" size='mini'></el-input>
-                      </el-col>
-                      <el-col :span="2">
-                          <el-button @click.prevent="removeParams(paramsItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-                      </el-col>
-                  </el-row>
-                </el-form-item>     
-            </el-tab-pane>
-
-            <el-tab-pane label="Body">
-                <el-radio-group v-model="dataInfo.bodyType" @change="forceUpdate">
-                  <el-radio :label="9" >none</el-radio>
-                  <el-radio :label="0" >form-data</el-radio>
-                  <el-radio :label="1" >x-www-form-encoded</el-radio>
-                  <el-radio :label="2" >raw</el-radio>
-                </el-radio-group>
-                <el-select v-model="dataInfo.rawType" placeholder="请选择" v-if="dataInfo.bodyType == 2" size="mini" style="width:10%" @change="forceUpdate">
+            <el-tab-pane label="基本信息" name="基本信息">
+              <el-form-item label="*项目名称" label-width="100px">
+                <el-input
+                  readonly
+                  v-model="dataInfo.projectName"
+                  @focus="handleProjectModuleList"
+                  size="mini"
+                  disabled
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="*模块名称" label-width="100px">
+                <el-input
+                  readonly
+                  v-model="dataInfo.moduleName"
+                  @focus="handleProjectModuleList"
+                  size="mini"
+                  placeholder="请点击选择"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="*用例名称" label-width="100px">
+                <el-input v-model="dataInfo.desc" size="mini"></el-input>
+              </el-form-item>
+              <el-form-item label="接口文档地址" label-width="100px">
+                <el-input v-model="dataInfo.doc" size="mini"></el-input>
+              </el-form-item>
+              <el-form-item label="*用例等级" label-width="100px">
+                <el-select
+                  v-model="dataInfo.level"
+                  placeholder="请选择"
+                  size="mini"
+                >
                   <el-option
-                    v-for="item in rawTypeOptions"
+                    v-for="item in levelOptions"
                     :key="item.value"
                     :label="item.label"
-                    :value="item.value">
+                    :value="item.value"
+                  >
                   </el-option>
                 </el-select>
-                <div v-if="dataInfo.bodyType==0">
+              </el-form-item>
+              <el-form-item label="*创建人" label-width="100px">
+                <el-input
+                  v-model="dataInfo.creater"
+                  size="mini"
+                  disabled
+                ></el-input>
+              </el-form-item>
+            </el-tab-pane>
+
+            <el-tab-pane label="请求信息" name="请求信息">
+              <el-row :gutter="20">
+                <el-col :span="4">
+                  <el-select
+                    v-model="dataInfo.method"
+                    placeholder="Method"
+                    size="mini"
+                    @change="changeMethod"
+                  >
+                    <el-option
+                      v-for="item in requestMethodOptions"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    >
+                    </el-option>
+                  </el-select>
+                </el-col>
+                <el-col :span="20">
+                  <el-input
+                    v-model="dataInfo.url"
+                    size="mini"
+                    placeholder="Enter request url"
+                  ></el-input>
+                </el-col>
+              </el-row>
+
+              <el-tabs>
+                <el-tab-pane label="Headers">
                   <el-form-item
-                      v-for="(dataItem, index) in dataAddFormData"
-                      :index="index"
-                      :key="index">
+                    v-for="(headerItem, index) in dataAddHeaders"
+                    :index="index"
+                    :key="headerItem.key"
+                  >
                     <el-row :gutter="10">
                       <el-col :span="1">
-                          <el-checkbox v-model="dataItem.checked"></el-checkbox>
+                        <el-checkbox v-model="headerItem.checked"></el-checkbox>
                       </el-col>
                       <el-col :span="5">
-                          <el-input v-model="dataItem.name" placeholder="Key" size='mini' @blur=addDataForm(dataItem)></el-input>
+                        <el-input
+                          v-model="headerItem.name"
+                          placeholder="Key"
+                          size="mini"
+                          @blur="addHeader(headerItem)"
+                        ></el-input>
                       </el-col>
                       <el-col :span="10">
-                          <el-input v-model="dataItem.value" placeholder="Value" size='mini'></el-input>
-                      </el-col> 
+                        <el-input
+                          v-model="headerItem.value"
+                          placeholder="Value"
+                          size="mini"
+                        ></el-input>
+                      </el-col>
                       <el-col :span="6">
-                         <el-input v-model="dataItem.desc" placeholder="Description" size='mini'></el-input>
+                        <el-input
+                          v-model="headerItem.desc"
+                          placeholder="Description"
+                          size="mini"
+                        ></el-input>
                       </el-col>
                       <el-col :span="2">
-                          <el-button @click.prevent="removeDataForm(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                        <el-button
+                          @click.prevent="removeHeader(headerItem)"
+                          type="danger"
+                          icon="el-icon-delete"
+                          circle
+                          size="mini"
+                        ></el-button>
                       </el-col>
                     </el-row>
-                  </el-form-item>    
-                </div> 
-                <div v-else-if="dataInfo.bodyType==1">
+                  </el-form-item>
+                </el-tab-pane>
+
+                <el-tab-pane label="Params">
                   <el-form-item
-                      v-for="(dataItem, index) in dataAddFormDataEncoded"
-                      :index="index"
-                      :key="index">
+                    v-for="(paramsItem, index) in dataAddParams"
+                    :index="index"
+                    :key="index"
+                  >
                     <el-row :gutter="10">
+                      <el-col :span="1">
+                        <el-checkbox v-model="paramsItem.checked"></el-checkbox>
+                      </el-col>
+                      <el-col :span="5">
+                        <el-input
+                          v-model="paramsItem.name"
+                          placeholder="Key"
+                          size="mini"
+                          @blur="addParams(paramsItem)"
+                        ></el-input>
+                      </el-col>
+                      <el-col :span="10">
+                        <el-input
+                          v-model="paramsItem.value"
+                          placeholder="Value"
+                          size="mini"
+                        ></el-input>
+                      </el-col>
+                      <el-col :span="6">
+                        <el-input
+                          v-model="paramsItem.desc"
+                          placeholder="Description"
+                          size="mini"
+                        ></el-input>
+                      </el-col>
+                      <el-col :span="2">
+                        <el-button
+                          @click.prevent="removeParams(paramsItem)"
+                          type="danger"
+                          icon="el-icon-delete"
+                          circle
+                          size="mini"
+                        ></el-button>
+                      </el-col>
+                    </el-row>
+                  </el-form-item>
+                </el-tab-pane>
+
+                <el-tab-pane label="Body">
+                  <el-radio-group
+                    v-model="dataInfo.bodyType"
+                    @change="forceUpdate"
+                  >
+                    <el-radio :label="9">none</el-radio>
+                    <el-radio :label="0">form-data</el-radio>
+                    <el-radio :label="1">x-www-form-encoded</el-radio>
+                    <el-radio :label="2">raw</el-radio>
+                  </el-radio-group>
+                  <el-select
+                    v-model="dataInfo.rawType"
+                    placeholder="请选择"
+                    v-if="dataInfo.bodyType == 2"
+                    size="mini"
+                    style="width:10%"
+                    @change="forceUpdate"
+                  >
+                    <el-option
+                      v-for="item in rawTypeOptions"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    >
+                    </el-option>
+                  </el-select>
+                  <div v-if="dataInfo.bodyType == 0">
+                    <el-form-item
+                      v-for="(dataItem, index) in dataAddFormData"
+                      :index="index"
+                      :key="index"
+                    >
+                      <el-row :gutter="10">
                         <el-col :span="1">
-                            <el-checkbox v-model="dataItem.checked"></el-checkbox>
+                          <el-checkbox v-model="dataItem.checked"></el-checkbox>
                         </el-col>
                         <el-col :span="5">
-                            <el-input v-model="dataItem.name" placeholder="Key" size='mini' @blur=addDataFormEncoded(dataItem)></el-input>
+                          <el-input
+                            v-model="dataItem.name"
+                            placeholder="Key"
+                            size="mini"
+                            @blur="addDataForm(dataItem)"
+                          ></el-input>
                         </el-col>
                         <el-col :span="10">
-                            <el-input v-model="dataItem.value" placeholder="Value" size='mini'></el-input>
-                        </el-col> 
+                          <el-input
+                            v-model="dataItem.value"
+                            placeholder="Value"
+                            size="mini"
+                          ></el-input>
+                        </el-col>
                         <el-col :span="6">
-                          <el-input v-model="dataItem.desc" placeholder="Description" size='mini'></el-input>
+                          <el-input
+                            v-model="dataItem.desc"
+                            placeholder="Description"
+                            size="mini"
+                          ></el-input>
                         </el-col>
                         <el-col :span="2">
-                            <el-button @click.prevent="removeDataFormEncoded(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                          <el-button
+                            @click.prevent="removeDataForm(dataItem)"
+                            type="danger"
+                            icon="el-icon-delete"
+                            circle
+                            size="mini"
+                          ></el-button>
                         </el-col>
-                    </el-row>
-                  </el-form-item>    
-                </div> 
-                <div v-else-if="dataInfo.bodyType==2">
-                    <el-input v-model="dataInfo.raw" size="mini" type="textarea" :rows="6" @input="forceUpdate"></el-input>
-                </div>   
+                      </el-row>
+                    </el-form-item>
+                  </div>
+                  <div v-else-if="dataInfo.bodyType == 1">
+                    <el-form-item
+                      v-for="(dataItem, index) in dataAddFormDataEncoded"
+                      :index="index"
+                      :key="index"
+                    >
+                      <el-row :gutter="10">
+                        <el-col :span="1">
+                          <el-checkbox v-model="dataItem.checked"></el-checkbox>
+                        </el-col>
+                        <el-col :span="5">
+                          <el-input
+                            v-model="dataItem.name"
+                            placeholder="Key"
+                            size="mini"
+                            @blur="addDataFormEncoded(dataItem)"
+                          ></el-input>
+                        </el-col>
+                        <el-col :span="10">
+                          <el-input
+                            v-model="dataItem.value"
+                            placeholder="Value"
+                            size="mini"
+                          ></el-input>
+                        </el-col>
+                        <el-col :span="6">
+                          <el-input
+                            v-model="dataItem.desc"
+                            placeholder="Description"
+                            size="mini"
+                          ></el-input>
+                        </el-col>
+                        <el-col :span="2">
+                          <el-button
+                            @click.prevent="removeDataFormEncoded(dataItem)"
+                            type="danger"
+                            icon="el-icon-delete"
+                            circle
+                            size="mini"
+                          ></el-button>
+                        </el-col>
+                      </el-row>
+                    </el-form-item>
+                  </div>
+                  <div v-else-if="dataInfo.bodyType == 2">
+                    <el-input
+                      v-model="dataInfo.raw"
+                      size="mini"
+                      type="textarea"
+                      :rows="6"
+                      @input="forceUpdate"
+                    ></el-input>
+                  </div>
+                </el-tab-pane>
+              </el-tabs>
             </el-tab-pane>
-        </el-tabs>
-      </el-collapse-item>
 
-
-        <el-collapse-item title="请求参数缓存">
-                <el-button @click.prevent="addPreProcessor" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
-                <el-form-item
-                    v-for="(preProcessorItem, index) in preProcessorList"
-                    :index="index"
-                    :key="index">
+            <el-tab-pane label="请求参数缓存" name="请求参数缓存">
+              <el-button
+                @click.prevent="addPreProcessor"
+                icon="el-icon-circle-plus-outline"
+                circle
+                type="primary"
+                size="mini"
+              ></el-button>
+              <el-form-item
+                v-for="(preProcessorItem, index) in preProcessorList"
+                :index="index"
+                :key="index"
+              >
                 <el-row :gutter="20">
-                    <el-col :span="4">
-                        <el-input v-model="preProcessorItem.name" placeholder="名称" size="mini" ></el-input>
-                    </el-col>
-                     <el-col :span="5">
-                        <el-select v-model="preProcessorItem.type" size='mini'>
-                          <el-option
-                            v-for="item in preProcessorTypeOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                    </el-col> 
-                    <el-col :span="6">
-                        <el-input v-model="preProcessorItem.expression" placeholder="提取表达式"  size="mini"></el-input>
-                    </el-col> 
-                    <el-col :span="2">
-                        <el-switch
-                          v-model="preProcessorItem.haveDefaultValue"
-                          :active-value=0
-                          :inactive-value=1>
-                        </el-switch>
-                    </el-col> 
-                    <el-col :span="5">
-                        <el-input v-model="preProcessorItem.defaultValue" placeholder="默认值"  size="mini" v-if="preProcessorItem.haveDefaultValue==0"></el-input>
-                    </el-col> 
-                    <el-col :span="2">
-                        <el-button @click.prevent="removePreProcessor(preProcessorItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-                    </el-col>
-                </el-row> 
-                </el-form-item>
+                  <el-col :span="4">
+                    <el-input
+                      v-model="preProcessorItem.name"
+                      placeholder="名称"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="5">
+                    <el-select v-model="preProcessorItem.type" size="mini">
+                      <el-option
+                        v-for="item in preProcessorTypeOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      >
+                      </el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="6">
+                    <el-input
+                      v-model="preProcessorItem.expression"
+                      placeholder="提取表达式"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="5">
+                    <el-input
+                      v-model="preProcessorItem.defaultValue"
+                      placeholder="默认值"
+                      size="mini"
+                      v-if="preProcessorItem.haveDefaultValue == 0"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="2">
+                    <el-switch
+                      v-model="preProcessorItem.haveDefaultValue"
+                      :active-value="0"
+                      :inactive-value="1"
+                    >
+                    </el-switch>
+                  </el-col>
+                  <el-col :span="2">
+                    <el-button
+                      @click.prevent="removePreProcessor(preProcessorItem)"
+                      type="danger"
+                      icon="el-icon-delete"
+                      circle
+                      size="mini"
+                    ></el-button>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+            </el-tab-pane>
 
-
-          </el-collapse-item>
-          <el-collapse-item title="断言信息">
-                <el-button @click.prevent="addAssert" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
-                <el-form-item
-                    v-for="(assertItem, index) in assertList"
-                    :index="index"
-                    :key="index">
+            <el-tab-pane label="断言信息" name="断言信息">
+              <el-button
+                @click.prevent="addAssert"
+                icon="el-icon-circle-plus-outline"
+                circle
+                type="primary"
+                size="mini"
+              ></el-button>
+              <el-form-item
+                v-for="(assertItem, index) in assertList"
+                :index="index"
+                :key="index"
+              >
                 <el-row :gutter="20">
-                    <el-col :span="2">
-                        <el-input v-model="assertItem.order" placeholder="排序" size="mini"></el-input>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-input v-model="assertItem.assertName" placeholder="描述"  size="mini"></el-input>
-                    </el-col> 
-                    <el-col :span="3">
-                        <el-select v-model="assertItem.type" size='mini'>
-                          <el-option
-                            v-for="item in assertTypeOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                    </el-col> 
-                    <el-col :span="5">
-                        <el-input v-model="assertItem.expression" placeholder="提取表达式"  size="mini"></el-input>
-                    </el-col> 
-                    <el-col :span="3">
-                        <el-select v-model="assertItem.operator" size='mini'>
-                          <el-option
-                            v-for="item in assertOperatorOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                    </el-col> 
-                    <el-col :span="5">
-                        <el-input v-model="assertItem.exceptedResult" placeholder="预期结果"  size="mini"></el-input>
-                    </el-col> 
-                    <el-col :span="2">
-                        <el-button @click.prevent="removeAssert(assertItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-                    </el-col>
-                </el-row> 
-                </el-form-item>
-          </el-collapse-item>
+                  <el-col :span="2">
+                    <el-input
+                      v-model="assertItem.order"
+                      placeholder="排序"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="4">
+                    <el-input
+                      v-model="assertItem.assertName"
+                      placeholder="描述"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="3">
+                    <el-select v-model="assertItem.type" size="mini">
+                      <el-option
+                        v-for="item in assertTypeOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      >
+                      </el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="5">
+                    <el-input
+                      v-model="assertItem.expression"
+                      placeholder="提取表达式"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="3">
+                    <el-select v-model="assertItem.operator" size="mini">
+                      <el-option
+                        v-for="item in assertOperatorOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      >
+                      </el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="5">
+                    <el-input
+                      v-model="assertItem.exceptedResult"
+                      placeholder="预期结果"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="2">
+                    <el-button
+                      @click.prevent="removeAssert(assertItem)"
+                      type="danger"
+                      icon="el-icon-delete"
+                      circle
+                      size="mini"
+                    ></el-button>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+            </el-tab-pane>
 
-
-        <el-collapse-item title="响应数据缓存">
-                <el-button @click.prevent="addPostProcessor" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
-                <el-form-item
-                    v-for="(postProcessorItem, index) in postProcessorList"
-                    :index="index"
-                    :key="index">
+            <el-tab-pane label="响应数据缓存" name="响应数据缓存">
+              <el-button
+                @click.prevent="addPostProcessor"
+                icon="el-icon-circle-plus-outline"
+                circle
+                type="primary"
+                size="mini"
+              ></el-button>
+              <el-form-item
+                v-for="(postProcessorItem, index) in postProcessorList"
+                :index="index"
+                :key="index"
+              >
                 <el-row :gutter="20">
-                    <el-col :span="4">
-                        <el-input v-model="postProcessorItem.name" placeholder="名称" size="mini" ></el-input>
-                    </el-col>
-                     <el-col :span="5">
-                        <el-select v-model="postProcessorItem.type" size='mini'>
-                          <el-option
-                            v-for="item in postProcessorTypeOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                    </el-col> 
-                    <el-col :span="6">
-                        <el-input v-model="postProcessorItem.expression" placeholder="提取表达式"  size="mini"></el-input>
-                    </el-col> 
-                    <el-col :span="2">
-                        <el-switch
-                          v-model="postProcessorItem.haveDefaultValue"
-                          :active-value=0
-                          :inactive-value=1>
-                        </el-switch>
-                    </el-col> 
-                    <el-col :span="5">
-                        <el-input v-model="postProcessorItem.defaultValue" placeholder="默认值"  size="mini" v-if="postProcessorItem.haveDefaultValue==0"></el-input>
-                    </el-col> 
-                    <el-col :span="2">
-                        <el-button @click.prevent="removePostProcessor(postProcessorItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-                    </el-col>
-                </el-row> 
-                </el-form-item>
-          </el-collapse-item>
-
-      </el-collapse>
-      </el-form>
+                  <el-col :span="4">
+                    <el-input
+                      v-model="postProcessorItem.name"
+                      placeholder="名称"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="5">
+                    <el-select v-model="postProcessorItem.type" size="mini">
+                      <el-option
+                        v-for="item in postProcessorTypeOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      >
+                      </el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="6">
+                    <el-input
+                      v-model="postProcessorItem.expression"
+                      placeholder="提取表达式"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="5">
+                    <el-input
+                      v-model="postProcessorItem.defaultValue"
+                      placeholder="默认值"
+                      size="mini"
+                      v-if="postProcessorItem.haveDefaultValue == 0"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="2">
+                    <el-switch
+                      v-model="postProcessorItem.haveDefaultValue"
+                      :active-value="0"
+                      :inactive-value="1"
+                    >
+                    </el-switch>
+                  </el-col>
+                  <el-col :span="2">
+                    <el-button
+                      @click.prevent="removePostProcessor(postProcessorItem)"
+                      type="danger"
+                      icon="el-icon-delete"
+                      circle
+                      size="mini"
+                    ></el-button>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+            </el-tab-pane>
+          </el-tabs>
+        </el-form>
         <div slot="footer" class="dialog-footer">
-            <el-button @click="editDialogFormVisible = false" size="mini">取 消</el-button>
-            <el-button type="primary" @click="handleEdit" size="mini">确 定</el-button>
+          <el-button @click="editDialogFormVisible = false" size="mini"
+            >取 消</el-button
+          >
+          <el-button type="primary" @click="handleEdit" size="mini"
+            >确 定</el-button
+          >
         </div>
       </el-dialog>
 
-
-      <el-dialog title="选择前置用例" :visible.sync="selectPreCaseDialogFormVisible" append-to-body>
-        <el-form :inline="true" :model="preCaseQuery" class="demo-form-inline" ref="queryForm">
+      <el-dialog
+        title="选择前置用例"
+        :visible.sync="selectPreCaseDialogFormVisible"
+        append-to-body
+      >
+        <el-form
+          :inline="true"
+          :model="preCaseQuery"
+          class="demo-form-inline"
+          ref="queryForm"
+        >
           <el-form-item label="项目名称">
-            <el-input v-model="preCaseQuery.projectName" placeholder="项目名称" size="mini"></el-input>
+            <el-input
+              v-model="preCaseQuery.projectName"
+              placeholder="项目名称"
+              size="mini"
+            ></el-input>
           </el-form-item>
           <el-form-item label="模块名称">
-            <el-input v-model="preCaseQuery.moduleName" placeholder="项目名称" size="mini"></el-input>
+            <el-input
+              v-model="preCaseQuery.moduleName"
+              placeholder="项目名称"
+              size="mini"
+            ></el-input>
           </el-form-item>
           <el-form-item label="用例名称">
-            <el-input v-model="preCaseQuery.desc" placeholder="用例名称" size="mini"></el-input>
+            <el-input
+              v-model="preCaseQuery.desc"
+              placeholder="用例名称"
+              size="mini"
+            ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" icon="el-icon-search" circle @click="selectPreCase" size="mini"></el-button>
-            <el-button type="primary" icon="el-icon-refresh" circle @click="resetPreCaseQuery" size="mini"></el-button>
+            <el-button
+              type="primary"
+              icon="el-icon-search"
+              circle
+              @click="selectPreCase"
+              size="mini"
+            ></el-button>
+            <el-button
+              type="primary"
+              icon="el-icon-refresh"
+              circle
+              @click="resetPreCaseQuery"
+              size="mini"
+            ></el-button>
           </el-form-item>
         </el-form>
-        <el-table 
-        :data="preCaseTable" 
-        stripe 
-        highlight-current-row 
-        @row-click="handleSelectPreCase"
-        style="width: 100%">
-          <el-table-column property="caseId" label="用例编号" min-width="10%" show-overflow-tooltip></el-table-column>
-          <el-table-column property="projectName" label="项目名称" min-width="20%" show-overflow-tooltip></el-table-column>
-          <el-table-column property="moduleName" label="模块名称" min-width="20%" show-overflow-tooltip></el-table-column>
-          <el-table-column property="desc" label="用例名称" min-width="25%" show-overflow-tooltip></el-table-column>
-          <el-table-column property="url" label="URL" min-width="25%" show-overflow-tooltip></el-table-column>
+        <el-table
+          :data="preCaseTable"
+          stripe
+          highlight-current-row
+          @row-click="handleSelectPreCase"
+          style="width: 100%"
+        >
+          <el-table-column
+            property="caseId"
+            label="用例编号"
+            min-width="10%"
+            show-overflow-tooltip
+          ></el-table-column>
+          <el-table-column
+            property="projectName"
+            label="项目名称"
+            min-width="20%"
+            show-overflow-tooltip
+          ></el-table-column>
+          <el-table-column
+            property="moduleName"
+            label="模块名称"
+            min-width="20%"
+            show-overflow-tooltip
+          ></el-table-column>
+          <el-table-column
+            property="desc"
+            label="用例名称"
+            min-width="25%"
+            show-overflow-tooltip
+          ></el-table-column>
+          <el-table-column
+            property="url"
+            label="URL"
+            min-width="25%"
+            show-overflow-tooltip
+          ></el-table-column>
         </el-table>
         <div class="pagination" style="text-align: left;margin-top: 10px;">
           <el-pagination
@@ -1254,432 +2279,673 @@
         </div>
       </el-dialog>
 
-
-
-
-<!-- 222222222222222222222222222 -->
-      <el-dialog title="复制" :visible.sync="copyDialogFormVisible" :close-on-click-modal="false">
+      <!-- 222222222222222222222222222 -->
+      <el-dialog
+        title="复制"
+        :visible.sync="copyDialogFormVisible"
+        :close-on-click-modal="false"
+      >
         <el-form :model="dataInfo" ref="dataInfo">
-        <el-collapse>
-
-          <el-collapse-item title="前置用例">
-                <el-button @click.prevent="addPreCase" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
-                <el-form-item
-                    v-for="(preCaseItem, index) in preCaseList"
-                    :index="index"
-                    :key="index">
+          <el-tabs v-model="defaultTab">
+            <el-tab-pane label="前置用例" name="前置用例">
+              <el-button
+                @click.prevent="addPreCase"
+                icon="el-icon-circle-plus-outline"
+                circle
+                type="primary"
+                size="mini"
+              ></el-button>
+              <el-form-item
+                v-for="(preCaseItem, index) in preCaseList"
+                :index="index"
+                :key="index"
+              >
                 <el-row :gutter="10">
-                    <el-col :span="1">
-                        <el-checkbox v-model="preCaseItem.status" :true-label=0 :false-label=1></el-checkbox>
-                    </el-col>
-                    <el-col :span="2">
-                        <el-input v-model="preCaseItem.order" placeholder="排序" size="mini"></el-input>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-input v-model="preCaseItem.preCaseId" placeholder="前置用例编号" disabled size="mini"></el-input>
-                    </el-col>
-                    <el-col :span="14">
-                        <el-input v-model="preCaseItem.preCaseDesc" placeholder="前置用例描述,请点击选择" @focus='handlePreCaseList(index)' size="mini"></el-input>
-                    </el-col> 
-                    <el-col :span="1">
-                        <el-button @click.prevent="openViewProcessor(preCaseItem.preCaseId)" type="primary" icon="el-icon-more" circle size="mini"></el-button>
-                    </el-col>
-                    <el-col :span="1">
-                        <el-button @click.prevent="removePreCase(preCaseItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-                    </el-col>
-                </el-row> 
-                </el-form-item>
-          </el-collapse-item>
-
-        <el-collapse-item title="基本信息">
-          <el-form-item label="*项目名称" label-width="100px">
-            <el-input readonly v-model="dataInfo.projectName" @focus='handleProjectModuleList' size="mini" disabled></el-input>
-          </el-form-item>
-          <el-form-item label="*模块名称" label-width="100px">
-            <el-input readonly v-model="dataInfo.moduleName" @focus='handleProjectModuleList' size="mini" placeholder="请点击选择"></el-input>
-          </el-form-item>
-          <el-form-item label="*用例名称" label-width="100px">
-            <el-input v-model="dataInfo.desc" size="mini"></el-input>
-          </el-form-item>
-          <el-form-item label="接口文档地址" label-width="100px">
-            <el-input v-model="dataInfo.doc" size="mini"></el-input>
-          </el-form-item>
-          <el-form-item label="*用例等级" label-width="100px">
-            <el-select v-model="dataInfo.level" placeholder="请选择"  size="mini">
-              <el-option
-                v-for="item in levelOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="*创建人" label-width="100px">
-            <el-input v-model="dataInfo.createrRealName"  size="mini" disabled></el-input>
-          </el-form-item>
-        </el-collapse-item>
-
-        <el-collapse-item title="请求信息">
-          <el-row :gutter="20">
-          <el-col :span="4">
-            <el-select v-model="dataInfo.method" placeholder="method"  size="mini"  @change="changeMethod">
-              <el-option
-                v-for="item in requestMethodOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-col>
-          <el-col :span="20">
-            <el-input v-model="dataInfo.url"  size="mini" placeholder="Enter request url"></el-input>
-          </el-col> 
-          </el-row>  
-
-        <el-tabs >
-            <el-tab-pane label="Headers">
-                <el-form-item
-                    v-for="(headerItem, index) in dataAddHeaders"
-                    :index="index"
-                    :key="headerItem.key">
-                    <el-row :gutter="10">
-                        <el-col :span="1">
-                            <el-checkbox v-model="headerItem.checked"></el-checkbox>
-                        </el-col>
-                        <el-col :span="5">
-                            <el-input v-model="headerItem.name" placeholder="Key" size='mini' @blur=addHeader(headerItem)></el-input>
-                        </el-col>
-                        <el-col :span="10">
-                            <el-input v-model="headerItem.value" placeholder="Value" size='mini'></el-input>
-                        </el-col> 
-                        <el-col :span="6">
-                          <el-input v-model="headerItem.desc" placeholder="Description" size='mini'></el-input>
-                        </el-col>
-                        <el-col :span="2">
-                            <el-button @click.prevent="removeHeader(headerItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-                        </el-col>
-                    </el-row>
-                </el-form-item> 
+                  <el-col :span="1">
+                    <el-checkbox
+                      v-model="preCaseItem.status"
+                      :true-label="0"
+                      :false-label="1"
+                    ></el-checkbox>
+                  </el-col>
+                  <el-col :span="2">
+                    <el-input
+                      v-model="preCaseItem.order"
+                      placeholder="排序"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="4">
+                    <el-input
+                      v-model="preCaseItem.preCaseId"
+                      placeholder="前置用例编号"
+                      disabled
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="14">
+                    <el-input
+                      v-model="preCaseItem.preCaseDesc"
+                      placeholder="前置用例描述,请点击选择"
+                      @focus="handlePreCaseList(index)"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="1">
+                    <el-button
+                      @click.prevent="openViewProcessor(preCaseItem.preCaseId)"
+                      type="primary"
+                      icon="el-icon-more"
+                      circle
+                      size="mini"
+                    ></el-button>
+                  </el-col>
+                  <el-col :span="1">
+                    <el-button
+                      @click.prevent="removePreCase(preCaseItem)"
+                      type="danger"
+                      icon="el-icon-delete"
+                      circle
+                      size="mini"
+                    ></el-button>
+                  </el-col>
+                </el-row>
+              </el-form-item>
             </el-tab-pane>
 
-            <!-- params -->
-            <el-tab-pane label="Params">
-                <el-form-item
-                    v-for="(paramsItem, index) in dataAddParams"
-                    :index="index"
-                    :key="index">
-                    <el-row :gutter="10">
-                        <el-col :span="1">
-                            <el-checkbox v-model="paramsItem.checked"></el-checkbox>
-                        </el-col>
-                        <el-col :span="5">
-                            <el-input v-model="paramsItem.name" placeholder="Key" size='mini' @blur=addParams(paramsItem)></el-input>
-                        </el-col>
-                        <el-col :span="10">
-                            <el-input v-model="paramsItem.value" placeholder="Value" size='mini'></el-input>
-                        </el-col> 
-                        <el-col :span="6">
-                          <el-input v-model="paramsItem.desc" placeholder="Description" size='mini'></el-input>
-                        </el-col>
-                        <el-col :span="2">
-                            <el-button @click.prevent="removeParams(paramsItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-                        </el-col>
-                    </el-row> 
-                </el-form-item>         
-            </el-tab-pane>
-
-            <el-tab-pane label="Body">
-                <el-radio-group v-model="dataInfo.bodyType" @change="forceUpdate">
-                  <el-radio :label="9" >none</el-radio>
-                  <el-radio :label="0" >form-data</el-radio>
-                  <el-radio :label="1" >x-www-form-encoded</el-radio>
-                  <el-radio :label="2" >raw</el-radio>
-                </el-radio-group>
-                <el-select v-model="dataInfo.rawType" placeholder="请选择" v-if="dataInfo.bodyType == 2" size="mini" style="width:10%" @change="forceUpdate">
+            <el-tab-pane label="基本信息" name="基本信息">
+              <el-form-item label="*项目名称" label-width="100px">
+                <el-input
+                  readonly
+                  v-model="dataInfo.projectName"
+                  @focus="handleProjectModuleList"
+                  size="mini"
+                  disabled
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="*模块名称" label-width="100px">
+                <el-input
+                  readonly
+                  v-model="dataInfo.moduleName"
+                  @focus="handleProjectModuleList"
+                  size="mini"
+                  placeholder="请点击选择"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="*用例名称" label-width="100px">
+                <el-input v-model="dataInfo.desc" size="mini"></el-input>
+              </el-form-item>
+              <el-form-item label="接口文档地址" label-width="100px">
+                <el-input v-model="dataInfo.doc" size="mini"></el-input>
+              </el-form-item>
+              <el-form-item label="*用例等级" label-width="100px">
+                <el-select
+                  v-model="dataInfo.level"
+                  placeholder="请选择"
+                  size="mini"
+                >
                   <el-option
-                    v-for="item in rawTypeOptions"
+                    v-for="item in levelOptions"
                     :key="item.value"
                     :label="item.label"
-                    :value="item.value">
+                    :value="item.value"
+                  >
                   </el-option>
                 </el-select>
-                <div v-if="dataInfo.bodyType==0">
+              </el-form-item>
+              <el-form-item label="*创建人" label-width="100px">
+                <el-input
+                  v-model="dataInfo.createrRealName"
+                  size="mini"
+                  disabled
+                ></el-input>
+              </el-form-item>
+            </el-tab-pane>
+
+            <el-tab-pane label="请求信息" name="请求信息">
+              <el-row :gutter="20">
+                <el-col :span="4">
+                  <el-select
+                    v-model="dataInfo.method"
+                    placeholder="Method"
+                    size="mini"
+                    @change="changeMethod"
+                  >
+                    <el-option
+                      v-for="item in requestMethodOptions"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    >
+                    </el-option>
+                  </el-select>
+                </el-col>
+                <el-col :span="20">
+                  <el-input
+                    v-model="dataInfo.url"
+                    size="mini"
+                    placeholder="Enter request url"
+                  ></el-input>
+                </el-col>
+              </el-row>
+
+              <el-tabs>
+                <el-tab-pane label="Headers">
                   <el-form-item
-                      v-for="(dataItem, index) in dataAddFormData"
-                      :index="index"
-                      :key="index">
-                    <el-row :gutter="20">
-                        <el-col :span="1">
-                            <el-checkbox v-model="dataItem.checked"></el-checkbox>
-                        </el-col>
-                        <el-col :span="5">
-                            <el-input v-model="dataItem.name" placeholder="Key" size='mini' @blur=addDataForm(dataItem)></el-input>
-                        </el-col>
-                        <el-col :span="10">
-                            <el-input v-model="dataItem.value" placeholder="Value" size='mini'></el-input>
-                        </el-col> 
-                        <el-col :span="6">
-                          <el-input v-model="dataItem.desc" placeholder="Description" size='mini'></el-input>
-                        </el-col>
-                        <el-col :span="2">
-                            <el-button @click.prevent="removeDataForm(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-                        </el-col>
-                    </el-row>
-                  </el-form-item>    
-                </div> 
-                <div v-else-if="dataInfo.bodyType==1">
-                  <el-form-item
-                      v-for="(dataItem, index) in dataAddFormDataEncoded"
-                      :index="index"
-                      :key="index">
+                    v-for="(headerItem, index) in dataAddHeaders"
+                    :index="index"
+                    :key="headerItem.key"
+                  >
                     <el-row :gutter="10">
                       <el-col :span="1">
-                          <el-checkbox v-model="dataItem.checked"></el-checkbox>
+                        <el-checkbox v-model="headerItem.checked"></el-checkbox>
                       </el-col>
                       <el-col :span="5">
-                          <el-input v-model="dataItem.name" placeholder="Key" size='mini' @blur=addDataFormEncoded(dataItem)></el-input>
+                        <el-input
+                          v-model="headerItem.name"
+                          placeholder="Key"
+                          size="mini"
+                          @blur="addHeader(headerItem)"
+                        ></el-input>
                       </el-col>
                       <el-col :span="10">
-                          <el-input v-model="dataItem.value" placeholder="Value" size='mini'></el-input>
-                      </el-col> 
+                        <el-input
+                          v-model="headerItem.value"
+                          placeholder="Value"
+                          size="mini"
+                        ></el-input>
+                      </el-col>
                       <el-col :span="6">
-                         <el-input v-model="dataItem.desc" placeholder="Description" size='mini'></el-input>
+                        <el-input
+                          v-model="headerItem.desc"
+                          placeholder="Description"
+                          size="mini"
+                        ></el-input>
                       </el-col>
                       <el-col :span="2">
-                          <el-button @click.prevent="removeDataFormEncoded(dataItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
+                        <el-button
+                          @click.prevent="removeHeader(headerItem)"
+                          type="danger"
+                          icon="el-icon-delete"
+                          circle
+                          size="mini"
+                        ></el-button>
                       </el-col>
                     </el-row>
-                  </el-form-item>    
-                </div> 
-                <div v-else-if="dataInfo.bodyType==2">
-                    <el-input v-model="dataInfo.raw" size="mini" type="textarea" :rows="6" @input="forceUpdate"></el-input>
-                </div>   
+                  </el-form-item>
+                </el-tab-pane>
+
+                <!-- params -->
+                <el-tab-pane label="Params">
+                  <el-form-item
+                    v-for="(paramsItem, index) in dataAddParams"
+                    :index="index"
+                    :key="index"
+                  >
+                    <el-row :gutter="10">
+                      <el-col :span="1">
+                        <el-checkbox v-model="paramsItem.checked"></el-checkbox>
+                      </el-col>
+                      <el-col :span="5">
+                        <el-input
+                          v-model="paramsItem.name"
+                          placeholder="Key"
+                          size="mini"
+                          @blur="addParams(paramsItem)"
+                        ></el-input>
+                      </el-col>
+                      <el-col :span="10">
+                        <el-input
+                          v-model="paramsItem.value"
+                          placeholder="Value"
+                          size="mini"
+                        ></el-input>
+                      </el-col>
+                      <el-col :span="6">
+                        <el-input
+                          v-model="paramsItem.desc"
+                          placeholder="Description"
+                          size="mini"
+                        ></el-input>
+                      </el-col>
+                      <el-col :span="2">
+                        <el-button
+                          @click.prevent="removeParams(paramsItem)"
+                          type="danger"
+                          icon="el-icon-delete"
+                          circle
+                          size="mini"
+                        ></el-button>
+                      </el-col>
+                    </el-row>
+                  </el-form-item>
+                </el-tab-pane>
+
+                <el-tab-pane label="Body">
+                  <el-radio-group
+                    v-model="dataInfo.bodyType"
+                    @change="forceUpdate"
+                  >
+                    <el-radio :label="9">none</el-radio>
+                    <el-radio :label="0">form-data</el-radio>
+                    <el-radio :label="1">x-www-form-encoded</el-radio>
+                    <el-radio :label="2">raw</el-radio>
+                  </el-radio-group>
+                  <el-select
+                    v-model="dataInfo.rawType"
+                    placeholder="请选择"
+                    v-if="dataInfo.bodyType == 2"
+                    size="mini"
+                    style="width:10%"
+                    @change="forceUpdate"
+                  >
+                    <el-option
+                      v-for="item in rawTypeOptions"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    >
+                    </el-option>
+                  </el-select>
+                  <div v-if="dataInfo.bodyType == 0">
+                    <el-form-item
+                      v-for="(dataItem, index) in dataAddFormData"
+                      :index="index"
+                      :key="index"
+                    >
+                      <el-row :gutter="20">
+                        <el-col :span="1">
+                          <el-checkbox v-model="dataItem.checked"></el-checkbox>
+                        </el-col>
+                        <el-col :span="5">
+                          <el-input
+                            v-model="dataItem.name"
+                            placeholder="Key"
+                            size="mini"
+                            @blur="addDataForm(dataItem)"
+                          ></el-input>
+                        </el-col>
+                        <el-col :span="10">
+                          <el-input
+                            v-model="dataItem.value"
+                            placeholder="Value"
+                            size="mini"
+                          ></el-input>
+                        </el-col>
+                        <el-col :span="6">
+                          <el-input
+                            v-model="dataItem.desc"
+                            placeholder="Description"
+                            size="mini"
+                          ></el-input>
+                        </el-col>
+                        <el-col :span="2">
+                          <el-button
+                            @click.prevent="removeDataForm(dataItem)"
+                            type="danger"
+                            icon="el-icon-delete"
+                            circle
+                            size="mini"
+                          ></el-button>
+                        </el-col>
+                      </el-row>
+                    </el-form-item>
+                  </div>
+                  <div v-else-if="dataInfo.bodyType == 1">
+                    <el-form-item
+                      v-for="(dataItem, index) in dataAddFormDataEncoded"
+                      :index="index"
+                      :key="index"
+                    >
+                      <el-row :gutter="10">
+                        <el-col :span="1">
+                          <el-checkbox v-model="dataItem.checked"></el-checkbox>
+                        </el-col>
+                        <el-col :span="5">
+                          <el-input
+                            v-model="dataItem.name"
+                            placeholder="Key"
+                            size="mini"
+                            @blur="addDataFormEncoded(dataItem)"
+                          ></el-input>
+                        </el-col>
+                        <el-col :span="10">
+                          <el-input
+                            v-model="dataItem.value"
+                            placeholder="Value"
+                            size="mini"
+                          ></el-input>
+                        </el-col>
+                        <el-col :span="6">
+                          <el-input
+                            v-model="dataItem.desc"
+                            placeholder="Description"
+                            size="mini"
+                          ></el-input>
+                        </el-col>
+                        <el-col :span="2">
+                          <el-button
+                            @click.prevent="removeDataFormEncoded(dataItem)"
+                            type="danger"
+                            icon="el-icon-delete"
+                            circle
+                            size="mini"
+                          ></el-button>
+                        </el-col>
+                      </el-row>
+                    </el-form-item>
+                  </div>
+                  <div v-else-if="dataInfo.bodyType == 2">
+                    <el-input
+                      v-model="dataInfo.raw"
+                      size="mini"
+                      type="textarea"
+                      :rows="6"
+                      @input="forceUpdate"
+                    ></el-input>
+                  </div>
+                </el-tab-pane>
+              </el-tabs>
             </el-tab-pane>
-        </el-tabs>
-        </el-collapse-item>
 
-
-        <el-collapse-item title="请求参数缓存">
-                <el-button @click.prevent="addPreProcessor" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
-                <el-form-item
-                    v-for="(preProcessorItem, index) in preProcessorList"
-                    :index="index"
-                    :key="index">
-                <el-row :gutter="20">
-                    <el-col :span="4">
-                        <el-input v-model="preProcessorItem.name" placeholder="名称" size="mini" ></el-input>
-                    </el-col>
-                     <el-col :span="5">
-                        <el-select v-model="preProcessorItem.type" size='mini'>
-                          <el-option
-                            v-for="item in preProcessorTypeOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                    </el-col> 
-                    <el-col :span="6">
-                        <el-input v-model="preProcessorItem.expression" placeholder="提取表达式"  size="mini"></el-input>
-                    </el-col> 
-                    <el-col :span="2">
-                        <el-switch
-                          v-model="preProcessorItem.haveDefaultValue"
-                          :active-value=0
-                          :inactive-value=1>
-                        </el-switch>
-                    </el-col> 
-                    <el-col :span="5">
-                        <el-input v-model="preProcessorItem.defaultValue" placeholder="默认值"  size="mini" v-if="preProcessorItem.haveDefaultValue==0"></el-input>
-                    </el-col> 
-                    <el-col :span="2">
-                        <el-button @click.prevent="removePreProcessor(preProcessorItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-                    </el-col>
-                </el-row> 
-                </el-form-item>
-          </el-collapse-item>
-
-
-          <el-collapse-item title="断言信息">
-                <el-button @click.prevent="addAssert" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
-                <el-form-item
-                    v-for="(assertItem, index) in assertList"
-                    :index="index"
-                    :key="index">
-                <el-row :gutter="20">
-                    <el-col :span="2">
-                        <el-input v-model="assertItem.order" placeholder="排序" size="mini"></el-input>
-                    </el-col>
-                    <el-col :span="4">
-                        <el-input v-model="assertItem.assertName" placeholder="描述"  size="mini"></el-input>
-                    </el-col> 
-                    <el-col :span="3">
-                        <el-select v-model="assertItem.type" size='mini'>
-                          <el-option
-                            v-for="item in assertTypeOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                    </el-col> 
-                    <el-col :span="5">
-                        <el-input v-model="assertItem.expression" placeholder="提取表达式"  size="mini"></el-input>
-                    </el-col> 
-                    <el-col :span="3">
-                        <el-select v-model="assertItem.operator" size='mini'>
-                          <el-option
-                            v-for="item in assertOperatorOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                    </el-col> 
-                    <el-col :span="5">
-                        <el-input v-model="assertItem.exceptedResult" placeholder="预期结果"  size="mini"></el-input>
-                    </el-col> 
-                    <el-col :span="2">
-                        <el-button @click.prevent="removeAssert(assertItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-                    </el-col>
-                </el-row> 
-                </el-form-item>
-          </el-collapse-item>
-
-
-        <el-collapse-item title="响应数据缓存">
-                <el-button @click.prevent="addPostProcessor" icon="el-icon-circle-plus-outline" circle type="primary" size="mini"></el-button>
-                <el-form-item
-                    v-for="(postProcessorItem, index) in postProcessorList"
-                    :index="index"
-                    :key="index">
-                <el-row :gutter="20">
-                    <el-col :span="4">
-                        <el-input v-model="postProcessorItem.name" placeholder="名称" size="mini" ></el-input>
-                    </el-col>
-                     <el-col :span="5">
-                        <el-select v-model="postProcessorItem.type" size='mini'>
-                          <el-option
-                            v-for="item in postProcessorTypeOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                          </el-option>
-                        </el-select>
-                    </el-col> 
-                    <el-col :span="6">
-                        <el-input v-model="postProcessorItem.expression" placeholder="提取表达式"  size="mini"></el-input>
-                    </el-col> 
-                    <el-col :span="2">
-                        <el-switch
-                          v-model="postProcessorItem.haveDefaultValue"
-                          :active-value=0
-                          :inactive-value=1>
-                        </el-switch>
-                    </el-col> 
-                    <el-col :span="5">
-                        <el-input v-model="postProcessorItem.defaultValue" placeholder="默认值"  size="mini" v-if="postProcessorItem.haveDefaultValue==0"></el-input>
-                    </el-col> 
-                    <el-col :span="2">
-                        <el-button @click.prevent="removePostProcessor(postProcessorItem)" type="danger" icon="el-icon-delete" circle size="mini"></el-button>
-                    </el-col>
-                </el-row> 
-                </el-form-item>
-          </el-collapse-item>
-
-
-      </el-collapse>
-      </el-form>
-        <div slot="footer" class="dialog-footer">
-            <el-button @click="copyDialogFormVisible = false" size="mini">取 消</el-button>
-            <el-button type="primary" @click="handleCopy" size="mini">确 定</el-button>
-        </div>
-      </el-dialog>
-
-    </div>
-
-    <!-- 查看处理器 -->
-    <el-drawer
-      title="查看"
-      :visible.sync="viewProcessorDialogFormVisible"
-      direction="rtl"
-      size="30%">
-      <el-form :model="dataInfo" ref="dataInfo">
-        <el-divider content-position="center">请求参数缓存</el-divider>
-            <el-form-item
+            <el-tab-pane label="请求参数缓存" name="请求参数缓存">
+              <el-button
+                @click.prevent="addPreProcessor"
+                icon="el-icon-circle-plus-outline"
+                circle
+                type="primary"
+                size="mini"
+              ></el-button>
+              <el-form-item
                 v-for="(preProcessorItem, index) in preProcessorList"
                 :index="index"
-                :key="index">
-            <el-row :gutter="20">
-                <el-col :span="4">
-                    <el-input v-model="preProcessorItem.name" placeholder="名称" size="mini" readonly></el-input>
-                </el-col>
-                <el-col :span="5">
-                    <el-select v-model="preProcessorItem.type" size='mini' disabled>
+                :key="index"
+              >
+                <el-row :gutter="20">
+                  <el-col :span="4">
+                    <el-input
+                      v-model="preProcessorItem.name"
+                      placeholder="名称"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="5">
+                    <el-select v-model="preProcessorItem.type" size="mini">
                       <el-option
                         v-for="item in preProcessorTypeOptions"
                         :key="item.value"
                         :label="item.label"
-                        :value="item.value">
+                        :value="item.value"
+                      >
                       </el-option>
                     </el-select>
-                </el-col> 
-                <el-col :span="10">
-                    <el-input v-model="preProcessorItem.expression" placeholder="提取表达式"  size="mini" readonly></el-input>
-                </el-col> 
-                <el-col :span="5">
-                    <el-input v-model="preProcessorItem.defaultValue" placeholder="默认值"  size="mini" v-if="preProcessorItem.haveDefaultValue==0" readonly></el-input>
-                </el-col> 
-            </el-row> 
-            </el-form-item>
+                  </el-col>
+                  <el-col :span="6">
+                    <el-input
+                      v-model="preProcessorItem.expression"
+                      placeholder="提取表达式"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="5">
+                    <el-input
+                      v-model="preProcessorItem.defaultValue"
+                      placeholder="默认值"
+                      size="mini"
+                      v-if="preProcessorItem.haveDefaultValue == 0"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="2">
+                    <el-switch
+                      v-model="preProcessorItem.haveDefaultValue"
+                      :active-value="0"
+                      :inactive-value="1"
+                    >
+                    </el-switch>
+                  </el-col>
+                  <el-col :span="2">
+                    <el-button
+                      @click.prevent="removePreProcessor(preProcessorItem)"
+                      type="danger"
+                      icon="el-icon-delete"
+                      circle
+                      size="mini"
+                    ></el-button>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+            </el-tab-pane>
 
-        <el-divider content-position="center">响应参数缓存</el-divider>
-            <el-form-item
+            <el-tab-pane label="断言信息" name="断言信息">
+              <el-button
+                @click.prevent="addAssert"
+                icon="el-icon-circle-plus-outline"
+                circle
+                type="primary"
+                size="mini"
+              ></el-button>
+              <el-form-item
+                v-for="(assertItem, index) in assertList"
+                :index="index"
+                :key="index"
+              >
+                <el-row :gutter="20">
+                  <el-col :span="2">
+                    <el-input
+                      v-model="assertItem.order"
+                      placeholder="排序"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="4">
+                    <el-input
+                      v-model="assertItem.assertName"
+                      placeholder="描述"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="3">
+                    <el-select v-model="assertItem.type" size="mini">
+                      <el-option
+                        v-for="item in assertTypeOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      >
+                      </el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="5">
+                    <el-input
+                      v-model="assertItem.expression"
+                      placeholder="提取表达式"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="3">
+                    <el-select v-model="assertItem.operator" size="mini">
+                      <el-option
+                        v-for="item in assertOperatorOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                      >
+                      </el-option>
+                    </el-select>
+                  </el-col>
+                  <el-col :span="5">
+                    <el-input
+                      v-model="assertItem.exceptedResult"
+                      placeholder="预期结果"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="2">
+                    <el-button
+                      @click.prevent="removeAssert(assertItem)"
+                      type="danger"
+                      icon="el-icon-delete"
+                      circle
+                      size="mini"
+                    ></el-button>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+            </el-tab-pane>
+
+            <el-tab-pane label="响应数据缓存" name="响应数据缓存">
+              <el-button
+                @click.prevent="addPostProcessor"
+                icon="el-icon-circle-plus-outline"
+                circle
+                type="primary"
+                size="mini"
+              ></el-button>
+              <el-form-item
                 v-for="(postProcessorItem, index) in postProcessorList"
                 :index="index"
-                :key="index">
-            <el-row :gutter="20">
-                <el-col :span="4">
-                    <el-input v-model="postProcessorItem.name" placeholder="名称" size="mini" readonly></el-input>
-                </el-col>
-                <el-col :span="5">
-                    <el-select v-model="postProcessorItem.type" size='mini'>
+                :key="index"
+              >
+                <el-row :gutter="20">
+                  <el-col :span="4">
+                    <el-input
+                      v-model="postProcessorItem.name"
+                      placeholder="名称"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="5">
+                    <el-select v-model="postProcessorItem.type" size="mini">
                       <el-option
                         v-for="item in postProcessorTypeOptions"
                         :key="item.value"
                         :label="item.label"
-                        :value="item.value">
+                        :value="item.value"
+                      >
                       </el-option>
                     </el-select>
-                </el-col> 
-                <el-col :span="10">
-                    <el-input v-model="postProcessorItem.expression" placeholder="提取表达式"  size="mini" readonly></el-input>
-                </el-col> 
-                <el-col :span="5">
-                    <el-input v-model="postProcessorItem.defaultValue" placeholder="默认值"  size="mini" v-if="postProcessorItem.haveDefaultValue==0" readonly></el-input>
-                </el-col> 
-            </el-row> 
-            </el-form-item>
-      </el-form>
-    </el-drawer>
+                  </el-col>
+                  <el-col :span="6">
+                    <el-input
+                      v-model="postProcessorItem.expression"
+                      placeholder="提取表达式"
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="5">
+                    <el-input
+                      v-model="postProcessorItem.defaultValue"
+                      placeholder="默认值"
+                      size="mini"
+                      v-if="postProcessorItem.haveDefaultValue == 0"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="2">
+                    <el-switch
+                      v-model="postProcessorItem.haveDefaultValue"
+                      :active-value="0"
+                      :inactive-value="1"
+                    >
+                    </el-switch>
+                  </el-col>
+                  <el-col :span="2">
+                    <el-button
+                      @click.prevent="removePostProcessor(postProcessorItem)"
+                      type="danger"
+                      icon="el-icon-delete"
+                      circle
+                      size="mini"
+                    ></el-button>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+            </el-tab-pane>
+          </el-tabs>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="copyDialogFormVisible = false" size="mini"
+            >取 消</el-button
+          >
+          <el-button type="primary" @click="handleCopy" size="mini"
+            >确 定</el-button
+          >
+        </div>
+      </el-dialog>
+    </div>
 
+    <el-dialog
+      title="详情"
+      :visible.sync="viewProcessorDialogFormVisible"
+      append-to-body
+    >
+      <el-table
+        :data="preCaseProcessorArray"
+        stripe
+        highlight-current-row
+        style="width: 100%"
+      >
+        <el-table-column
+          property="name"
+          label="名称"
+          min-width="20%"
+          show-overflow-tooltip
+        ></el-table-column>
+        <el-table-column
+          property="scope"
+          label="域"
+          min-width="20%"
+          show-overflow-tooltip
+        ></el-table-column>
+        <el-table-column
+          property="way"
+          label="类型"
+          min-width="20%"
+          show-overflow-tooltip
+        ></el-table-column>
+        <el-table-column
+          property="expression"
+          label="提取表达式"
+          min-width="20%"
+          show-overflow-tooltip
+        ></el-table-column>
+        <el-table-column
+          property="defaultValue"
+          label="默认值"
+          min-width="20%"
+          show-overflow-tooltip
+        ></el-table-column>
+      </el-table>
+    </el-dialog>
   </div>
 </template>
 <script>
 import headTop from "../components/headTop";
-import { baseUrl } from '../config/env';
-import {findInterfaceCaseExecuteLog, findInterfaceCaseExecuteLogList, findInterfaceCaseSuiteAll, downloadTemplate, findProjectModuleList, listInterfaceCase,saveInterfaceCase,modifyInterfaceCase,removeInterfaceCase,findInterfaceCaseByCaseId,executeInterfaceCase } from "@/api/getData";
+import { baseUrl } from "../config/env";
+import {
+  findInterfaceCaseExecuteLog,
+  findInterfaceCaseExecuteLogList,
+  findInterfaceCaseSuiteAll,
+  downloadTemplate,
+  findProjectModuleList,
+  listInterfaceCase,
+  saveInterfaceCase,
+  modifyInterfaceCase,
+  removeInterfaceCase,
+  findInterfaceCaseByCaseId,
+  executeInterfaceCase
+} from "@/api/getData";
 export default {
   data() {
     return {
+      defaultTab: "请求信息",
 
-      dataImport:{
-        type: 1,
+      dataImport: {
+        type: 1
       },
       suiteOptions: [],
 
       importHeader: {
-        Token: "",
+        Token: ""
       },
       importUrl: baseUrl + "/interface/case/import",
       downloadUrl: baseUrl + "/interface/template/download/",
@@ -1688,25 +2954,25 @@ export default {
       importTypeOptions: [
         {
           value: 1,
-          label: "excel",
+          label: "excel"
         },
         {
           value: 2,
-          label: "csv",
+          label: "csv"
         },
         {
           value: 3,
-          label: "json",
+          label: "json"
         },
         {
           value: 4,
-          label: "yaml",
-        },
+          label: "yaml"
+        }
       ],
 
-      caseGenerator:{
+      caseGenerator: {
         genRule: 1,
-        dataType: 2,
+        dataType: 2
       },
       generatorUrl: baseUrl + "/interface/case/generator",
       generatorDialogFormVisible: false,
@@ -1719,11 +2985,11 @@ export default {
       requestMethodOptions: [
         {
           value: 0,
-          label: "GET",
+          label: "GET"
         },
         {
           value: 1,
-          label: "POST",
+          label: "POST"
         },
         // 后端不支持此请求方式
         // {
@@ -1732,30 +2998,29 @@ export default {
         // },
         {
           value: 3,
-          label: "PUT",
+          label: "PUT"
         },
         {
           value: 4,
-          label: "DELETE",
-        },
+          label: "DELETE"
+        }
       ],
       levelOptions: [
         {
           value: 0,
-          label: "高",
+          label: "高"
         },
         {
           value: 1,
-          label: "中",
+          label: "中"
         },
         {
           value: 2,
-          label: "低",
-        },
+          label: "低"
+        }
       ],
       dataAdd: {},
       addDialogFormVisible: false,
-
 
       projectModuleQuery: {},
       projectModuleTable: [],
@@ -1771,199 +3036,200 @@ export default {
       preCasePageTotal: 0,
       selectPreCaseDialogFormVisible: false,
       // 用来确定选择前置用例后填充至哪个数组
-      preCaseIndex:null,
+      preCaseIndex: null,
 
       //header
       dataAddHeaders: [
         {
-          checked:true,
-          desc:null,
+          checked: true,
+          desc: null,
           name: null,
-          value: null,
+          value: null
         }
-      ], 
+      ],
 
       //params
       dataAddParams: [
         {
-          checked:true,
-          desc:null,
+          checked: true,
+          desc: null,
           name: null,
-          value: null,
+          value: null
         }
-      ], 
+      ],
 
       //form-data
       dataAddFormData: [
         {
-          checked:true,
-          desc:null,
+          checked: true,
+          desc: null,
           name: null,
-          value: null,
+          value: null
         }
       ],
 
       //form-data-Encoded
       dataAddFormDataEncoded: [
         {
-          checked:true,
-          desc:null,
+          checked: true,
+          desc: null,
           name: null,
-          value: null,
+          value: null
         }
       ],
 
-      assertList:[],
-      assertIndex:0,
+      assertList: [],
+      assertIndex: 0,
       assertOperatorOptions: [
         {
           value: 0,
-          label: "=",
+          label: "="
         },
         {
           value: 1,
-          label: "<",
+          label: "<"
         },
         {
           value: 2,
-          label: ">",
+          label: ">"
         },
         {
           value: 3,
-          label: "<=",
+          label: "<="
         },
         {
           value: 4,
-          label: ">=",
+          label: ">="
         },
         {
           value: 5,
-          label: "in",
+          label: "in"
         },
         {
           value: 6,
-          label: "!=",
+          label: "!="
         },
         {
           value: 7,
-          label: "re",
-        }, 
+          label: "re"
+        },
         {
           value: 8,
-          label: "isNull",
-        },   
+          label: "isNull"
+        },
         {
           value: 9,
-          label: "notNull",
-        },    
+          label: "notNull"
+        },
         {
           value: 10,
-          label: "contains",
-        },       
+          label: "contains"
+        }
       ],
-    assertTypeOptions: [
+      assertTypeOptions: [
         {
           value: 0,
-          label: "json",
+          label: "json"
         },
         {
           value: 1,
-          label: "html",
+          label: "html"
         },
         {
           value: 2,
-          label: "header",
+          label: "header"
         },
         {
           value: 3,
-          label: "code",
+          label: "code"
         },
         {
           value: 4,
-          label: "time(ms)",
-        },
-    ],
+          label: "time(ms)"
+        }
+      ],
 
-    preProcessorList:[],
-    preProcessorTypeOptions: [
+      preProcessorList: [],
+      preProcessorTypeOptions: [
         {
           value: 3,
-          label: "header",
+          label: "header"
         },
         {
           value: 4,
-          label: "params",
+          label: "params"
         },
         {
           value: 5,
-          label: "data",
+          label: "data"
         },
         {
           value: 6,
-          label: "json",
-        },
-    ],
-    postProcessorList:[],
-    postProcessorTypeOptions: [
+          label: "json"
+        }
+      ],
+      postProcessorList: [],
+      postProcessorTypeOptions: [
         {
           value: 0,
-          label: "json",
+          label: "json"
         },
         {
           value: 1,
-          label: "html",
+          label: "html"
         },
         {
           value: 2,
-          label: "header",
-        },
-    ],
+          label: "header"
+        }
+      ],
 
-    rawTypeOptions: [
+      rawTypeOptions: [
         {
           value: "Text",
-          label: "Text",
+          label: "Text"
         },
         {
           value: "JSON",
-          label: "JSON",
+          label: "JSON"
         },
         {
           value: "HTML",
-          label: "HTML",
+          label: "HTML"
         },
         {
           value: "XML",
-          label: "XML",
-        },
-    ],
+          label: "XML"
+        }
+      ],
 
-    preCaseList: [], 
+      preCaseList: [],
 
-    dataInfo: {},
-    editDialogFormVisible: false,
-    copyDialogFormVisible: false,
+      dataInfo: {},
+      editDialogFormVisible: false,
+      copyDialogFormVisible: false,
 
+      // 近10次执行记录
+      lastTenLogList: [],
+      lastTenLogVisible: false,
 
-    // 近10次执行记录
-    lastTenLogList: [],
-    lastTenLogVisible: false,
+      // 日志相关属性
+      logInfo: {},
+      logDetailDialogFormVisible: false,
+      isShowRawExceptedResult: false,
+      isShowRawRequestHeaders: false,
+      isShowRawRequestParams: false,
+      isShowRawRequestBody: false,
+      assertInfo: [],
 
-    // 日志相关属性
-    logInfo: {},
-    logDetailDialogFormVisible: false,
-    isShowRawExceptedResult: false,
-    isShowRawRequestHeaders: false,
-    isShowRawRequestParams: false,
-    isShowRawRequestBody: false,
-    assertInfo: [],
-
-    // 查看前置用例的处理器列表
-    viewProcessorDialogFormVisible:false,
+      // 查看前置用例的处理器列表
+      viewProcessorDialogFormVisible: false,
+      // 前置用例处理器列表
+      preCaseProcessorArray: []
     };
   },
   components: {
-    headTop,
+    headTop
   },
   mounted() {
     this.selectInterfaceCase(this.queryForm);
@@ -1972,196 +3238,188 @@ export default {
   methods: {
     removeHeader(item) {
       if (this.dataAddHeaders.length == 1) {
-        this.dataAddHeaders = []
+        this.dataAddHeaders = [];
         this.dataAddHeaders.push({
-          checked:true,
-          desc:null,
-          name: null,
-          value: null,
-          
-        })
+          checked: true,
+          desc: null,
+          name: null,
+          value: null
+        });
       } else {
-        var index = this.dataAddHeaders.indexOf(item)
+        var index = this.dataAddHeaders.indexOf(item);
         if (index !== -1) {
-            this.dataAddHeaders.splice(index, 1)
+          this.dataAddHeaders.splice(index, 1);
         }
       }
     },
     addHeader(item) {
-      var index = this.dataAddHeaders.indexOf(item)
+      var index = this.dataAddHeaders.indexOf(item);
       if (index == this.dataAddHeaders.length - 1) {
         this.dataAddHeaders.push({
-          checked:true,
-          desc:null,
-          name: null,
-          value: null,
-          
-        })
+          checked: true,
+          desc: null,
+          name: null,
+          value: null
+        });
       }
     },
     removeParams(item) {
       if (this.dataAddParams.length == 1) {
-        this.dataAddParams = []
+        this.dataAddParams = [];
         this.dataAddParams.push({
-          checked:true,
-          desc:null,
-          name: null,
-          value: null,
-          
-        })
+          checked: true,
+          desc: null,
+          name: null,
+          value: null
+        });
       } else {
-        var index = this.dataAddParams.indexOf(item)
+        var index = this.dataAddParams.indexOf(item);
         if (index !== -1) {
-            this.dataAddParams.splice(index, 1)
+          this.dataAddParams.splice(index, 1);
         }
       }
     },
     addParams(item) {
-      var index = this.dataAddParams.indexOf(item)
+      var index = this.dataAddParams.indexOf(item);
       if (index == this.dataAddParams.length - 1) {
         this.dataAddParams.push({
-          checked:true,
-          desc:null,
-          name: null,
-          value: null,
-          
-        })
-      }  
+          checked: true,
+          desc: null,
+          name: null,
+          value: null
+        });
+      }
     },
     removeDataForm(item) {
       if (this.dataAddFormData.length == 1) {
-        this.dataAddFormData = []
+        this.dataAddFormData = [];
         this.dataAddFormData.push({
-          checked:true,
-          desc:null,
-          name: null,
-          value: null,
-          
-        })
+          checked: true,
+          desc: null,
+          name: null,
+          value: null
+        });
       } else {
-        var index = this.dataAddFormData.indexOf(item)
+        var index = this.dataAddFormData.indexOf(item);
         if (index !== -1) {
-            this.dataAddFormData.splice(index, 1)
+          this.dataAddFormData.splice(index, 1);
         }
       }
     },
     addDataForm(item) {
-      var index = this.dataAddFormData.indexOf(item)
+      var index = this.dataAddFormData.indexOf(item);
       if (index == this.dataAddFormData.length - 1) {
         this.dataAddFormData.push({
-          checked:true,
-          desc:null,
-          name: null,
-          value: null,
-          
-        })
-      }  
+          checked: true,
+          desc: null,
+          name: null,
+          value: null
+        });
+      }
     },
 
     removeDataFormEncoded(item) {
       if (this.dataAddFormDataEncoded.length == 1) {
-        this.dataAddFormDataEncoded = []
+        this.dataAddFormDataEncoded = [];
         this.dataAddFormDataEncoded.push({
-          checked:true,
-          desc:null,
-          name: null,
-          value: null,
-          
-        })
+          checked: true,
+          desc: null,
+          name: null,
+          value: null
+        });
       } else {
-        var index = this.dataAddFormDataEncoded.indexOf(item)
+        var index = this.dataAddFormDataEncoded.indexOf(item);
         if (index !== -1) {
-            this.dataAddFormDataEncoded.splice(index, 1)
+          this.dataAddFormDataEncoded.splice(index, 1);
         }
       }
     },
     addDataFormEncoded(item) {
-      var index = this.dataAddFormDataEncoded.indexOf(item)
+      var index = this.dataAddFormDataEncoded.indexOf(item);
       if (index == this.dataAddFormDataEncoded.length - 1) {
         this.dataAddFormDataEncoded.push({
-          checked:true,
-          desc:null,
-          name: null,
-          value: null,
-          
-        })
-      }  
+          checked: true,
+          desc: null,
+          name: null,
+          value: null
+        });
+      }
     },
 
     addAssert() {
       this.assertList.push({
-          assertName: '',
-          type: 0,
-          expression: '',
-          operator: 0,
-          exceptedResult: '',
-          order:this.assertIndex++
+        assertName: "",
+        type: 0,
+        expression: "",
+        operator: 0,
+        exceptedResult: "",
+        order: this.assertIndex++
       });
     },
     addPreCase() {
       this.preCaseList.push({
-          order: 1,
-          preCaseId: null,
-          preCaseDesc: '',
-          status: 0,
+        order: 1,
+        preCaseId: null,
+        preCaseDesc: "",
+        status: 0
       });
     },
     removePreCase(item) {
-      var index = this.preCaseList.indexOf(item)
-      this.preCaseList.splice(index, 1)
+      var index = this.preCaseList.indexOf(item);
+      this.preCaseList.splice(index, 1);
     },
     removeAssert(item) {
-      var index = this.assertList.indexOf(item)
-      let maxIndex = 0
-      let assertInfo = []
+      var index = this.assertList.indexOf(item);
+      let maxIndex = 0;
+      let assertInfo = [];
       if (index !== -1) {
-          this.assertList.splice(index, 1)
-          this.assertIndex -- 
+        this.assertList.splice(index, 1);
+        this.assertIndex--;
       }
       this.assertList.forEach(element => {
         if (this.assertIndex < element.order) {
-          element.order --
+          element.order--;
         }
-        maxIndex = element.order
-        assertInfo.push(element)
-        this.assertIndex = maxIndex + 1
-        this.assertList = assertInfo
+        maxIndex = element.order;
+        assertInfo.push(element);
+        this.assertIndex = maxIndex + 1;
+        this.assertList = assertInfo;
       });
     },
 
     addPostProcessor() {
       this.postProcessorList.push({
-          name: null,
-          type: null,
-          expression: null,
-          defaultValue: null,
-          haveDefaultValue: 1,
+        name: null,
+        type: null,
+        expression: null,
+        defaultValue: null,
+        haveDefaultValue: 1
       });
     },
     removePostProcessor(item) {
-      var index = this.postProcessorList.indexOf(item)
-      this.postProcessorList.splice(index, 1)
+      var index = this.postProcessorList.indexOf(item);
+      this.postProcessorList.splice(index, 1);
     },
 
     addPreProcessor() {
       this.preProcessorList.push({
-          name: null,
-          type: null,
-          expression: null,
-          defaultValue: null,
-          haveDefaultValue: 1,
+        name: null,
+        type: null,
+        expression: null,
+        defaultValue: null,
+        haveDefaultValue: 1
       });
     },
     removePreProcessor(item) {
-      var index = this.preProcessorList.indexOf(item)
-      this.preProcessorList.splice(index, 1)
+      var index = this.preProcessorList.indexOf(item);
+      this.preProcessorList.splice(index, 1);
     },
 
     async importInterfaceCase(formdata) {
       let data = {
-        type: 1,
-      }
-      const res = await importInterfaceCase(data, formdata)
+        type: 1
+      };
+      const res = await importInterfaceCase(data, formdata);
     },
 
     async selectInterfaceCase(queryForm) {
@@ -2171,7 +3429,7 @@ export default {
       if (res.code == 200) {
         this.dataList = [];
         this.total = res.data.total;
-        res.data.list.forEach((element) => {
+        res.data.list.forEach(element => {
           if (element.level == 0) {
             element.levelStyle = "danger";
             element.level = "高";
@@ -2201,46 +3459,46 @@ export default {
           } else {
             element.methodStyle = "";
             element.method = "UNKNOW";
-          } 
+          }
           this.dataList.push(element);
         });
       } else {
         this.$message({
           type: "error",
           center: true,
-          message: res.msg,
+          message: res.msg
         });
       }
     },
     async handleCheck(caseId) {
-        const res = await executeInterfaceCase(caseId)
-        if (res.code == 200) {
-            this.$message({
-                type: "success",
-                center: true,
-                message: res.msg
-            })
+      const res = await executeInterfaceCase(caseId);
+      if (res.code == 200) {
+        this.$message({
+          type: "success",
+          center: true,
+          message: res.msg
+        });
+      } else {
+        if (res.msg === "执行失败") {
+          this.$message({
+            type: "warning",
+            center: true,
+            message: res.msg
+          });
         } else {
-            if (res.msg === '执行失败') {
-                this.$message({
-                type: "warning",
-                center: true,
-                message: res.msg
-                })
-            } else {
-                this.$message({
-                type: "error",
-                center: true,
-                message: res.msg
-                })
-            }
+          this.$message({
+            type: "error",
+            center: true,
+            message: res.msg
+          });
         }
+      }
     },
     async handleDelete(caseId, index) {
-      this.$confirm('此操作将永久删除, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+      this.$confirm("此操作将永久删除, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
       }).then(async () => {
         const res = await removeInterfaceCase(caseId);
         if (res.code == 200) {
@@ -2249,7 +3507,7 @@ export default {
             center: true,
             message: res.msg
           });
-          this.total --;
+          this.total--;
           this.dataList.splice(index, 1);
         } else {
           this.$message({
@@ -2258,255 +3516,261 @@ export default {
             message: res.msg
           });
         }
-      })  
-    }, 
-    
-    async handleAdd(){
-        let method = this.dataAdd.method
-        let headers = {}
-        let params = {}
-        let formData = {}
-        let formDataEncoded = {}
-        // 处理header
-        let headerStr = JSON.stringify(
-          this.dataAddHeaders.filter((item) => {
-            return item.name != null && item.name != ""
-          })
-        )
-        if (headerStr == '[]' || headerStr == '') {
-          this.dataAdd.headers = null
-        } else {
-          this.dataAdd.headers = headerStr
-        }
-        // 处理params
-        let paramsStr = JSON.stringify(
-          this.dataAddParams.filter((item) => {
-            return item.name != null && item.name != ""
-          })
-        )
-        if (paramsStr == '[]' || paramsStr == '') {
-          this.dataAdd.params = null
-        } else {
-          this.dataAdd.params = paramsStr
-        }
-        // 处理form-data
-        let dataStr = JSON.stringify(
-          this.dataAddFormData.filter((item) => {
-            return item.name != null && item.name != ""
-          })
-        )
-        if (dataStr == '[]' || dataStr == '') {
-          this.dataAdd.formData = null
-        } else {
-          this.dataAdd.formData = dataStr
-        }
-        // 处理x-www-form-encoded
-        let dataEncodedStr = JSON.stringify(
-          this.dataAddFormDataEncoded.filter((item) => {
-            return item.name != null && item.name != ""
-          })
-        )
-        if (dataEncodedStr == '[]' || dataEncodedStr == '') {
-          this.dataAdd.formDataEncoded = null
-        } else {
-          this.dataAdd.formDataEncoded = dataEncodedStr
-        }
-        // raw无需特别处理
+      });
+    },
 
-        // 添加断言
-        this.dataAdd.asserts = this.assertList
-        this.dataAdd.preCases = this.preCaseList
-        // 添加后置处理器
-        this.dataAdd.postProcessors = this.preProcessorList.concat(this.postProcessorList)
-        const res = await saveInterfaceCase(this.dataAdd)
-        if (res.code == 200 ) {
-            this.addDialogFormVisible = false
-            this.selectInterfaceCase({})
-            this.$message({
-              type: "success",
-              center: true,
-              message: res.msg
-            })
-        } else {
-            this.$message({
-              type: "error",
-              center: true,
-              message: res.msg
-            })
-        }
-    },  
-    async handleEdit() {
-        let method = this.dataInfo.method
-        let headers = {}
-        let params = {}
-        let formData = {}
-        let formDataEncoded = {}
+    async handleAdd() {
+      let method = this.dataAdd.method;
+      let headers = {};
+      let params = {};
+      let formData = {};
+      let formDataEncoded = {};
+      // 处理header
+      let headerStr = JSON.stringify(
+        this.dataAddHeaders.filter(item => {
+          return item.name != null && item.name != "";
+        })
+      );
+      if (headerStr == "[]" || headerStr == "") {
+        this.dataAdd.headers = null;
+      } else {
+        this.dataAdd.headers = headerStr;
+      }
+      // 处理params
+      let paramsStr = JSON.stringify(
+        this.dataAddParams.filter(item => {
+          return item.name != null && item.name != "";
+        })
+      );
+      if (paramsStr == "[]" || paramsStr == "") {
+        this.dataAdd.params = null;
+      } else {
+        this.dataAdd.params = paramsStr;
+      }
+      // 处理form-data
+      let dataStr = JSON.stringify(
+        this.dataAddFormData.filter(item => {
+          return item.name != null && item.name != "";
+        })
+      );
+      if (dataStr == "[]" || dataStr == "") {
+        this.dataAdd.formData = null;
+      } else {
+        this.dataAdd.formData = dataStr;
+      }
+      // 处理x-www-form-encoded
+      let dataEncodedStr = JSON.stringify(
+        this.dataAddFormDataEncoded.filter(item => {
+          return item.name != null && item.name != "";
+        })
+      );
+      if (dataEncodedStr == "[]" || dataEncodedStr == "") {
+        this.dataAdd.formDataEncoded = null;
+      } else {
+        this.dataAdd.formDataEncoded = dataEncodedStr;
+      }
+      // raw无需特别处理
 
-        // 处理header
-        let headerStr = JSON.stringify(
-          this.dataAddHeaders.filter((item) => {
-            return item.name != null && item.name != ""
-          })
-        )
-        if (headerStr == '[]' || headerStr == '') {
-          this.dataInfo.headers = null
-        } else {
-          this.dataInfo.headers = headerStr
-        }
-
-        // 处理params
-        let paramsStr = JSON.stringify(
-          this.dataAddParams.filter((item) => {
-            return item.name != null && item.name != ""
-          })
-        )
-        if (paramsStr == '[]' || paramsStr == '') {
-          this.dataInfo.params = null
-        } else {
-          this.dataInfo.params = paramsStr
-        }
-
-        // 处理form-data
-        let dataStr = JSON.stringify(
-          this.dataAddFormData.filter((item) => {
-            return item.name != null && item.name != ""
-          })
-        )
-        if (dataStr == '[]' || dataStr == '') {
-          this.dataInfo.formData = null
-        } else {
-          this.dataInfo.formData = dataStr
-        }
-
-        // 处理x-www-form-encoded
-        let dataEncodedStr = JSON.stringify(
-          this.dataAddFormDataEncoded.filter((item) => {
-            return item.name != null && item.name != ""
-          })
-        )
-        if (dataEncodedStr == '[]' || dataEncodedStr == '') {
-          this.dataInfo.formDataEncoded = null
-        } else {
-          this.dataInfo.formDataEncoded = dataEncodedStr
-        }
-
-        // raw无需特别处理
-
-        this.dataInfo.asserts = this.assertList
-        this.dataInfo.preCases = this.preCaseList
-        this.dataInfo.postProcessors = this.preProcessorList.concat(this.postProcessorList)
-        const res = await modifyInterfaceCase(this.dataInfo)
-        if (res.code == 200 ) {
-            this.editDialogFormVisible = false
-            this.selectInterfaceCase({})
-            this.$message({
-              type: "success",
-              center: true,
-              message: res.msg
-            })
-        } else {
-            this.$message({
-              type: "error",
-              center: true,
-              message: res.msg
-            })
-        }
-    }, 
-
-    async handleCopy() {
-        let method = this.dataInfo.method
-        let headers = {}
-        let params = {}
-        let formData = {}
-        let formDataEncoded = {}
-
-        // 处理header
-        let headerStr = JSON.stringify(
-          this.dataAddHeaders.filter((item) => {
-            return item.name != null && item.name != ""
-          })
-        )
-        if (headerStr == '[]' || headerStr == '') {
-          this.dataInfo.headers = null
-        } else {
-          this.dataInfo.headers = headerStr
-        }
-
-        // 处理params
-        let paramsStr = JSON.stringify(
-          this.dataAddParams.filter((item) => {
-            return item.name != null && item.name != ""
-          })
-        )
-        if (paramsStr == '[]' || paramsStr == '') {
-          this.dataInfo.params = null
-        } else {
-          this.dataInfo.params = paramsStr
-        }
-
-        // 处理form-data
-        let dataStr = JSON.stringify(
-          this.dataAddFormData.filter((item) => {
-            return item.name != null && item.name != ""
-          })
-        )
-        if (dataStr == '[]' || dataStr == '') {
-          this.dataInfo.formData = null
-        } else {
-          this.dataInfo.formData = dataStr
-        }
-
-        // 处理x-www-form-encoded
-        let dataEncodedStr = JSON.stringify(
-          this.dataAddFormDataEncoded.filter((item) => {
-            return item.name != null && item.name != ""
-          })
-        )
-        if (dataEncodedStr == '[]' || dataEncodedStr == '') {
-          this.dataInfo.formDataEncoded = null
-        } else {
-          this.dataInfo.formDataEncoded = dataEncodedStr
-        }
-
-        // raw无需特别处理
-
-        this.dataInfo.asserts = this.assertList
-        this.dataInfo.preCases = this.preCaseList
-        this.dataInfo.postProcessors = this.preProcessorList.concat(this.postProcessorList)
-        const res = await saveInterfaceCase(this.dataInfo)
-        if (res.code == 200 ) {
-            this.copyDialogFormVisible = false
-            this.selectInterfaceCase({})
-            this.$message({
-              type: "success",
-              center: true,
-              message: res.msg
-            })
-        } else {
-            this.$message({
-              type: "error",
-              center: true,
-              message: res.msg
-            })
-        }
-    }, 
-
-    async selectProjetModule() {
-      this.projectModuleQuery['pageSize'] = this.projectModulePageSize 
-      this.projectModuleQuery['pageNum'] = this.projectModulePageNum 
-      const res = await findProjectModuleList(this.projectModuleQuery)
+      // 添加断言
+      this.dataAdd.asserts = this.assertList;
+      this.dataAdd.preCases = this.preCaseList;
+      // 添加后置处理器
+      this.dataAdd.postProcessors = this.preProcessorList.concat(
+        this.postProcessorList
+      );
+      const res = await saveInterfaceCase(this.dataAdd);
       if (res.code == 200) {
-        this.projectModuleTable = []
-        this.projectModulePageTotal = res.data.total
-        this.projectModuleTable = res.data.list
+        this.addDialogFormVisible = false;
+        this.selectInterfaceCase({});
+        this.$message({
+          type: "success",
+          center: true,
+          message: res.msg
+        });
       } else {
         this.$message({
           type: "error",
           center: true,
           message: res.msg
         });
-      }    
-    }, 
+      }
+    },
+    async handleEdit() {
+      let method = this.dataInfo.method;
+      let headers = {};
+      let params = {};
+      let formData = {};
+      let formDataEncoded = {};
+
+      // 处理header
+      let headerStr = JSON.stringify(
+        this.dataAddHeaders.filter(item => {
+          return item.name != null && item.name != "";
+        })
+      );
+      if (headerStr == "[]" || headerStr == "") {
+        this.dataInfo.headers = null;
+      } else {
+        this.dataInfo.headers = headerStr;
+      }
+
+      // 处理params
+      let paramsStr = JSON.stringify(
+        this.dataAddParams.filter(item => {
+          return item.name != null && item.name != "";
+        })
+      );
+      if (paramsStr == "[]" || paramsStr == "") {
+        this.dataInfo.params = null;
+      } else {
+        this.dataInfo.params = paramsStr;
+      }
+
+      // 处理form-data
+      let dataStr = JSON.stringify(
+        this.dataAddFormData.filter(item => {
+          return item.name != null && item.name != "";
+        })
+      );
+      if (dataStr == "[]" || dataStr == "") {
+        this.dataInfo.formData = null;
+      } else {
+        this.dataInfo.formData = dataStr;
+      }
+
+      // 处理x-www-form-encoded
+      let dataEncodedStr = JSON.stringify(
+        this.dataAddFormDataEncoded.filter(item => {
+          return item.name != null && item.name != "";
+        })
+      );
+      if (dataEncodedStr == "[]" || dataEncodedStr == "") {
+        this.dataInfo.formDataEncoded = null;
+      } else {
+        this.dataInfo.formDataEncoded = dataEncodedStr;
+      }
+
+      // raw无需特别处理
+
+      this.dataInfo.asserts = this.assertList;
+      this.dataInfo.preCases = this.preCaseList;
+      this.dataInfo.postProcessors = this.preProcessorList.concat(
+        this.postProcessorList
+      );
+      const res = await modifyInterfaceCase(this.dataInfo);
+      if (res.code == 200) {
+        this.editDialogFormVisible = false;
+        this.selectInterfaceCase({});
+        this.$message({
+          type: "success",
+          center: true,
+          message: res.msg
+        });
+      } else {
+        this.$message({
+          type: "error",
+          center: true,
+          message: res.msg
+        });
+      }
+    },
+
+    async handleCopy() {
+      let method = this.dataInfo.method;
+      let headers = {};
+      let params = {};
+      let formData = {};
+      let formDataEncoded = {};
+
+      // 处理header
+      let headerStr = JSON.stringify(
+        this.dataAddHeaders.filter(item => {
+          return item.name != null && item.name != "";
+        })
+      );
+      if (headerStr == "[]" || headerStr == "") {
+        this.dataInfo.headers = null;
+      } else {
+        this.dataInfo.headers = headerStr;
+      }
+
+      // 处理params
+      let paramsStr = JSON.stringify(
+        this.dataAddParams.filter(item => {
+          return item.name != null && item.name != "";
+        })
+      );
+      if (paramsStr == "[]" || paramsStr == "") {
+        this.dataInfo.params = null;
+      } else {
+        this.dataInfo.params = paramsStr;
+      }
+
+      // 处理form-data
+      let dataStr = JSON.stringify(
+        this.dataAddFormData.filter(item => {
+          return item.name != null && item.name != "";
+        })
+      );
+      if (dataStr == "[]" || dataStr == "") {
+        this.dataInfo.formData = null;
+      } else {
+        this.dataInfo.formData = dataStr;
+      }
+
+      // 处理x-www-form-encoded
+      let dataEncodedStr = JSON.stringify(
+        this.dataAddFormDataEncoded.filter(item => {
+          return item.name != null && item.name != "";
+        })
+      );
+      if (dataEncodedStr == "[]" || dataEncodedStr == "") {
+        this.dataInfo.formDataEncoded = null;
+      } else {
+        this.dataInfo.formDataEncoded = dataEncodedStr;
+      }
+
+      // raw无需特别处理
+
+      this.dataInfo.asserts = this.assertList;
+      this.dataInfo.preCases = this.preCaseList;
+      this.dataInfo.postProcessors = this.preProcessorList.concat(
+        this.postProcessorList
+      );
+      const res = await saveInterfaceCase(this.dataInfo);
+      if (res.code == 200) {
+        this.copyDialogFormVisible = false;
+        this.selectInterfaceCase({});
+        this.$message({
+          type: "success",
+          center: true,
+          message: res.msg
+        });
+      } else {
+        this.$message({
+          type: "error",
+          center: true,
+          message: res.msg
+        });
+      }
+    },
+
+    async selectProjetModule() {
+      this.projectModuleQuery["pageSize"] = this.projectModulePageSize;
+      this.projectModuleQuery["pageNum"] = this.projectModulePageNum;
+      const res = await findProjectModuleList(this.projectModuleQuery);
+      if (res.code == 200) {
+        this.projectModuleTable = [];
+        this.projectModulePageTotal = res.data.total;
+        this.projectModuleTable = res.data.list;
+      } else {
+        this.$message({
+          type: "error",
+          center: true,
+          message: res.msg
+        });
+      }
+    },
     handleSizeChange(pageSize) {
       this.pageSize = pageSize;
       this.selectInterfaceCase(this.queryForm);
@@ -2515,7 +3779,7 @@ export default {
       this.pageNum = pageNum;
       this.selectInterfaceCase(this.queryForm);
     },
-    handleProjectModuleSizeChange (pageSize) {
+    handleProjectModuleSizeChange(pageSize) {
       this.projectModulePageSize = pageSize;
       this.selectProjetModule(this.projectModuleQuery);
     },
@@ -2523,8 +3787,8 @@ export default {
       this.projectModulePageNum = pageNum;
       this.selectProjetModule(this.projectModuleQuery);
     },
-    async handleSelectProjetModule(row){
-      this.selectProjectModuleDialogFormVisible = false
+    async handleSelectProjetModule(row) {
+      this.selectProjectModuleDialogFormVisible = false;
       this.dataInfo.moduleId = row.moduleId;
       this.dataInfo.moduleName = row.moduleName;
       this.dataInfo.projectId = row.projectId;
@@ -2536,10 +3800,10 @@ export default {
       this.dataAdd.projectName = row.projectName;
     },
     async resetForm() {
-      this.queryForm = {}
-      this.pageSize = 10
-      this.pageNum = 1
-      this.selectInterfaceCase(this.queryForm)
+      this.queryForm = {};
+      this.pageSize = 10;
+      this.pageNum = 1;
+      this.selectInterfaceCase(this.queryForm);
     },
     async openImport() {
       this.importDialogFormVisible = true;
@@ -2547,219 +3811,209 @@ export default {
     async openAdd() {
       this.addDialogFormVisible = true;
       this.dataAdd = {};
-      let userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
-      this.dataAdd.creater = userInfo.realName
-      this.dataAdd.createrRealName = userInfo.realName
+      let userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+      this.dataAdd.creater = userInfo.realName;
+      this.dataAdd.createrRealName = userInfo.realName;
       // 初始化header
-      this.dataAddHeaders = [
+      (this.dataAddHeaders = [
         {
           checked: true,
           desc: null,
           name: null,
-          value: null,
+          value: null
         }
-      ], 
-
-      // 初始化params
-      this.dataAddParams = [
-        {
-          checked: true,
-          desc: null,
-          name: null,
-          value: null,
-        }
-      ], 
-
-      this.dataAddFormData = [
-        {
-          checked: true,
-          desc: null,
-          name: null,
-          value: null,
-        }
-      ],
-
-      this.dataAddFormDataEncoded = [
-        {
-          checked: true,
-          desc: null,
-          name: null,
-          value: null,
-        }
-      ]
+      ]),
+        // 初始化params
+        (this.dataAddParams = [
+          {
+            checked: true,
+            desc: null,
+            name: null,
+            value: null
+          }
+        ]),
+        (this.dataAddFormData = [
+          {
+            checked: true,
+            desc: null,
+            name: null,
+            value: null
+          }
+        ]),
+        (this.dataAddFormDataEncoded = [
+          {
+            checked: true,
+            desc: null,
+            name: null,
+            value: null
+          }
+        ]);
 
       // 初始化body
-      this.dataAdd.bodyType = 9 // none
-      this.dataAdd.rawType = null
-      this.dataAdd.raw = null     
+      this.dataAdd.bodyType = 9; // none
+      this.dataAdd.rawType = null;
+      this.dataAdd.raw = null;
 
       // 初始化断言
-      this.assertList = []
-      this.assertIndex = 0
+      this.assertList = [];
+      this.assertIndex = 0;
       // 初始化后置处理器
-      this.preProcessorList = []
+      this.preProcessorList = [];
       // 初始化后置处理器
-      this.postProcessorList = []
+      this.postProcessorList = [];
       // 初始化前置用例列表
-      this.preCaseList = []
+      this.preCaseList = [];
     },
     async openEdit(row) {
-      let caseId = row.caseId
-      let projectName = row.projectName
-      let moduleName = row.moduleName
-      const res = await findInterfaceCaseByCaseId(caseId)
+      let caseId = row.caseId;
+      let projectName = row.projectName;
+      let moduleName = row.moduleName;
+      const res = await findInterfaceCaseByCaseId(caseId);
       if (res.code == 200) {
         // headers置空并处理
-        this.dataAddHeaders = []
-        let headers = []
+        this.dataAddHeaders = [];
+        let headers = [];
         try {
-          headers = JSON.parse(res.data.headers)
+          headers = JSON.parse(res.data.headers);
           if (headers == null) {
-            headers = []
+            headers = [];
           }
         } catch (error) {
-          headers = []
+          headers = [];
         }
-        for(let key of headers) {
+        for (let key of headers) {
           this.dataAddHeaders.push({
-            "name":key["name"],
-            "value":key["value"],
-            "checked":key["checked"],
-            "desc":key["desc"],
-            
-          })
+            name: key["name"],
+            value: key["value"],
+            checked: key["checked"],
+            desc: key["desc"]
+          });
         }
         if (this.dataAddHeaders.length == 0) {
           this.dataAddHeaders.push({
-            "checked":true,
-            "desc":null,
-            "name":null,
-            "value":null,
-            
-          })
+            checked: true,
+            desc: null,
+            name: null,
+            value: null
+          });
         }
-        this.dataAddHeadersStr = JSON.stringify(this.dataAddHeaders)
-        
+        this.dataAddHeadersStr = JSON.stringify(this.dataAddHeaders);
 
         // params置空并处理
-        this.dataAddParams = []
-        let params = []
+        this.dataAddParams = [];
+        let params = [];
         try {
-          params = JSON.parse(res.data.params)
+          params = JSON.parse(res.data.params);
           if (params == null) {
-            params = []
+            params = [];
           }
         } catch (error) {
-          params = []
+          params = [];
         }
-        for(let key of params) {
+        for (let key of params) {
           this.dataAddParams.push({
-            "name":key["name"],
-            "value":key["value"],
-            "checked":key["checked"],
-            "desc":key["desc"],
-            
-          })
+            name: key["name"],
+            value: key["value"],
+            checked: key["checked"],
+            desc: key["desc"]
+          });
         }
         if (this.dataAddParams.length == 0) {
           this.dataAddParams.push({
-            "checked":true,
-            "desc":null,
-            "name":null,
-            "value":null,
-            
-          })
+            checked: true,
+            desc: null,
+            name: null,
+            value: null
+          });
         }
-        this.dataAddParamsStr = JSON.stringify(this.dataAddParams)
+        this.dataAddParamsStr = JSON.stringify(this.dataAddParams);
 
         // data置空并处理
-        this.dataAddFormData = []
-        let data = []
+        this.dataAddFormData = [];
+        let data = [];
         try {
-          data = JSON.parse(res.data.formData)
+          data = JSON.parse(res.data.formData);
           if (data == null) {
-            data = []
+            data = [];
           }
         } catch (error) {
-          data = []
+          data = [];
         }
-        for(let key of data) {
+        for (let key of data) {
           this.dataAddFormData.push({
-            "name":key["name"],
-            "value":key["value"],
-            "checked":key["checked"],
-            "desc":key["desc"],
-            
-          })
+            name: key["name"],
+            value: key["value"],
+            checked: key["checked"],
+            desc: key["desc"]
+          });
         }
         if (this.dataAddFormData.length == 0) {
           this.dataAddFormData.push({
-            "checked":true,
-            "desc":null,
-            "name":null,
-            "value":null,
-            
-          })
+            checked: true,
+            desc: null,
+            name: null,
+            value: null
+          });
         }
-        this.dataAddFormStr = JSON.stringify(this.dataAddFormData)
+        this.dataAddFormStr = JSON.stringify(this.dataAddFormData);
 
         // dataEncoded置空并处理
-        this.dataAddFormDataEncoded = []
-        let dataEncoded = []
+        this.dataAddFormDataEncoded = [];
+        let dataEncoded = [];
         try {
-          dataEncoded = JSON.parse(res.data.formDataEncoded)
+          dataEncoded = JSON.parse(res.data.formDataEncoded);
           if (dataEncoded == null) {
-            dataEncoded = []
+            dataEncoded = [];
           }
           if (dataEncoded == null) {
-            dataEncoded = []
+            dataEncoded = [];
           }
         } catch (error) {
-          dataEncoded = []
+          dataEncoded = [];
         }
-        for(let key of dataEncoded) {
+        for (let key of dataEncoded) {
           this.dataAddFormDataEncoded.push({
-            "name":key["name"],
-            "value":key["value"],
-            "checked":key["checked"],
-            "desc":key["desc"],
-            
-          })
+            name: key["name"],
+            value: key["value"],
+            checked: key["checked"],
+            desc: key["desc"]
+          });
         }
         if (this.dataAddFormDataEncoded.length == 0) {
           this.dataAddFormDataEncoded.push({
-            "checked":true,
-            "desc":null,
-            "name":null,
-            "value":null,
-            
-          })
+            checked: true,
+            desc: null,
+            name: null,
+            value: null
+          });
         }
-        this.dataAddFormEncodedStr = JSON.stringify(this.dataAddFormDataEncoded)
+        this.dataAddFormEncodedStr = JSON.stringify(
+          this.dataAddFormDataEncoded
+        );
 
         // raw置空并处理
 
-
         this.editDialogFormVisible = true;
-        this.dataInfo = res.data
-        this.dataInfo.projectName = projectName
-        this.dataInfo.moduleName = moduleName
+        this.dataInfo = res.data;
+        this.dataInfo.projectName = projectName;
+        this.dataInfo.moduleName = moduleName;
 
-        this.assertList = res.data.asserts
-        this.preCaseList = res.data.preCases
+        this.assertList = res.data.asserts;
+        this.preCaseList = res.data.preCases;
         if (res.data.asserts.length != 0) {
-            this.assertIndex = this.assertList[this.assertList.length-1].order + 1
+          this.assertIndex =
+            this.assertList[this.assertList.length - 1].order + 1;
         } else {
-            this.assertIndex = 1
+          this.assertIndex = 1;
         }
-        
-        this.preProcessorList = []
-        this.postProcessorList = []
+
+        this.preProcessorList = [];
+        this.postProcessorList = [];
         res.data.postProcessors.forEach(element => {
           if (element.type <= 2) {
-            this.postProcessorList.push(element)
+            this.postProcessorList.push(element);
           } else {
-            this.preProcessorList.push(element)
+            this.preProcessorList.push(element);
           }
         });
       } else {
@@ -2767,167 +4021,161 @@ export default {
           type: "error",
           center: true,
           message: res.msg
-        });       
+        });
       }
     },
 
     async openCopy(row) {
-      let caseId = row.caseId
-      let projectName = row.projectName
-      let moduleName = row.moduleName
-      const res = await findInterfaceCaseByCaseId(caseId)
+      let caseId = row.caseId;
+      let projectName = row.projectName;
+      let moduleName = row.moduleName;
+      const res = await findInterfaceCaseByCaseId(caseId);
       if (res.code == 200) {
-        let userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
-        res.data.creater = userInfo.realName
-        res.data.createrRealName = userInfo.realName
+        let userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+        res.data.creater = userInfo.realName;
+        res.data.createrRealName = userInfo.realName;
 
         // headers置空并处理
-        this.dataAddHeaders = []
-        let headers = []
+        this.dataAddHeaders = [];
+        let headers = [];
         try {
-          headers = JSON.parse(res.data.headers)
+          headers = JSON.parse(res.data.headers);
           if (headers == null) {
-            headers = []
+            headers = [];
           }
         } catch (error) {
-          headers = []
+          headers = [];
         }
-        for(let key of headers) {
+        for (let key of headers) {
           this.dataAddHeaders.push({
-            "name":key["name"],
-            "value":key["value"],
-            "checked":key["checked"],
-            "desc":key["desc"],
-            
-          })
+            name: key["name"],
+            value: key["value"],
+            checked: key["checked"],
+            desc: key["desc"]
+          });
         }
         if (this.dataAddHeaders.length == 0) {
           this.dataAddHeaders.push({
-            "checked":true,
-            "desc":null,
-            "name":null,
-            "value":null,
-            
-          })
+            checked: true,
+            desc: null,
+            name: null,
+            value: null
+          });
         }
-        this.dataAddHeadersStr = JSON.stringify(this.dataAddHeaders)
-        
+        this.dataAddHeadersStr = JSON.stringify(this.dataAddHeaders);
 
         // params置空并处理
-        this.dataAddParams = []
-        let params = []
+        this.dataAddParams = [];
+        let params = [];
         try {
-          params = JSON.parse(res.data.params)
+          params = JSON.parse(res.data.params);
           if (params == null) {
-            params = []
+            params = [];
           }
         } catch (error) {
-          params = []
+          params = [];
         }
-        for(let key of params) {
+        for (let key of params) {
           this.dataAddParams.push({
-            "name":key["name"],
-            "value":key["value"],
-            "checked":key["checked"],
-            "desc":key["desc"],
-            
-          })
+            name: key["name"],
+            value: key["value"],
+            checked: key["checked"],
+            desc: key["desc"]
+          });
         }
         if (this.dataAddParams.length == 0) {
           this.dataAddParams.push({
-            "checked":true,
-            "desc":null,
-            "name":null,
-            "value":null,
-            
-          })
+            checked: true,
+            desc: null,
+            name: null,
+            value: null
+          });
         }
-        this.dataAddParamsStr = JSON.stringify(this.dataAddParams)
+        this.dataAddParamsStr = JSON.stringify(this.dataAddParams);
 
         // data置空并处理
-        this.dataAddFormData = []
-        let data = []
+        this.dataAddFormData = [];
+        let data = [];
         try {
-          data = JSON.parse(res.data.formData)
+          data = JSON.parse(res.data.formData);
           if (data == null) {
-            data = []
+            data = [];
           }
         } catch (error) {
-          data = []
+          data = [];
         }
-        for(let key of data) {
+        for (let key of data) {
           this.dataAddFormData.push({
-            "name":key["name"],
-            "value":key["value"],
-            "checked":key["checked"],
-            "desc":key["desc"],
-            
-          })
+            name: key["name"],
+            value: key["value"],
+            checked: key["checked"],
+            desc: key["desc"]
+          });
         }
         if (this.dataAddFormData.length == 0) {
           this.dataAddFormData.push({
-            "checked":true,
-            "desc":null,
-            "name":null,
-            "value":null,
-            
-          })
+            checked: true,
+            desc: null,
+            name: null,
+            value: null
+          });
         }
-        this.dataAddFormStr = JSON.stringify(this.dataAddFormData)
+        this.dataAddFormStr = JSON.stringify(this.dataAddFormData);
 
         // dataEncoded置空并处理
-        this.dataAddFormDataEncoded = []
-        let dataEncoded = []
+        this.dataAddFormDataEncoded = [];
+        let dataEncoded = [];
         try {
-          dataEncoded = JSON.parse(res.data.formDataEncoded)
+          dataEncoded = JSON.parse(res.data.formDataEncoded);
           if (dataEncoded == null) {
-            dataEncoded = []
+            dataEncoded = [];
           }
         } catch (error) {
-          dataEncoded = []
+          dataEncoded = [];
         }
-        for(let key of dataEncoded) {
+        for (let key of dataEncoded) {
           this.dataAddFormDataEncoded.push({
-            "name":key["name"],
-            "value":key["value"],
-            "checked":key["checked"],
-            "desc":key["desc"],
-            
-          })
+            name: key["name"],
+            value: key["value"],
+            checked: key["checked"],
+            desc: key["desc"]
+          });
         }
         if (this.dataAddFormDataEncoded.length == 0) {
           this.dataAddFormDataEncoded.push({
-            "checked":true,
-            "desc":null,
-            "name":null,
-            "value":null,
-            
-          })
+            checked: true,
+            desc: null,
+            name: null,
+            value: null
+          });
         }
-        this.dataAddFormEncodedStr = JSON.stringify(this.dataAddFormDataEncoded)
+        this.dataAddFormEncodedStr = JSON.stringify(
+          this.dataAddFormDataEncoded
+        );
 
-        // raw置空并处理    
+        // raw置空并处理
 
         this.copyDialogFormVisible = true;
-        this.dataInfo = res.data
-        this.dataInfo.projectName = projectName
-        this.dataInfo.moduleName = moduleName
+        this.dataInfo = res.data;
+        this.dataInfo.projectName = projectName;
+        this.dataInfo.moduleName = moduleName;
 
-        this.assertList = res.data.asserts
-        this.preCaseList = res.data.preCases
+        this.assertList = res.data.asserts;
+        this.preCaseList = res.data.preCases;
         if (res.data.asserts.length != 0) {
-            this.assertIndex = this.assertList[this.assertList.length-1].order + 1
+          this.assertIndex =
+            this.assertList[this.assertList.length - 1].order + 1;
         } else {
-            this.assertIndex = 1
+          this.assertIndex = 1;
         }
 
-        this.preProcessorList = []
-        this.postProcessorList = []
+        this.preProcessorList = [];
+        this.postProcessorList = [];
         res.data.postProcessors.forEach(element => {
           if (element.type <= 2) {
-            this.postProcessorList.push(element)
+            this.postProcessorList.push(element);
           } else {
-            this.preProcessorList.push(element)
+            this.preProcessorList.push(element);
           }
         });
       } else {
@@ -2935,55 +4183,55 @@ export default {
           type: "error",
           center: true,
           message: res.msg
-        });       
+        });
       }
     },
 
     async handleProjectModuleList() {
-      this.projectModulePageSize = 5
-      this.projectModulePageNum = 1
-      this.projectModuleQuery = {}
-      this.selectProjetModule()
-      this.selectProjectModuleDialogFormVisible = true
+      this.projectModulePageSize = 5;
+      this.projectModulePageNum = 1;
+      this.projectModuleQuery = {};
+      this.selectProjetModule();
+      this.selectProjectModuleDialogFormVisible = true;
     },
     async resetProjectModuleQuery() {
-      this.projectModulePageSize = 5
-      this.projectModulePageNum = 1
-      this.projectModuleQuery = {}
-      this.selectProjetModule(this.projectModuleQuery)
+      this.projectModulePageSize = 5;
+      this.projectModulePageNum = 1;
+      this.projectModuleQuery = {};
+      this.selectProjetModule(this.projectModuleQuery);
     },
     // 前置用例
     async selectPreCase(preCaseQuery) {
-      this.preCaseQuery['pageSize'] = this.preCasePageSize 
-      this.preCaseQuery['pageNum'] = this.preCasePageNum 
-      const res = await listInterfaceCase(this.preCaseQuery)
+      this.preCaseQuery["pageSize"] = this.preCasePageSize;
+      this.preCaseQuery["pageNum"] = this.preCasePageNum;
+      const res = await listInterfaceCase(this.preCaseQuery);
       if (res.code == 200) {
-        this.preCaseTable = []
-        this.preCasePageTotal = res.data.total
-        this.preCaseTable = res.data.list
+        this.preCaseTable = [];
+        this.preCasePageTotal = res.data.total;
+        this.preCaseTable = res.data.list;
       } else {
         this.$message({
           type: "error",
           center: true,
           message: res.msg
         });
-      }    
-    }, 
+      }
+    },
     async handlePreCaseList(index) {
-      this.preCaseIndex = index
-      this.preCasePageSize = 5
-      this.preCasePageNum = 1
-      this.preCaseQuery = {}
-      this.selectPreCase()
-      this.selectPreCaseDialogFormVisible = true
+      this.preCaseIndex = index;
+      this.preCasePageSize = 5;
+      this.preCasePageNum = 1;
+      this.preCaseQuery = {};
+      this.selectPreCase();
+      this.selectPreCaseDialogFormVisible = true;
     },
     async resetPreCaseQuery() {
-      this.preCasePageSize = 5
-      this.preCasePageNum = 1
-      this.preCaseQuery = {}
-      this.selectPreCase(this.preCaseQuery)
+      this.preCasePageSize = 5;
+      this.preCasePageNum = 1;
+      this.preCaseQuery = {};
+      this.selectPreCase(this.preCaseQuery);
     },
-    handlePreCaseSizeChange (pageSize) {
+    handlePreCaseSizeChange(pageSize) {
       this.preCasePageSize = pageSize;
       this.selectPreCase(this.preCaseQuery);
     },
@@ -2991,14 +4239,14 @@ export default {
       this.preCasePageNum = pageNum;
       this.selectPreCase(this.preCaseQuery);
     },
-    async handleSelectPreCase(row){
-      this.selectPreCaseDialogFormVisible = false
+    async handleSelectPreCase(row) {
+      this.selectPreCaseDialogFormVisible = false;
       this.preCaseList[this.preCaseIndex].preCaseId = row.caseId;
       this.preCaseList[this.preCaseIndex].preCaseDesc = row.desc;
     },
     // 初始化文件上传参数
     initToken() {
-      let userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
+      let userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
       if (userInfo) {
         this.importHeader.Token = userInfo.token;
       }
@@ -3013,50 +4261,56 @@ export default {
       // 初始化
       this.dataImport = {
         type: 1
-      }
+      };
       this.$refs.upload.clearFiles();
     },
 
-    async selectSuiteList(){
-      this.suiteOptions = []
-      const res = await findInterfaceCaseSuiteAll({})
+    async selectSuiteList() {
+      this.suiteOptions = [];
+      const res = await findInterfaceCaseSuiteAll({});
       if (res.code == 200) {
-          let dataList = res.data
-          dataList.forEach((item, index) => {
-            this.suiteOptions.push({
-                label: item.suiteName,
-                value: item.suiteId,
-                index: index
-            });
+        let dataList = res.data;
+        dataList.forEach((item, index) => {
+          this.suiteOptions.push({
+            label: item.suiteName,
+            value: item.suiteId,
+            index: index
           });
+        });
       } else {
         this.$message({
-          type:"error",
+          type: "error",
           center: true,
-          message:res.msg
+          message: res.msg
         });
       }
     },
 
     async handleSelectSuite(suiteId) {
-      this.dataImport['suiteId'] = suiteId;
-    },  
+      this.dataImport["suiteId"] = suiteId;
+    },
 
     // 文件上传成功回调
     handleUploadSuccess(response, file, fileList) {
-      if(response.code == 200) {
+      if (response.code == 200) {
         this.$message({
           type: "success",
           center: true,
-          message: "总记录数：" + response.data.total + " 成功数：" + response.data.success + " 失败数：" + response.data.failed
+          message:
+            "总记录数：" +
+            response.data.total +
+            " 成功数：" +
+            response.data.success +
+            " 失败数：" +
+            response.data.failed
         });
-        this.importDialogFormVisible = false
+        this.importDialogFormVisible = false;
         // 初始化
         this.dataImport = {
           type: 1
-        }
+        };
         // 刷新列表
-        this.selectInterfaceCase({})
+        this.selectInterfaceCase({});
       } else {
         this.$message({
           type: "error",
@@ -3071,12 +4325,12 @@ export default {
       this.$refs.upload.clearFiles();
     },
     // 手动上传
-    handleImport(){
+    handleImport() {
       this.$refs.upload.submit();
     },
 
-// 上传用例约束，自动生成用例
-// 文件上传失败回调
+    // 上传用例约束，自动生成用例
+    // 文件上传失败回调
     handleGeneratorUploadError(response, file, fileList) {
       this.$message({
         type: "error",
@@ -3087,7 +4341,7 @@ export default {
       this.caseGenerator = {
         genRule: 1,
         dataType: 2
-      }
+      };
       this.$refs.uploadGenerator.clearFiles();
     },
 
@@ -3099,20 +4353,21 @@ export default {
           center: true,
           message: response.msg
         });
-        this.generatorDialogFormVisible = false
+        this.generatorDialogFormVisible = false;
         // 初始化
         this.caseGenerator = {
           genRule: 1,
           dataType: 2
-        }
+        };
         this.$refs.uploadGenerator.clearFiles();
 
         /**
          * 将后端给的json写入文件
          */
-        var data = JSON.stringify(response.data, null, '\t')
+        var data = JSON.stringify(response.data, null, "\t");
         //encodeURIComponent解决中文乱码
-        let uri = 'data:text/csv;charset=utf-8,\ufeff' + encodeURIComponent(data);
+        let uri =
+          "data:text/csv;charset=utf-8,\ufeff" + encodeURIComponent(data);
         //通过创建a标签实现
         let link = document.createElement("a");
         link.href = uri;
@@ -3135,7 +4390,7 @@ export default {
       this.$refs.uploadGenerator.clearFiles();
     },
     // 手动上传
-    handleGenerator(){
+    handleGenerator() {
       this.$refs.uploadGenerator.submit();
     },
     async openGenerator() {
@@ -3145,7 +4400,7 @@ export default {
     // 查看近10次执行日志
     async handleLastTenLog(row) {
       this.lastTenLogList = [];
-      let queryObject = {}
+      let queryObject = {};
       queryObject["caseId"] = row.caseId;
       queryObject["pageNum"] = 1;
       queryObject["pageSize"] = 5;
@@ -3153,16 +4408,16 @@ export default {
       if (res.code == 200) {
         res.data.list.forEach(element => {
           if (element.status == 0) {
-              element.color = "#67C23A";
+            element.color = "#67C23A";
           } else if (element.status == 1) {
-              element.color = "#E6A23C";
+            element.color = "#E6A23C";
           } else {
-              element.color = "#F56C6C";
+            element.color = "#F56C6C";
           }
-          element.runTime = element.runTime + 'ms';
+          element.runTime = element.runTime + "ms";
           this.lastTenLogList.push(element);
         });
-      this.lastTenLogVisible = true
+        this.lastTenLogVisible = true;
       } else {
         this.$message({
           type: "error",
@@ -3174,157 +4429,171 @@ export default {
 
     // 查看用例的日志
     async handleLogDetail(logId) {
-      this.isShowRawExceptedResult = false
-      this.isShowRawRequestHeaders = false
-      this.isShowRawRequestParams = false
-      this.isShowRawRequestBody = false
+      this.isShowRawExceptedResult = false;
+      this.isShowRawRequestHeaders = false;
+      this.isShowRawRequestParams = false;
+      this.isShowRawRequestBody = false;
 
-      const res = await findInterfaceCaseExecuteLog(logId)
+      const res = await findInterfaceCaseExecuteLog(logId);
       if (res.code == 200) {
-          let data = res.data
-          res.data.assertList.forEach(assert => {
-            // 断言执行状态
-            if (assert.status == 0) {
-                assert.assertStatusStyle = "success"
-                assert.status = '成功'
-            } else if (assert.status == 1) {
-                assert.assertStatusStyle = "warning"
-                assert.status = '失败'
-            } else {
-                assert.assertStatusStyle = "danger"
-                assert.status = '错误'
-            }
-            // 断言提取方式
-            if (assert.type == 0) {
-                assert.type = 'json'
-            } else if (assert.type == 1) {
-                assert.type = 'html'
-            } else if (assert.type == 2) {
-                assert.type = 'header'
-            } else if (assert.type == 3) {
-                assert.type = 'code'
-            } else if (assert.type == 4) {
-                assert.type = 'time(ms)'
-            } else {
-                assert.type = 'unknow'
-            }
-            // 操作符
-            // 操作符0/=、1/< 、2/>、3/<=、4/>=、5/in、6/!=、7/re
-            if (assert.operator == 0) {
-                assert.operator = '='
-            } else if (assert.operator == 1) {
-                assert.operator = '<'
-            } else if (assert.operator == 2) {
-                assert.operator = '>'
-            } else if (assert.operator == 3) {
-                assert.operator = '<='
-            } else if (assert.operator == 4) {
-                assert.operator = '>='
-            } else if (assert.operator == 5) {
-                assert.operator = 'in'
-            } else if (assert.operator == 6) {
-                assert.operator = '!='
-            } else if (assert.operator == 7) {
-                assert.operator = 're'
-            } else if (assert.operator == 8) {
-                assert.operator = 'isNull'
-            } else if (assert.operator == 9) {
-                assert.operator = 'notNull'
-            } else if (assert.operator == 10) {
-                assert.operator = 'contains'
-            } else {
-                assert.operator = 'unknow'
-            }            
-          });
-          this.assertInfo = res.data.assertList
-          this.logDetailDialogFormVisible = true
-          if (data.status == 0) {
-              data.status = '成功'
-              data.statusStyle = "success"
-          } else if (data.status == 1) {
-              data.status = '失败'
-              data.statusStyle = "warning"
+        let data = res.data;
+        res.data.assertList.forEach(assert => {
+          // 断言执行状态
+          if (assert.status == 0) {
+            assert.assertStatusStyle = "success";
+            assert.status = "成功";
+          } else if (assert.status == 1) {
+            assert.assertStatusStyle = "warning";
+            assert.status = "失败";
           } else {
-              data.status = '错误'
-              data.statusStyle = "danger"
+            assert.assertStatusStyle = "danger";
+            assert.status = "错误";
           }
+          // 断言提取方式
+          if (assert.type == 0) {
+            assert.type = "json";
+          } else if (assert.type == 1) {
+            assert.type = "html";
+          } else if (assert.type == 2) {
+            assert.type = "header";
+          } else if (assert.type == 3) {
+            assert.type = "code";
+          } else if (assert.type == 4) {
+            assert.type = "time(ms)";
+          } else {
+            assert.type = "unknow";
+          }
+          // 操作符
+          // 操作符0/=、1/< 、2/>、3/<=、4/>=、5/in、6/!=、7/re
+          if (assert.operator == 0) {
+            assert.operator = "=";
+          } else if (assert.operator == 1) {
+            assert.operator = "<";
+          } else if (assert.operator == 2) {
+            assert.operator = ">";
+          } else if (assert.operator == 3) {
+            assert.operator = "<=";
+          } else if (assert.operator == 4) {
+            assert.operator = ">=";
+          } else if (assert.operator == 5) {
+            assert.operator = "in";
+          } else if (assert.operator == 6) {
+            assert.operator = "!=";
+          } else if (assert.operator == 7) {
+            assert.operator = "re";
+          } else if (assert.operator == 8) {
+            assert.operator = "isNull";
+          } else if (assert.operator == 9) {
+            assert.operator = "notNull";
+          } else if (assert.operator == 10) {
+            assert.operator = "contains";
+          } else {
+            assert.operator = "unknow";
+          }
+        });
+        this.assertInfo = res.data.assertList;
+        this.logDetailDialogFormVisible = true;
+        if (data.status == 0) {
+          data.status = "成功";
+          data.statusStyle = "success";
+        } else if (data.status == 1) {
+          data.status = "失败";
+          data.statusStyle = "warning";
+        } else {
+          data.status = "错误";
+          data.statusStyle = "danger";
+        }
 
-          // 失败重跑
-          if (data.isFailedRetry == 0) {
-              data.isFailedRetryStyle = 'danger'
-              data.isFailedRetryValue = "是"
-          } else if (data.isFailedRetry == 1) {
-              data.isFailedRetryStyle = 'primary'
-              data.isFailedRetryValue = "否"
-          } else {
-              data.status = 'UNKNOW'
-              data.statusStyle = "primary"
-          }
-          this.logInfo = data
+        // 失败重跑
+        if (data.isFailedRetry == 0) {
+          data.isFailedRetryStyle = "danger";
+          data.isFailedRetryValue = "是";
+        } else if (data.isFailedRetry == 1) {
+          data.isFailedRetryStyle = "primary";
+          data.isFailedRetryValue = "否";
+        } else {
+          data.status = "UNKNOW";
+          data.statusStyle = "primary";
+        }
+        this.logInfo = data;
       } else {
         this.$message({
           type: "error",
           center: true,
           message: res.msg
-        })
+        });
       }
     },
 
     showRawExceptedResult() {
-      this.isShowRawExceptedResult = ! this.isShowRawExceptedResult
+      this.isShowRawExceptedResult = !this.isShowRawExceptedResult;
     },
     showRawRequestHeaders() {
-      this.isShowRawRequestHeaders = ! this.isShowRawRequestHeaders
+      this.isShowRawRequestHeaders = !this.isShowRawRequestHeaders;
     },
     showRawRequestParams() {
-      this.isShowRawRequestParams = ! this.isShowRawRequestParams
+      this.isShowRawRequestParams = !this.isShowRawRequestParams;
     },
     showRawRequestBody() {
-      this.isShowRawRequestBody = ! this.isShowRawRequestBody
+      this.isShowRawRequestBody = !this.isShowRawRequestBody;
     },
     forceUpdate() {
-      this.$forceUpdate()
+      this.$forceUpdate();
     },
     changeMethod(method) {
       if (method == 0) {
-        this.dataAdd.bodyType = 9
-        this.dataInfo.bodyType = 9
+        this.dataAdd.bodyType = 9;
+        this.dataInfo.bodyType = 9;
       }
     },
     // 查看前置用例的处理器
     async openViewProcessor(caseId) {
-      if(caseId != null) {
-        const res = await findInterfaceCaseByCaseId(caseId)
+      if (caseId != null) {
+        const res = await findInterfaceCaseByCaseId(caseId);
         if (res.code == 200) {
           this.viewProcessorDialogFormVisible = true;
-          this.dataInfo = res.data
-      
-          this.preCaseList = res.data.preCases
-          if (res.data.asserts.length != 0) {
-              this.assertIndex = this.assertList[this.assertList.length-1].order + 1
-          } else {
-              this.assertIndex = 1
-          }
-          
-          this.preProcessorList = []
-          this.postProcessorList = []
-          res.data.postProcessors.forEach(element => {
-            if (element.type <= 2) {
-              this.postProcessorList.push(element)
+          res.data.postProcessors.map(element => {
+            let type = element.type;
+            if (type == 0) {
+              element.scope = "Response";
+              element.way = "Json";
+            } else if (type == 1) {
+              element.scope = "Response";
+              element.way = "Html";
+            } else if (type == 2) {
+              element.scope = "Response";
+              element.way = "Header";
+            } else if (type == 3) {
+              element.scope = "Request";
+              element.way = "Header";
+            } else if (type == 4) {
+              element.scope = "Request";
+              element.way = "Params";
+            } else if (type == 5) {
+              element.scope = "Request";
+              element.way = "Data";
+            } else if (type == 6) {
+              element.scope = "Request";
+              element.way = "Json";
             } else {
-              this.preProcessorList.push(element)
+              this.$message({
+                type: "error",
+                center: true,
+                message: "unknow type"
+              });
             }
           });
+          this.preCaseProcessorArray = res.data.postProcessors;
         } else {
           this.$message({
             type: "error",
             center: true,
             message: res.msg
-          });       
+          });
         }
       }
-      },
-  },
+    }
+  }
 };
 </script>
 
