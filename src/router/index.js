@@ -27,6 +27,7 @@ const email = r => require.ensure([], () => r(require('@/page/email')), 'email')
 const proxy = r => require.ensure([], () => r(require('@/page/proxy')), 'proxy');
 const task = r => require.ensure([], () => r(require('@/page/task')), 'task');
 const timeout = r => require.ensure([], () => r(require('@/page/timeout')), 'timeout');
+const loginLog = r => require.ensure([], () => r(require('@/page/loginLog')), 'loginLog');
 const analysis = r => require.ensure([], () => r(require('@/page/analysis')), 'analysis');
 const ifSuiteLog = r => require.ensure([], () => r(require('@/page/ifSuiteLog')), 'ifSuiteLog');
 const tempEnv = r => require.ensure([], () => r(require('@/page/tempEnv')), 'tempEnv');
@@ -255,7 +256,7 @@ const router = new Router({
           path: '/httpSetting',
           component: httpSetting,
           meta: {
-            path: ['配置中心','全局配置'],
+            path: ['系统设置','全局配置'],
             requireAuth: true
           },
         },  
@@ -263,7 +264,7 @@ const router = new Router({
           path: '/email',
           component: email,
           meta: {
-            path: ['配置中心','邮箱管理'],
+            path: ['系统设置','邮箱管理'],
             requireAuth: true
           },
         },  
@@ -271,7 +272,7 @@ const router = new Router({
           path: '/proxy',
           component: proxy,
           meta: {
-            path: ['配置中心','代理配置'],
+            path: ['系统设置','代理配置'],
             requireAuth: true
           },
         }, 
@@ -279,7 +280,7 @@ const router = new Router({
           path: '/task',
           component: task,
           meta: {
-            path: ['配置中心','定时任务'],
+            path: ['系统设置','定时任务'],
             requireAuth: true
           },
         }, 
@@ -287,7 +288,15 @@ const router = new Router({
           path: '/timeout',
           component: timeout,
           meta: {
-            path: ['配置中心','超时配置'],
+            path: ['系统设置','超时配置'],
+            requireAuth: true
+          },
+        }, 
+        {
+          path: '/loginLog',
+          component: loginLog,
+          meta: {
+            path: ['系统设置','登录日志'],
             requireAuth: true
           },
         }, 

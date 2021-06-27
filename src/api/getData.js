@@ -782,3 +782,9 @@ export const executeDataFactory = id => HttpRequest.get('/data/factory/execute/'
   */
    export const restartApi = apiId => HttpRequest.get('/mock/api/restart/' + apiId)
 
+
+  /**
+  * 用户登录日志列表
+  */
+   export const findUserLoginLogList = data => HttpRequest.get('/login/log', data)
+
