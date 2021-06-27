@@ -879,14 +879,14 @@
                       </el-option>
                     </el-select>
                   </el-col>
-                  <el-col :span="6">
+                  <el-col :span="preProcessorItem.haveDefaultValue == 0 ? 6 : 10">
                     <el-input
                       v-model="preProcessorItem.expression"
                       placeholder="提取表达式"
                       size="mini"
                     ></el-input>
                   </el-col>
-                  <el-col :span="5">
+                  <el-col :span="4">
                     <el-input
                       v-model="preProcessorItem.defaultValue"
                       placeholder="默认值"
@@ -1024,14 +1024,14 @@
                       </el-option>
                     </el-select>
                   </el-col>
-                  <el-col :span="6">
+                  <el-col :span="postProcessorItem.haveDefaultValue == 0 ? 6 : 10">
                     <el-input
                       v-model="postProcessorItem.expression"
                       placeholder="提取表达式"
                       size="mini"
                     ></el-input>
                   </el-col>
-                  <el-col :span="5">
+                  <el-col :span="4">
                     <el-input
                       v-model="postProcessorItem.defaultValue"
                       placeholder="默认值"
@@ -1987,14 +1987,14 @@
                       </el-option>
                     </el-select>
                   </el-col>
-                  <el-col :span="6">
+                  <el-col :span="preProcessorItem.haveDefaultValue == 0 ? 6 : 10">
                     <el-input
                       v-model="preProcessorItem.expression"
                       placeholder="提取表达式"
                       size="mini"
                     ></el-input>
                   </el-col>
-                  <el-col :span="5">
+                  <el-col :span="4">
                     <el-input
                       v-model="preProcessorItem.defaultValue"
                       placeholder="默认值"
@@ -2132,14 +2132,14 @@
                       </el-option>
                     </el-select>
                   </el-col>
-                  <el-col :span="6">
+                  <el-col :span="postProcessorItem.haveDefaultValue == 0 ? 6 : 10">
                     <el-input
                       v-model="postProcessorItem.expression"
                       placeholder="提取表达式"
                       size="mini"
                     ></el-input>
                   </el-col>
-                  <el-col :span="5">
+                  <el-col :span="4">
                     <el-input
                       v-model="postProcessorItem.defaultValue"
                       placeholder="默认值"
@@ -2680,14 +2680,14 @@
                       </el-option>
                     </el-select>
                   </el-col>
-                  <el-col :span="6">
+                  <el-col :span="preProcessorItem.haveDefaultValue == 0 ? 6 : 10">
                     <el-input
                       v-model="preProcessorItem.expression"
                       placeholder="提取表达式"
                       size="mini"
                     ></el-input>
                   </el-col>
-                  <el-col :span="5">
+                  <el-col :span="4">
                     <el-input
                       v-model="preProcessorItem.defaultValue"
                       placeholder="默认值"
@@ -2825,14 +2825,14 @@
                       </el-option>
                     </el-select>
                   </el-col>
-                  <el-col :span="6">
+                  <el-col :span="postProcessorItem.haveDefaultValue == 0 ? 6 : 10">
                     <el-input
                       v-model="postProcessorItem.expression"
                       placeholder="提取表达式"
                       size="mini"
                     ></el-input>
                   </el-col>
-                  <el-col :span="5">
+                  <el-col :span="4">
                     <el-input
                       v-model="postProcessorItem.defaultValue"
                       placeholder="默认值"
@@ -2872,50 +2872,6 @@
         </div>
       </el-dialog>
     </div>
-
-    <el-dialog
-      title="详情"
-      :visible.sync="viewProcessorDialogFormVisible"
-      append-to-body
-    >
-      <el-table
-        :data="preCaseProcessorArray"
-        stripe
-        highlight-current-row
-        style="width: 100%"
-      >
-        <el-table-column
-          property="name"
-          label="名称"
-          min-width="20%"
-          show-overflow-tooltip
-        ></el-table-column>
-        <el-table-column
-          property="scope"
-          label="域"
-          min-width="20%"
-          show-overflow-tooltip
-        ></el-table-column>
-        <el-table-column
-          property="way"
-          label="类型"
-          min-width="20%"
-          show-overflow-tooltip
-        ></el-table-column>
-        <el-table-column
-          property="expression"
-          label="提取表达式"
-          min-width="20%"
-          show-overflow-tooltip
-        ></el-table-column>
-        <el-table-column
-          property="defaultValue"
-          label="默认值"
-          min-width="20%"
-          show-overflow-tooltip
-        ></el-table-column>
-      </el-table>
-    </el-dialog>
   </div>
 </template>
 <script>
@@ -3225,7 +3181,7 @@ export default {
       // 查看前置用例的处理器列表
       viewProcessorDialogFormVisible: false,
       // 前置用例处理器列表
-      preCaseProcessorArray: []
+      preCaseProcessorArray: [],
     };
   },
   components: {
