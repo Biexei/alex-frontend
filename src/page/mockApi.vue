@@ -69,6 +69,19 @@
         highlight-current-row
         style="width: 100%"
       >
+      <el-table-column type="expand">
+          <template slot-scope="props">
+            <el-form label-position="left" inline class="demo-table-expand">
+              <el-form-item label="创建时间:">
+                <el-input
+                  :value="props.row.createdTime"
+                  readonly
+                  size="mini"
+                ></el-input>
+              </el-form-item>
+            </el-form>
+          </template>
+        </el-table-column>
         <el-table-column property="apiId" label="编号" min-width="10%">
           <template slot-scope="scope">
             <el-row :gutter="15">
@@ -86,7 +99,7 @@
             </el-row>
           </template>
         </el-table-column>
-        <el-table-column property="domain" label="Domain" min-width="15%">
+        <el-table-column property="domain" label="Domain" min-width="20%">
           <template slot-scope="scope">
             <el-row :gutter="15">
               <el-col :span="4"
@@ -110,7 +123,7 @@
           show-overflow-tooltip
         >
           <template slot-scope="scope">
-            <el-row :gutter="10">
+            <el-row :gutter="5">
               <el-col :span="6"
                 ><el-tag effect="dark" disable-transitions size="mini">{{
                   scope.row.method
@@ -125,19 +138,14 @@
         <el-table-column
           property="desc"
           label="描述"
-          min-width="15%"
+          min-width="20%"
         ></el-table-column>
         <el-table-column
           property="creatorName"
           label="创建人"
           min-width="10%"
         ></el-table-column>
-        <el-table-column
-          property="createdTime"
-          label="创建时间"
-          min-width="15%"
-        ></el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="15%">
+        <el-table-column fixed="right" label="操作" min-width="20%">
           <template slot-scope="scope">
             <el-button
               @click="handleRestart(scope.row.apiId)"
@@ -346,7 +354,7 @@
             </el-tab-pane>
 
             <el-tab-pane label="响应信息" name="second">
-              <el-form-item label="Delay(ms)" label-width="110px">
+              <el-form-item label="Delay" label-width="110px">
                 <el-input
                   v-model="dataInfo.responseDelay"
                   placeholder="ms"
@@ -583,7 +591,7 @@
             </el-tab-pane>
 
             <el-tab-pane label="响应信息" name="second">
-              <el-form-item label="Delay(ms)" label-width="110px">
+              <el-form-item label="Delay" label-width="110px">
                 <el-input
                   v-model="dataAdd.responseDelay"
                   placeholder="ms"

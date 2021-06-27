@@ -131,11 +131,11 @@
         <el-table-column
           property="extractExpression"
           label="提取表达式"
-          min-width="23%"
+          min-width="20%"
           show-overflow-tooltip
         >
           <template slot-scope="scope">
-            <el-row :gutter="10">
+            <el-row :gutter="5">
               <el-col :span="4"
                 ><el-tag
                   effect="dark"
@@ -162,7 +162,7 @@
           label="创建时间"
           min-width="15%"
         ></el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="12%">
+        <el-table-column fixed="right" label="操作" min-width="15%">
           <template slot-scope="scope">
             <el-button
               @click="handleCheck(scope.row.relyId)"

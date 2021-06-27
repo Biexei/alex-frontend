@@ -230,7 +230,7 @@
         </el-table-column>
         <el-table-column
           property="caseId"
-          label="用例编号"
+          label="编号"
           min-width="10%"
         ></el-table-column>
         <el-table-column
@@ -265,7 +265,7 @@
         <el-table-column
           property="method"
           label="请求地址"
-          min-width="30%"
+          min-width="25%"
           show-overflow-tooltip
         >
           <template slot-scope="scope">
@@ -285,7 +285,7 @@
             </el-row>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="15%">
+        <el-table-column fixed="right" label="操作" min-width="20%">
           <template slot-scope="scope">
             <el-button
               @click="handleCheck(scope.row.caseId)"

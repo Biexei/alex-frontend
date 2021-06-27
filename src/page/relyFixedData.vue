@@ -58,34 +58,23 @@
         <el-table-column
           property="id"
           label="编号"
-          min-width="5%"
+          min-width="10%"
         ></el-table-column>
         <el-table-column
           property="name"
           label="名称"
-          min-width="10%"
+          min-width="15%"
         ></el-table-column>
         <el-table-column
           property="value"
-          label="环境变量"
+          label="值"
           min-width="25%"
         ></el-table-column>
         <el-table-column
           property="desc"
           label="描述"
-          min-width="38%"
+          min-width="40%"
         ></el-table-column>
-        <el-table-column property="type" label="类型" min-width="12%">
-          <template slot-scope="scope">
-            <el-tag
-              effect="dark"
-              size="small"
-              :type="scope.row.style"
-              disable-transitions
-              >{{ scope.row.type }}
-            </el-tag>
-          </template>
-        </el-table-column>
         <el-table-column fixed="right" label="操作" min-width="10%">
           <template slot-scope="scope">
             <el-button

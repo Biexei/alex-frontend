@@ -90,6 +90,19 @@
         highlight-current-row
         style="width: 100%"
       >
+        <el-table-column type="expand">
+          <template slot-scope="props">
+            <el-form label-position="left" inline class="demo-table-expand">
+              <el-form-item label="创建时间:">
+                <el-input
+                  :value="props.row.createdTime"
+                  readonly
+                  size="mini"
+                ></el-input>
+              </el-form-item>
+            </el-form>
+          </template>
+        </el-table-column>
         <el-table-column
           property="suiteId"
           label="编号"
@@ -103,7 +116,7 @@
         <el-table-column
           property="desc"
           label="描述"
-          min-width="15%"
+          min-width="20%"
           show-overflow-tooltip
         ></el-table-column>
         <el-table-column
@@ -111,12 +124,7 @@
           label="创建人"
           min-width="10%"
         ></el-table-column>
-        <el-table-column
-          property="createdTime"
-          label="创建时间"
-          min-width="15%"
-        ></el-table-column>
-        <el-table-column property="executeType" label="执行方式" min-width="6%">
+        <el-table-column property="executeType" label="执行方式" min-width="8%">
           <template slot-scope="scope">
             <el-tag
               effect="dark"
@@ -127,7 +135,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column property="runDevType" label="运行环境" min-width="6%">
+        <el-table-column property="runDevType" label="运行环境" min-width="8%">
           <template slot-scope="scope">
             <el-tag
               effect="dark"
@@ -138,7 +146,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column property="runDevType" label="失败重跑" min-width="7%">
+        <el-table-column property="runDevType" label="失败重跑" min-width="8%">
           <template slot-scope="scope">
             <el-tag effect="dark" size="small" disable-transitions
               >{{ scope.row.isRetryType }}

@@ -91,7 +91,7 @@
       >
         <el-table-column
           property="suiteName"
-          label="套件名称"
+          label="名称"
           min-width="10%"
         ></el-table-column>
         <el-table-column

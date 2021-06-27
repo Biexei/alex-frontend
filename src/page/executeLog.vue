@@ -139,7 +139,7 @@
         <el-table-column
           property="id"
           label="编号"
-          min-width="7%"
+          min-width="8%"
         ></el-table-column>
         <el-table-column
           property="projectName"
@@ -156,7 +156,7 @@
         <el-table-column
           property="caseDesc"
           label="用例描述"
-          min-width="33%"
+          min-width="36%"
           show-overflow-tooltip
         >
           <template slot-scope="scope">
@@ -183,7 +183,7 @@
         <el-table-column
           property="runTime"
           label="执行用时"
-          min-width="8%"
+          min-width="10%"
         ></el-table-column>
         <!-- <el-table-column property="isFailedRetry" label="失败重跑" min-width="8%">
           <template slot-scope="scope">

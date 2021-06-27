@@ -73,9 +73,9 @@
         <el-table-column
           property="roleName"
           label="名称"
-          min-width="58%"
+          min-width="50%"
         ></el-table-column>
-        <el-table-column property="status" label="状态" min-width="10%">
+        <el-table-column property="status" label="状态" min-width="15%">
           <template slot-scope="scope">
             <el-switch
               v-model="scope.row.status"
@@ -86,7 +86,7 @@
             </el-switch>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="12%">
+        <el-table-column fixed="right" label="操作" min-width="15%">
           <template slot-scope="scope">
             <el-button
               @click="handleEdit(scope.row.roleId)"
