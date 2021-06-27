@@ -67,10 +67,10 @@
         <el-table-column
           property="desc"
           label="描述"
-          min-width="40%"
+          min-width="37%"
           show-overflow-tooltip
         ></el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="5%">
+        <el-table-column fixed="right" label="操作" min-width="7%">
           <template slot-scope="scope">
             <el-button
               @click="handleEdit(scope.row.id)"

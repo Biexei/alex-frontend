@@ -73,7 +73,7 @@
         <el-table-column
           property="desc"
           label="描述"
-          min-width="40%"
+          min-width="38%"
         ></el-table-column>
         <el-table-column fixed="right" label="操作" min-width="10%">
           <template slot-scope="scope">

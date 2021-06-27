@@ -92,15 +92,15 @@
         <el-table-column
           property="desc"
           label="描述"
-          min-width="25%"
-          show-overflow-tooltip=""
+          min-width="20%"
+          show-overflow-tooltip
         ></el-table-column>
         <el-table-column
           property="createdTime"
           label="创建时间"
           min-width="15%"
         ></el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="15%">
+        <el-table-column fixed="right" label="操作" min-width="20%">
           <template slot-scope="scope">
             <el-button
               @click="handleStart(scope.row.serverId, scope.$index)"

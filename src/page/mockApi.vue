@@ -139,6 +139,7 @@
           property="desc"
           label="描述"
           min-width="20%"
+          show-overflow-tooltip
         ></el-table-column>
         <el-table-column
           property="creatorName"

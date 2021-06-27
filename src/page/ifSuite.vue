@@ -106,17 +106,18 @@
         <el-table-column
           property="suiteId"
           label="编号"
-          min-width="5%"
+          min-width="10%"
         ></el-table-column>
         <el-table-column
           property="suiteName"
           label="名称"
-          min-width="15%"
+          min-width="10%"
+          show-overflow-tooltip
         ></el-table-column>
         <el-table-column
           property="desc"
           label="描述"
-          min-width="20%"
+          min-width="17%"
           show-overflow-tooltip
         ></el-table-column>
         <el-table-column
@@ -153,7 +154,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="20%">
+        <el-table-column fixed="right" label="操作" min-width="23%">
           <template slot-scope="scope">
             <el-button
               @click="handleManager(scope.row.suiteId)"

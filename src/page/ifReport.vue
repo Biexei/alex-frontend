@@ -98,6 +98,7 @@
           property="suiteLogNo"
           label="执行编号"
           min-width="20%"
+          show-overflow-tooltip
         ></el-table-column>
         <el-table-column
           property="totalCase"
