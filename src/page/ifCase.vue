@@ -174,6 +174,12 @@
                   readonly
                   size="mini"
                 ></el-input>
+                <el-input
+                  v-else-if="props.row.source == 5"
+                  value="har"
+                  readonly
+                  size="mini"
+                ></el-input>
               </el-form-item>
               <el-form-item label="导入批次">
                 <el-input
@@ -344,7 +350,7 @@
       >
         <el-form :model="dataImport" ref="dataImport">
           <el-form-item label="*类型" label-width="100px">
-            <el-select v-model="dataImport.type" size="mini">
+            <el-select v-model="dataImport.type" size="mini" @change="forceUpdate"> 
               <el-option
                 v-for="item in importTypeOptions"
                 :key="item.value"
@@ -354,6 +360,7 @@
               </el-option>
             </el-select>
             <el-link
+              v-if="dataImport.type != 5"
               :href="downloadUrl + dataImport.type"
               type="primary"
               target="_blank"
@@ -362,6 +369,27 @@
               >下载模版</el-link
             >
           </el-form-item>
+
+
+          <el-form-item label="*项目名称" label-width="100px" v-if="dataImport.type == 5">
+            <el-input
+              readonly
+              v-model="dataImport.projectName"
+              @focus="handleProjectModuleList"
+              size="mini"
+              disabled
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="*模块名称" label-width="100px" v-if="dataImport.type == 5">
+            <el-input
+              readonly
+              v-model="dataImport.moduleName"
+              @focus="handleProjectModuleList"
+              size="mini"
+              placeholder="请点击选择"
+            ></el-input>
+          </el-form-item>
+
           <el-form-item label="*选择文件" label-width="100px">
             <el-upload
               ref="upload"
@@ -372,7 +400,7 @@
               :auto-upload="false"
               :on-success="handleUploadSuccess"
               :on-error="handleUploadError"
-              accept=".xls,.xlsx,.csv,.json,.yaml"
+              accept=".xls,.xlsx,.csv,.json,.yaml,.har"
               :limit="1"
             >
               <el-button size="mini" type="primary">立即上传</el-button>
@@ -415,7 +443,7 @@
         <el-form :model="caseGenerator" ref="caseGenerator">
           <el-form-item label="约束示例" label-width="100px">
             <el-link
-              :href="downloadUrl + 5"
+              :href="downloadUrl + 10"
               type="primary"
               target="_blank"
               icon="el-icon-download"
@@ -425,7 +453,7 @@
           </el-form-item>
           <el-form-item label="介绍文档" label-width="100px">
             <el-link
-              :href="downloadUrl + 6"
+              :href="downloadUrl + 11"
               type="primary"
               target="_blank"
               icon="el-icon-download"
@@ -2909,12 +2937,8 @@ export default {
       importDialogFormVisible: false,
       importTypeOptions: [
         {
-          value: 1,
-          label: "excel"
-        },
-        {
-          value: 2,
-          label: "csv"
+          value: 5,
+          label: "har"
         },
         {
           value: 3,
@@ -2923,7 +2947,15 @@ export default {
         {
           value: 4,
           label: "yaml"
-        }
+        },
+        {
+          value: 1,
+          label: "excel"
+        },
+        {
+          value: 2,
+          label: "csv"
+        },
       ],
 
       caseGenerator: {
@@ -3754,6 +3786,11 @@ export default {
       this.dataAdd.moduleName = row.moduleName;
       this.dataAdd.projectId = row.projectId;
       this.dataAdd.projectName = row.projectName;
+
+      this.dataImport.moduleId = row.moduleId;
+      this.dataImport.moduleName = row.moduleName;
+      this.dataImport.projectId = row.projectId;
+      this.dataImport.projectName = row.projectName;
     },
     async resetForm() {
       this.queryForm = {};
@@ -3763,6 +3800,8 @@ export default {
     },
     async openImport() {
       this.importDialogFormVisible = true;
+      this.dataImport = {};
+      this.dataImport.type = 5
     },
     async openAdd() {
       this.addDialogFormVisible = true;
