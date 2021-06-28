@@ -580,6 +580,15 @@ export default {
           } else if (element.method == 4) {
             element.methodStyle = "";
             element.method = "DELETE";
+          } else if (element.method == 5) {
+            element.methodStyle = "";
+            element.method = "HEAD";
+          } else if (element.method == 6) {
+            element.methodStyle = "";
+            element.method = "OPTIONS";
+          } else if (element.method == 7) {
+            element.methodStyle = "";
+            element.method = "TRACE";
           } else {
             element.methodStyle = "";
             element.method = "UNKNOW";

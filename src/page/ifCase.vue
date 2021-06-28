@@ -35,10 +35,10 @@
             size="mini"
           ></el-input>
         </el-form-item>
-        <el-form-item label="用例名称">
+        <el-form-item label="用例描述">
           <el-input
             v-model="queryForm.desc"
-            placeholder="用例名称"
+            placeholder="用例描述"
             size="mini"
           ></el-input>
         </el-form-item>
@@ -237,18 +237,33 @@
         <el-table-column
           property="caseId"
           label="编号"
-          min-width="10%"
+          min-width="8%"
         ></el-table-column>
         <el-table-column
           property="projectName"
           label="项目名称"
-          min-width="15%"
+          min-width="12%"
           show-overflow-tooltip
         ></el-table-column>
         <el-table-column
+          property="method"
+          label="Method"
+          min-width="10%"
+          show-overflow-tooltip
+        >
+        <template slot-scope="scope">
+          <el-tag
+            effect="plain"
+            :type="scope.row.methodStyle"
+            disable-transitions
+            size="mini"
+            >{{ scope.row.method }}</el-tag>
+        </template>
+        </el-table-column>
+        <el-table-column
           property="desc"
-          label="用例名称"
-          min-width="30%"
+          label="用例描述"
+          min-width="25%"
           show-overflow-tooltip
         >
           <template slot-scope="scope">
@@ -269,27 +284,11 @@
           </template>
         </el-table-column>
         <el-table-column
-          property="method"
-          label="请求地址"
+          property="url"
+          label="Path"
           min-width="25%"
           show-overflow-tooltip
         >
-          <template slot-scope="scope">
-            <el-row :gutter="10">
-              <el-col :span="4"
-                ><el-tag
-                  effect="dark"
-                  :type="scope.row.methodStyle"
-                  disable-transitions
-                  size="mini"
-                  >{{ scope.row.method }}</el-tag
-                ></el-col
-              >
-              <el-col :span="20"
-                ><span>{{ scope.row.url }}</span></el-col
-              >
-            </el-row>
-          </template>
         </el-table-column>
         <el-table-column fixed="right" label="操作" min-width="20%">
           <template slot-scope="scope">
@@ -371,7 +370,7 @@
           </el-form-item>
 
 
-          <el-form-item label="*项目名称" label-width="100px" v-if="dataImport.type == 5">
+          <el-form-item label="*项目名称" label-width="100px">
             <el-input
               readonly
               v-model="dataImport.projectName"
@@ -380,7 +379,7 @@
               disabled
             ></el-input>
           </el-form-item>
-          <el-form-item label="*模块名称" label-width="100px" v-if="dataImport.type == 5">
+          <el-form-item label="*模块名称" label-width="100px">
             <el-input
               readonly
               v-model="dataImport.moduleName"
@@ -597,7 +596,7 @@
                   placeholder="请点击选择"
                 ></el-input>
               </el-form-item>
-              <el-form-item label="*用例名称" label-width="100px">
+              <el-form-item label="*用例描述" label-width="100px">
                 <el-input v-model="dataAdd.desc" size="mini"></el-input>
               </el-form-item>
               <el-form-item label="接口文档地址" label-width="100px">
@@ -649,7 +648,7 @@
                   <el-input
                     v-model="dataAdd.url"
                     size="mini"
-                    placeholder="Enter request url"
+                    placeholder="Enter request path"
                   ></el-input>
                 </el-col>
               </el-row>
@@ -1708,7 +1707,7 @@
                   placeholder="请点击选择"
                 ></el-input>
               </el-form-item>
-              <el-form-item label="*用例名称" label-width="100px">
+              <el-form-item label="*用例描述" label-width="100px">
                 <el-input v-model="dataInfo.desc" size="mini"></el-input>
               </el-form-item>
               <el-form-item label="接口文档地址" label-width="100px">
@@ -1760,7 +1759,7 @@
                   <el-input
                     v-model="dataInfo.url"
                     size="mini"
-                    placeholder="Enter request url"
+                    placeholder="Enter request path"
                   ></el-input>
                 </el-col>
               </el-row>
@@ -2232,10 +2231,10 @@
               size="mini"
             ></el-input>
           </el-form-item>
-          <el-form-item label="用例名称">
+          <el-form-item label="用例描述">
             <el-input
               v-model="preCaseQuery.desc"
-              placeholder="用例名称"
+              placeholder="用例描述"
               size="mini"
             ></el-input>
           </el-form-item>
@@ -2283,7 +2282,7 @@
           ></el-table-column>
           <el-table-column
             property="desc"
-            label="用例名称"
+            label="用例描述"
             min-width="25%"
             show-overflow-tooltip
           ></el-table-column>
@@ -2400,7 +2399,7 @@
                   placeholder="请点击选择"
                 ></el-input>
               </el-form-item>
-              <el-form-item label="*用例名称" label-width="100px">
+              <el-form-item label="*用例描述" label-width="100px">
                 <el-input v-model="dataInfo.desc" size="mini"></el-input>
               </el-form-item>
               <el-form-item label="接口文档地址" label-width="100px">
@@ -2452,7 +2451,7 @@
                   <el-input
                     v-model="dataInfo.url"
                     size="mini"
-                    placeholder="Enter request url"
+                    placeholder="Enter request path"
                   ></el-input>
                 </el-col>
               </el-row>
@@ -2991,7 +2990,19 @@ export default {
         {
           value: 4,
           label: "DELETE"
-        }
+        },
+        {
+          value: 5,
+          label: "HEAD"
+        },
+        {
+          value: 6,
+          label: "OPTIONS"
+        },
+        {
+          value: 7,
+          label: "TRACE"
+        },
       ],
       levelOptions: [
         {
@@ -3430,22 +3441,31 @@ export default {
           }
           // 请求方式
           if (element.method == 0) {
-            element.methodStyle = "";
+            element.methodStyle = "warning";
             element.method = "GET";
           } else if (element.method == 1) {
-            element.methodStyle = "";
+            element.methodStyle = "warning";
             element.method = "POST";
           } else if (element.method == 2) {
-            element.methodStyle = "";
+            element.methodStyle = "warning";
             element.method = "PATCH";
           } else if (element.method == 3) {
-            element.methodStyle = "";
+            element.methodStyle = "warning";
             element.method = "PUT";
           } else if (element.method == 4) {
-            element.methodStyle = "";
+            element.methodStyle = "warning";
             element.method = "DELETE";
+          } else if (element.method == 5) {
+            element.methodStyle = "warning";
+            element.method = "HEAD";
+          } else if (element.method == 6) {
+            element.methodStyle = "warning";
+            element.method = "OPTIONS";
+          } else if (element.method == 7) {
+            element.methodStyle = "warning";
+            element.method = "TRACE";
           } else {
-            element.methodStyle = "";
+            element.methodStyle = "warning";
             element.method = "UNKNOW";
           }
           this.dataList.push(element);
