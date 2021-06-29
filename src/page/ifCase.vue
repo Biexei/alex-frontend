@@ -2898,6 +2898,51 @@
           >
         </div>
       </el-dialog>
+
+      <el-dialog
+        title="详情"
+        :visible.sync="viewProcessorDialogFormVisible"
+        append-to-body
+      >
+        <el-table
+          :data="preCaseProcessorArray"
+          stripe
+          highlight-current-row
+          style="width: 100%"
+        >
+          <el-table-column
+            property="name"
+            label="名称"
+            min-width="20%"
+            show-overflow-tooltip
+          ></el-table-column>
+          <el-table-column
+            property="scope"
+            label="域"
+            min-width="20%"
+            show-overflow-tooltip
+          ></el-table-column>
+          <el-table-column
+            property="way"
+            label="类型"
+            min-width="20%"
+            show-overflow-tooltip
+          ></el-table-column>
+          <el-table-column
+            property="expression"
+            label="提取表达式"
+            min-width="20%"
+            show-overflow-tooltip
+          ></el-table-column>
+          <el-table-column
+            property="defaultValue"
+            label="默认值"
+            min-width="20%"
+            show-overflow-tooltip
+          ></el-table-column>
+        </el-table>
+      </el-dialog>
+
     </div>
   </div>
 </template>
