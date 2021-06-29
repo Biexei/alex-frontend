@@ -1298,7 +1298,7 @@
                   size="mini"
                 ></el-input>
                 <el-input
-                  v-else-if="logInfo.bodyType == 3"
+                  v-else-if="logInfo.bodyType == 9"
                   value="none"
                   readonly
                   size="mini"

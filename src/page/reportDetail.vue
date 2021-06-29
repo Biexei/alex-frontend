@@ -320,7 +320,7 @@
                   size="mini"
                 ></el-input>
                 <el-input
-                  v-else-if="dataInfo.bodyType == 3"
+                  v-else-if="dataInfo.bodyType == 9"
                   value="none"
                   readonly
                   size="mini"
