@@ -22,7 +22,7 @@
             size="mini"
           ></el-input>
         </el-form-item>
-        <el-form-item label="url">
+        <el-form-item label="Path">
           <el-input
             v-model="queryForm.url"
             placeholder=""
@@ -118,7 +118,7 @@
         </el-table-column>
         <el-table-column
           property="method"
-          label="Url"
+          label="Path"
           min-width="20%"
           show-overflow-tooltip
         >

@@ -221,7 +221,7 @@
             <el-collapse-item title="前置处理器">
               <el-form-item>
                 <el-tabs>
-                  <el-tab-pane label="Dependency">
+                  <el-tab-pane label="Parser">
                     <el-input
                       v-model="addPreProcessorExecuteRelyValue"
                       placeholder="value"
@@ -399,7 +399,7 @@
             <el-collapse-item title="后置处理器">
               <el-form-item>
                 <el-tabs>
-                  <el-tab-pane label="Dependency">
+                  <el-tab-pane label="Parser">
                     <el-input
                       v-model="addPostProcessorExecuteRelyValue"
                       placeholder="value"
@@ -431,7 +431,7 @@
             <el-collapse-item title="前置处理器">
               <el-form-item>
                 <el-tabs>
-                  <el-tab-pane label="Dependency">
+                  <el-tab-pane label="Parser">
                     <el-input
                       v-model="addPreProcessorExecuteRelyValue"
                       placeholder="value"
@@ -609,7 +609,7 @@
             <el-collapse-item title="后置处理器">
               <el-form-item>
                 <el-tabs>
-                  <el-tab-pane label="Dependency">
+                  <el-tab-pane label="Parser">
                     <el-input
                       v-model="addPostProcessorExecuteRelyValue"
                       placeholder="value"

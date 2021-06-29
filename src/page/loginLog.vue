@@ -29,6 +29,28 @@
             size="mini"
           ></el-input>
         </el-form-item>
+        <el-form-item label="起始时间">
+          <el-date-picker
+            v-model="queryForm.loginStartTime"
+            format="yyyy-MM-dd HH:mm:ss"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            type="datetime"
+            size="mini"
+            placeholder="选择起始时间"
+            align="right"
+          ></el-date-picker>
+        </el-form-item>
+        <el-form-item label="截止时间">
+          <el-date-picker
+            v-model="queryForm.loginEndTime"
+            format="yyyy-MM-dd HH:mm:ss"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            type="datetime"
+            size="mini"
+            placeholder="选择截止时间"
+            align="right"
+          ></el-date-picker>
+        </el-form-item>
         <el-form-item>
           <el-button
             v-has="'setting:loginLog:find'"

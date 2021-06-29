@@ -242,13 +242,13 @@
         <el-table-column
           property="projectName"
           label="项目名称"
-          min-width="12%"
+          min-width="11%"
           show-overflow-tooltip
         ></el-table-column>
         <el-table-column
           property="method"
           label="Method"
-          min-width="10%"
+          min-width="11%"
           show-overflow-tooltip
         >
         <template slot-scope="scope">
@@ -259,6 +259,13 @@
             size="mini"
             >{{ scope.row.method }}</el-tag>
         </template>
+        </el-table-column>
+        <el-table-column
+          property="url"
+          label="Path"
+          min-width="25%"
+          show-overflow-tooltip
+        >
         </el-table-column>
         <el-table-column
           property="desc"
@@ -282,13 +289,6 @@
               >
             </el-row>
           </template>
-        </el-table-column>
-        <el-table-column
-          property="url"
-          label="Path"
-          min-width="25%"
-          show-overflow-tooltip
-        >
         </el-table-column>
         <el-table-column fixed="right" label="操作" min-width="20%">
           <template slot-scope="scope">
