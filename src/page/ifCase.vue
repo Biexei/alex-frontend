@@ -129,6 +129,13 @@
             plain
             >导入</el-button
           >
+          <!-- <el-button
+            type="primary"
+            size="mini"
+            @click="handleTree"
+            plain
+            >切换视图</el-button
+          > -->
         </el-form-item>
       </el-form>
     </div>
@@ -263,14 +270,14 @@
         <el-table-column
           property="url"
           label="Path"
-          min-width="25%"
+          min-width="20%"
           show-overflow-tooltip
         >
         </el-table-column>
         <el-table-column
           property="desc"
           label="用例描述"
-          min-width="25%"
+          min-width="30%"
           show-overflow-tooltip
         >
           <template slot-scope="scope">
@@ -290,7 +297,7 @@
             </el-row>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="20%">
+        <el-table-column fixed="right" label="操作" min-width="16%">
           <template slot-scope="scope">
             <el-button
               @click="handleCheck(scope.row.caseId)"
@@ -3486,31 +3493,31 @@ export default {
           }
           // 请求方式
           if (element.method == 0) {
-            element.methodStyle = "warning";
+            element.methodStyle = "primary";
             element.method = "GET";
           } else if (element.method == 1) {
-            element.methodStyle = "warning";
+            element.methodStyle = "primary";
             element.method = "POST";
           } else if (element.method == 2) {
-            element.methodStyle = "warning";
+            element.methodStyle = "primary";
             element.method = "PATCH";
           } else if (element.method == 3) {
-            element.methodStyle = "warning";
+            element.methodStyle = "primary";
             element.method = "PUT";
           } else if (element.method == 4) {
-            element.methodStyle = "warning";
+            element.methodStyle = "primary";
             element.method = "DELETE";
           } else if (element.method == 5) {
-            element.methodStyle = "warning";
+            element.methodStyle = "primary";
             element.method = "HEAD";
           } else if (element.method == 6) {
-            element.methodStyle = "warning";
+            element.methodStyle = "primary";
             element.method = "OPTIONS";
           } else if (element.method == 7) {
-            element.methodStyle = "warning";
+            element.methodStyle = "primary";
             element.method = "TRACE";
           } else {
-            element.methodStyle = "warning";
+            element.methodStyle = "primary";
             element.method = "UNKNOW";
           }
           this.dataList.push(element);
@@ -4605,6 +4612,13 @@ export default {
         this.dataAdd.bodyType = 9;
         this.dataInfo.bodyType = 9;
       }
+    },
+    // 切换到树型视图
+    handleTree() {
+      const { href } = this.$router.resolve({
+        path: "/caseTree",
+      });
+      window.open(href, "_blank");
     },
     // 查看前置用例的处理器
     async openViewProcessor(caseId) {

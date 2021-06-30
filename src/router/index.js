@@ -20,6 +20,7 @@ const executeLog = r => require.ensure([], () => r(require('@/page/executeLog'))
 const ifAssertLog = r => require.ensure([], () => r(require('@/page/ifAssertLog')), 'ifAssertLog');
 const ifReport = r => require.ensure([], () => r(require('@/page/ifReport')), 'ifReport');
 const ifCase = r => require.ensure([], () => r(require('@/page/ifCase')), 'ifCase');
+const caseTree = r => require.ensure([], () => r(require('@/page/caseTree')), 'caseTree');
 const ifSuite = r => require.ensure([], () => r(require('@/page/ifSuite')), 'ifSuite');
 const ifSuiteCaseList = r => require.ensure([], () => r(require('@/page/ifSuiteCaseList')), 'ifSuiteCaseList');
 const httpSetting = r => require.ensure([], () => r(require('@/page/httpSetting')), 'httpSetting');
@@ -57,6 +58,13 @@ const router = new Router({
         requireAuth: false
       },
     },
+    {
+      path: '/caseTree',
+      component: caseTree,
+      meta: {
+        requireAuth: true
+      },
+    }, 
     {
       path: '/report',
       component: report,

@@ -255,6 +255,11 @@ export const downloadTemplate = data => HttpRequest.get('/interface/template/dow
 export const listInterfaceCase = data => HttpRequest.get('/interface/case/list', data)
 
 /**
+ * 查询用例列表
+ */
+ export const caseTree = data => HttpRequest.get('/interface/case/tree', data)
+
+/**
  * 插入接口测试用例
  */
 export const saveInterfaceCase = data => HttpRequest.post('/interface/case/save', data, true, true)
