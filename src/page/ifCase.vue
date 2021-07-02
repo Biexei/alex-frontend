@@ -297,7 +297,7 @@
             </el-row>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="16%">
+        <el-table-column fixed="right" label="操作" min-width="20%">
           <template slot-scope="scope">
             <el-button
               @click="handleCheck(scope.row.caseId)"
