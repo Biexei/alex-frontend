@@ -258,15 +258,6 @@
           </el-form-item>
           <el-form-item label="*设置" label-width="120px">
             <el-row :gutter="20">
-              <el-col :span="4">
-                <el-checkbox
-                  v-model="dataInfo.analysisRely"
-                  true-label="0"
-                  false-label="1"
-                  v-if="dataInfo.type != 1 && showValue"
-                  >解析依赖</el-checkbox
-                >
-              </el-col>
               <el-col :span="5">
                 <el-checkbox
                   v-model="dataInfo.othersModifiable"
@@ -367,15 +358,6 @@
           </el-form-item>
           <el-form-item label="*设置" label-width="120px">
             <el-row :gutter="20">
-              <el-col :span="4">
-                <el-checkbox
-                  v-model="dataAdd.analysisRely"
-                  true-label="0"
-                  false-label="1"
-                  v-if="dataAdd.type != 1 && showValue"
-                  >解析依赖</el-checkbox
-                >
-              </el-col>
               <el-col :span="5">
                 <el-checkbox
                   v-model="dataAdd.othersModifiable"
