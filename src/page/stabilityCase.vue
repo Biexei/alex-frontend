@@ -216,7 +216,7 @@
                 </el-date-picker>
               </el-form-item>
               <el-form-item label="*执行间隔(ms)" label-width="120px">
-                <el-input-number size="mini" v-model="dataInfo.step" :min=0 :max=86400000></el-input-number>
+                <el-input-number size="mini" v-model="dataInfo.step" :min=1000 :max=86400000></el-input-number>
               </el-form-item>
               <el-form-item label="*出错停止" label-width="120px">
                 <el-radio v-model="dataInfo.onErrorStop" :label="0">是</el-radio>
@@ -246,7 +246,7 @@
                   </el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="日志记录" label-width="120px">
+              <el-form-item label="*日志记录内容" label-width="120px">
                 <el-select v-model="dataInfo.logRecordContent" size="mini" style="width:100%" >
                   <el-option
                     v-for="item in logRecordContentOptions"
@@ -275,8 +275,111 @@
         :visible.sync="addDialogFormVisible"
         :close-on-click-modal="false"
       >
-        <el-form :model="dataAdd" ref="dataAdd">
-
+        <el-form :model="dataAdd">
+          <el-tabs v-model="activeName">
+            <el-tab-pane label="基本信息" name="基本信息">
+              <el-form-item label="*用例描述" label-width="120px">
+                <el-input v-model="dataAdd.desc" size="mini"></el-input>
+              </el-form-item>
+              <el-form-item label="*协议" label-width="120px">
+                <el-select v-model="dataAdd.protocol" size="mini">
+                  <el-option
+                    v-for="item in protocolOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-tab-pane>
+            <el-tab-pane label="执行配置" name="执行配置">
+              <el-form-item label="*测试用例" label-width="120px">
+                <el-row :gutter="10">
+                  <el-col :span="3">
+                    <el-input
+                      v-model="dataAdd.caseId"
+                      readonly
+                      @focus="openIfCaseList"
+                      size="mini"
+                      placeholder="请选择"
+                    ></el-input>
+                  </el-col>
+                  <el-col :span="20">
+                    <el-input
+                      v-model="dataAdd.caseDesc"
+                      disabled
+                      size="mini"
+                    ></el-input>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+              <el-form-item label="*调度方式" label-width="120px">
+                <el-select v-model="dataAdd.executeType" size="mini">
+                  <el-option
+                    v-for="item in executeTypeOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="*执行次数" label-width="120px" v-if="dataAdd.executeType==0">
+                <el-input-number size="mini" v-model="dataAdd.executeTimes" :min=1 :max=999999></el-input-number>
+              </el-form-item>
+              <el-form-item label="*截至时间" label-width="120px" v-if="dataAdd.executeType==1">
+                <el-date-picker
+                  v-model="dataAdd.executeEndTime"
+                  type="datetime"
+                  size="mini"
+                  placeholder="选择截至时间">
+                </el-date-picker>
+              </el-form-item>
+              <el-form-item label="*执行间隔(ms)" label-width="120px">
+                <el-input-number size="mini" v-model="dataAdd.step" :min=1000 :max=86400000 @change="forceUpdate"></el-input-number>
+              </el-form-item>
+              <el-form-item label="*出错停止" label-width="120px">
+                <el-radio v-model="dataAdd.onErrorStop" :label="0" @change="forceUpdate">是</el-radio>
+                <el-radio v-model="dataAdd.onErrorStop" :label="1" @change="forceUpdate">否</el-radio>
+              </el-form-item>
+              <el-form-item label="*失败停止" label-width="120px">
+                <el-radio v-model="dataAdd.onFailedStop" :label="0" @change="forceUpdate">是</el-radio>
+                <el-radio v-model="dataAdd.onFailedStop" :label="1" @change="forceUpdate">否</el-radio>
+              </el-form-item>
+              </el-tab-pane>
+              <el-tab-pane label="其它配置" name="其它配置">
+              <el-form-item label="收件人" label-width="120px">
+                <el-select
+                  v-model="dataAdd.emailAddress"
+                  placeholder="请选择"
+                  size="mini"
+                  style="width:100%"
+                  value-key="item"
+                >
+                  <el-option
+                    v-for="item in emailList"
+                    :key="item"
+                    :label="item"
+                    :value="item"
+                    size="mini"
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="*日志记录内容" label-width="120px">
+                <el-select v-model="dataAdd.logRecordContent" size="mini" style="width:100%" >
+                  <el-option
+                    v-for="item in logRecordContentOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              </el-tab-pane>
+          </el-tabs>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="addDialogFormVisible = false" size="mini"
@@ -631,10 +734,13 @@ export default {
       this.selectStabilityCaseList(this.queryForm);
     },
     async openAdd() {
+      this.getAllEmail();
       this.addDialogFormVisible = true;
       this.dataAdd = {};
-      this.getAllEmail();
       this.dataAdd.protocol = 0;
+      this.dataAdd.step = 1000;
+      this.dataAdd.onErrorStop = 0;
+      this.dataAdd.onFailedStop = 0;
     },
     async resetForm() {
       this.queryForm = {};
@@ -738,6 +844,9 @@ export default {
           message: res.msg
         });
       }
+    },
+    forceUpdate() {
+      this.$forceUpdate();
     },
   }
 };
