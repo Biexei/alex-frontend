@@ -47,6 +47,8 @@ const myFeedback = r => require.ensure([], () => r(require('@/page/myFeedback'))
 const mockNode = r => require.ensure([], () => r(require('@/page/mockNode')), 'mockNode');
 const mockApi = r => require.ensure([], () => r(require('@/page/mockApi')), 'mockApi');
 
+const stabilityCase = r => require.ensure([], () => r(require('@/page/stabilityCase')), 'stabilityCase');
+
 
 
 const router = new Router({
@@ -257,6 +259,15 @@ const router = new Router({
           component: ifSuiteLog,
           meta: {
             path: ['接口测试','测试套件','执行日志'],
+            requireAuth: true
+          },
+        }, 
+        {
+          name: 'stabilityCase',
+          path: '/stabilityCase',
+          component: stabilityCase,
+          meta: {
+            path: ['专项测试','稳定性测试'],
             requireAuth: true
           },
         }, 

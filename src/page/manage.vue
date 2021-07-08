@@ -169,6 +169,23 @@
               ></el-menu-item
             >
           </el-submenu>
+
+          <el-submenu v-has="'interface'" index="99" class="left-color">
+            <template slot="title" class="left-color"
+              ><i class="el-icon-thumb"></i
+              ><span slot="title" class="title-color">专项测试</span></template
+            >
+            <el-menu-item
+              v-has="'interface:case'"
+              index="stabilityCase"
+              class="left-color"
+              ><i class="el-icon-trophy"></i
+              ><span slot="title" class="title-color"
+                >稳定性测试</span
+              ></el-menu-item
+            >
+          </el-submenu>
+
           <el-submenu v-has="'mock'" index="3" class="left-color">
             <template slot="title" class="left-color"
               ><i class="el-icon-odometer"></i

@@ -793,3 +793,34 @@ export const executeDataFactory = id => HttpRequest.get('/data/factory/execute/'
   */
    export const findUserLoginLogList = data => HttpRequest.get('/login/log', data)
 
+
+
+/**
+ * 查询稳定性用例列表
+ */
+ export const findStabilityCaseList = data => HttpRequest.get('/stability/case/list', data)
+ 
+ /**
+  * 插入稳定性测试用例
+  */
+ export const saveStabilityCase = data => HttpRequest.post('/stability/case/save', data)
+ 
+  /**
+   * 修改稳定性测试用例
+   */
+  export const modifyStabilityCase = data => HttpRequest.post('/stability/case/modify', data) 
+ 
+ /**
+  * 删除稳定性测试用例
+  */
+ export const removeStabilityCaseById = id => HttpRequest.get('/stability/case/remove/' + id)
+ 
+ /**
+  * 查看稳定性测试用例详情
+  */
+ export const findStabilityCaseById = id => HttpRequest.get('/stability/case/info/' + id)
+ 
+ /**
+  * 执行稳定性测试用例
+ */ 
+ export const executeStabilityCaseById = id => HttpRequest.get('/stability/case/execute/' + id)
