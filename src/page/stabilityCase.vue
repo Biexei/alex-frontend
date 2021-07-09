@@ -103,7 +103,7 @@
         <el-table-column fixed="right" label="操作" min-width="20%">
           <template slot-scope="scope">
             <el-button
-              @click="handleExecute(scope.row.id)"
+              @click="handleExecute(scope.row.stabilityTestId)"
               v-has="'db:check'"
               type="success"
               size="mini"
@@ -187,7 +187,7 @@
                   <el-col :span="20">
                     <el-input
                       v-model="dataInfo.caseDesc"
-                      disabled
+                      readonly
                       size="mini"
                     ></el-input>
                   </el-col>
@@ -225,6 +225,17 @@
               <el-form-item label="*失败停止" label-width="120px">
                 <el-radio v-model="dataInfo.onFailedStop" :label="0">是</el-radio>
                 <el-radio v-model="dataInfo.onFailedStop" :label="1">否</el-radio>
+              </el-form-item>
+              <el-form-item label="*运行环境" label-width="120px">
+                <el-select v-model="dataInfo.runEnv" size="mini">
+                  <el-option
+                    v-for="item in runEnvOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  >
+                  </el-option>
+                </el-select>
               </el-form-item>
               </el-tab-pane>
               <el-tab-pane label="其它配置" name="其它配置">
@@ -307,8 +318,9 @@
                   </el-col>
                   <el-col :span="20">
                     <el-input
+                      placeholder="仅执行请求和断言，前置用例、请求参数缓存、响应数据缓存将会被忽略"
                       v-model="dataAdd.caseDesc"
-                      disabled
+                      readonly
                       size="mini"
                     ></el-input>
                   </el-col>
@@ -346,6 +358,17 @@
               <el-form-item label="*失败停止" label-width="120px">
                 <el-radio v-model="dataAdd.onFailedStop" :label="0" @change="forceUpdate">是</el-radio>
                 <el-radio v-model="dataAdd.onFailedStop" :label="1" @change="forceUpdate">否</el-radio>
+              </el-form-item>
+              <el-form-item label="*运行环境" label-width="120px">
+                <el-select v-model="dataAdd.runEnv" size="mini">
+                  <el-option
+                    v-for="item in runEnvOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  >
+                  </el-option>
+                </el-select>
               </el-form-item>
               </el-tab-pane>
               <el-tab-pane label="其它配置" name="其它配置">
@@ -559,14 +582,14 @@ export default {
           value: 0,
           label: "http(s)"
         },
-        {
-          value: 1,
-          label: "ws(s)"
-        },
-        {
-          value: 2,
-          label: "dubbo"
-        }
+        // {
+        //   value: 1,
+        //   label: "ws(s)"
+        // },
+        // {
+        //   value: 2,
+        //   label: "dubbo"
+        // }
       ],
       executeTypeOptions: [
         {
@@ -577,6 +600,28 @@ export default {
           value: 1,
           label: "按截至时间"
         },
+      ],
+      runEnvOptions: [
+        {
+          value: 4,
+          label: "调试 DEBUG"
+        },
+        {
+          value: 0,
+          label: "开发 DEV"
+        },
+        {
+          value: 1,
+          label: "测试 TEST"
+        },
+        {
+          value: 2,
+          label: "预发 STG"
+        },
+        {
+          value: 3,
+          label: "线上 PROD"
+        }
       ],
       logRecordContentOptions: [
         {
@@ -628,19 +673,11 @@ export default {
     async handleExecute(id) {
       const res = await executeStabilityCaseById(id);
       if (res.code == 200) {
-        if (res.msg === "连接成功") {
-          this.$message({
-            type: "success",
-            center: true,
-            message: res.msg
-          });
-        } else {
-          this.$message({
-            type: "info",
-            center: true,
-            message: res.msg
-          });
-        }
+        this.$message({
+          type: "success",
+          center: true,
+          message: res.msg
+        });
       } else {
         this.$message({
           type: "error",
