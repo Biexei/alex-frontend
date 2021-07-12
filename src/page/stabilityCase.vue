@@ -48,21 +48,21 @@
         </el-form-item>
         <el-form-item>
           <el-button
-            v-has="'db:find'"
+            v-has="'stability:case:find'"
             type="primary"
             size="mini"
             @click="selectStabilityCaseList(queryForm)"
             >查询</el-button
           >
           <el-button
-            v-has="'db:find'"
+            v-has="'stability:case:find'"
             type="primary"
             size="mini"
             @click="resetForm"
             >重置</el-button
           >
           <el-button
-            v-has="'db:add'"
+            v-has="'stability:case:add'"
             type="primary"
             size="mini"
             @click="openAdd"
@@ -82,12 +82,12 @@
         <el-table-column
           property="stabilityTestId"
           label="编号"
-          min-width="20%"
+          min-width="10%"
         ></el-table-column>
         <el-table-column
           property="desc"
           label="用例描述"
-          min-width="20%"
+          min-width="19%"
         ></el-table-column>
         <el-table-column
           property="creatorName"
@@ -98,13 +98,18 @@
         <el-table-column
           property="createdTime"
           label="创建时间"
-          min-width="20%"
+          min-width="17%"
         ></el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="20%">
+        <el-table-column
+          property="lastExecuteTime"
+          label="最近执行时间"
+          min-width="17%"
+        ></el-table-column>
+        <el-table-column fixed="right" label="操作" min-width="17%">
           <template slot-scope="scope">
             <el-button
               @click="handleExecute(scope.row.stabilityTestId)"
-              v-has="'db:check'"
+              v-has="'stability:case:execute'"
               type="success"
               size="mini"
               icon="el-icon-check"
@@ -113,7 +118,7 @@
             </el-button>
             <el-button
               @click="openEdit(scope.row.stabilityTestId)"
-              v-has="'db:modify'"
+              v-has="'stability:case:modify'"
               type="primary"
               size="mini"
               icon="el-icon-edit"
@@ -121,7 +126,7 @@
             ></el-button>
             <el-button
               @click="handleDelete(scope.row.id, scope.$index)"
-              v-has="'db:remove'"
+              v-has="'stability:case:remove'"
               type="danger"
               size="mini"
               icon="el-icon-delete"
@@ -246,6 +251,7 @@
                   size="mini"
                   style="width:100%"
                   value-key="item"
+                  clearable
                 >
                   <el-option
                     v-for="item in emailList"
@@ -257,8 +263,8 @@
                   </el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="*日志记录内容" label-width="120px">
-                <el-select v-model="dataInfo.logRecordContent" size="mini" style="width:100%" >
+              <el-form-item label="日志记录内容" label-width="120px">
+                <el-select v-model="dataInfo.logRecordContent" size="mini" style="width:100%" clearable>
                   <el-option
                     v-for="item in logRecordContentOptions"
                     :key="item.value"
@@ -379,6 +385,7 @@
                   size="mini"
                   style="width:100%"
                   value-key="item"
+                  clearable
                 >
                   <el-option
                     v-for="item in emailList"
@@ -390,8 +397,8 @@
                   </el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="*日志记录内容" label-width="120px">
-                <el-select v-model="dataAdd.logRecordContent" size="mini" style="width:100%" >
+              <el-form-item label="日志记录内容" label-width="120px">
+                <el-select v-model="dataAdd.logRecordContent" size="mini" style="width:100%" clearable>
                   <el-option
                     v-for="item in logRecordContentOptions"
                     :key="item.value"

@@ -48,6 +48,7 @@ const mockNode = r => require.ensure([], () => r(require('@/page/mockNode')), 'm
 const mockApi = r => require.ensure([], () => r(require('@/page/mockApi')), 'mockApi');
 
 const stabilityCase = r => require.ensure([], () => r(require('@/page/stabilityCase')), 'stabilityCase');
+const stabilityCaseLog = r => require.ensure([], () => r(require('@/page/stabilityCaseLog')), 'stabilityCaseLog');
 
 
 
@@ -267,7 +268,16 @@ const router = new Router({
           path: '/stabilityCase',
           component: stabilityCase,
           meta: {
-            path: ['专项测试','稳定性测试'],
+            path: ['稳定性测试','测试用例'],
+            requireAuth: true
+          },
+        }, 
+        {
+          name: 'stabilityCaseLog',
+          path: '/stabilityCaseLog',
+          component: stabilityCaseLog,
+          meta: {
+            path: ['稳定性测试','执行日志'],
             requireAuth: true
           },
         }, 

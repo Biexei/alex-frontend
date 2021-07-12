@@ -824,3 +824,12 @@ export const executeDataFactory = id => HttpRequest.get('/data/factory/execute/'
   * 执行稳定性测试用例
  */ 
  export const executeStabilityCaseById = id => HttpRequest.get('/stability/case/execute/' + id)
+
+ /**
+ * 查询稳定性日志列表
+ */
+  export const findStabilityCaseLogList = data => HttpRequest.get('/stability/log/list', data)
+  /**
+  * 下载稳定性日志
+  */
+ export const downloadStabilityLog = logId => HttpRequest.get('/stability/log/download/' + logId)

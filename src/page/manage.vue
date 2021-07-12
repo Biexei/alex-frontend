@@ -170,18 +170,27 @@
             >
           </el-submenu>
 
-          <el-submenu v-has="'interface'" index="99" class="left-color">
+          <el-submenu v-has="'stability'" index="99" class="left-color">
             <template slot="title" class="left-color"
               ><i class="el-icon-thumb"></i
-              ><span slot="title" class="title-color">专项测试</span></template
+              ><span slot="title" class="title-color">稳定性测试</span></template
             >
             <el-menu-item
-              v-has="'interface:case'"
+              v-has="'stability:case'"
               index="stabilityCase"
               class="left-color"
-              ><i class="el-icon-trophy"></i
+              ><i class="el-icon-wallet"></i
               ><span slot="title" class="title-color"
-                >稳定性测试</span
+                >测试用例</span
+              ></el-menu-item
+            >
+            <el-menu-item
+              v-has="'stability:log'"
+              index="stabilityCaseLog"
+              class="left-color"
+              ><i class="el-icon-zoom-in"></i
+              ><span slot="title" class="title-color"
+                >执行日志</span
               ></el-menu-item
             >
           </el-submenu>
