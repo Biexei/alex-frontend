@@ -220,8 +220,8 @@
                   placeholder="选择截至时间">
                 </el-date-picker>
               </el-form-item>
-              <el-form-item label="*执行间隔(ms)" label-width="120px">
-                <el-input-number size="mini" v-model="dataInfo.step" :min=1000 :max=86400000></el-input-number>
+              <el-form-item label="*执行间隔(s)" label-width="120px">
+                <el-input-number size="mini" v-model="dataInfo.step" :min=1 :max=86400></el-input-number>
               </el-form-item>
               <el-form-item label="*出错停止" label-width="120px">
                 <el-radio v-model="dataInfo.onErrorStop" :label="0">是</el-radio>
@@ -354,8 +354,8 @@
                   placeholder="选择截至时间">
                 </el-date-picker>
               </el-form-item>
-              <el-form-item label="*执行间隔(ms)" label-width="120px">
-                <el-input-number size="mini" v-model="dataAdd.step" :min=1000 :max=86400000 @change="forceUpdate"></el-input-number>
+              <el-form-item label="*执行间隔(s)" label-width="120px">
+                <el-input-number size="mini" v-model="dataAdd.step" :min=1 :max=86400 @change="forceUpdate"></el-input-number>
               </el-form-item>
               <el-form-item label="*出错停止" label-width="120px">
                 <el-radio v-model="dataAdd.onErrorStop" :label="0" @change="forceUpdate">是</el-radio>
@@ -782,7 +782,7 @@ export default {
       this.addDialogFormVisible = true;
       this.dataAdd = {};
       this.dataAdd.protocol = 0;
-      this.dataAdd.step = 1000;
+      this.dataAdd.step = 1;
       this.dataAdd.onErrorStop = 0;
       this.dataAdd.onFailedStop = 0;
     },

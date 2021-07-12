@@ -91,7 +91,7 @@
         <el-table-column
           property="stabilityTestDesc"
           label="用例描述"
-          min-width="20%"
+          min-width="15%"
           show-overflow-tooltip
         ></el-table-column>
         <el-table-column
@@ -119,11 +119,28 @@
         <el-table-column fixed="right" label="操作" min-width="15%">
           <template slot-scope="scope">
             <el-button
+              v-has="'stability:case:log:last'"
+              @click="handleLast10(scope.row.stabilityTestLogNo)"
+              icon="el-icon-zoom-in"
+              circle
+              type="danger"
+              size="mini"
+            ></el-button>
+            <el-button
               v-has="'stability:case:log:download'"
               @click="handleDownload(scope.row.stabilityTestLogId)"
               icon="el-icon-download"
               circle
               type="info"
+              size="mini"
+            ></el-button>
+            <el-button
+              v-has="'stability:case:log:stop'"
+              :disabled="scope.row.status != 0"
+              @click="handleStop(scope.row.stabilityTestLogId)"
+              icon="el-icon-close"
+              circle
+              type="danger"
               size="mini"
             ></el-button>
           </template>
@@ -141,6 +158,14 @@
         ></el-pagination>
       </div>
     </div>
+
+      <el-dialog
+        title="日志"
+        :visible.sync="last10DialogFormVisible"
+      >
+      <div v-html="last10"></div>
+      </el-dialog>
+
   </div>
 </template>
 <script>
@@ -148,6 +173,8 @@ import headTop from "../components/headTop";
 import { baseUrl } from "../config/env";
 import {
   findStabilityCaseLogList,
+  stopStabilityCaseById,
+  stabilityCaseLast10ById,
 } from "@/api/getData";
 export default {
   data() {
@@ -157,53 +184,90 @@ export default {
       pageSize: 10,
       pageNum: 1,
       dataList: [],
+      last10: "",
+      last10DialogFormVisible: false,
       statusTypeOptions: [
         {
           value: 0,
-          label: "进行"
+          label: "进行",
         },
         {
           value: 1,
-          label: "停止"
+          label: "停止",
         },
         {
           value: 2,
-          label: "完成"
-        }
+          label: "完成",
+        },
       ],
       runEnvOptions: [
         {
           value: 4,
-          label: "调试 DEBUG"
+          label: "调试 DEBUG",
         },
         {
           value: 0,
-          label: "开发 DEV"
+          label: "开发 DEV",
         },
         {
           value: 1,
-          label: "测试 TEST"
+          label: "测试 TEST",
         },
         {
           value: 2,
-          label: "预发 STG"
+          label: "预发 STG",
         },
         {
           value: 3,
-          label: "线上 PROD"
-        }
+          label: "线上 PROD",
+        },
       ],
     };
   },
   components: {
-    headTop
+    headTop,
   },
   mounted() {
     this.selectStabilityCaseLogList(this.queryForm);
   },
   methods: {
+    async handleLast10(stabilityTestLogNo) {
+      const res = await stabilityCaseLast10ById(stabilityTestLogNo);
+      if (res.code == 200) {
+        this.last10DialogFormVisible = true;
+        this.last10 = res.msg;
+      } else {
+        this.$message({
+          type: "error",
+          center: true,
+          message: res.msg,
+        });
+      }
+    },
     handleDownload(logId) {
-        window.open(baseUrl + "/stability/log/download/" + logId)
+      window.open(baseUrl + "/stability/log/download/" + logId);
+    },
+    async handleStop(logId) {
+      this.$confirm("此操作将强制停止该任务, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(async () => {
+        const res = await stopStabilityCaseById(logId);
+        if (res.code == 200) {
+          this.$message({
+            type: "success",
+            center: true,
+            message: res.msg,
+          });
+        } else {
+          this.$message({
+            type: "error",
+            center: true,
+            message: res.msg,
+          });
+        }
+      });
     },
     async selectStabilityCaseLogList(queryForm) {
       queryForm["pageNum"] = this.pageNum;
@@ -212,20 +276,21 @@ export default {
       if (res.code == 200) {
         this.dataList = [];
         this.total = res.data.total;
-        res.data.list.map(element => {
-          element.logPath = baseUrl + "/stability/log/download/" + element.stabilityTestLogId
+        res.data.list.map((element) => {
+          element.logPath =
+            baseUrl + "/stability/log/download/" + element.stabilityTestLogId;
           if (element.status == 0) {
             element.statusStr = "进行";
-            element.statusStyle = "primary"
+            element.statusStyle = "primary";
           } else if (element.status == 1) {
             element.statusStr = "停止";
-            element.statusStyle = "info"
+            element.statusStyle = "info";
           } else if (element.status == 2) {
             element.statusStr = "完成";
-            element.statusStyle = "success"
+            element.statusStyle = "success";
           } else {
             element.statusStr = "Others";
-            element.statusStyle = "primary"
+            element.statusStyle = "primary";
           }
           if (element.runEnv == 0) {
             element.runEnvStr = "开发 DEV";
@@ -236,17 +301,17 @@ export default {
           } else if (element.runEnv == 3) {
             element.runEnvStr = "线上 PROD";
           } else if (element.runEnv == 4) {
-            element.runEnvStr = "调试 DEBUG";            
+            element.runEnvStr = "调试 DEBUG";
           } else {
-            element.runEnvStr = "Others";      
+            element.runEnvStr = "Others";
           }
         });
-        this.dataList = res.data.list
+        this.dataList = res.data.list;
       } else {
         this.$message({
           type: "error",
           center: true,
-          message: res.msg
+          message: res.msg,
         });
       }
     },
@@ -263,8 +328,8 @@ export default {
       this.pageSize = 10;
       this.pageNum = 1;
       this.selectStabilityCaseLogList(this.queryForm);
-    }
-  }
+    },
+  },
 };
 </script>
 

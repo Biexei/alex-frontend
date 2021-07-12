@@ -826,6 +826,11 @@ export const executeDataFactory = id => HttpRequest.get('/data/factory/execute/'
  export const executeStabilityCaseById = id => HttpRequest.get('/stability/case/execute/' + id)
 
  /**
+  * 强制停止稳定性测试用例
+ */ 
+  export const stopStabilityCaseById = id => HttpRequest.get('/stability/case/stop/' + id)
+
+ /**
  * 查询稳定性日志列表
  */
   export const findStabilityCaseLogList = data => HttpRequest.get('/stability/log/list', data)
@@ -833,3 +838,8 @@ export const executeDataFactory = id => HttpRequest.get('/data/factory/execute/'
   * 下载稳定性日志
   */
  export const downloadStabilityLog = logId => HttpRequest.get('/stability/log/download/' + logId)
+
+  /**
+  * 查看近10行日志
+  */
+ export const stabilityCaseLast10ById = stabilityTestLogNo => HttpRequest.get('/stability/case/log/last/' + stabilityTestLogNo)
