@@ -235,7 +235,8 @@ export default {
       const res = await stabilityCaseLast10ById(stabilityTestLogNo);
       if (res.code == 200) {
         this.last10DialogFormVisible = true;
-        this.last10 = res.msg;
+        this.last10 = "";
+        this.last10 = res.data;
       } else {
         this.$message({
           type: "error",

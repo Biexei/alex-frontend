@@ -216,12 +216,14 @@
                 <el-date-picker
                   v-model="dataInfo.executeEndTime"
                   type="datetime"
+                  format="yyyy-MM-dd HH:mm:ss"
+                  value-format="yyyy-MM-dd HH:mm:ss"
                   size="mini"
                   placeholder="选择截至时间">
                 </el-date-picker>
               </el-form-item>
               <el-form-item label="*执行间隔(s)" label-width="120px">
-                <el-input-number size="mini" v-model="dataInfo.step" :min=1 :max=86400></el-input-number>
+                <el-input-number size="mini" v-model="dataInfo.step" :min=60 :max=86400></el-input-number>
               </el-form-item>
               <el-form-item label="*出错停止" label-width="120px">
                 <el-radio v-model="dataInfo.onErrorStop" :label="0">是</el-radio>
@@ -264,7 +266,7 @@
                 </el-select>
               </el-form-item>
               <el-form-item label="日志记录内容" label-width="120px">
-                <el-select v-model="dataInfo.logRecordContent" size="mini" style="width:100%" clearable>
+                <el-select v-model="dataInfo.logRecordContent" size="mini" style="width:100%" clearable placeholder="默认记录请求地址和响应状态码">
                   <el-option
                     v-for="item in logRecordContentOptions"
                     :key="item.value"
@@ -350,12 +352,14 @@
                 <el-date-picker
                   v-model="dataAdd.executeEndTime"
                   type="datetime"
+                  format="yyyy-MM-dd HH:mm:ss"
+                  value-format="yyyy-MM-dd HH:mm:ss"
                   size="mini"
                   placeholder="选择截至时间">
                 </el-date-picker>
               </el-form-item>
               <el-form-item label="*执行间隔(s)" label-width="120px">
-                <el-input-number size="mini" v-model="dataAdd.step" :min=1 :max=86400 @change="forceUpdate"></el-input-number>
+                <el-input-number size="mini" v-model="dataAdd.step" :min=60 :max=86400 @change="forceUpdate"></el-input-number>
               </el-form-item>
               <el-form-item label="*出错停止" label-width="120px">
                 <el-radio v-model="dataAdd.onErrorStop" :label="0" @change="forceUpdate">是</el-radio>
@@ -398,7 +402,7 @@
                 </el-select>
               </el-form-item>
               <el-form-item label="日志记录内容" label-width="120px">
-                <el-select v-model="dataAdd.logRecordContent" size="mini" style="width:100%" clearable>
+                <el-select v-model="dataAdd.logRecordContent" size="mini" style="width:100%" clearable placeholder="默认记录请求地址和响应状态码">
                   <el-option
                     v-for="item in logRecordContentOptions"
                     :key="item.value"
@@ -782,7 +786,7 @@ export default {
       this.addDialogFormVisible = true;
       this.dataAdd = {};
       this.dataAdd.protocol = 0;
-      this.dataAdd.step = 1;
+      this.dataAdd.step = 60;
       this.dataAdd.onErrorStop = 0;
       this.dataAdd.onFailedStop = 0;
     },
