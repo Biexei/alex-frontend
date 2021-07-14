@@ -85,13 +85,13 @@
         <el-table-column
           property="stabilityTestLogNo"
           label="编号"
-          min-width="30%"
+          min-width="20%"
           show-overflow-tooltip
         ></el-table-column>
         <el-table-column
           property="stabilityTestDesc"
           label="用例描述"
-          min-width="15%"
+          min-width="25%"
           show-overflow-tooltip
         ></el-table-column>
         <el-table-column
@@ -123,7 +123,7 @@
               @click="handleLast10(scope.row.stabilityTestLogNo)"
               icon="el-icon-zoom-in"
               circle
-              type="danger"
+              type="primary"
               size="mini"
             ></el-button>
             <el-button
