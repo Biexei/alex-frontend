@@ -843,3 +843,8 @@ export const executeDataFactory = id => HttpRequest.get('/data/factory/execute/'
   * 查看近10行日志
   */
  export const stabilityCaseLast10ById = stabilityTestLogNo => HttpRequest.get('/stability/case/log/last/' + stabilityTestLogNo)
+
+  /**
+  * 删除稳定性日志
+  */
+   export const removeStabilityCaseLogById = logId => HttpRequest.get('/stability/log/remove/' + logId)

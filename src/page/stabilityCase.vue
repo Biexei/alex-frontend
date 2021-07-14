@@ -125,7 +125,7 @@
               circle
             ></el-button>
             <el-button
-              @click="handleDelete(scope.row.id, scope.$index)"
+              @click="handleDelete(scope.row.stabilityTestId, scope.$index)"
               v-has="'stability:case:remove'"
               type="danger"
               size="mini"
@@ -730,13 +730,13 @@ export default {
         });
       }
     },
-    async handleDelete(dbId, index) {
+    async handleDelete(stabilityTestId, index) {
       this.$confirm("此操作将永久删除, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       }).then(async () => {
-        const res = await removeStabilityCaseById(dbId);
+        const res = await removeStabilityCaseById(stabilityTestId);
         if (res.code == 200) {
           this.$message({
             type: "success",

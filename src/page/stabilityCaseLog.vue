@@ -91,7 +91,7 @@
         <el-table-column
           property="stabilityTestDesc"
           label="用例描述"
-          min-width="25%"
+          min-width="20%"
           show-overflow-tooltip
         ></el-table-column>
         <el-table-column
@@ -140,6 +140,15 @@
               @click="handleStop(scope.row.stabilityTestLogId)"
               icon="el-icon-close"
               circle
+              type="warning"
+              size="mini"
+            ></el-button>
+            <el-button
+              v-has="'stability:case:log:delete'"
+              :disabled="scope.row.status == 0"
+              @click="handleDelete(scope.row.stabilityTestLogId, scope.$index)"
+              icon="el-icon-delete-solid"
+              circle
               type="danger"
               size="mini"
             ></el-button>
@@ -175,6 +184,7 @@ import {
   findStabilityCaseLogList,
   stopStabilityCaseById,
   stabilityCaseLast10ById,
+  removeStabilityCaseLogById,
 } from "@/api/getData";
 export default {
   data() {
@@ -270,6 +280,32 @@ export default {
         }
       });
     },
+
+    async handleDelete(logId, index) {
+      this.$confirm("此操作将永久删除, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(async () => {
+        const res = await removeStabilityCaseLogById(logId);
+        if (res.code == 200) {
+          this.$message({
+            type: "success",
+            center: true,
+            message: res.msg,
+          });
+          this.total--;
+          this.dataList.splice(index, 1);
+        } else {
+          this.$message({
+            type: "error",
+            center: true,
+            message: res.msg,
+          });
+        }
+      });
+    },
+
     async selectStabilityCaseLogList(queryForm) {
       queryForm["pageNum"] = this.pageNum;
       queryForm["pageSize"] = this.pageSize;
