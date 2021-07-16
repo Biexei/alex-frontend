@@ -848,3 +848,8 @@ export const executeDataFactory = id => HttpRequest.get('/data/factory/execute/'
   * 删除稳定性日志
   */
    export const removeStabilityCaseLogById = logId => HttpRequest.get('/stability/log/remove/' + logId)
+
+  /**
+  * 稳定性日志响应时间报表
+  */
+   export const chartResponseTime = logId => HttpRequest.get('/stability/log/chart/time/' + logId)

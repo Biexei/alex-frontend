@@ -78,6 +78,7 @@
     <div class="table_container">
       <el-table
         :data="dataList"
+        @row-dblclick="handleResponseTimeChart"
         stripe
         highlight-current-row
         style="width: 100%"
@@ -175,6 +176,15 @@
       <div v-html="last10"></div>
       </el-dialog>
 
+      <el-dialog
+        title="Response Time Graph"
+        :visible.sync="responseTimeChartDialogFormVisible"
+      >
+      <div>
+          <ve-line :data="responseTimeChartData" :extend="chartEntend"></ve-line>
+      </div>
+      </el-dialog>
+
   </div>
 </template>
 <script>
@@ -185,6 +195,7 @@ import {
   stopStabilityCaseById,
   stabilityCaseLast10ById,
   removeStabilityCaseLogById,
+  chartResponseTime,
 } from "@/api/getData";
 export default {
   data() {
@@ -232,6 +243,17 @@ export default {
           label: "线上 PROD",
         },
       ],
+
+      responseTimeChartDialogFormVisible: false,
+      responseTimeChartData: {
+        columns: ["Loop", "Time"],
+        rows: []
+      },
+      chartEntend: {
+        legend: {
+          show:false
+        }
+      }
     };
   },
   components: {
@@ -279,6 +301,21 @@ export default {
           });
         }
       });
+    },
+
+    async handleResponseTimeChart(row) {
+      let logId = row.stabilityTestLogId
+      const res = await chartResponseTime(logId);
+      if (res.code == 200) {
+        this.responseTimeChartDialogFormVisible = true;
+        this.responseTimeChartData.rows = res.data
+      } else {
+        this.$message({
+          type: "error",
+          center: true,
+          message: res.msg,
+        });
+      }
     },
 
     async handleDelete(logId, index) {
