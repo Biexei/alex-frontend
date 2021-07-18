@@ -86,26 +86,27 @@
         ></el-table-column>
         <el-table-column
           property="desc"
-          label="用例描述"
-          min-width="19%"
+          label="描述"
+          min-width="20%"
+          show-overflow-tooltip
         ></el-table-column>
         <el-table-column
           property="creatorName"
           label="创建人"
-          min-width="20%"
+          min-width="15%"
           show-overflow-tooltip
         ></el-table-column>
         <el-table-column
           property="createdTime"
           label="创建时间"
-          min-width="17%"
+          min-width="20%"
         ></el-table-column>
         <el-table-column
           property="lastExecuteTime"
           label="最近执行时间"
-          min-width="17%"
+          min-width="20%"
         ></el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="17%">
+        <el-table-column fixed="right" label="操作" min-width="15%">
           <template slot-scope="scope">
             <el-button
               @click="handleExecute(scope.row.stabilityTestId)"
@@ -787,8 +788,8 @@ export default {
       this.dataAdd = {};
       this.dataAdd.protocol = 0;
       this.dataAdd.step = 60;
-      this.dataAdd.onErrorStop = 0;
-      this.dataAdd.onFailedStop = 0;
+      this.dataAdd.onErrorStop = 1;
+      this.dataAdd.onFailedStop = 1;
     },
     async resetForm() {
       this.queryForm = {};

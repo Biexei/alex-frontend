@@ -117,7 +117,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="15%">
+        <el-table-column fixed="right" label="操作" min-width="20%">
           <template slot-scope="scope">
             <el-button
               v-has="'stability:case:log:last'"
