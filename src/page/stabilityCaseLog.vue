@@ -92,7 +92,7 @@
         <el-table-column
           property="stabilityTestDesc"
           label="用例描述"
-          min-width="20%"
+          min-width="15%"
           show-overflow-tooltip
         ></el-table-column>
         <el-table-column
@@ -117,7 +117,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="20%">
+        <el-table-column fixed="right" label="操作" min-width="25%">
           <template slot-scope="scope">
             <el-button
               v-has="'stability:case:log:last'"
