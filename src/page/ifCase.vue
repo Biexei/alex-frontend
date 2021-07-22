@@ -3030,11 +3030,11 @@ export default {
           value: 1,
           label: "POST"
         },
-        // 后端不支持此请求方式
-        // {
-        //   value: 2,
-        //   label: "PATCH",
-        // },
+        //后端不支持此请求方式
+        {
+          value: 2,
+          label: "PATCH",
+        },
         {
           value: 3,
           label: "PUT"
