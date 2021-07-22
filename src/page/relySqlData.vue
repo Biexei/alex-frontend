@@ -448,8 +448,8 @@
               <el-col :span="5">
                 <el-checkbox
                   v-model="dataAdd.enableReturn"
-                  true-label="0"
-                  false-label="1"
+                  :true-label="0"
+                  :false-label="1"
                   v-if="dataAdd.type == 3 && showValue"
                   >返回自增主键</el-checkbox
                 >
@@ -457,24 +457,24 @@
               <el-col :span="4">
                 <el-checkbox
                   v-model="dataAdd.analysisRely"
-                  true-label="0"
-                  false-label="1"
+                  :true-label="0"
+                  :false-label="1"
                   >解析依赖</el-checkbox
                 >
               </el-col>
               <el-col :span="5">
                 <el-checkbox
                   v-model="dataAdd.othersModifiable"
-                  true-label="0"
-                  false-label="1"
+                  :true-label="0"
+                  :false-label="1"
                   >允许他人修改</el-checkbox
                 >
               </el-col>
               <el-col :span="5">
                 <el-checkbox
                   v-model="dataAdd.othersDeletable"
-                  true-label="0"
-                  false-label="1"
+                  :true-label="0"
+                  :false-label="1"
                   >允许他人删除</el-checkbox
                 >
               </el-col>
@@ -865,6 +865,10 @@ export default {
     },
     async openAdd() {
       this.addDialogFormVisible = true;
+      this.dataAdd.othersDeletable = 1;
+      this.dataAdd.othersModifiable = 1;
+      this.dataAdd.analysisRely = 1;
+      this.dataAdd.enableReturn = 1;
       this.showValue = true;
       this.showDbId = true;
       this.showDbName = true;

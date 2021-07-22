@@ -69,11 +69,13 @@
           property="value"
           label="值"
           min-width="25%"
+          show-overflow-tooltip
         ></el-table-column>
         <el-table-column
           property="desc"
           label="描述"
           min-width="38%"
+          show-overflow-tooltip
         ></el-table-column>
         <el-table-column fixed="right" label="操作" min-width="10%">
           <template slot-scope="scope">
@@ -261,16 +263,16 @@
               <el-col :span="5">
                 <el-checkbox
                   v-model="dataInfo.othersModifiable"
-                  true-label="0"
-                  false-label="1"
+                  :true-label="0"
+                  :false-label="1"
                   >允许他人修改</el-checkbox
                 >
               </el-col>
               <el-col :span="5">
                 <el-checkbox
                   v-model="dataInfo.othersDeletable"
-                  true-label="0"
-                  false-label="1"
+                  :true-label="0"
+                  :false-label="1"
                   >允许他人删除</el-checkbox
                 >
               </el-col>
@@ -361,18 +363,16 @@
               <el-col :span="5">
                 <el-checkbox
                   v-model="dataAdd.othersModifiable"
-                  true-label="0"
-                  false-label="1"
-                  :disabled="userId != dataInfo.creatorId"
+                  :true-label="0"
+                  :false-label="1"
                   >允许他人修改</el-checkbox
                 >
               </el-col>
               <el-col :span="5">
                 <el-checkbox
                   v-model="dataAdd.othersDeletable"
-                  true-label="0"
-                  false-label="1"
-                  :disabled="userId != dataInfo.creatorId"
+                  :true-label="0"
+                  :false-label="1"
                   >允许他人删除</el-checkbox
                 >
               </el-col>
@@ -707,7 +707,7 @@ export default {
     },
     async openAdd() {
       this.addDialogFormVisible = true;
-      this.dataAdd = { type: 0 };
+      this.dataAdd = { type: 0, othersDeletable: 1, othersModifiable: 1};
       this.showValue = true;
       this.showDbId = false;
       this.showDbName = false;
