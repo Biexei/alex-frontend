@@ -50,8 +50,8 @@
             title="小提示"
             width="300"
             trigger="hover"
-            content='当依赖为新增语句时，返回自增主键。当依赖为查询语句时，第一个参数为json path表达式。如依赖名称[InterfaceCaseTable]，
-            sql语句=[select * from t_interface_case where case_id = ?]。${InterfaceCaseTable("$..url","277")}，可查询case_id==277的url字段。其他类型则返回空字符串'
+            content="当依赖为新增语句时，返回自增主键。当依赖为查询语句时，第一个参数为json path表达式。如依赖名称[InterfaceCaseTable]，
+            sql语句=[select * from t_interface_case where case_id = ?]。${InterfaceCaseTable('$..url','277')}，可查询case_id==277的url字段。其他类型则返回空字符串"
           >
             <el-button slot="reference" size="mini" type="primary"
               >Tips</el-button
