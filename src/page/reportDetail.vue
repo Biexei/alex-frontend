@@ -976,6 +976,8 @@ export default {
             assert.operator = "contains";
           } else if (assert.operator == 11) {
             assert.operator = "isEmpty";
+          } else if (assert.operator == 12) {
+            assert.operator = "isNotEmpty";
           } else {
             assert.operator = "unknow";
           }

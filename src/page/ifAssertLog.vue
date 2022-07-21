@@ -286,6 +286,10 @@ export default {
         {
           value: 11,
           label: "isEmpty"
+        },
+        {
+          value: 12,
+          label: "isNotEmpty"
         }
       ]
     };
@@ -361,6 +365,8 @@ export default {
             element.operator = "contains";
           } else if (element.operator == 11) {
             element.operator = "isEmpty";
+          } else if (element.operator == 12) {
+            element.operator = "isNotEmpty";
           } else {
             element.operator = "unknow";
           }
