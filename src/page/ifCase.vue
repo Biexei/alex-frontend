@@ -4554,6 +4554,8 @@ export default {
             assert.operator = "notNull";
           } else if (assert.operator == 10) {
             assert.operator = "contains";
+          } else if (assert.operator == 11) {
+            assert.operator = "isEmpty";
           } else {
             assert.operator = "unknow";
           }
