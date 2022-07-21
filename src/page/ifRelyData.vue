@@ -288,7 +288,7 @@
               </el-col>
             </el-row>
           </el-form-item>
-          <el-form-item label="依赖描述" label-width="115px">
+          <el-form-item label="*依赖描述" label-width="115px">
             <el-row :gutter="10">
               <el-col :span="23">
                 <el-input v-model="dataInfo.relyDesc" size="mini"></el-input>
@@ -493,7 +493,7 @@
               </el-col>
             </el-row>
           </el-form-item>
-          <el-form-item label="依赖描述" label-width="115px">
+          <el-form-item label="*依赖描述" label-width="115px">
             <el-row :gutter="10">
               <el-col :span="23">
                 <el-input v-model="dataAdd.relyDesc" size="mini"></el-input>
