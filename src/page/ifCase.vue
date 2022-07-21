@@ -3175,6 +3175,10 @@ export default {
         {
           value: 10,
           label: "contains"
+        },
+        {
+          value: 11,
+          label: "isEmpty"
         }
       ],
       assertTypeOptions: [
