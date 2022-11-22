@@ -597,6 +597,7 @@
                   v-model="dataAdd.responseDelay"
                   placeholder="ms"
                   size="mini"
+                  @input="forceUpate()"
                 ></el-input>
               </el-form-item>
               <el-form-item label="Code" label-width="110px">
@@ -604,6 +605,7 @@
                   v-model="dataAdd.responseCode"
                   placeholder=""
                   size="mini"
+                  @input="forceUpate()"
                 ></el-input>
               </el-form-item>
               <el-form-item label="Header" label-width="110px">
